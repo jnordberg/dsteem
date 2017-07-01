@@ -99,7 +99,7 @@ export interface AppliedOperation {
 }
 
 export interface TransferToSavingsOperation extends Operation {
-    0: 'transfer_to_savings_operation'
+    0: 'transfer_to_savings'
     1: {
         amount: string
         from: string
