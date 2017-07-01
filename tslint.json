@@ -1,0 +1,13 @@
+{
+  "defaultSeverity": "error",
+  "extends": ["tslint:recommended"],
+  "rules": {
+    "interface-name": [true, "never-prefix"],
+    "max-classes-per-file": false,
+    "no-bitwise": false,
+    "no-var-requires": false,
+    "quotemark": [true, "single", "avoid-escape"],
+    "semicolon": [true, "never"],
+    "variable-name": [true, "check-format"]
+  }
+}

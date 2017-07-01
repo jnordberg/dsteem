@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "lib": ["es2015", "esnext.asynciterable"],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "es6",
+    "types" : ["node", "ws", "verror"]
+  },
+  "include": [
+    "*.ts"
+  ]
+}

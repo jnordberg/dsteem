@@ -1,0 +1,59 @@
+{
+  "name": "dsteem",
+  "version": "0.1.0",
+  "description": "steem blockchain rpc client library",
+  "author": "Johan Nordberg",
+  "license": "BSD-3-Clause",
+  "main": "./lib/index",
+  "typings": "./lib/index",
+  "browser": {
+    "./lib/index": "./dist/dsteem.js",
+    "ws": "./ws-browser.js"
+  },
+  "files": [
+    "lib/*",
+    "dist/*",
+    "ws-browser.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jnordberg/dsteem"
+  },
+  "scripts": {
+    "prepublishOnly": "make lint && make test && make docs && make bundle",
+    "test": "make ci-test"
+  },
+  "keywords": [
+    "blockchain",
+    "client",
+    "rpc",
+    "steem",
+    "steemit",
+    "websocket"
+  ],
+  "dependencies": {
+    "verror": "^1.10.0",
+    "ws": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/mocha": "^2.2.41",
+    "@types/node": "^8.0.7",
+    "@types/verror": "^1.10.0",
+    "@types/ws": "^3.0.0",
+    "babel-preset-env": "^1.5.2",
+    "babelify": "^7.3.0",
+    "browserify": "^14.4.0",
+    "core-js": "^2.4.1",
+    "coveralls": "^2.13.1",
+    "derequire": "^2.0.6",
+    "mocha": "^3.3.0",
+    "nyc": "^11.0.2",
+    "regenerator-runtime": "^0.10.5",
+    "ts-node": "^3.1.0",
+    "tsify": "^3.0.1",
+    "tslint": "^5.1.0",
+    "typedoc": "^0.7.1",
+    "typescript": "^2.4.1",
+    "uglify-js": "^3.0.22"
+  }
+}
