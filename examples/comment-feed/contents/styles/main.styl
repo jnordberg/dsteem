@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css?family=Indie+Flower|Lato:300')
+
+@import 'nib'
+normalize-html5()
+
+theme-color = #c93c25
+theme-hue = hue(theme-color)
+theme-color-compl = hue(theme-color, theme-hue + 180deg)
+
+text-color = darken(desaturate(theme-color, 90%), 70%)
+background-color = lighten(desaturate(theme-color-compl, 40%), 90%)
+
+*
+  box-sizing: border-box
+  margin: 0
+  padding: 0
+
+@import './typography.styl'
+@import './spinner.styl'
+@import './utils.styl'
+
+body
+  background: background-color
+
+html
+  @media (max-width: 800px)
+    font-size: 14px
+
+a
+  color: theme-color
+  text-decoration: none
+  &, &:visited
+    color: theme-color
+  &:hover
+    text-decoration: underline
+
+input, body
+  font-family: 'Lato', sans-serif
+  color: text-color
+
+#no-js
+  @extends .flex-center, .fixed-overlay
+  display: none
+  background: background-color
+  .no-js &
+    display: flex
+    z-index: 10
+
+#loading
+  @extends .flex-center, .fixed-overlay
+  background: background-color
+  transition: 300ms ease-out all
+  opacity: 0
+  visibility: hidden
+  font-size: 0.8em
+  p
+    margin: 0
+    padding-top: 2em
+  span
+    display: block
+    width: 3em
+    height: 3em
+    @extends .spinner
+  .loading &
+    opacity: 1
+    visibility: visible
+  .error &
+    span, p
+      display: none
+    &:before
+      content: 'Error: ' attr(data-error)
+
+#controls
+  transition: 300ms ease-out all
+  opacity: 1
+  .loading &
+    opacity: 0
+  position: fixed
+  top: 0
+  left: 0
+  padding: 1.1em 2em
+  background-color: desaturate(theme-color-compl, 30%)
+  border-bottom: .2em solid background-color
+  a
+    color: white
+  width: 100%
+  display: flex
+  justify-content: space-between
+
+#comments
+  width: 100%
+  overflow: hidden
+  transition: 300ms ease-out all
+  opacity: 1
+  .loading &
+    opacity: 0
+    visibility: hidden
+  padding: 1em
+  padding-top: 2em
+  .comment
+    margin: 1em
+    .author
+      font-size: 0.8em
+      line-height: 1.5
+      display: block
+    .body
+      display: block
+      font-size: 1.3em
+      line-height: 1.2
+      font-family: 'Indie Flower', cursive

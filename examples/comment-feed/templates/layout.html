@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html class="no-js loading">
+<head>
+  <meta charset="utf-8">
+  <title>{{ name }}</title>
+  <meta name="viewport" content="width=device-width">
+  <meta name="description" content="{{ description }}">
+  <meta name="author" content="{{ author }}">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{ name }}">
+  <meta property="og:description" content="{{ description }}">
+  <script type="text/javascript">
+    document.documentElement.classList.remove('no-js')
+  </script>
+  {{ browserifyLibs }}{{ livereloadScript -}}
+  <link rel="stylesheet" href="app.css?v={{ version }}">
+  <script src="app.js?v={{ version }}"></script>
+</head>
+<body>
+  {%- block body %}{% endblock -%}
+</body>
+</html>
+<!--
+            |\
+            | \      {{ name }} v{{ version }}
+            |  \       powered by Wintersmith
+            |___\
+         \––|––––/
+~~~~~~~~~~\_____/~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->

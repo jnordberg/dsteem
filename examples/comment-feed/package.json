@@ -1,0 +1,24 @@
+{
+  "private": true,
+  "scripts": {
+    "preview": "wintersmith preview",
+    "build": "ts-node bin/build.ts"
+  },
+  "dependencies": {
+    "@types/node": "^8.0.7",
+    "@types/shelljs": "^0.7.2",
+    "core-js": "^2.4.1",
+    "dsteem": "^0.1.1",
+    "remove-markdown": "^0.2.0",
+    "shelljs": "^0.7.8",
+    "ts-node": "^3.0.6",
+    "tsify": "^3.0.1",
+    "typescript": "^2.3.3",
+    "uglify-js": "^3.0.11",
+    "wintersmith": "^2.4.1",
+    "wintersmith-browserify": "^1.3.0",
+    "wintersmith-livereload": "^1.0.0",
+    "wintersmith-nunjucks": "^2.0.0",
+    "wintersmith-stylus": "^0.5.1"
+  }
+}
