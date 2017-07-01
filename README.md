@@ -24,7 +24,7 @@ for await (const block of client.blockchain.getBlocks()) {
 }
 
 // get blocks using node-style streams
-const stream = client.blockchain.getOperationsStream()
+const stream = client.blockchain.getBlockStream()
 stream.on('data', (block) => {
     console.log(`Block ID: ${ block.block_id }`)
 })

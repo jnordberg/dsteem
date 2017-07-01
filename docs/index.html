@@ -83,7 +83,7 @@
 }
 
 <span class="hljs-comment">// get blocks using node-style streams</span>
-<span class="hljs-keyword">const</span> stream = client.blockchain.getOperationsStream()
+<span class="hljs-keyword">const</span> stream = client.blockchain.getBlockStream()
 stream.on(<span class="hljs-string">'data'</span>, <span class="hljs-function">(<span class="hljs-params">block</span>) =&gt;</span> {
     <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Block ID: <span class="hljs-subst">${ block.block_id }</span>`</span>)
 })
