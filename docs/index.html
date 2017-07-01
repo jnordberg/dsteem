@@ -65,7 +65,29 @@
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
 				<h1 id="-dsteem-https-github-com-jnordberg-dsteem-build-status-https-img-shields-io-travis-jnordberg-dsteem-svg-style-flat-square-https-travis-ci-org-jnordberg-dsteem-coverage-status-https-img-shields-io-coveralls-jnordberg-dsteem-svg-style-flat-square-https-coveralls-io-github-jnordberg-dsteem-branch-master-package-version-https-img-shields-io-npm-v-dsteem-svg-style-flat-square-https-www-npmjs-com-package-dsteem-license-https-img-shields-io-npm-l-dsteem-svg-style-flat-square-"><a href="https://github.com/jnordberg/dsteem">dsteem</a> <a href="https://travis-ci.org/jnordberg/dsteem"><img src="https://img.shields.io/travis/jnordberg/dsteem.svg?style=flat-square" alt="Build Status"></a> <a href="https://coveralls.io/github/jnordberg/dsteem?branch=master"><img src="https://img.shields.io/coveralls/jnordberg/dsteem.svg?style=flat-square" alt="Coverage Status"></a> <a href="https://www.npmjs.com/package/dsteem"><img src="https://img.shields.io/npm/v/dsteem.svg?style=flat-square" alt="Package Version"></a> <img src="https://img.shields.io/npm/l/dsteem.svg?style=flat-square" alt="License"></h1>
-				<p>Work in progress.</p>
+				<p><a href="https://steem.io">Steem blockchain</a> WebSocket RPC client.</p>
+				<ul>
+					<li><strong><a href="https://comments.steem.vc">Demo</a></strong> (<a href="https://github.com/jnordberg/dsteem/tree/master/examples/comment-feed">source</a>)</li>
+					<li><a href="https://jnordberg.github.io/dsteem/">Documentation</a></li>
+					<li><a href="https://github.com/jnordberg/dsteem/issues">Issues</a></li>
+				</ul>
+				<hr>
+				<h2 id="minimal-example">Minimal example</h2>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> {Client} <span class="hljs-keyword">from</span> <span class="hljs-string">'dsteem'</span>
+
+<span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Client(<span class="hljs-string">'wss://steemd.steemit.com'</span>)
+
+<span class="hljs-comment">// get blocks using async iterator</span>
+<span class="hljs-keyword">for</span> <span class="hljs-keyword">await</span> (<span class="hljs-keyword">const</span> block of client.blockchain.getBlocks()) {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Block ID: <span class="hljs-subst">${ block.block_id }</span>`</span>)
+}
+
+<span class="hljs-comment">// get blocks using node-style streams</span>
+<span class="hljs-keyword">const</span> stream = client.blockchain.getOperationsStream()
+stream.on(<span class="hljs-string">'data'</span>, <span class="hljs-function">(<span class="hljs-params">block</span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Block ID: <span class="hljs-subst">${ block.block_id }</span>`</span>)
+})
+</code></pre>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
