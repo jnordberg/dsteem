@@ -2,7 +2,7 @@
 SHELL := /bin/bash
 PATH  := ./node_modules/.bin:$(PATH)
 
-SRC_FILES := $(wildcard src/*.ts)
+SRC_FILES := $(wildcard src/**/*.ts)
 
 lib: $(SRC_FILES) node_modules
 	tsc -p tsconfig.json --outDir lib
