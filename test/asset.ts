@@ -1,6 +1,6 @@
 import 'mocha'
-
 import * as assert from 'assert'
+
 import {Asset} from './../src'
 
 describe('asset', function() {
