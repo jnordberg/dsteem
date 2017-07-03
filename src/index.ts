@@ -35,6 +35,9 @@
 
 import 'core-js/modules/es7.symbol.async-iterator'
 
+import * as utils from './utils'
+export {utils}
+
 export * from './helpers/blockchain'
 export * from './helpers/database'
 
