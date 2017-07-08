@@ -20,7 +20,6 @@
     "url": "https://github.com/jnordberg/dsteem"
   },
   "scripts": {
-    "prepublishOnly": "make lint && make test && make docs && make bundle",
     "test": "make ci-test"
   },
   "keywords": [
