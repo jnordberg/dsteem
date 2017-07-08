@@ -37,7 +37,7 @@ describe('broadcast', function() {
 
     it('should handle expired transactions', async function() {
         const prevExpireTime = client.broadcast.expireTime
-        client.broadcast.expireTime = 0
+        client.broadcast.expireTime = -1000 * 120
         const key = PrivateKey.fromLogin(acc2.username, acc2.password, 'posting')
         try {
             await client.broadcast.vote({

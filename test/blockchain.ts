@@ -4,8 +4,8 @@ import * as assert from 'assert'
 import {Client, SignedBlock, AppliedOperation, BlockchainMode} from './../src'
 
 describe('blockchain', function() {
-    this.slow(2 * 1000)
-    this.timeout(5 * 1000)
+    this.slow(5 * 1000)
+    this.timeout(10 * 1000)
 
     const client = new Client('wss://steemd.steemit.com')
 
