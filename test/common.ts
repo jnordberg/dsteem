@@ -1,11 +1,23 @@
 
 import * as fetch from 'node-fetch'
 import * as fs from 'fs'
-import {promisify} from 'util'
 import {randomBytes} from 'crypto'
 
-const readFile = promisify(fs.readFile)
-const writeFile = promisify(fs.writeFile)
+async function readFile(filename: string) {
+    return new Promise<Buffer>((resolve, reject) => {
+        fs.readFile(filename, (error, result) => {
+            if (error) { reject(error) } else { resolve(result) }
+        })
+    })
+}
+
+async function writeFile(filename: string, data: Buffer) {
+    return new Promise<void>((resolve, reject) => {
+        fs.writeFile(filename, data, (error) => {
+            if (error) { reject(error) } else { resolve() }
+        })
+    })
+}
 
 const NUM_TEST_ACCOUNTS = 2
 
@@ -25,7 +37,8 @@ export function randomString(length: number) {
 
 export async function getTestnetAccounts(): Promise<{username: string, password: string}[]> {
     try {
-        return JSON.parse(await readFile('.testnetrc'))
+        const data = await readFile('.testnetrc')
+        return JSON.parse(data.toString())
     } catch (error) {
         if (error.code !== 'ENOENT') {
             throw error
@@ -47,6 +60,6 @@ export async function getTestnetAccounts(): Promise<{username: string, password:
         }
         rv.push({username, password})
     }
-    await writeFile('.testnetrc', JSON.stringify(rv))
+    await writeFile('.testnetrc', Buffer.from(JSON.stringify(rv)))
     return rv
 }
