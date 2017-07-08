@@ -33,6 +33,8 @@
  * in the design, construction, operation or maintenance of any military facility.
  */
 
+import * as ByteBuffer from 'bytebuffer'
+
 /**
  * Transaction operation name.
  */
@@ -98,6 +100,29 @@ export interface AppliedOperation {
    op: Operation
 }
 
+export interface VoteOperation extends Operation {
+    0: 'vote'
+    1: {
+        voter: string
+        author: string
+        permlink: string
+        weight: number, // int16
+    }
+}
+
+export interface CommentOperation extends Operation {
+    0: 'comment'
+    1: {
+        parent_author: string
+        parent_permlink: string
+        author: string
+        permlink: string
+        title: string
+        body: string
+        json_metadata: string,
+    }
+}
+
 export interface TransferToSavingsOperation extends Operation {
     0: 'transfer_to_savings'
     1: {
@@ -107,4 +132,33 @@ export interface TransferToSavingsOperation extends Operation {
         request_id: number
         to: string,
     }
+}
+
+const Serializers: {[name: string]: (buffer: ByteBuffer, data: Operation[1]) => void} = {}
+
+Serializers.vote = (buffer: ByteBuffer, data: VoteOperation[1]) => {
+    buffer.writeVarint32(0) // id
+    buffer.writeVString(data.voter)
+    buffer.writeVString(data.author)
+    buffer.writeVString(data.permlink)
+    buffer.writeInt16(data.weight)
+}
+
+Serializers.comment = (buffer: ByteBuffer, data: CommentOperation[1]) => {
+    buffer.writeVarint32(1) // id
+    buffer.writeVString(data.parent_author)
+    buffer.writeVString(data.parent_permlink)
+    buffer.writeVString(data.author)
+    buffer.writeVString(data.permlink)
+    buffer.writeVString(data.title)
+    buffer.writeVString(data.body)
+    buffer.writeVString(data.json_metadata)
+}
+
+export function serializeOperation(buffer: ByteBuffer, operation: Operation) {
+    const serializer = Serializers[operation[0]]
+    if (!serializer) {
+        throw new Error(`No serializer for operation: ${ operation[0] }`)
+    }
+    serializer(buffer, operation[1])
 }

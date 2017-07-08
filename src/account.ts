@@ -35,18 +35,17 @@
 
 import * as assert from 'assert'
 import * as bs58 from 'bs58'
+import * as ByteBuffer from 'bytebuffer'
 import {createHash} from 'crypto'
 import * as secp256k1 from 'secp256k1'
+
+import {serializeTransaction, SignedTransaction, Transaction} from './steem/transaction'
+import {copy} from './utils'
 
 /**
  * Network id used in WIF-encoding.
  */
 const NETWORK_ID = Buffer.from([0x80])
-
-/**
- * Main steem network chain id.
- */
-const DEFAULT_CHAIN_ID = Buffer.from('0000000000000000000000000000000000000000000000000000000000000000', 'hex')
 
 /**
  * Return ripemd160 hash of input.
@@ -176,6 +175,22 @@ export class PrivateKey {
         return new PrivateKey(decodePrivate(wif).slice(1))
     }
 
+    /**
+     * Create a new instance from a seed.
+     */
+    public static fromSeed(seed: string) {
+        const hash = sha256(seed.trim().split(/[\t\n\v\f\r ]+/).join(' '))
+        return new PrivateKey(hash)
+    }
+
+    /**
+     * Create key from username and password.
+     */
+    public static fromLogin(username: string, password: string, role: string = 'active') {
+        const seed = username + role + password
+        return PrivateKey.fromSeed(seed)
+    }
+
     constructor(private key: Buffer) {
         assert(secp256k1.privateKeyVerify(key), 'invalid private key')
     }
@@ -239,12 +254,16 @@ export class Signature {
         assert.equal(data.length, 64, 'invalid signature')
     }
 
+    /**
+     * Recover public key from signature by providing original signed message.
+     * @param message 32-byte message that was used to create the signature.
+     */
     public recover(message: Buffer) {
         return new PublicKey(secp256k1.recover(message, this.data, this.recovery))
     }
 
     public toBuffer() {
-        const buffer = new Buffer(65)
+        const buffer = Buffer.alloc(65)
         buffer.writeUInt8(this.recovery + 31, 0)
         this.data.copy(buffer, 1)
         return buffer
@@ -254,4 +273,23 @@ export class Signature {
         return this.toBuffer().toString('hex')
     }
 
+}
+
+export function signTransaction(transaction: Transaction, key: PrivateKey, chainId: Buffer) {
+    const buffer = new ByteBuffer(ByteBuffer.DEFAULT_CAPACITY, ByteBuffer.LITTLE_ENDIAN)
+    serializeTransaction(buffer, transaction)
+    buffer.flip()
+
+    const transactionData = Buffer.from(buffer.toBuffer())
+    const digest = sha256(Buffer.concat([chainId, transactionData]))
+    const signature = key.sign(digest)
+
+    const signedTransaction = copy(transaction) as SignedTransaction
+    if (!signedTransaction.signatures) {
+        signedTransaction.signatures = []
+    }
+
+    signedTransaction.signatures.push(signature.toString())
+
+    return signedTransaction
 }

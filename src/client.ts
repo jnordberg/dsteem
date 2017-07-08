@@ -33,6 +33,7 @@
  * in the design, construction, operation or maintenance of any military facility.
  */
 
+import * as assert from 'assert'
 import {EventEmitter} from 'events'
 import {VError} from 'verror'
 import * as WebSocket from 'ws'
@@ -41,6 +42,11 @@ import {Blockchain} from './helpers/blockchain'
 import {BroadcastAPI} from './helpers/broadcast'
 import {DatabaseAPI} from './helpers/database'
 import {waitForEvent} from './utils'
+
+/**
+ * Main steem network chain id.
+ */
+const DEFAULT_CHAIN_ID = Buffer.from('0000000000000000000000000000000000000000000000000000000000000000', 'hex')
 
 interface RPCRequest {
     /**
@@ -135,6 +141,10 @@ export interface ClientEvents {
      * Emitted on error, throws if there is no listener.
      */
     on(event: 'error', listener: (error: Error) => void): this
+    /**
+     * Emitted when recieveing a server notice message, typically only used for callbacks.
+     */
+    on(event: 'notice', listener: (notice: any) => void): this
 }
 
 /**
@@ -169,6 +179,11 @@ export class Client extends EventEmitter implements ClientEvents {
      */
     public readonly blockchain: Blockchain
 
+    /**
+     * Chain ID for current network.
+     */
+    public readonly chainId: Buffer
+
     private active: boolean = false
     private backoff: (tries: number) => number
     private numRetries: number = 0
@@ -188,7 +203,9 @@ export class Client extends EventEmitter implements ClientEvents {
         this.options = options
         this.backoff = options.backoff || defaultBackoff
 
-        // this.write = process.title === 'browser' ? this.writeBrowser : this.writeNode
+        this.chainId = options.chainId ? Buffer.from(options.chainId, 'hex') : DEFAULT_CHAIN_ID
+        assert.equal(this.chainId.length, 32, 'invalid chain id')
+
         this.sendTimeout = options.sendTimeout || 14 * 1000
 
         this.database = new DatabaseAPI(this)
@@ -295,7 +312,12 @@ export class Client extends EventEmitter implements ClientEvents {
 
     private messageHandler = (event: {data: string, type: string, target: WebSocket}) => {
         try {
-            const response = JSON.parse(event.data) as RPCResponse
+            const rpcMessage = JSON.parse(event.data)
+            if (rpcMessage.method && rpcMessage.method === 'notice') {
+                this.emit('notice', rpcMessage.params)
+                return
+            }
+            const response = rpcMessage as RPCResponse
             let error: Error | undefined
             if (response.error) {
                 const {data} = response.error

@@ -74,3 +74,10 @@ export function iteratorStream<T>(iterator: AsyncIterableIterator<T>): NodeJS.Re
     })
     return stream
 }
+
+/**
+ * Return a deep copy of a JSON-serializable object.
+ */
+export function copy<T>(object: T): T {
+    return JSON.parse(JSON.stringify(object))
+}

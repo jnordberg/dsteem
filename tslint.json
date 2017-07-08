@@ -8,6 +8,6 @@
     "no-var-requires": false,
     "quotemark": [true, "single", "avoid-escape"],
     "semicolon": [true, "never"],
-    "variable-name": [true, "check-format"]
+    "variable-name": false
   }
 }

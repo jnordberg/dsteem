@@ -33,16 +33,118 @@
  * in the design, construction, operation or maintenance of any military facility.
  */
 
+import {VError} from 'verror'
+
+import {PrivateKey, signTransaction} from './../account'
 import {Client} from './../client'
+import {CommentOperation, Operation, VoteOperation} from './../steem/operation'
+import {SignedTransaction, Transaction} from './../steem/transaction'
+
+export interface TransactionConfirmation {
+    id: string // transaction_id_type
+    block_num: number // int32_t
+    trx_num: number // int32_t
+    expired: boolean
+}
+
+interface PendingCallback {
+    resolve: (confirmation: TransactionConfirmation) => void
+    reject: (error: Error) => void
+}
 
 export class BroadcastAPI {
 
-    constructor(readonly client: Client) {}
+    /**
+     * How many milliseconds to set transaction expiry from now when sending a transaction.
+     */
+    public expireTime = 60 * 1000
+
+    private pendingCallbacks = new Map<number, PendingCallback>()
+
+    constructor(readonly client: Client) {
+        this.client.addListener('notice', this.noticeHandler)
+        this.client.addListener('close', this.closeHandler)
+    }
 
     /**
-     * Convenience for calling `broadcast_api`.
+     * Brodcast a comment, also used to create a new top level post.
+     * @param comment The comment/post.
+     * @param key Private posting key of comment author.
+     */
+    public async comment(comment: CommentOperation[1], key: PrivateKey) {
+        const op: Operation = ['comment', comment]
+        return this.sendOperations([op], key)
+    }
+
+    /**
+     * Brodcast a vote.
+     * @param vote The vote to send.
+     * @param key Private posting key of the voter.
+     */
+    public async vote(vote: VoteOperation[1], key: PrivateKey) {
+        const op: Operation = ['vote', vote]
+        return this.sendOperations([op], key)
+    }
+
+    /**
+     * Sign and broadcast transaction with operations to the network. Throws if the transaction expires.
+     * @param operations List of operations to send.
+     * @param key Private key used to sign transaction.
+     */
+     public async sendOperations(operations: Operation[], key: PrivateKey): Promise<TransactionConfirmation> {
+        const props = await this.client.database.getDynamicGlobalProperties()
+
+        const ref_block_num = props.head_block_number & 0xFFFF
+        const ref_block_prefix = Buffer.from(props.head_block_id, 'hex').readUInt32LE(4)
+        const expiration = new Date(Date.now() + this.expireTime).toISOString().replace('Z', '')
+        const extensions = []
+
+        const tx: Transaction = {expiration, extensions, operations, ref_block_num, ref_block_prefix}
+
+        const result = await this.send(signTransaction(tx, key, this.client.chainId))
+        if (result.expired) {
+            throw new VError({info: result, name: 'BroadcastError'}, 'Transaction expired')
+        }
+
+        return result
+     }
+
+    /**
+     * Broadcast a signed transaction to the network.
+     */
+    public async send(transaction: SignedTransaction): Promise<TransactionConfirmation> {
+        const callbackId = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER)
+        await this.call('broadcast_transaction_with_callback', [callbackId, transaction])
+        return this.waitForCallback(callbackId)
+    }
+
+    /**
+     * Convenience for calling `network_broadcast_api`.
      */
     public call(method: string, params?: any[]) {
-        return this.client.call('broadcast_api', method, params)
+        return this.client.call('network_broadcast_api', method, params)
     }
+
+    private waitForCallback(id: number) {
+        return new Promise<TransactionConfirmation>((resolve, reject) => {
+            this.pendingCallbacks.set(id, {resolve, reject})
+        })
+    }
+
+    private noticeHandler = (notice: any) => {
+        const id = Number.parseInt(notice[0])
+        if (Number.isFinite(id) && this.pendingCallbacks.has(id)) {
+            const pending = this.pendingCallbacks.get(id) as PendingCallback
+            pending.resolve(notice[1][0])
+            this.pendingCallbacks.delete(id)
+        }
+    }
+
+    private closeHandler = () => {
+        this.pendingCallbacks.forEach((pending) => {
+            pending.reject(new Error('Connection unexpectedly closed'))
+        })
+        this.pendingCallbacks.clear()
+    }
+
 }
