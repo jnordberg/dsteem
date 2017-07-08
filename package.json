@@ -51,6 +51,7 @@
     "coveralls": "^2.13.1",
     "derequire": "^2.0.6",
     "mocha": "^3.3.0",
+    "node-fetch": "^2.0.0-alpha.5",
     "nyc": "^11.0.2",
     "regenerator-runtime": "^0.10.5",
     "ts-node": "^3.1.0",
