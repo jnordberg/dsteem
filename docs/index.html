@@ -118,6 +118,15 @@ stream.on(<span class="hljs-string">'data'</span>, <span class="hljs-function">(
 					<li class=" tsd-kind-class">
 						<a href="classes/databaseapi.html" class="tsd-kind-icon">DatabaseAPI</a>
 					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/privatekey.html" class="tsd-kind-icon">Private<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/publickey.html" class="tsd-kind-icon">Public<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/signature.html" class="tsd-kind-icon">Signature</a>
+					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/appliedoperation.html" class="tsd-kind-icon">Applied<wbr>Operation</a>
 					</li>
@@ -134,6 +143,9 @@ stream.on(<span class="hljs-string">'data'</span>, <span class="hljs-function">(
 						<a href="interfaces/comment.html" class="tsd-kind-icon">Comment</a>
 					</li>
 					<li class=" tsd-kind-interface">
+						<a href="interfaces/commentoperation.html" class="tsd-kind-icon">Comment<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="interfaces/discussion.html" class="tsd-kind-icon">Discussion</a>
 					</li>
 					<li class=" tsd-kind-interface">
@@ -144,6 +156,9 @@ stream.on(<span class="hljs-string">'data'</span>, <span class="hljs-function">(
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/operation.html" class="tsd-kind-icon">Operation</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-not-exported">
+						<a href="interfaces/pendingcallback.html" class="tsd-kind-icon">Pending<wbr>Callback</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-not-exported">
 						<a href="interfaces/pendingrequest.html" class="tsd-kind-icon">Pending<wbr>Request</a>
@@ -170,7 +185,13 @@ stream.on(<span class="hljs-string">'data'</span>, <span class="hljs-function">(
 						<a href="interfaces/transaction.html" class="tsd-kind-icon">Transaction</a>
 					</li>
 					<li class=" tsd-kind-interface">
+						<a href="interfaces/transactionconfirmation.html" class="tsd-kind-icon">Transaction<wbr>Confirmation</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="interfaces/transfertosavingsoperation.html" class="tsd-kind-icon">Transfer<wbr>ToSavings<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/voteoperation.html" class="tsd-kind-icon">Vote<wbr>Operation</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#assetstring" class="tsd-kind-icon">Asset<wbr>String</a>
@@ -184,11 +205,56 @@ stream.on(<span class="hljs-string">'data'</span>, <span class="hljs-function">(
 					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#operationname" class="tsd-kind-icon">Operation<wbr>Name</a>
 					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#default_chain_id" class="tsd-kind-icon">DEFAULT_<wbr>CHAIN_<wbr>ID</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#network_id" class="tsd-kind-icon">NETWORK_<wbr>ID</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#serializers" class="tsd-kind-icon">Serializers</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#copy" class="tsd-kind-icon">copy</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="globals.html#decodeprivate" class="tsd-kind-icon">decode<wbr>Private</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="globals.html#decodepublic" class="tsd-kind-icon">decode<wbr>Public</a>
+					</li>
 					<li class=" tsd-kind-function tsd-is-not-exported">
 						<a href="globals.html#defaultbackoff" class="tsd-kind-icon">default<wbr>Backoff</a>
 					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="globals.html#doublesha256" class="tsd-kind-icon">double<wbr>Sha256</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="globals.html#encodeprivate" class="tsd-kind-icon">encode<wbr>Private</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="globals.html#encodepublic" class="tsd-kind-icon">encode<wbr>Public</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="globals.html#iscanonicalsignature" class="tsd-kind-icon">is<wbr>Canonical<wbr>Signature</a>
+					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter">
 						<a href="globals.html#iteratorstream" class="tsd-kind-icon">iterator<wbr>Stream</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="globals.html#ripemd160" class="tsd-kind-icon">ripemd160</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#serializeoperation" class="tsd-kind-icon">serialize<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#serializetransaction" class="tsd-kind-icon">serialize<wbr>Transaction</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="globals.html#sha256" class="tsd-kind-icon">sha256</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#signtransaction" class="tsd-kind-icon">sign<wbr>Transaction</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#sleep" class="tsd-kind-icon">sleep</a>
