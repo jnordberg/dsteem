@@ -37,9 +37,16 @@ import * as assert from 'assert'
 import * as bs58 from 'bs58'
 import {createHash} from 'crypto'
 import * as secp256k1 from 'secp256k1'
-import {inspect} from 'util'
 
-const NETWORK_ID = new Buffer([0x80])
+/**
+ * Network id used in WIF-encoding.
+ */
+const NETWORK_ID = Buffer.from([0x80])
+
+/**
+ * Main steem network chain id.
+ */
+const DEFAULT_CHAIN_ID = Buffer.from('0000000000000000000000000000000000000000000000000000000000000000', 'hex')
 
 /**
  * Return ripemd160 hash of input.
@@ -49,11 +56,17 @@ function ripemd160(input: Buffer | string): Buffer {
 }
 
 /**
+ * Return sha256 hash of input.
+ */
+function sha256(input: Buffer | string): Buffer {
+    return createHash('sha256').update(input).digest()
+}
+
+/**
  * Return 2-round sha256 hash of input.
  */
 function doubleSha256(input: Buffer | string): Buffer {
-    const round1 = createHash('sha256').update(input).digest()
-    return createHash('sha256').update(round1).digest()
+    return sha256(sha256(input))
 }
 
 /**
@@ -98,51 +111,147 @@ function decodePrivate(encodedKey: string): Buffer {
     return key
 }
 
+/**
+ * Return true if signature is canonical, otherwise false.
+ */
+function isCanonicalSignature(signature: Buffer): boolean {
+    return (
+        !(signature[0] & 0x80) &&
+        !(signature[0] === 0 && !(signature[1] & 0x80)) &&
+        !(signature[32] & 0x80) &&
+        !(signature[32] === 0 && !(signature[33] & 0x80))
+    )
+}
+
+/**
+ * ECDSA (secp256k1) public key.
+ */
 export class PublicKey {
 
-    public static fromEncoded(key: string) {
-        return new PublicKey(decodePublic(key))
+    /**
+     * Create a new instance from a WIF-encoded key.
+     */
+    public static fromString(wif: string) {
+        return new PublicKey(decodePublic(wif))
     }
 
-    constructor(private key: Buffer) {}
+    constructor(private key: Buffer) {
+        assert(secp256k1.publicKeyVerify(key), 'invalid public key')
+    }
 
-    public toEncoded() {
+    /**
+     * Verify a 32-byte signature.
+     * @param message 32-byte message to verify.
+     * @param signature Signature to verify.
+     */
+    public verify(message: Buffer, signature: Signature): boolean {
+        return secp256k1.verify(message, signature.data, this.key)
+    }
+
+    /**
+     * Return a WIF-encoded representation of the key.
+     */
+    public toString() {
         return encodePublic(this.key)
     }
 
-    public toString() {
-        return this.toEncoded()
-    }
-
+    /**
+     * Used by `utils.inspect` and `console.log` in node.js.
+     */
     public inspect() {
         return `PublicKey: ${ this.toString() }`
     }
 
 }
 
+/**
+ * ECDSA (secp256k1) private key.
+ */
 export class PrivateKey {
 
-    public static fromEncoded(key: string) {
-        return new PrivateKey(decodePrivate(key).slice(1))
+    /**
+     * Create a new instance from a WIF-encoded key.
+     */
+    public static fromString(wif: string) {
+        return new PrivateKey(decodePrivate(wif).slice(1))
     }
 
-    constructor(private key: Buffer) {}
+    constructor(private key: Buffer) {
+        assert(secp256k1.privateKeyVerify(key), 'invalid private key')
+    }
 
+    /**
+     * Sign message.
+     * @param message 32-byte message.
+     */
+    public sign(message: Buffer): Signature {
+        let rv: {signature: Buffer, recovery: number}
+        let attempts = 0
+        do {
+            const options = {data: sha256(Buffer.concat([message, new Buffer(++attempts)]))}
+            rv = secp256k1.sign(message, this.key, options)
+        } while (!isCanonicalSignature(rv.signature))
+        return new Signature(rv.signature, rv.recovery)
+    }
+
+    /**
+     * Derive the public key for this private key.
+     */
     public createPublic(): PublicKey {
         return new PublicKey(secp256k1.publicKeyCreate(this.key))
     }
 
-    public toEncoded() {
+    /**
+     * Return a WIF-encoded representation of the key.
+     */
+    public toString() {
         return encodePrivate(Buffer.concat([NETWORK_ID, this.key]))
     }
 
-    public toString() {
-        const encoded = this.toEncoded()
-        return `${ encoded.slice(0, 6) }...${ encoded.slice(-6) }`
+    /**
+     * Used by `utils.inspect` and `console.log` in node.js. Does not show the full key
+     * to get the full encoded key you need to explicitly call {@link toString}.
+     */
+    public inspect() {
+        const key = this.toString()
+        return `PrivateKey: ${ key.slice(0, 6) }...${ key.slice(-6) }`
     }
 
-    public inspect() {
-        return `PrivateKey: ${ this.toString() }`
+}
+
+/**
+ * ECDSA (secp256k1) signature.
+ */
+export class Signature {
+
+    public static fromBuffer(buffer: Buffer) {
+        assert.equal(buffer.length, 65, 'invalid signature')
+        const recovery = buffer.readUInt8(0) - 31
+        const data = buffer.slice(1)
+        return new Signature(data, recovery)
+    }
+
+    public static fromString(string: string) {
+        return Signature.fromBuffer(Buffer.from(string, 'hex'))
+    }
+
+    constructor(public data: Buffer, public recovery: number) {
+        assert.equal(data.length, 64, 'invalid signature')
+    }
+
+    public recover(message: Buffer) {
+        return new PublicKey(secp256k1.recover(message, this.data, this.recovery))
+    }
+
+    public toBuffer() {
+        const buffer = new Buffer(65)
+        buffer.writeUInt8(this.recovery + 31, 0)
+        this.data.copy(buffer, 1)
+        return buffer
+    }
+
+    public toString() {
+        return this.toBuffer().toString('hex')
     }
 
 }
