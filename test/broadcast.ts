@@ -35,26 +35,6 @@ describe('broadcast', function() {
         assert(block.transaction_ids.indexOf(result.id) !== -1)
     })
 
-    it('should handle expired transactions', async function() {
-        const prevExpireTime = client.broadcast.expireTime
-        client.broadcast.expireTime = -1000 * 120
-        const key = PrivateKey.fromLogin(acc2.username, acc2.password, 'posting')
-        try {
-            await client.broadcast.vote({
-                voter: acc2.username,
-                author: acc1.username,
-                permlink: postPermlink,
-                weight: 42,
-            }, key)
-            assert(false, 'should not be reached')
-        } catch (error) {
-            assert.equal(error.message, 'Transaction expired')
-            const info = VError.info(error)
-            assert.equal(info.trx_num, -1)
-        }
-        client.broadcast.expireTime = prevExpireTime
-    })
-
     it('should handle concurrent broadcasts', async function() {
         const key = PrivateKey.fromLogin(acc2.username, acc2.password, 'posting')
         const commentPromise = client.broadcast.comment({
