@@ -22,14 +22,14 @@ describe('blockchain', function() {
 
     it('should yield blocks', async function() {
         let ids: string[] = []
-        for await (const block of client.blockchain.getBlocks(1, 2)) {
+        for await (const block of client.blockchain.getBlocks({from: 1, to: 2})) {
             ids.push(block.block_id)
         }
         assert.deepEqual(ids, expectedIds)
     })
 
     it('should stream blocks', function(done) {
-        const stream = client.blockchain.getBlockStream(1, 2)
+        const stream = client.blockchain.getBlockStream({from: 1, to: 2})
         let ids: string[] = []
         stream.on('data', (block: SignedBlock) => {
             ids.push(block.block_id)
@@ -43,14 +43,14 @@ describe('blockchain', function() {
 
     it('should yield operations', async function() {
         let ops: string[] = []
-        for await (const operation of client.blockchain.getOperations(13300000, 13300001)) {
+        for await (const operation of client.blockchain.getOperations({from: 13300000, to: 13300001})) {
             ops.push(operation.op[0])
         }
         assert.deepEqual(ops, expectedOps)
     })
 
     it('should stream operations', function(done) {
-        const stream = client.blockchain.getOperationsStream(13300000, 13300001)
+        const stream = client.blockchain.getOperationsStream({from: 13300000, to: 13300001})
         let ops: string[] = []
         stream.on('data', (operation: AppliedOperation) => {
             ops.push(operation.op[0])
@@ -65,9 +65,8 @@ describe('blockchain', function() {
     it('should yield latest blocks', async function() {
         this.slow(10 * 1000)
         this.timeout(20 * 1000)
-        client.blockchain.mode = BlockchainMode.Latest
-        const latest = await client.blockchain.getCurrentBlock()
-        for await (const block of client.blockchain.getBlocks()) {
+        const latest = await client.blockchain.getCurrentBlock(BlockchainMode.Latest)
+        for await (const block of client.blockchain.getBlocks({mode: BlockchainMode.Latest})) {
             if (block.block_id === latest.block_id) {
                 continue
             }

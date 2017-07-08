@@ -53,21 +53,32 @@ export enum BlockchainMode {
     Latest,
 }
 
-export class Blockchain {
-
+export interface BlockchainStreamOptions {
     /**
-     * Block fetching mode. Defaults to `Irreversible`.
+     * Start block number, inclusive. If omitted generation will start from current block height.
      */
-    public mode = BlockchainMode.Irreversible
+    from?: number
+    /**
+     * End block number, inclusive. If omitted stream will continue indefinitely.
+     */
+    to?: number
+    /**
+     * Streaming mode, if set to `Latest` may include blocks that are not applied to the final chain.
+     * Defaults to `Irreversible`.
+     */
+    mode?: BlockchainMode
+}
+
+export class Blockchain {
 
     constructor(readonly client: Client) {}
 
     /**
      * Get latest block number.
      */
-    public async getCurrentBlockNum() {
+    public async getCurrentBlockNum(mode = BlockchainMode.Irreversible) {
         const props = await this.client.database.getDynamicGlobalProperties()
-        switch (this.mode) {
+        switch (mode) {
             case BlockchainMode.Irreversible:
                 return props.last_irreversible_block_num
             case BlockchainMode.Latest:
@@ -78,57 +89,59 @@ export class Blockchain {
     /**
      * Get latest block header.
      */
-    public async getCurrentBlockHeader() {
-        return this.client.database.getBlockHeader(await this.getCurrentBlockNum())
+    public async getCurrentBlockHeader(mode?: BlockchainMode) {
+        return this.client.database.getBlockHeader(await this.getCurrentBlockNum(mode))
     }
 
     /**
      * Get latest block.
      */
-    public async getCurrentBlock() {
-        return this.client.database.getBlock(await this.getCurrentBlockNum())
+    public async getCurrentBlock(mode?: BlockchainMode) {
+        return this.client.database.getBlock(await this.getCurrentBlockNum(mode))
     }
 
     /**
      * Return a asynchronous block number iterator.
-     * @param from Start block number, inclusive. If omitted generation will
-     *             start from current block height.
-     * @param to End block number, inclusive. If omitted iterator
-     *           will continue indefinitely.
+     * @param options Feed options, can also be a block number to start from.
      */
-    public async *getBlockNumbers(from?: number, to?: number) {
+    public async *getBlockNumbers(options?: BlockchainStreamOptions|number) {
         // const config = await this.client.database.getConfig()
         // const interval = config['STEEMIT_BLOCK_INTERVAL'] as number
         const interval = 3
-        let current = await this.getCurrentBlockNum()
-        if (from !== undefined && from > current) {
+        if (!options) {
+            options = {}
+        } else if (typeof options === 'number') {
+            options = {from: options}
+        }
+        let current = await this.getCurrentBlockNum(options.mode)
+        if (options.from !== undefined && options.from > current) {
             throw new Error(`From can't be larger than current block num (${ current })`)
         }
-        let seen = from !== undefined ? from : current
+        let seen = options.from !== undefined ? options.from : current
         while (true) {
             while (current > seen) {
                 yield seen++
-                if (to !== undefined && seen > to) {
+                if (options.to !== undefined && seen > options.to) {
                     return
                 }
             }
             sleep(interval * 1000)
-            current = await this.getCurrentBlockNum()
+            current = await this.getCurrentBlockNum(options.mode)
         }
     }
 
     /**
      * Return a stream of block numbers, accepts same parameters as {@link getBlockNumbers}.
      */
-    public getBlockNumberStream(from?: number, to?: number) {
-        return iteratorStream(this.getBlockNumbers(from, to))
+    public getBlockNumberStream(options?: BlockchainStreamOptions|number) {
+        return iteratorStream(this.getBlockNumbers(options))
     }
 
     /**
      * Return a asynchronous block iterator, accepts same parameters as {@link getBlockNumbers}.
      */
-    public async *getBlocks(from?: number, to?: number) {
-        for await (const num of this.getBlockNumbers(from, to)) {
+    public async *getBlocks(options?: BlockchainStreamOptions|number) {
+        for await (const num of this.getBlockNumbers(options)) {
             yield await this.client.database.getBlock(num)
         }
     }
@@ -136,15 +149,15 @@ export class Blockchain {
     /**
      * Return a stream of blocks, accepts same parameters as {@link getBlockNumbers}.
      */
-    public getBlockStream(from?: number, to?: number) {
-        return iteratorStream(this.getBlocks(from, to))
+    public getBlockStream(options?: BlockchainStreamOptions|number) {
+        return iteratorStream(this.getBlocks(options))
     }
 
     /**
      * Return a asynchronous operation iterator, accepts same parameters as {@link getBlockNumbers}.
      */
-    public async *getOperations(from?: number, to?: number) {
-        for await (const num of this.getBlockNumbers(from, to)) {
+    public async *getOperations(options?: BlockchainStreamOptions|number) {
+        for await (const num of this.getBlockNumbers(options)) {
             const operations = await this.client.database.getOperations(num)
             for (const operation of operations) {
                 yield operation
@@ -155,8 +168,8 @@ export class Blockchain {
     /**
      * Return a stream of operations, accepts same parameters as {@link getBlockNumbers}.
      */
-    public getOperationsStream(from?: number, to?: number) {
-        return iteratorStream(this.getOperations(from, to))
+    public getOperationsStream(options?: BlockchainStreamOptions|number) {
+        return iteratorStream(this.getOperations(options))
     }
 
 }
