@@ -11,7 +11,7 @@ lib: $(SRC_FILES) node_modules
 .PHONY: bundle
 bundle: lib
 	browserify src/index-browser.ts --debug \
-		--standalone Client --plugin tsify \
+		--standalone dsteem --plugin tsify \
 		--transform [ babelify --extensions .ts ] \
 		| derequire > dist/dsteem.js
 	uglifyjs dist/dsteem.js \
