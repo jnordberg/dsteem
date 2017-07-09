@@ -46,7 +46,7 @@ import {waitForEvent} from './utils'
 /**
  * Main steem network chain id.
  */
-const DEFAULT_CHAIN_ID = Buffer.from('0000000000000000000000000000000000000000000000000000000000000000', 'hex')
+export const DEFAULT_CHAIN_ID = Buffer.from('0000000000000000000000000000000000000000000000000000000000000000', 'hex')
 
 interface RPCRequest {
     /**
