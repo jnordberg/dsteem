@@ -96,7 +96,7 @@ export class BroadcastAPI {
 
         const ref_block_num = props.head_block_number & 0xFFFF
         const ref_block_prefix = Buffer.from(props.head_block_id, 'hex').readUInt32LE(4)
-        const expiration = new Date(Date.now() + this.expireTime).toISOString().replace('Z', '')
+        const expiration = new Date(Date.now() + this.expireTime).toISOString().slice(0, -5)
         const extensions = []
 
         const tx: Transaction = {expiration, extensions, operations, ref_block_num, ref_block_prefix}
