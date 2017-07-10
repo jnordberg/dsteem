@@ -34,6 +34,7 @@
  */
 
 import {Client} from './../client'
+import {ExtendedAccount} from './../steem/account'
 import {AssetString} from './../steem/asset'
 import {BlockHeader, SignedBlock} from './../steem/block'
 import {Bignum} from './../steem/misc'
@@ -285,6 +286,14 @@ export class DatabaseAPI {
      */
     public getDiscussions(by: string, query: DisqussionQuery): Promise<Discussion[]> {
         return this.call(`get_discussions_by_${ by }`, [query])
+    }
+
+    /**
+     * Return array of account info objects for the usernames passed.
+     * @param usernames The accounts to fetch.
+     */
+    public getAccounts(usernames: string[]): Promise<ExtendedAccount[]> {
+        return this.call('get_accounts', [usernames])
     }
 
 }
