@@ -35,6 +35,8 @@
 
 import * as ByteBuffer from 'bytebuffer'
 
+import {Asset} from './asset'
+
 /**
  * Transaction operation name.
  */
@@ -123,6 +125,15 @@ export interface CommentOperation extends Operation {
     }
 }
 
+export interface DelegateVestingSharesOperation extends Operation {
+    0: 'comment'
+    1: {
+        delegator: string,
+        delegatee: string,
+        vesting_shares: string | Asset,
+    }
+}
+
 export interface TransferToSavingsOperation extends Operation {
     0: 'transfer_to_savings'
     1: {
@@ -153,6 +164,17 @@ Serializers.comment = (buffer: ByteBuffer, data: CommentOperation[1]) => {
     buffer.writeVString(data.title)
     buffer.writeVString(data.body)
     buffer.writeVString(data.json_metadata)
+}
+
+Serializers.delegate_vesting_shares = (buffer: ByteBuffer, data: DelegateVestingSharesOperation[1]) => {
+    buffer.writeVarint32(40)
+    buffer.writeVString(data.delegator)
+    buffer.writeVString(data.delegatee)
+    let asset = data.vesting_shares
+    if (!(asset instanceof Asset)) {
+        asset = Asset.fromString(asset)
+    }
+    asset.writeTo(buffer)
 }
 
 export function serializeOperation(buffer: ByteBuffer, operation: Operation) {

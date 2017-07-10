@@ -33,6 +33,8 @@
  * in the design, construction, operation or maintenance of any military facility.
  */
 
+import * as ByteBuffer from 'bytebuffer'
+
 /**
  * Asset symbol string.
  */
@@ -48,7 +50,7 @@ export class Asset {
     /**
      * Create a new Asset instance from an AssetString, e.g. `42.000 STEEM`.
      */
-    public static from(string: AssetString) {
+    public static fromString(string: AssetString) {
         const [amountString, symbol] = string.split(' ')
         if (['STEEM', 'VESTS'].indexOf(symbol) === -1) {
             throw new Error(`Invalid asset symbol: ${ symbol }`)
@@ -63,14 +65,43 @@ export class Asset {
     constructor(public readonly amount: number, public readonly symbol: AssetSymbol) {}
 
     /**
+     * Return asset precision.
+     */
+    public getPrecision(): number {
+        switch (this.symbol) {
+            case 'STEEM':
+                return 3
+            case 'VESTS':
+                return 6
+        }
+    }
+
+    /**
      * Return a string representation of this asset, e.g. `42.000 STEEM`.
      */
     public toString(): AssetString {
-        switch (this.symbol) {
-            case 'STEEM':
-                return `${ this.amount.toFixed(3) } STEEM`
-            case 'VESTS':
-                return `${ this.amount.toFixed(6) } VESTS`
+        return `${ this.amount.toFixed(this.getPrecision()) } ${ this.symbol }`
+    }
+
+    /**
+     * For JSON serialization, same as toString().
+     */
+    public toJSON(): string {
+        return this.toString()
+    }
+
+    /**
+     * For protocol serialization.
+     * @note This looses precision for amounts larger than 2^53-1/10^precision.
+     *       Should not be a problem in real-word usage.
+     */
+    public writeTo(buffer: ByteBuffer) {
+        const precision = this.getPrecision()
+        buffer.writeInt64(Math.round(this.amount * Math.pow(10, precision)))
+        buffer.writeUint8(precision)
+        for (let i = 0; i < 7; i++) {
+            buffer.writeUint8(this.symbol.charCodeAt(i) || 0)
         }
     }
+
 }

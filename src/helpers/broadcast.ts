@@ -37,7 +37,12 @@ import {VError} from 'verror'
 
 import {PrivateKey, signTransaction} from './../account'
 import {Client} from './../client'
-import {CommentOperation, Operation, VoteOperation} from './../steem/operation'
+import {
+    CommentOperation,
+    DelegateVestingSharesOperation,
+    Operation,
+    VoteOperation,
+} from './../steem/operation'
 import {SignedTransaction, Transaction} from './../steem/transaction'
 
 export interface TransactionConfirmation {
@@ -83,6 +88,16 @@ export class BroadcastAPI {
      */
     public async vote(vote: VoteOperation[1], key: PrivateKey) {
         const op: Operation = ['vote', vote]
+        return this.sendOperations([op], key)
+    }
+
+    /**
+     * Delegate steem power.
+     * @param options Delegation options (from, to, amount).
+     * @param key Private active key of the delegator.
+     */
+    public async delegateVestingShares(options: DelegateVestingSharesOperation[1], key: PrivateKey) {
+        const op: Operation = ['delegate_vesting_shares', options]
         return this.sendOperations([op], key)
     }
 
