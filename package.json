@@ -33,6 +33,7 @@
   "dependencies": {
     "bs58": "^4.0.1",
     "bytebuffer": "^5.0.1",
+    "core-js": "^2.4.1",
     "secp256k1": "^3.3.0",
     "verror": "^1.10.0",
     "ws": "^3.0.0"
@@ -46,7 +47,6 @@
     "babel-preset-env": "^1.6.0",
     "babelify": "^7.3.0",
     "browserify": "^14.4.0",
-    "core-js": "^2.4.1",
     "coveralls": "^2.13.1",
     "derequire": "^2.0.6",
     "mocha": "^3.3.0",
