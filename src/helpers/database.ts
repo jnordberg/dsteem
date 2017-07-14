@@ -39,7 +39,7 @@ import {AssetString} from './../steem/asset'
 import {BlockHeader, SignedBlock} from './../steem/block'
 import {Bignum} from './../steem/misc'
 import {AppliedOperation} from './../steem/operation'
-import {Transaction, TransactionConfirmation} from './../steem/transaction'
+import {Transaction, TransactionConfirmation, SignedTransaction} from './../steem/transaction'
 
 export interface DynamicGlobalPropertyObject {
     id: number
@@ -312,7 +312,7 @@ export class DatabaseAPI {
         if (idx === -1) {
             throw new Error(`Unable to find transaction ${ txc.id } in block ${ txc.block_num }`)
         }
-        return block.transactions[idx]
+        return block.transactions[idx] as SignedTransaction
     }
 
 }
