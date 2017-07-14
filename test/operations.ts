@@ -59,4 +59,16 @@ describe('operations', function() {
         assert.deepEqual(JSON.parse(tx.operations[0][1].json), data)
     })
 
+    it('should transfer steem', async function() {
+        const [acc2bf] = await client.database.getAccounts([acc2.username])
+        await client.broadcast.transfer({
+            from: acc1.username,
+            to: acc2.username,
+            amount: '0.042 STEEM',
+            memo: 'Hej på dig!',
+        }, acc1Key)
+        const [acc2af] = await client.database.getAccounts([acc2.username])
+        assert.equal(Asset.from(acc2af.balance).substract(acc2bf.balance).toString(), '0.042 STEEM')
+    })
+
 })
