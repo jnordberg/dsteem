@@ -39,7 +39,7 @@ import {AssetString} from './../steem/asset'
 import {BlockHeader, SignedBlock} from './../steem/block'
 import {Bignum} from './../steem/misc'
 import {AppliedOperation} from './../steem/operation'
-import {Transaction, TransactionConfirmation, SignedTransaction} from './../steem/transaction'
+import {SignedTransaction, Transaction, TransactionConfirmation} from './../steem/transaction'
 
 export interface DynamicGlobalPropertyObject {
     id: number

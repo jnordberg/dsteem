@@ -118,9 +118,9 @@ export class BroadcastAPI {
         // bit of a hack to ensure any buffers passed serializes as HexBuffer instances
         // ideally users should pass HexBuffer instances but that would be inconvenient
         for (const op of operations) {
-            for (const key of Object.keys(op[1])) {
-                if (op[1][key] instanceof Buffer) {
-                    op[1][key] = new HexBuffer(op[1][key])
+            for (const k of Object.keys(op[1])) {
+                if (op[1][k] instanceof Buffer) {
+                    op[1][k] = new HexBuffer(op[1][k])
                 }
             }
         }

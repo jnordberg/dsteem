@@ -149,7 +149,7 @@ export interface CustomOperation extends Operation {
     1: {
         required_auths: string[]
         id: number // uint16
-        data: Buffer | HexBuffer
+        data: Buffer | HexBuffer,
     }
 }
 
