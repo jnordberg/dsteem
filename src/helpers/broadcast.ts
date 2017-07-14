@@ -35,8 +35,8 @@
 
 import * as assert from 'assert'
 
-import {PrivateKey, signTransaction} from './../crypto'
 import {Client} from './../client'
+import {PrivateKey, signTransaction} from './../crypto'
 import {HexBuffer} from './../steem/misc'
 import {
     CommentOperation,
