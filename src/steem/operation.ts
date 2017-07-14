@@ -167,7 +167,6 @@ export interface CustomOperation extends Operation {
     }
 }
 
-
 export interface CustomJsonOperation extends Operation {
     0: 'custom_json'
     1: {
@@ -176,7 +175,21 @@ export interface CustomJsonOperation extends Operation {
         /** ID string, must be less than 32 characters long. */
         id: string
         /** JSON encoded string, must be valid JSON. */
-        json: string
+        json: string,
+    }
+}
+
+export interface TransferOperation extends Operation {
+    0: 'transfer'
+    1: {
+        /** Sending account name. */
+        from: string // account_name_type
+        /** Receiving account name. */
+        to: string // account_name_type
+        /** Amount of STEEM or SBD to send. */
+        amount: string | Asset
+        /** Plain-text note attached to transaction.  */
+        memo: string,
     }
 }
 
@@ -251,6 +264,18 @@ Serializers.custom_json = (buffer: ByteBuffer, data: CustomJsonOperation[1]) => 
     }
     buffer.writeVString(data.id)
     buffer.writeVString(data.json)
+}
+
+Serializers.transfer = (buffer: ByteBuffer, data: TransferOperation[1]) => {
+    buffer.writeVarint32(2)
+    buffer.writeVString(data.from)
+    buffer.writeVString(data.to)
+    let asset = data.amount
+    if (!(asset instanceof Asset)) {
+        asset = Asset.fromString(asset)
+    }
+    asset.writeTo(buffer)
+    buffer.writeVString(data.memo)
 }
 
 export function serializeOperation(buffer: ByteBuffer, operation: Operation) {

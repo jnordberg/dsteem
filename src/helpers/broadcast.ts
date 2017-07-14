@@ -40,9 +40,10 @@ import {Client} from './../client'
 import {HexBuffer} from './../steem/misc'
 import {
     CommentOperation,
-    DelegateVestingSharesOperation,
     CustomJsonOperation,
+    DelegateVestingSharesOperation,
     Operation,
+    TransferOperation,
     VoteOperation,
 } from './../steem/operation'
 import {SignedTransaction, Transaction, TransactionConfirmation} from './../steem/transaction'
@@ -83,6 +84,16 @@ export class BroadcastAPI {
      */
     public async vote(vote: VoteOperation[1], key: PrivateKey) {
         const op: Operation = ['vote', vote]
+        return this.sendOperations([op], key)
+    }
+
+    /**
+     * Brodcast a transfer.
+     * @param data The transfer operation payload.
+     * @param key Private active key of sender.
+     */
+    public async transfer(data: TransferOperation[1], key: PrivateKey) {
+        const op: Operation = ['transfer', data]
         return this.sendOperations([op], key)
     }
 
