@@ -30,6 +30,7 @@ describe('asset', function() {
         assert.equal(Asset.from('99.999999 VESTS').add('0.000001 VESTS').toString(), '100.000000 VESTS')
         assert.throws(() => Asset.fromString('100.000 STEEM').subtract('100.000000 VESTS'))
         assert.throws(() => Asset.from(100, 'VESTS').add(a))
+        assert.throws(() => Asset.from(100).add('1.000000 VESTS'))
     })
 
     it('should throw on invalid strings', function() {

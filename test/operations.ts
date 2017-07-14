@@ -68,7 +68,7 @@ describe('operations', function() {
             memo: 'Hej på dig!',
         }, acc1Key)
         const [acc2af] = await client.database.getAccounts([acc2.username])
-        assert.equal(Asset.from(acc2af.balance).substract(acc2bf.balance).toString(), '0.042 STEEM')
+        assert.equal(Asset.from(acc2af.balance).subtract(acc2bf.balance).toString(), '0.042 STEEM')
     })
 
 })
