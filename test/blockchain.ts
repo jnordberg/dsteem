@@ -82,4 +82,23 @@ describe('blockchain', function() {
         })
     })
 
+    it('should get block number stream', function(done) {
+        this.slow(10 * 1000)
+        this.timeout(20 * 1000)
+        client.blockchain.getCurrentBlockNum().then((current) => {
+            const stream = client.blockchain.getBlockNumberStream()
+            stream.on('data', (num) => {
+                assert(num >= current)
+                done()
+            })
+        })
+    })
+
+    it('should get current block header', async function() {
+        const now = Date.now()
+        const header = await client.blockchain.getCurrentBlockHeader()
+        const ts = new Date(header.timestamp+'Z').getTime()
+        assert.equal(Math.round(ts / 3e6), Math.round(now / 3e6), 'blockheader timestamp too old')
+    })
+
 })

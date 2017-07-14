@@ -33,7 +33,7 @@
  * in the design, construction, operation or maintenance of any military facility.
  */
 
-import {VError} from 'verror'
+import * as assert from 'assert'
 
 import {PrivateKey, signTransaction} from './../account'
 import {Client} from './../client'
@@ -128,9 +128,7 @@ export class BroadcastAPI {
         const tx: Transaction = {expiration, extensions, operations, ref_block_num, ref_block_prefix}
 
         const result = await this.send(signTransaction(tx, key, this.client.chainId))
-        if (result.expired) {
-            throw new VError({info: result, name: 'BroadcastError'}, 'Transaction expired')
-        }
+        assert(result.expired === false, 'transaction expired')
 
         return result
      }
