@@ -53,4 +53,4 @@ export * from './steem/operation'
 export * from './steem/transaction'
 
 export * from './client'
-export * from './account'
+export * from './crypto'

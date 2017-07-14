@@ -35,7 +35,7 @@
 
 import * as assert from 'assert'
 
-import {PrivateKey, signTransaction} from './../account'
+import {PrivateKey, signTransaction} from './../crypto'
 import {Client} from './../client'
 import {HexBuffer} from './../steem/misc'
 import {
