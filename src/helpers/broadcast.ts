@@ -43,14 +43,7 @@ import {
     Operation,
     VoteOperation,
 } from './../steem/operation'
-import {SignedTransaction, Transaction} from './../steem/transaction'
-
-export interface TransactionConfirmation {
-    id: string // transaction_id_type
-    block_num: number // int32_t
-    trx_num: number // int32_t
-    expired: boolean
-}
+import {SignedTransaction, Transaction, TransactionConfirmation} from './../steem/transaction'
 
 interface PendingCallback {
     resolve: (confirmation: TransactionConfirmation) => void
@@ -92,8 +85,15 @@ export class BroadcastAPI {
     }
 
     /**
-     * Delegate steem power.
-     * @param options Delegation options (from, to, amount).
+     * Delegate vesting shares from one account to the other. The vesting shares are still owned
+     * by the original account, but content voting rights and bandwidth allocation are transferred
+     * to the receiving account. This sets the delegation to `vesting_shares`, increasing it or
+     * decreasing it as needed. (i.e. a delegation of 0 removes the delegation)
+     *
+     * When a delegation is removed the shares are placed in limbo for a week to prevent a satoshi
+     * of VESTS from voting on the same content twice.
+     *
+     * @param options Delegation options.
      * @param key Private active key of the delegator.
      */
     public async delegateVestingShares(options: DelegateVestingSharesOperation[1], key: PrivateKey) {

@@ -145,6 +145,12 @@ export interface DynamicGlobalPropertyObject {
     vote_power_reserve_rate: number
 }
 
+/**
+ * Possible categories for `get_discussions_by_*`.
+ */
+export type DiscussionQueryCategory = 'active' | 'blog' | 'cashout' | 'children' | 'comments' |
+                                      'feed' | 'hot' | 'promoted' | 'trending' | 'votes'
+
 export interface DisqussionQuery {
     /**
      * Name of author or tag to fetch.
@@ -278,13 +284,13 @@ export class DatabaseAPI {
     }
 
     /**
-     * Return array of discussions.
+     * Return array of discussions (a.k.a. posts).
      * @param by The type of sorting for the discussions, valid options are:
      *           `active` `blog` `cashout` `children` `comments` `created`
      *           `feed` `hot` `promoted` `trending` `votes`. Note that
      *           for `blog` and `feed` the tag is set to a username.
      */
-    public getDiscussions(by: string, query: DisqussionQuery): Promise<Discussion[]> {
+    public getDiscussions(by: DiscussionQueryCategory, query: DisqussionQuery): Promise<Discussion[]> {
         return this.call(`get_discussions_by_${ by }`, [query])
     }
 
@@ -294,6 +300,18 @@ export class DatabaseAPI {
      */
     public getAccounts(usernames: string[]): Promise<ExtendedAccount[]> {
         return this.call('get_accounts', [usernames])
+    }
+
+    /**
+     * Convenience to fetch a block and return a specific transaction.
+     */
+    public async getTransaction(txc: TransactionConfirmation | {block_num: number, id: string}) {
+        const block = await this.client.database.getBlock(txc.block_num)
+        const idx = block.transaction_ids.indexOf(txc.id)
+        if (idx === -1) {
+            throw new Error(`Unable to find transaction ${ txc.id } in block ${ txc.block_num }`)
+        }
+        return block.transactions[idx]
     }
 
 }

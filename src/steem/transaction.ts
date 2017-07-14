@@ -47,6 +47,13 @@ export interface SignedTransaction extends Transaction {
     signatures: string[]
 }
 
+export interface TransactionConfirmation {
+    id: string // transaction_id_type
+    block_num: number // int32_t
+    trx_num: number // int32_t
+    expired: boolean
+}
+
 export function serializeTransaction(buffer: ByteBuffer, transaction: Transaction) {
     buffer.writeUint16(transaction.ref_block_num)
     buffer.writeUint32(transaction.ref_block_prefix)
