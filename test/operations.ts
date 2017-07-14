@@ -1,7 +1,7 @@
 import 'mocha'
 import * as assert from 'assert'
 
-import {Asset, Client, PrivateKey} from './../src'
+import {Asset, Client, PrivateKey, CustomOperation} from './../src'
 
 import {testnet, getTestnetAccounts} from './common'
 
@@ -10,7 +10,7 @@ describe('operations', function() {
     this.timeout(60 * 1000)
 
     const {addr, chainId, addressPrefix} = testnet
-    const client = new Client(addr, {chainId, addressPrefix})
+    const client = new Client(addr, {chainId, addressPrefix, sendTimeout: 0})
 
     let acc1, acc2: {username: string, password: string}
     let acc1Key: PrivateKey
@@ -30,6 +30,21 @@ describe('operations', function() {
         assert.equal(user2.received_vesting_shares, amount.toString())
         // this does not update directly for some reason
         // assert.equal(user1.delegated_vesting_shares, amount.toString())
+    })
+
+    it('should send custom binary', async function() {
+        const props = await client.database.getDynamicGlobalProperties()
+        const size = props.maximum_block_size - 256 - 512
+        const op: CustomOperation = ['custom', {
+            required_auths: [acc1.username],
+            id: ~~(Math.random() * 65535),
+            data: Buffer.alloc(size, 1),
+        }]
+        const rv = await client.broadcast.sendOperations([op], acc1Key)
+        const tx = await client.database.getTransaction(rv)
+        const rop = tx.operations[0]
+        assert.equal(rop[0], 'custom')
+        assert.equal(rop[1].data, op[1].data.toString('hex'))
     })
 
 })
