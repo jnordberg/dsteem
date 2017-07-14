@@ -50,7 +50,7 @@ export class HexBuffer {
     }
 
     public toJSON() {
-        return this.buffer.toString('hex')
+        return this.toString()
     }
 
 }
