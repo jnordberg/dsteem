@@ -21,6 +21,17 @@ describe('asset', function() {
         assert.equal(vests.toString(), '44.999999 VESTS')
     })
 
+    it('should add and subtract', function() {
+        const a = new Asset(44.999, 'STEEM')
+        assert.equal(a.subtract(1.999).toString(), '43.000 STEEM')
+        assert.equal(a.add(0.001).toString(), '45.000 STEEM')
+        assert.equal(Asset.from('1.999 STEEM').subtract(a).toString(), '-43.000 STEEM')
+        assert.equal(Asset.from(a).subtract(a).toString(), '0.000 STEEM')
+        assert.equal(Asset.from('99.999999 VESTS').add('0.000001 VESTS').toString(), '100.000000 VESTS')
+        assert.throws(() => Asset.fromString('100.000 STEEM').subtract('100.000000 VESTS'))
+        assert.throws(() => Asset.from(100, 'VESTS').add(a))
+    })
+
     it('should throw on invalid strings', function() {
         assert.throws(() => Asset.fromString('1.000 SNACKS'))
         assert.throws(() => Asset.fromString('I LIKE TURT 0.42'))

@@ -33,6 +33,7 @@
  * in the design, construction, operation or maintenance of any military facility.
  */
 
+import * as assert from 'assert'
 import * as ByteBuffer from 'bytebuffer'
 
 /**
@@ -62,6 +63,19 @@ export class Asset {
         return new Asset(amount, symbol as AssetSymbol)
     }
 
+    /**
+     * Convenience to create new Asset.
+     */
+     public static from(value: AssetString | Asset | number, symbol?: AssetSymbol) {
+         if (value instanceof Asset) {
+             return value
+         } else if (typeof value === 'number') {
+             return new Asset(value, symbol || 'STEEM')
+         } else {
+             return Asset.fromString(value)
+         }
+     }
+
     constructor(public readonly amount: number, public readonly symbol: AssetSymbol) {}
 
     /**
@@ -82,6 +96,24 @@ export class Asset {
     public toString(): AssetString {
         return `${ this.amount.toFixed(this.getPrecision()) } ${ this.symbol }`
     }
+
+    /**
+     * Return a new Asset instance with amount added.
+     */
+     public add(amount: Asset | AssetString | number): Asset {
+         const other = Asset.from(amount, this.symbol)
+         assert(this.symbol === other.symbol, 'can not add with different symbols')
+         return new Asset(this.amount + other.amount, this.symbol)
+     }
+
+    /**
+     * Return a new Asset instance with amount subtracted.
+     */
+     public subtract(amount: Asset | AssetString | number): Asset {
+         const other = Asset.from(amount, this.symbol)
+         assert(this.symbol === other.symbol, 'can not subtract with different symbols')
+         return new Asset(this.amount - other.amount, this.symbol)
+     }
 
     /**
      * For JSON serialization, same as toString().
