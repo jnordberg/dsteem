@@ -85,12 +85,20 @@ describe('blockchain', function() {
     it('should get block number stream', function(done) {
         this.slow(10 * 1000)
         this.timeout(20 * 1000)
+        let didFinish = false
+        const doneOnce = (error?: Error) => {
+            if (!didFinish) {
+                done(error) // TODO: some way to end the streams from the consumer side?
+                didFinish = true
+            }
+        }
         client.blockchain.getCurrentBlockNum().then((current) => {
             const stream = client.blockchain.getBlockNumberStream()
             stream.on('data', (num) => {
                 assert(num >= current)
-                done()
+                doneOnce()
             })
+            stream.on('error', doneOnce)
         })
     })
 
