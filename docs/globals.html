@@ -81,6 +81,7 @@
 								<li class="tsd-kind-class"><a href="classes/broadcastapi.html" class="tsd-kind-icon">BroadcastAPI</a></li>
 								<li class="tsd-kind-class"><a href="classes/client.html" class="tsd-kind-icon">Client</a></li>
 								<li class="tsd-kind-class"><a href="classes/databaseapi.html" class="tsd-kind-icon">DatabaseAPI</a></li>
+								<li class="tsd-kind-class"><a href="classes/hexbuffer.html" class="tsd-kind-icon">Hex<wbr>Buffer</a></li>
 								<li class="tsd-kind-class"><a href="classes/privatekey.html" class="tsd-kind-icon">Private<wbr>Key</a></li>
 								<li class="tsd-kind-class"><a href="classes/publickey.html" class="tsd-kind-icon">Public<wbr>Key</a></li>
 								<li class="tsd-kind-class"><a href="classes/signature.html" class="tsd-kind-icon">Signature</a></li>
@@ -89,16 +90,21 @@
 						<section class="tsd-index-section ">
 							<h3>Interfaces</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-interface"><a href="interfaces/account.html" class="tsd-kind-icon">Account</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/appliedoperation.html" class="tsd-kind-icon">Applied<wbr>Operation</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/authority.html" class="tsd-kind-icon">Authority</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/blockheader.html" class="tsd-kind-icon">Block<wbr>Header</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/blockchainstreamoptions.html" class="tsd-kind-icon">Blockchain<wbr>Stream<wbr>Options</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/clientevents.html" class="tsd-kind-icon">Client<wbr>Events</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/clientoptions.html" class="tsd-kind-icon">Client<wbr>Options</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/comment.html" class="tsd-kind-icon">Comment</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/commentoperation.html" class="tsd-kind-icon">Comment<wbr>Operation</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/customoperation.html" class="tsd-kind-icon">Custom<wbr>Operation</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/delegatevestingsharesoperation.html" class="tsd-kind-icon">Delegate<wbr>Vesting<wbr>Shares<wbr>Operation</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/discussion.html" class="tsd-kind-icon">Discussion</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/disqussionquery.html" class="tsd-kind-icon">Disqussion<wbr>Query</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/dynamicglobalpropertyobject.html" class="tsd-kind-icon">Dynamic<wbr>Global<wbr>Property<wbr>Object</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/extendedaccount.html" class="tsd-kind-icon">Extended<wbr>Account</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/operation.html" class="tsd-kind-icon">Operation</a></li>
 								<li class="tsd-kind-interface tsd-is-not-exported"><a href="interfaces/pendingcallback.html" class="tsd-kind-icon">Pending<wbr>Callback</a></li>
 								<li class="tsd-kind-interface tsd-is-not-exported"><a href="interfaces/pendingrequest.html" class="tsd-kind-icon">Pending<wbr>Request</a></li>
@@ -120,6 +126,7 @@
 								<li class="tsd-kind-type-alias"><a href="globals.html#assetstring" class="tsd-kind-icon">Asset<wbr>String</a></li>
 								<li class="tsd-kind-type-alias"><a href="globals.html#assetsymbol" class="tsd-kind-icon">Asset<wbr>Symbol</a></li>
 								<li class="tsd-kind-type-alias"><a href="globals.html#bignum" class="tsd-kind-icon">Bignum</a></li>
+								<li class="tsd-kind-type-alias"><a href="globals.html#discussionquerycategory" class="tsd-kind-icon">Discussion<wbr>Query<wbr>Category</a></li>
 								<li class="tsd-kind-type-alias"><a href="globals.html#operationname" class="tsd-kind-icon">Operation<wbr>Name</a></li>
 							</ul>
 						</section>
@@ -163,7 +170,7 @@
 					<div class="tsd-signature tsd-kind-icon">Asset<wbr>String<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/asset.ts#L44">steem/asset.ts:44</a></li>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/asset.ts#L46">steem/asset.ts:46</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -178,7 +185,7 @@
 					<div class="tsd-signature tsd-kind-icon">Asset<wbr>Symbol<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"STEEM"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"VESTS"</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/asset.ts#L39">steem/asset.ts:39</a></li>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/asset.ts#L41">steem/asset.ts:41</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -203,12 +210,27 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias">
+					<a name="discussionquerycategory" class="tsd-anchor"></a>
+					<h3>Discussion<wbr>Query<wbr>Category</h3>
+					<div class="tsd-signature tsd-kind-icon">Discussion<wbr>Query<wbr>Category<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"active"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"blog"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"cashout"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"children"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"comments"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"feed"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"hot"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"promoted"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"trending"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"votes"</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/database.ts#L152">helpers/database.ts:152</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Possible categories for <code>get_discussions_by_*</code>.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias">
 					<a name="operationname" class="tsd-anchor"></a>
 					<h3>Operation<wbr>Name</h3>
 					<div class="tsd-signature tsd-kind-icon">Operation<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"account_create"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"account_create_with_delegation"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"account_update"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"account_witness_proxy"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"account_witness_vote"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"cancel_transfer_from_savings"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"challenge_authority"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"change_recovery_account"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"claim_reward_balance"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"comment"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"comment_options"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"convert"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"custom"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"custom_binary"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"custom_json"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"decline_voting_rights"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"delegate_vesting_shares"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"delete_comment"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"escrow_approve"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"escrow_dispute"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"escrow_release"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"escrow_transfer"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"feed_publish"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"limit_order_cancel"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"limit_order_create"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"limit_order_create2"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"pow"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"pow2"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"prove_authority"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"recover_account"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"report_over_production"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"request_account_recovery"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"reset_account"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"set_reset_account"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"set_withdraw_vesting_route"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"transfer"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"transfer_from_savings"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"transfer_to_savings"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"transfer_to_vesting"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"vote"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"withdraw_vesting"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"witness_update"</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/operation.ts#L41">steem/operation.ts:41</a></li>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/operation.ts#L44">steem/operation.ts:44</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -256,7 +278,7 @@
 					<div class="tsd-signature tsd-kind-icon">Serializers<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/operation.ts#L137">steem/operation.ts:137</a></li>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/operation.ts#L229">steem/operation.ts:229</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -600,7 +622,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/operation.ts#L158">steem/operation.ts:158</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/operation.ts#L277">steem/operation.ts:277</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -626,7 +648,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/transaction.ts#L50">steem/transaction.ts:50</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/transaction.ts#L57">steem/transaction.ts:57</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -795,6 +817,9 @@
 						<a href="classes/databaseapi.html" class="tsd-kind-icon">DatabaseAPI</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="classes/hexbuffer.html" class="tsd-kind-icon">Hex<wbr>Buffer</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="classes/privatekey.html" class="tsd-kind-icon">Private<wbr>Key</a>
 					</li>
 					<li class=" tsd-kind-class">
@@ -804,7 +829,13 @@
 						<a href="classes/signature.html" class="tsd-kind-icon">Signature</a>
 					</li>
 					<li class=" tsd-kind-interface">
+						<a href="interfaces/account.html" class="tsd-kind-icon">Account</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="interfaces/appliedoperation.html" class="tsd-kind-icon">Applied<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/authority.html" class="tsd-kind-icon">Authority</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/blockheader.html" class="tsd-kind-icon">Block<wbr>Header</a>
@@ -825,6 +856,12 @@
 						<a href="interfaces/commentoperation.html" class="tsd-kind-icon">Comment<wbr>Operation</a>
 					</li>
 					<li class=" tsd-kind-interface">
+						<a href="interfaces/customoperation.html" class="tsd-kind-icon">Custom<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/delegatevestingsharesoperation.html" class="tsd-kind-icon">Delegate<wbr>Vesting<wbr>Shares<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="interfaces/discussion.html" class="tsd-kind-icon">Discussion</a>
 					</li>
 					<li class=" tsd-kind-interface">
@@ -832,6 +869,9 @@
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/dynamicglobalpropertyobject.html" class="tsd-kind-icon">Dynamic<wbr>Global<wbr>Property<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/extendedaccount.html" class="tsd-kind-icon">Extended<wbr>Account</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/operation.html" class="tsd-kind-icon">Operation</a>
@@ -880,6 +920,9 @@
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#bignum" class="tsd-kind-icon">Bignum</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#discussionquerycategory" class="tsd-kind-icon">Discussion<wbr>Query<wbr>Category</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#operationname" class="tsd-kind-icon">Operation<wbr>Name</a>

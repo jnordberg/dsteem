@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>TransactionConfirmation | dsteem</title>
+	<title>Authority | dsteem</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="transactionconfirmation.html">TransactionConfirmation</a>
+					<a href="authority.html">Authority</a>
 				</li>
 			</ul>
-			<h1>Interface TransactionConfirmation</h1>
+			<h1>Interface Authority</h1>
 		</div>
 	</div>
 </header>
@@ -70,7 +70,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">TransactionConfirmation</span>
+						<span class="target">Authority</span>
 					</li>
 				</ul>
 			</section>
@@ -81,10 +81,9 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="transactionconfirmation.html#block_num" class="tsd-kind-icon">block_<wbr>num</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="transactionconfirmation.html#expired" class="tsd-kind-icon">expired</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="transactionconfirmation.html#id" class="tsd-kind-icon">id</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="transactionconfirmation.html#trx_num" class="tsd-kind-icon">trx_<wbr>num</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="authority.html#account_auths" class="tsd-kind-icon">account_<wbr>auths</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="authority.html#key_auths" class="tsd-kind-icon">key_<wbr>auths</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="authority.html#weight_threshold" class="tsd-kind-icon">weight_<wbr>threshold</a></li>
 							</ul>
 						</section>
 					</div>
@@ -93,42 +92,32 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="block_num" class="tsd-anchor"></a>
-					<h3>block_<wbr>num</h3>
-					<div class="tsd-signature tsd-kind-icon">block_<wbr>num<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="account_auths" class="tsd-anchor"></a>
+					<h3>account_<wbr>auths</h3>
+					<div class="tsd-signature tsd-kind-icon">account_<wbr>auths<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/transaction.ts#L52">steem/transaction.ts:52</a></li>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/account.ts#L40">steem/account.ts:40</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="expired" class="tsd-anchor"></a>
-					<h3>expired</h3>
-					<div class="tsd-signature tsd-kind-icon">expired<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<a name="key_auths" class="tsd-anchor"></a>
+					<h3>key_<wbr>auths</h3>
+					<div class="tsd-signature tsd-kind-icon">key_<wbr>auths<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/transaction.ts#L54">steem/transaction.ts:54</a></li>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/account.ts#L41">steem/account.ts:41</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="id" class="tsd-anchor"></a>
-					<h3>id</h3>
-					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="weight_threshold" class="tsd-anchor"></a>
+					<h3>weight_<wbr>threshold</h3>
+					<div class="tsd-signature tsd-kind-icon">weight_<wbr>threshold<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/transaction.ts#L51">steem/transaction.ts:51</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="trx_num" class="tsd-anchor"></a>
-					<h3>trx_<wbr>num</h3>
-					<div class="tsd-signature tsd-kind-icon">trx_<wbr>num<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/transaction.ts#L53">steem/transaction.ts:53</a></li>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/account.ts#L39">steem/account.ts:39</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -147,19 +136,16 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface">
-						<a href="transactionconfirmation.html" class="tsd-kind-icon">Transaction<wbr>Confirmation</a>
+						<a href="authority.html" class="tsd-kind-icon">Authority</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="transactionconfirmation.html#block_num" class="tsd-kind-icon">block_<wbr>num</a>
+								<a href="authority.html#account_auths" class="tsd-kind-icon">account_<wbr>auths</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="transactionconfirmation.html#expired" class="tsd-kind-icon">expired</a>
+								<a href="authority.html#key_auths" class="tsd-kind-icon">key_<wbr>auths</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="transactionconfirmation.html#id" class="tsd-kind-icon">id</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="transactionconfirmation.html#trx_num" class="tsd-kind-icon">trx_<wbr>num</a>
+								<a href="authority.html#weight_threshold" class="tsd-kind-icon">weight_<wbr>threshold</a>
 							</li>
 						</ul>
 					</li>
