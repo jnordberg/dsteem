@@ -47,4 +47,16 @@ describe('operations', function() {
         assert.equal(rop[1].data, op[1].data.toString('hex'))
     })
 
+    it('should send custom json', async function() {
+        const data = {test: 123, string: 'unicode🐳'}
+        const rv = await client.broadcast.json({
+            required_auths: [acc1.username],
+            required_posting_auths: [],
+            id: 'something',
+            json: JSON.stringify(data),
+        }, acc1Key)
+        const tx = await client.database.getTransaction(rv)
+        assert.deepEqual(JSON.parse(tx.operations[0][1].json), data)
+    })
+
 })
