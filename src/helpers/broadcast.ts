@@ -41,6 +41,7 @@ import {HexBuffer} from './../steem/misc'
 import {
     CommentOperation,
     DelegateVestingSharesOperation,
+    CustomJsonOperation,
     Operation,
     VoteOperation,
 } from './../steem/operation'
@@ -82,6 +83,16 @@ export class BroadcastAPI {
      */
     public async vote(vote: VoteOperation[1], key: PrivateKey) {
         const op: Operation = ['vote', vote]
+        return this.sendOperations([op], key)
+    }
+
+    /**
+     * Brodcast custom JSON.
+     * @param data The custom_json operation payload.
+     * @param key Private posting or active key.
+     */
+    public async json(data: CustomJsonOperation[1], key: PrivateKey) {
+        const op: Operation = ['custom_json', data]
         return this.sendOperations([op], key)
     }
 

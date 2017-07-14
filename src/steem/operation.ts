@@ -167,6 +167,19 @@ export interface CustomOperation extends Operation {
     }
 }
 
+
+export interface CustomJsonOperation extends Operation {
+    0: 'custom_json'
+    1: {
+        required_auths: string[] // flat_set< account_name_type >
+        required_posting_auths: string[] // flat_set< account_name_type >
+        /** ID string, must be less than 32 characters long. */
+        id: string
+        /** JSON encoded string, must be valid JSON. */
+        json: string
+    }
+}
+
 export interface TransferToSavingsOperation extends Operation {
     0: 'transfer_to_savings'
     1: {
@@ -224,6 +237,20 @@ Serializers.custom = (buffer: ByteBuffer, data: CustomOperation[1]) => {
         buffer.writeVarint32(data.data.length)
         buffer.append(data.data)
     }
+}
+
+Serializers.custom_json = (buffer: ByteBuffer, data: CustomJsonOperation[1]) => {
+    buffer.writeVarint32(18)
+    buffer.writeVarint32(data.required_auths.length)
+    for (const auth of data.required_auths) {
+        buffer.writeVString(auth)
+    }
+    buffer.writeVarint32(data.required_posting_auths.length)
+    for (const auth of data.required_posting_auths) {
+        buffer.writeVString(auth)
+    }
+    buffer.writeVString(data.id)
+    buffer.writeVString(data.json)
 }
 
 export function serializeOperation(buffer: ByteBuffer, operation: Operation) {
