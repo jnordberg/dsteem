@@ -36,6 +36,7 @@
 import * as ByteBuffer from 'bytebuffer'
 
 import {Asset} from './asset'
+import {HexBuffer} from './misc'
 
 /**
  * Transaction operation name.
@@ -128,9 +129,27 @@ export interface CommentOperation extends Operation {
 export interface DelegateVestingSharesOperation extends Operation {
     0: 'comment'
     1: {
+        /**
+         * The account delegating vesting shares.
+         */
         delegator: string,
+        /**
+         * The account receiving vesting shares.
+         */
         delegatee: string,
+        /**
+         * The amount of vesting shares delegated.
+         */
         vesting_shares: string | Asset,
+    }
+}
+
+export interface CustomOperation extends Operation {
+    0: 'custom'
+    1: {
+        required_auths: string[]
+        id: number // uint16
+        data: Buffer | HexBuffer
     }
 }
 
@@ -175,6 +194,22 @@ Serializers.delegate_vesting_shares = (buffer: ByteBuffer, data: DelegateVesting
         asset = Asset.fromString(asset)
     }
     asset.writeTo(buffer)
+}
+
+Serializers.custom = (buffer: ByteBuffer, data: CustomOperation[1]) => {
+    buffer.writeVarint32(15)
+    buffer.writeVarint32(data.required_auths.length)
+    for (const auth of data.required_auths) {
+        buffer.writeVString(auth)
+    }
+    buffer.writeUint16(data.id)
+    if (data.data instanceof HexBuffer) {
+        buffer.writeVarint32(data.data.buffer.length)
+        buffer.append(data.data.buffer)
+    } else {
+        buffer.writeVarint32(data.data.length)
+        buffer.append(data.data)
+    }
 }
 
 export function serializeOperation(buffer: ByteBuffer, operation: Operation) {

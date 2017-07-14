@@ -37,3 +37,20 @@
  * Large number that may be unsafe to represent natively in JavaScript.
  */
 export type Bignum = string
+
+/**
+ * Buffer wrapper that serializes to a hex-encoded string.
+ */
+export class HexBuffer {
+
+    constructor(public buffer: Buffer) {}
+
+    public toString(encoding = 'hex') {
+        return this.buffer.toString(encoding)
+    }
+
+    public toJSON() {
+        return this.buffer.toString('hex')
+    }
+
+}

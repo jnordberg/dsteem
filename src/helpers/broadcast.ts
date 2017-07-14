@@ -37,6 +37,7 @@ import {VError} from 'verror'
 
 import {PrivateKey, signTransaction} from './../account'
 import {Client} from './../client'
+import {HexBuffer} from './../steem/misc'
 import {
     CommentOperation,
     DelegateVestingSharesOperation,
@@ -113,6 +114,16 @@ export class BroadcastAPI {
         const ref_block_prefix = Buffer.from(props.head_block_id, 'hex').readUInt32LE(4)
         const expiration = new Date(Date.now() + this.expireTime).toISOString().slice(0, -5)
         const extensions = []
+
+        // bit of a hack to ensure any buffers passed serializes as HexBuffer instances
+        // ideally users should pass HexBuffer instances but that would be inconvenient
+        for (const op of operations) {
+            for (const key of Object.keys(op[1])) {
+                if (op[1][key] instanceof Buffer) {
+                    op[1][key] = new HexBuffer(op[1][key])
+                }
+            }
+        }
 
         const tx: Transaction = {expiration, extensions, operations, ref_block_num, ref_block_prefix}
 
