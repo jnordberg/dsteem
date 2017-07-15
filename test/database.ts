@@ -34,6 +34,12 @@ describe('database api', function() {
         const result = await client.database.getConfig()
         assert.equal(result['STEEMIT_CHAIN_ID'], client.options.chainId)
         serverConfig = result
+        // also test some assumptions made throughout the code
+        const conf = await liveClient.database.getConfig()
+        assert.equal(conf['STEEMIT_CREATE_ACCOUNT_WITH_STEEM_MODIFIER'], 30)
+        assert.equal(conf['STEEMIT_CREATE_ACCOUNT_DELEGATION_RATIO'], 5)
+        assert.equal(conf['STEEMIT_100_PERCENT'], 10000)
+        assert.equal(conf['STEEMIT_1_PERCENT'], 100)
     })
 
     it('getBlockHeader', async function() {
