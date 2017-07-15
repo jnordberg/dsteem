@@ -26,7 +26,7 @@ coverage: node_modules
 
 .PHONY: test
 test: node_modules
-	mocha --require ts-node/register test/*.ts
+	mocha --require ts-node/register test/*.ts --grep '$(grep)'
 
 .PHONY: ci-test
 ci-test: node_modules
