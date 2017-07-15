@@ -5,7 +5,7 @@ import {randomBytes} from 'crypto'
 
 import {PrivateKey, PublicKey, Signature} from './../src'
 
-describe('account', function() {
+describe('crypto', function() {
 
     const testnetPair = {
         prefix: 'STX',
@@ -30,6 +30,13 @@ describe('account', function() {
     it('should create public from private', function() {
         const key = PrivateKey.fromString(testnetPair.private)
         assert(key.createPublic().toString(), testnetPair.public)
+    })
+
+    it('should handle prefixed keys', function() {
+        const prefixed = testnetPair.prefix + testnetPair.public
+        const key = PublicKey.from(prefixed, testnetPair.prefix)
+        assert(key.toString(), prefixed)
+        assert(PrivateKey.fromString(testnetPair.private).createPublic(testnetPair.prefix).toString(), prefixed)
     })
 
     it('should conceal private key when inspecting', function() {
