@@ -42,16 +42,14 @@ import * as ByteBuffer from 'bytebuffer'
 export type AssetSymbol = 'STEEM' | 'VESTS'
 
 /**
- * Asset string with amount and symbol, eg `0.123456 VESTS`
+ * Class representing a steem asset, e.g. `1.000 STEEM` or `12.112233 VESTS`.
  */
-export type AssetString = string
-
 export class Asset {
 
     /**
-     * Create a new Asset instance from an AssetString, e.g. `42.000 STEEM`.
+     * Create a new Asset instance from a string, e.g. `42.000 STEEM`.
      */
-    public static fromString(string: AssetString) {
+    public static fromString(string: string) {
         const [amountString, symbol] = string.split(' ')
         if (['STEEM', 'VESTS'].indexOf(symbol) === -1) {
             throw new Error(`Invalid asset symbol: ${ symbol }`)
@@ -66,7 +64,7 @@ export class Asset {
     /**
      * Convenience to create new Asset.
      */
-     public static from(value: AssetString | Asset | number, symbol?: AssetSymbol) {
+     public static from(value: string | Asset | number, symbol?: AssetSymbol) {
          if (value instanceof Asset) {
              return value
          } else if (typeof value === 'number') {
@@ -93,14 +91,14 @@ export class Asset {
     /**
      * Return a string representation of this asset, e.g. `42.000 STEEM`.
      */
-    public toString(): AssetString {
+    public toString(): string {
         return `${ this.amount.toFixed(this.getPrecision()) } ${ this.symbol }`
     }
 
     /**
      * Return a new Asset instance with amount added.
      */
-     public add(amount: Asset | AssetString | number): Asset {
+     public add(amount: Asset | string | number): Asset {
          const other = Asset.from(amount, this.symbol)
          assert(this.symbol === other.symbol, 'can not add with different symbols')
          return new Asset(this.amount + other.amount, this.symbol)
@@ -109,10 +107,19 @@ export class Asset {
     /**
      * Return a new Asset instance with amount subtracted.
      */
-     public subtract(amount: Asset | AssetString | number): Asset {
+     public subtract(amount: Asset | string | number): Asset {
          const other = Asset.from(amount, this.symbol)
          assert(this.symbol === other.symbol, 'can not subtract with different symbols')
          return new Asset(this.amount - other.amount, this.symbol)
+     }
+
+    /**
+     * Return a new Asset with the amount multiplied by factor.
+     */
+     public multiply(factor: Asset | string | number): Asset {
+         const other = Asset.from(factor, this.symbol)
+         assert(this.symbol === other.symbol, 'can not multiply with different symbols')
+         return new Asset(this.amount * other.amount, this.symbol)
      }
 
     /**
