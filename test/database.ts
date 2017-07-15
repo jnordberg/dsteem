@@ -1,12 +1,13 @@
 import 'mocha'
 import * as assert from 'assert'
 
-import {Client} from './../src'
+import {Client, Asset} from './../src'
 
 import {testnet} from './common'
 
 describe('database api', function() {
-    this.slow(200)
+    this.slow(500)
+    this.timeout(5 * 1000)
 
     const {addr, chainId, addressPrefix} = testnet
     const client = new Client(addr, {chainId, addressPrefix})
@@ -87,6 +88,11 @@ describe('database api', function() {
         } catch (error) {
             assert.equal(error.message, 'Unable to find transaction c20a84c8a12164e1e0750f0ee5d3c37214e2f073 in block 1')
         }
+    })
+
+    it('getChainProperties', async function() {
+        const props = await liveClient.database.getChainProperties()
+        assert.equal(Asset.from(props.account_creation_fee).symbol, 'STEEM')
     })
 
 })

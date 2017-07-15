@@ -38,6 +38,7 @@ import {ExtendedAccount} from './../steem/account'
 import {AssetString} from './../steem/asset'
 import {BlockHeader, SignedBlock} from './../steem/block'
 import {Bignum} from './../steem/misc'
+import {ChainProperties} from './../steem/misc'
 import {AppliedOperation} from './../steem/operation'
 import {SignedTransaction, Transaction, TransactionConfirmation} from './../steem/transaction'
 
@@ -253,6 +254,13 @@ export class DatabaseAPI {
      */
     public getDynamicGlobalProperties(): Promise<DynamicGlobalPropertyObject> {
         return this.call('get_dynamic_global_properties')
+    }
+
+    /**
+     * Return median chain properties decided by witness.
+     */
+    public async getChainProperties(): Promise<ChainProperties> {
+        return this.call('get_chain_properties')
     }
 
     /**
