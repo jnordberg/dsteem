@@ -39,6 +39,7 @@ import * as ByteBuffer from 'bytebuffer'
 import {createHash} from 'crypto'
 import * as secp256k1 from 'secp256k1'
 
+import {DEFAULT_ADDRESS_PREFIX} from './client'
 import {serializeTransaction, SignedTransaction, Transaction} from './steem/transaction'
 import {copy} from './utils'
 
@@ -71,23 +72,17 @@ function doubleSha256(input: Buffer | string): Buffer {
 /**
  * Encode public key with bs58+ripemd160-checksum.
  */
-function encodePublic(key: Buffer, prefix?: string): string {
+function encodePublic(key: Buffer, prefix: string): string {
     const checksum = ripemd160(key)
-    let encodedKey = bs58.encode(Buffer.concat([key, checksum.slice(0, 4)]))
-    if (prefix) {
-        encodedKey = prefix + encodedKey
-    }
-    return encodedKey
+    return prefix + bs58.encode(Buffer.concat([key, checksum.slice(0, 4)]))
 }
 
 /**
  * Decode bs58+ripemd160-checksum encoded public key.
  */
-function decodePublic(encodedKey: string, prefix?: string): Buffer {
-    if (prefix) {
-        assert.equal(encodedKey.slice(0, prefix.length), prefix, 'public key invalid prefix')
-        encodedKey = encodedKey.slice(prefix.length)
-    }
+function decodePublic(encodedKey: string, prefix: string): Buffer {
+    assert.equal(encodedKey.slice(0, prefix.length), prefix, 'public key invalid prefix')
+    encodedKey = encodedKey.slice(prefix.length)
     const buffer: Buffer = bs58.decode(encodedKey)
     const checksum = buffer.slice(-4)
     const key = buffer.slice(0, -4)
@@ -138,7 +133,7 @@ export class PublicKey {
     /**
      * Create a new instance from a WIF-encoded key.
      */
-    public static fromString(wif: string, prefix?: string) {
+    public static fromString(wif: string, prefix = DEFAULT_ADDRESS_PREFIX) {
         return new PublicKey(decodePublic(wif, prefix))
     }
 
@@ -156,7 +151,7 @@ export class PublicKey {
         }
     }
 
-    constructor(public key: Buffer, public prefix?: string) {
+    constructor(public readonly key: Buffer, public readonly prefix = DEFAULT_ADDRESS_PREFIX) {
         assert(secp256k1.publicKeyVerify(key), 'invalid public key')
     }
 
@@ -200,6 +195,17 @@ export type KeyRole = 'owner' | 'active' | 'posting' | 'memo'
 export class PrivateKey {
 
     /**
+     * Convenience to create a new instance from WIF string or buffer.
+     */
+    public static from(value: string | Buffer) {
+        if (typeof value === 'string') {
+            return PrivateKey.fromString(value)
+        } else {
+            return new PrivateKey(value)
+        }
+    }
+
+    /**
      * Create a new instance from a WIF-encoded key.
      */
     public static fromString(wif: string) {
@@ -210,8 +216,7 @@ export class PrivateKey {
      * Create a new instance from a seed.
      */
     public static fromSeed(seed: string) {
-        const hash = sha256(seed.trim().split(/[\t\n\v\f\r ]+/).join(' '))
-        return new PrivateKey(hash)
+        return new PrivateKey(sha256(seed))
     }
 
     /**

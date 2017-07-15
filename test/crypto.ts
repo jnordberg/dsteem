@@ -7,24 +7,34 @@ import {PrivateKey, PublicKey, Signature} from './../src'
 
 describe('crypto', function() {
 
+    const testnetPrefix = 'STX'
     const testnetPair = {
-        prefix: 'STX',
         private: '5JQy7moK9SvNNDxn8rKNfQYFME5VDYC2j9Mv2tb7uXV5jz3fQR8',
-        public: '8FiV6v7yqYWTZz8WuFDckWr62L9X34hCy6koe8vd2cDJHimtgM',
+        public: 'STX8FiV6v7yqYWTZz8WuFDckWr62L9X34hCy6koe8vd2cDJHimtgM',
     }
+    const mainPair = {
+        private: '5K2yDAd9KAZ3ZitBsAPyRka9PLFemUrbcL6UziZiPaw2c6jCeLH',
+        public: 'STM8QykigLRi9ZUcNy1iXGY3KjRuCiLM8Ga49LHti1F8hgawKFc3K',
+    }
+    const mainPairPub = Buffer.from('03d0519ddad62bd2a833bee5dc04011c08f77f66338c38d99c685dee1f454cd1b8', 'hex')
 
     const testSig = '202c52188b0ecbc26c766fe6d3ec68dac58644f43f43fc7d97da122f76fa028f98691dd48b44394bdd8cecbbe66e94795dcf53291a1ef7c16b49658621273ea68e'
-
-    const testKey = new PrivateKey(randomBytes(32))
+    const testKey = PrivateKey.from(randomBytes(32))
 
     it('should decode public keys', function() {
-        const key = PublicKey.fromString(testnetPair.public)
-        assert(key.toString(), testnetPair.public)
+        const k1 = PublicKey.fromString(testnetPair.public, testnetPrefix)
+        assert(k1.toString(), testnetPair.public)
+        const k2 = PublicKey.from(mainPair.public)
+        const k3 = PublicKey.from(mainPairPub)
+        assert(k2.toString(), mainPair.public)
+        assert(k2.toString(), k3.toString())
     })
 
     it('should decode private keys', function() {
-        const key = PrivateKey.fromString(testnetPair.private)
-        assert(key.toString(), testnetPair.private)
+        const k1 = PrivateKey.fromString(testnetPair.private)
+        assert(k1.toString(), testnetPair.private)
+        const k2 = PrivateKey.from(mainPair.private)
+        assert(k2.toString(), mainPair.private)
     })
 
     it('should create public from private', function() {
@@ -33,16 +43,15 @@ describe('crypto', function() {
     })
 
     it('should handle prefixed keys', function() {
-        const prefixed = testnetPair.prefix + testnetPair.public
-        const key = PublicKey.from(prefixed, testnetPair.prefix)
-        assert(key.toString(), prefixed)
-        assert(PrivateKey.fromString(testnetPair.private).createPublic(testnetPair.prefix).toString(), prefixed)
+        const key = PublicKey.from(testnetPair.public, testnetPrefix)
+        assert(key.toString(), testnetPair.public)
+        assert(PrivateKey.fromString(testnetPair.private).createPublic(testnetPrefix).toString(), testnetPair.public)
     })
 
     it('should conceal private key when inspecting', function() {
         const key = PrivateKey.fromString(testnetPair.private)
         assert.equal(inspect(key), 'PrivateKey: 5JQy7m...z3fQR8')
-        assert.equal(inspect(key.createPublic()), 'PublicKey: 8FiV6v7yqYWTZz8WuFDckWr62L9X34hCy6koe8vd2cDJHimtgM')
+        assert.equal(inspect(key.createPublic(testnetPrefix)), 'PublicKey: STX8FiV6v7yqYWTZz8WuFDckWr62L9X34hCy6koe8vd2cDJHimtgM')
     })
 
     it('should sign and verify', function() {
@@ -63,6 +72,11 @@ describe('crypto', function() {
         const msg = randomBytes(32)
         const signature = key.sign(msg)
         assert.equal(signature.recover(msg).toString(), key.createPublic().toString())
+    })
+
+    it('should create key from login', function() {
+        const key = PrivateKey.fromLogin('foo', 'barman')
+        assert.equal(key.createPublic().toString(), 'STM87F7tN56tAUL2C6J9Gzi9HzgNpZdi6M2cLQo7TjDU5v178QsYA')
     })
 
 })
