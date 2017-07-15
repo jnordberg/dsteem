@@ -34,7 +34,7 @@ describe('serializers', function() {
         assert.equal(r2, '80436d38')
     })
 
-    it('Operation', function() {
+    it('Transaction', function() {
         const tx: any = {
             ref_block_num: 1234,
             ref_block_prefix: 1122334455,

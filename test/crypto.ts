@@ -101,6 +101,7 @@ describe('crypto', function() {
             ]
         }
         const key = PrivateKey.fromSeed('hello')
+        assert.equal(key.toString(), '5JA5gN4G78DhFSW4jr28vjb8JEX5UhVMZB16Jr6MjDGaeguJEvm')
         const signed = signTransaction(tx, key, {chainId: DEFAULT_CHAIN_ID, addressPrefix: DEFAULT_ADDRESS_PREFIX})
         assert.deepEqual(signed.signatures, ['2063acd57592a38ce486c77cdb9a05bcaea85b6a20ce65990c759b82296596e116751661df9aad0849392c64c2a1186115cea2e499f2b96f21309155c28a3a7217'])
     })
