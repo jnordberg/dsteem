@@ -65,9 +65,9 @@ export interface CreateLoginOptions {
      */
     creator: string,
     /**
-     * Account creation fee.
+     * Account creation fee. If omitted fee will be set to lowest possible.
      */
-    fee: string | Asset
+    fee?: string | Asset
     /**
      * Optional account metadata.
      */
@@ -149,12 +149,18 @@ export class BroadcastAPI {
      * @param key Private active key of account creator.
      */
     public async createLogin(options: CreateLoginOptions, key: PrivateKey) {
-        const {fee, username, password, metadata, creator} = options
+        const {username, password, metadata, creator} = options
         const prefix = this.client.addressPrefix
         const ownerKey = PrivateKey.fromLogin(username, password, 'owner').createPublic(prefix)
         const activeKey = PrivateKey.fromLogin(username, password, 'active').createPublic(prefix)
         const postingKey = PrivateKey.fromLogin(username, password, 'posting').createPublic(prefix)
         const memoKey = PrivateKey.fromLogin(username, password, 'memo').createPublic(prefix)
+        let fee = options.fee
+        if (!fee) {
+            const chainProps = await this.client.database.getChainProperties()
+            const modifier = 30 // STEEMIT_CREATE_ACCOUNT_WITH_STEEM_MODIFIER
+            fee = Asset.from(chainProps.account_creation_fee).multiply(modifier)
+        }
         return this.createAccount({
             active: {weight_threshold: 1, account_auths: [], key_auths: [[activeKey, 1]]},
             creator, fee,

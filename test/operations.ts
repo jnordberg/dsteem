@@ -75,7 +75,7 @@ describe('operations', function() {
         const username = 'ds-' + randomString(12)
         const password = randomString(32)
         await client.broadcast.createLogin({
-            username, password, creator: acc1.username, fee: '1.000 STEEM', metadata: {date: new Date()}
+            username, password, creator: acc1.username, metadata: {date: new Date()}
         }, acc1Key)
         await client.broadcast.comment({
             parent_author: '',
