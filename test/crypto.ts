@@ -1,7 +1,8 @@
 import 'mocha'
 import * as assert from 'assert'
+import * as ByteBuffer from 'bytebuffer'
 import {inspect} from 'util'
-import {randomBytes} from 'crypto'
+import {randomBytes, createHash} from 'crypto'
 
 import {
     PrivateKey,
@@ -13,6 +14,8 @@ import {
     DEFAULT_ADDRESS_PREFIX,
     DEFAULT_CHAIN_ID
 } from './../src'
+
+import {Types} from './../src/steem/serializer'
 
 describe('crypto', function() {
 
@@ -88,7 +91,7 @@ describe('crypto', function() {
         assert.equal(key.createPublic().toString(), 'STM87F7tN56tAUL2C6J9Gzi9HzgNpZdi6M2cLQo7TjDU5v178QsYA')
     })
 
-    it('should sign transaction', function() {
+    it('should sign and verify transaction', function() {
         const tx: Transaction = {
             ref_block_num: 1234,
             ref_block_prefix: 1122334455,
@@ -101,9 +104,17 @@ describe('crypto', function() {
             ]
         }
         const key = PrivateKey.fromSeed('hello')
-        assert.equal(key.toString(), '5JA5gN4G78DhFSW4jr28vjb8JEX5UhVMZB16Jr6MjDGaeguJEvm')
-        const signed = signTransaction(tx, key, {chainId: DEFAULT_CHAIN_ID, addressPrefix: DEFAULT_ADDRESS_PREFIX})
-        assert.deepEqual(signed.signatures, ['2063acd57592a38ce486c77cdb9a05bcaea85b6a20ce65990c759b82296596e116751661df9aad0849392c64c2a1186115cea2e499f2b96f21309155c28a3a7217'])
+        const opts = {chainId: DEFAULT_CHAIN_ID, addressPrefix: DEFAULT_ADDRESS_PREFIX}
+        const buffer = new ByteBuffer(ByteBuffer.DEFAULT_CAPACITY, ByteBuffer.LITTLE_ENDIAN)
+        Types.Transaction(buffer, tx, opts)
+        buffer.flip()
+        const data = Buffer.from(buffer.toBuffer())
+        const digest = createHash('sha256').update(Buffer.concat([opts.chainId, data])).digest()
+        const signed = signTransaction(tx, key, opts)
+        const pkey = key.createPublic()
+        const sig = Signature.fromString(signed.signatures[0])
+        assert(pkey.verify(digest, sig))
+        assert.equal(sig.recover(digest).toString(), 'STM7s4VJuYFfHq8HCPpgC649Lu7CjA1V9oXgPfv8f3fszKMk3Kny9')
     })
 
     it('should handle serialization errors', function() {
