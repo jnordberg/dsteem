@@ -48,6 +48,11 @@ import {waitForEvent} from './utils'
  */
 export const DEFAULT_CHAIN_ID = Buffer.from('0000000000000000000000000000000000000000000000000000000000000000', 'hex')
 
+/**
+ * Main steem network address prefix.
+ */
+export const DEFAULT_ADDRESS_PREFIX = 'STM'
+
 interface RPCRequest {
     /**
      * Request sequence number.
@@ -184,6 +189,11 @@ export class Client extends EventEmitter implements ClientEvents {
      */
     public readonly chainId: Buffer
 
+    /**
+     * Address prefix for current network.
+     */
+    public readonly addressPrefix: string
+
     private active: boolean = false
     private backoff: (tries: number) => number
     private numRetries: number = 0
@@ -205,6 +215,7 @@ export class Client extends EventEmitter implements ClientEvents {
 
         this.chainId = options.chainId ? Buffer.from(options.chainId, 'hex') : DEFAULT_CHAIN_ID
         assert.equal(this.chainId.length, 32, 'invalid chain id')
+        this.addressPrefix = options.addressPrefix || DEFAULT_ADDRESS_PREFIX
 
         this.sendTimeout = options.sendTimeout || 14 * 1000
 

@@ -54,13 +54,13 @@ export interface TransactionConfirmation {
     expired: boolean
 }
 
-export function serializeTransaction(buffer: ByteBuffer, transaction: Transaction) {
+export function serializeTransaction(buffer: ByteBuffer, transaction: Transaction, keyPrefix: string) {
     buffer.writeUint16(transaction.ref_block_num)
     buffer.writeUint32(transaction.ref_block_prefix)
     buffer.writeUint32(Math.floor(new Date(transaction.expiration + 'Z').getTime() / 1000))
     buffer.writeVarint32(transaction.operations.length)
     for (const operation of transaction.operations) {
-        serializeOperation(buffer, operation)
+        serializeOperation(buffer, operation, keyPrefix)
     }
     buffer.writeVarint32(0) // extensions, not used
 }

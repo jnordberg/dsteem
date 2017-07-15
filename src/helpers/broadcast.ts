@@ -37,8 +37,10 @@ import * as assert from 'assert'
 
 import {Client} from './../client'
 import {PrivateKey, signTransaction} from './../crypto'
+import {Asset} from './../steem/asset'
 import {HexBuffer} from './../steem/misc'
 import {
+    AccountCreateOperation,
     CommentOperation,
     CustomJsonOperation,
     DelegateVestingSharesOperation,
@@ -47,6 +49,30 @@ import {
     VoteOperation,
 } from './../steem/operation'
 import {SignedTransaction, Transaction, TransactionConfirmation} from './../steem/transaction'
+
+export interface CreateLoginOptions {
+    /**
+     * Username for the new account.
+     */
+    username: string,
+    /**
+     * Password for the new account, all keys will be derived from this.
+     */
+    password: string,
+    /**
+     * Creator account, fee will be deducted from this and the key to sign
+     * the transaction must be the creators active key.
+     */
+    creator: string,
+    /**
+     * Account creation fee.
+     */
+    fee: string | Asset
+    /**
+     * Optional account metadata.
+     */
+    metadata?: {[key: string]: any}
+}
 
 interface PendingCallback {
     resolve: (confirmation: TransactionConfirmation) => void
@@ -108,6 +134,39 @@ export class BroadcastAPI {
     }
 
     /**
+     * Create a new account.
+     * @param data The account_create operation payload.
+     * @param key Private active key of account creator.
+     */
+    public async createAccount(data: AccountCreateOperation[1], key: PrivateKey) {
+        const op: Operation = ['account_create', data]
+        return this.sendOperations([op], key)
+    }
+
+    /**
+     * Convenience to create a new account with username and password.
+     * @param options New account options.
+     * @param key Private active key of account creator.
+     */
+    public async createLogin(options: CreateLoginOptions, key: PrivateKey) {
+        const {fee, username, password, metadata, creator} = options
+        const prefix = this.client.addressPrefix
+        const ownerKey = PrivateKey.fromLogin(username, password, 'owner').createPublic(prefix)
+        const activeKey = PrivateKey.fromLogin(username, password, 'active').createPublic(prefix)
+        const postingKey = PrivateKey.fromLogin(username, password, 'posting').createPublic(prefix)
+        const memoKey = PrivateKey.fromLogin(username, password, 'memo').createPublic(prefix)
+        return this.createAccount({
+            active: {weight_threshold: 1, account_auths: [], key_auths: [[activeKey, 1]]},
+            creator, fee,
+            json_metadata: metadata ? JSON.stringify(metadata) : '',
+            memo_key: memoKey,
+            new_account_name: username,
+            owner: {weight_threshold: 1, account_auths: [], key_auths: [[ownerKey, 1]]},
+            posting: {weight_threshold: 1, account_auths: [], key_auths: [[postingKey, 1]]},
+        }, key)
+    }
+
+    /**
      * Delegate vesting shares from one account to the other. The vesting shares are still owned
      * by the original account, but content voting rights and bandwidth allocation are transferred
      * to the receiving account. This sets the delegation to `vesting_shares`, increasing it or
@@ -149,7 +208,7 @@ export class BroadcastAPI {
 
         const tx: Transaction = {expiration, extensions, operations, ref_block_num, ref_block_prefix}
 
-        const result = await this.send(signTransaction(tx, key, this.client.chainId))
+        const result = await this.send(signTransaction(tx, key, this.client))
         assert(result.expired === false, 'transaction expired')
 
         return result

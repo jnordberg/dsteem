@@ -33,12 +33,15 @@
  * in the design, construction, operation or maintenance of any military facility.
  */
 
+import * as ByteBuffer from 'bytebuffer'
+
+import {PublicKey} from './../crypto'
 import {Asset} from './asset'
 
 export interface Authority {
     weight_threshold: number // uint32_t
-    account_auths: any[][] // flat_map< account_name_type, weight_type >
-    key_auths: any[][]// flat_map< public_key_type, weight_type >
+    account_auths: Array<[string, number]> // flat_map< account_name_type, uint16_t >
+    key_auths: Array<[string | PublicKey, number]>// flat_map< public_key_type, uint16_t >
 }
 
 export interface Account {
@@ -130,4 +133,18 @@ export interface ExtendedAccount extends Account {
     feed?: any[] /// feed posts for this user // optional<vector<string>>
     recent_replies?: any[] /// blog posts for this user // optional<vector<string>>
     recommended?: any[] /// posts recommened for this user // optional<vector<string>>
+}
+
+export function serializeAuthority(buffer: ByteBuffer, authority: Authority, keyPrefix: string) {
+    buffer.writeUint32(authority.weight_threshold)
+    buffer.writeVarint32(authority.account_auths.length)
+    for (const auth of authority.account_auths) {
+        buffer.writeVString(auth[0])
+        buffer.writeUint16(auth[1])
+    }
+    buffer.writeVarint32(authority.key_auths.length)
+    for (const auth of authority.key_auths) {
+        buffer.append(PublicKey.from(auth[0], keyPrefix).key)
+        buffer.writeUint16(auth[1])
+    }
 }

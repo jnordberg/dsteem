@@ -71,15 +71,23 @@ function doubleSha256(input: Buffer | string): Buffer {
 /**
  * Encode public key with bs58+ripemd160-checksum.
  */
-function encodePublic(key: Buffer): string {
+function encodePublic(key: Buffer, prefix?: string): string {
     const checksum = ripemd160(key)
-    return bs58.encode(Buffer.concat([key, checksum.slice(0, 4)]))
+    let encodedKey = bs58.encode(Buffer.concat([key, checksum.slice(0, 4)]))
+    if (prefix) {
+        encodedKey = prefix + encodedKey
+    }
+    return encodedKey
 }
 
 /**
  * Decode bs58+ripemd160-checksum encoded public key.
  */
-function decodePublic(encodedKey: string): Buffer {
+function decodePublic(encodedKey: string, prefix?: string): Buffer {
+    if (prefix) {
+        assert.equal(encodedKey.slice(0, prefix.length), prefix, 'public key invalid prefix')
+        encodedKey = encodedKey.slice(prefix.length)
+    }
     const buffer: Buffer = bs58.decode(encodedKey)
     const checksum = buffer.slice(-4)
     const key = buffer.slice(0, -4)
@@ -130,11 +138,25 @@ export class PublicKey {
     /**
      * Create a new instance from a WIF-encoded key.
      */
-    public static fromString(wif: string) {
-        return new PublicKey(decodePublic(wif))
+    public static fromString(wif: string, prefix?: string) {
+        return new PublicKey(decodePublic(wif, prefix))
     }
 
-    constructor(private key: Buffer) {
+    /**
+     * Create a new instance.
+     */
+    public static from(value: string | PublicKey | Buffer, prefix?: string) {
+        if (value instanceof PublicKey) {
+            assert.equal(value.prefix, prefix, 'invalid public key prefix')
+            return value
+        } else if (value instanceof Buffer) {
+            return new PublicKey(value, prefix)
+        } else {
+            return PublicKey.fromString(value, prefix)
+        }
+    }
+
+    constructor(public key: Buffer, public prefix?: string) {
         assert(secp256k1.publicKeyVerify(key), 'invalid public key')
     }
 
@@ -151,7 +173,14 @@ export class PublicKey {
      * Return a WIF-encoded representation of the key.
      */
     public toString() {
-        return encodePublic(this.key)
+        return encodePublic(this.key, this.prefix)
+    }
+
+    /**
+     * Return JSON representation of this key, same as toString().
+     */
+    public toJSON() {
+        return this.toString()
     }
 
     /**
@@ -162,6 +191,8 @@ export class PublicKey {
     }
 
 }
+
+export type KeyRole = 'owner' | 'active' | 'posting' | 'memo'
 
 /**
  * ECDSA (secp256k1) private key.
@@ -186,7 +217,7 @@ export class PrivateKey {
     /**
      * Create key from username and password.
      */
-    public static fromLogin(username: string, password: string, role: string = 'active') {
+    public static fromLogin(username: string, password: string, role: KeyRole = 'active') {
         const seed = username + role + password
         return PrivateKey.fromSeed(seed)
     }
@@ -212,8 +243,8 @@ export class PrivateKey {
     /**
      * Derive the public key for this private key.
      */
-    public createPublic(): PublicKey {
-        return new PublicKey(secp256k1.publicKeyCreate(this.key))
+    public createPublic(prefix?: string): PublicKey {
+        return new PublicKey(secp256k1.publicKeyCreate(this.key), prefix)
     }
 
     /**
@@ -275,13 +306,21 @@ export class Signature {
 
 }
 
-export function signTransaction(transaction: Transaction, key: PrivateKey, chainId: Buffer) {
+/**
+ * Return copy of transaction with signature appended to signatures array.
+ * @param transaction Transaction to sign.
+ * @param key Key to sign transaction with.
+ * @param options Chain id and address prefix, compatible with {@link Client}.
+ */
+export function signTransaction(transaction: Transaction, key: PrivateKey,
+                                options: {chainId: Buffer, addressPrefix: string}) {
+
     const buffer = new ByteBuffer(ByteBuffer.DEFAULT_CAPACITY, ByteBuffer.LITTLE_ENDIAN)
-    serializeTransaction(buffer, transaction)
+    serializeTransaction(buffer, transaction, options.addressPrefix)
     buffer.flip()
 
     const transactionData = Buffer.from(buffer.toBuffer())
-    const digest = sha256(Buffer.concat([chainId, transactionData]))
+    const digest = sha256(Buffer.concat([options.chainId, transactionData]))
     const signature = key.sign(digest)
 
     const signedTransaction = copy(transaction) as SignedTransaction
