@@ -127,7 +127,7 @@ export interface Discussion extends Comment {
     replies: string[] /// author/slug mapping
     author_reputation: number // share_type
     promoted: Asset | string
-    body_length: Bignum
+    body_length: string // Bignum
     reblogged_by: any[] // account_name_type[]
     first_reblogged_by?: any // account_name_type
     first_reblogged_on?: any // time_point_sec
