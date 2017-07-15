@@ -335,7 +335,7 @@ export class Client extends EventEmitter implements ClientEvents {
                 let {message} = response.error
                 if (data && data.stack && data.stack.length > 0) {
                     const top = data.stack[0]
-                    message = top.format.replace(/\$\{([a-z_]+)\}/, (match: string, key: string) => {
+                    message = top.format.replace(/\$\{([a-z_]+)\}/gi, (match: string, key: string) => {
                         return top.data[key] || match
                     })
                 }
