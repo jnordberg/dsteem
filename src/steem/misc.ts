@@ -33,6 +33,8 @@
  * in the design, construction, operation or maintenance of any military facility.
  */
 
+import {Asset} from './asset'
+
 /**
  * Large number that may be unsafe to represent natively in JavaScript.
  */
@@ -53,4 +55,30 @@ export class HexBuffer {
         return this.toString()
     }
 
+}
+
+/**
+ * Chain roperties that are decided by the witnesses.
+ */
+export interface ChainProperties {
+    /**
+     * This fee, paid in STEEM, is converted into VESTING SHARES for the new account. Accounts
+     * without vesting shares cannot earn usage rations and therefore are powerless. This minimum
+     * fee requires all accounts to have some kind of commitment to the network that includes the
+     * ability to vote and make transactions.
+     *
+     * @note This has to be multiplied by `STEEMIT_CREATE_ACCOUNT_WITH_STEEM_MODIFIER`
+     *       (defined as 30 on the main chain) to get the minimum fee needed to create an account.
+     *
+     */
+    account_creation_fee: string | Asset
+    /**
+     * This witnesses vote for the maximum_block_size which is used by the network
+     * to tune rate limiting and capacity.
+     */
+    maximum_block_size: number // uint32_t
+    /**
+     * The SBD interest percentage rate decided by witnesses, expressed 0 to 10000.
+     */
+    sbd_interest_rate: number // uint16_t STEEMIT_100_PERCENT
 }
