@@ -3,10 +3,10 @@ import * as assert from 'assert'
 
 import {Asset, Client, PrivateKey, CustomOperation} from './../src'
 
-import {testnet, getTestnetAccounts} from './common'
+import {testnet, getTestnetAccounts, randomString} from './common'
 
 describe('operations', function() {
-    this.slow(10 * 1000)
+    this.slow(20 * 1000)
     this.timeout(60 * 1000)
 
     const {addr, chainId, addressPrefix} = testnet
@@ -69,6 +69,29 @@ describe('operations', function() {
         }, acc1Key)
         const [acc2af] = await client.database.getAccounts([acc2.username])
         assert.equal(Asset.from(acc2af.balance).subtract(acc2bf.balance).toString(), '0.042 STEEM')
+    })
+
+    it('should create account', async function() {
+        const username = 'ds-' + randomString(12)
+        const password = randomString(32)
+        await client.broadcast.createLogin({
+            username, password, creator: acc1.username, fee: '1.000 STEEM', metadata: {date: new Date()}
+        }, acc1Key)
+        await client.broadcast.comment({
+            parent_author: '',
+            parent_permlink: 'test',
+            author: username,
+            permlink: 'hello-world',
+            title: 'Hello world!',
+            body: `My password is: ${ password }`,
+            json_metadata: JSON.stringify({tags: ['test', 'hello']}),
+        }, PrivateKey.fromLogin(username, password, 'posting'))
+
+        const [newAcc] = await client.database.getAccounts([username])
+        assert.equal(newAcc.name, username)
+        // not sure why but on the testnet the recovery account is always 'steem'
+        // assert.equal(newAcc.recovery_account, acc1.username)
+        assert.equal(newAcc.memo_key, PrivateKey.fromLogin(username, password, 'memo').createPublic(client.addressPrefix).toString())
     })
 
 })
