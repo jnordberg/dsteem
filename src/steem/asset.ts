@@ -129,18 +129,4 @@ export class Asset {
         return this.toString()
     }
 
-    /**
-     * For protocol serialization.
-     * @note This looses precision for amounts larger than 2^53-1/10^precision.
-     *       Should not be a problem in real-word usage.
-     */
-    public writeTo(buffer: ByteBuffer) {
-        const precision = this.getPrecision()
-        buffer.writeInt64(Math.round(this.amount * Math.pow(10, precision)))
-        buffer.writeUint8(precision)
-        for (let i = 0; i < 7; i++) {
-            buffer.writeUint8(this.symbol.charCodeAt(i) || 0)
-        }
-    }
-
 }

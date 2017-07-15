@@ -36,7 +36,6 @@
 import {Duplex} from 'stream'
 
 import {Client} from './../client'
-import {AssetString} from './../steem/asset'
 import {BlockHeader, SignedBlock} from './../steem/block'
 import {Bignum} from './../steem/misc'
 import {AppliedOperation} from './../steem/operation'

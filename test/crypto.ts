@@ -3,7 +3,16 @@ import * as assert from 'assert'
 import {inspect} from 'util'
 import {randomBytes} from 'crypto'
 
-import {PrivateKey, PublicKey, Signature} from './../src'
+import {
+    PrivateKey,
+    PublicKey,
+    Signature,
+    signTransaction,
+    Operation,
+    Transaction,
+    DEFAULT_ADDRESS_PREFIX,
+    DEFAULT_CHAIN_ID
+} from './../src'
 
 describe('crypto', function() {
 
@@ -77,6 +86,41 @@ describe('crypto', function() {
     it('should create key from login', function() {
         const key = PrivateKey.fromLogin('foo', 'barman')
         assert.equal(key.createPublic().toString(), 'STM87F7tN56tAUL2C6J9Gzi9HzgNpZdi6M2cLQo7TjDU5v178QsYA')
+    })
+
+    it('should sign transaction', function() {
+        const tx: Transaction = {
+            ref_block_num: 1234,
+            ref_block_prefix: 1122334455,
+            expiration: '2017-07-15T16:51:19',
+            extensions: [
+                'long-pants'
+            ],
+            operations: [
+                ['vote', {voter: 'foo', author: 'bar', permlink: 'baz', weight: 10000}]
+            ]
+        }
+        const key = PrivateKey.fromSeed('hello')
+        const signed = signTransaction(tx, key, {chainId: DEFAULT_CHAIN_ID, addressPrefix: DEFAULT_ADDRESS_PREFIX})
+        assert.deepEqual(signed.signatures, ['2063acd57592a38ce486c77cdb9a05bcaea85b6a20ce65990c759b82296596e116751661df9aad0849392c64c2a1186115cea2e499f2b96f21309155c28a3a7217'])
+    })
+
+    it('should handle serialization errors', function() {
+        const tx: any = {
+            ref_block_num: 1234,
+            ref_block_prefix: 1122334455,
+            expiration: new Date().toISOString().slice(0, -5),
+            extensions: [],
+            operations: [
+                ['shutdown_network', {}]
+            ]
+        }
+        try {
+            signTransaction(tx, testKey, {chainId: DEFAULT_CHAIN_ID, addressPrefix: DEFAULT_ADDRESS_PREFIX})
+            assert(false, 'should not be reached')
+        } catch (error) {
+            assert.equal(error.name, 'SerializationError')
+        }
     })
 
 })

@@ -134,17 +134,3 @@ export interface ExtendedAccount extends Account {
     recent_replies?: any[] /// blog posts for this user // optional<vector<string>>
     recommended?: any[] /// posts recommened for this user // optional<vector<string>>
 }
-
-export function serializeAuthority(buffer: ByteBuffer, authority: Authority, keyPrefix: string) {
-    buffer.writeUint32(authority.weight_threshold)
-    buffer.writeVarint32(authority.account_auths.length)
-    for (const auth of authority.account_auths) {
-        buffer.writeVString(auth[0])
-        buffer.writeUint16(auth[1])
-    }
-    buffer.writeVarint32(authority.key_auths.length)
-    for (const auth of authority.key_auths) {
-        buffer.append(PublicKey.from(auth[0], keyPrefix).key)
-        buffer.writeUint16(auth[1])
-    }
-}

@@ -33,7 +33,7 @@
  * in the design, construction, operation or maintenance of any military facility.
  */
 
-import {Operation, serializeOperation} from './operation'
+import {Operation} from './operation'
 
 export interface Transaction {
     ref_block_num: number
@@ -52,15 +52,4 @@ export interface TransactionConfirmation {
     block_num: number // int32_t
     trx_num: number // int32_t
     expired: boolean
-}
-
-export function serializeTransaction(buffer: ByteBuffer, transaction: Transaction, keyPrefix: string) {
-    buffer.writeUint16(transaction.ref_block_num)
-    buffer.writeUint32(transaction.ref_block_prefix)
-    buffer.writeUint32(Math.floor(new Date(transaction.expiration + 'Z').getTime() / 1000))
-    buffer.writeVarint32(transaction.operations.length)
-    for (const operation of transaction.operations) {
-        serializeOperation(buffer, operation, keyPrefix)
-    }
-    buffer.writeVarint32(0) // extensions, not used
 }

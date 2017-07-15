@@ -33,10 +33,8 @@
  * in the design, construction, operation or maintenance of any military facility.
  */
 
-import * as ByteBuffer from 'bytebuffer'
-
 import {PublicKey} from './../crypto'
-import {Authority, serializeAuthority} from './account'
+import {Authority} from './account'
 import {Asset} from './asset'
 import {HexBuffer} from './misc'
 
@@ -143,7 +141,7 @@ export interface CommentOperation extends Operation {
 }
 
 export interface DelegateVestingSharesOperation extends Operation {
-    0: 'comment'
+    0: 'delegate_vesting_shares'
     1: {
         /**
          * The account delegating vesting shares.
@@ -209,6 +207,21 @@ export interface AccountCreateOperation extends Operation {
     }
 }
 
+export interface AccountCreateWithDelegationOperation extends Operation {
+    0: 'account_create_with_delegation'
+    1: {
+        fee: string | Asset
+        delegation: string | Asset
+        creator: string // account_name_type
+        new_account_name: string // account_name_type
+        owner: Authority
+        active: Authority
+        posting: Authority
+        memo_key: string | PublicKey // public_key_type
+        json_metadata: string,
+    }
+}
+
 export interface TransferToSavingsOperation extends Operation {
     0: 'transfer_to_savings'
     1: {
@@ -218,102 +231,4 @@ export interface TransferToSavingsOperation extends Operation {
         request_id: number
         to: string,
     }
-}
-
-const Serializers: {[name: string]: (buffer: ByteBuffer, data: Operation[1], keyPrefix: string) => void} = {}
-
-Serializers.vote = (buffer: ByteBuffer, data: VoteOperation[1]) => {
-    buffer.writeVarint32(0) // id
-    buffer.writeVString(data.voter)
-    buffer.writeVString(data.author)
-    buffer.writeVString(data.permlink)
-    buffer.writeInt16(data.weight)
-}
-
-Serializers.comment = (buffer: ByteBuffer, data: CommentOperation[1]) => {
-    buffer.writeVarint32(1) // id
-    buffer.writeVString(data.parent_author)
-    buffer.writeVString(data.parent_permlink)
-    buffer.writeVString(data.author)
-    buffer.writeVString(data.permlink)
-    buffer.writeVString(data.title)
-    buffer.writeVString(data.body)
-    buffer.writeVString(data.json_metadata)
-}
-
-Serializers.delegate_vesting_shares = (buffer: ByteBuffer, data: DelegateVestingSharesOperation[1]) => {
-    buffer.writeVarint32(40)
-    buffer.writeVString(data.delegator)
-    buffer.writeVString(data.delegatee)
-    let asset = data.vesting_shares
-    if (!(asset instanceof Asset)) {
-        asset = Asset.fromString(asset)
-    }
-    asset.writeTo(buffer)
-}
-
-Serializers.custom = (buffer: ByteBuffer, data: CustomOperation[1]) => {
-    buffer.writeVarint32(15)
-    buffer.writeVarint32(data.required_auths.length)
-    for (const auth of data.required_auths) {
-        buffer.writeVString(auth)
-    }
-    buffer.writeUint16(data.id)
-    if (data.data instanceof HexBuffer) {
-        buffer.writeVarint32(data.data.buffer.length)
-        buffer.append(data.data.buffer)
-    } else {
-        buffer.writeVarint32(data.data.length)
-        buffer.append(data.data)
-    }
-}
-
-Serializers.custom_json = (buffer: ByteBuffer, data: CustomJsonOperation[1]) => {
-    buffer.writeVarint32(18)
-    buffer.writeVarint32(data.required_auths.length)
-    for (const auth of data.required_auths) {
-        buffer.writeVString(auth)
-    }
-    buffer.writeVarint32(data.required_posting_auths.length)
-    for (const auth of data.required_posting_auths) {
-        buffer.writeVString(auth)
-    }
-    buffer.writeVString(data.id)
-    buffer.writeVString(data.json)
-}
-
-Serializers.transfer = (buffer: ByteBuffer, data: TransferOperation[1]) => {
-    buffer.writeVarint32(2)
-    buffer.writeVString(data.from)
-    buffer.writeVString(data.to)
-    let asset = data.amount
-    if (!(asset instanceof Asset)) {
-        asset = Asset.fromString(asset)
-    }
-    asset.writeTo(buffer)
-    buffer.writeVString(data.memo)
-}
-
-Serializers.account_create = (buffer: ByteBuffer, data: AccountCreateOperation[1], keyPrefix: string) => {
-    buffer.writeVarint32(9)
-    let fee = data.fee
-    if (!(fee instanceof Asset)) {
-        fee = Asset.fromString(fee)
-    }
-    fee.writeTo(buffer)
-    buffer.writeVString(data.creator)
-    buffer.writeVString(data.new_account_name)
-    serializeAuthority(buffer, data.owner, keyPrefix)
-    serializeAuthority(buffer, data.active, keyPrefix)
-    serializeAuthority(buffer, data.posting, keyPrefix)
-    buffer.append(PublicKey.from(data.memo_key, keyPrefix).key)
-    buffer.writeVString(data.json_metadata)
-}
-
-export function serializeOperation(buffer: ByteBuffer, operation: Operation, keyPrefix: string) {
-    const serializer = Serializers[operation[0]]
-    if (!serializer) {
-        throw new Error(`No serializer for operation: ${ operation[0] }`)
-    }
-    serializer(buffer, operation[1], keyPrefix)
 }

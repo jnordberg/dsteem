@@ -38,9 +38,11 @@ import * as bs58 from 'bs58'
 import * as ByteBuffer from 'bytebuffer'
 import {createHash} from 'crypto'
 import * as secp256k1 from 'secp256k1'
+import {VError} from 'verror'
 
 import {DEFAULT_ADDRESS_PREFIX} from './client'
-import {serializeTransaction, SignedTransaction, Transaction} from './steem/transaction'
+import {Types} from './steem/serializer'
+import {SignedTransaction, Transaction} from './steem/transaction'
 import {copy} from './utils'
 
 /**
@@ -321,7 +323,11 @@ export function signTransaction(transaction: Transaction, key: PrivateKey,
                                 options: {chainId: Buffer, addressPrefix: string}) {
 
     const buffer = new ByteBuffer(ByteBuffer.DEFAULT_CAPACITY, ByteBuffer.LITTLE_ENDIAN)
-    serializeTransaction(buffer, transaction, options.addressPrefix)
+    try {
+        Types.Transaction(buffer, transaction, options)
+    } catch (cause) {
+        throw new VError({cause, name: 'SerializationError'}, 'Unable to serialize transaction')
+    }
     buffer.flip()
 
     const transactionData = Buffer.from(buffer.toBuffer())
