@@ -71,20 +71,32 @@ describe('operations', function() {
         assert.equal(Asset.from(acc2af.balance).subtract(acc2bf.balance).toString(), '0.042 STEEM')
     })
 
-    it('should create account', async function() {
+    it('should create account and post with options', async function() {
         const username = 'ds-' + randomString(12)
         const password = randomString(32)
         await client.broadcast.createLogin({
             username, password, creator: acc1.username, metadata: {date: new Date()}
         }, acc1Key)
-        await client.broadcast.comment({
+        const permlink = 'hello-world'
+        await client.broadcast.commentWithOptions({
             parent_author: '',
             parent_permlink: 'test',
             author: username,
-            permlink: 'hello-world',
+            permlink,
             title: 'Hello world!',
             body: `My password is: ${ password }`,
             json_metadata: JSON.stringify({tags: ['test', 'hello']}),
+        }, {
+            permlink, author: username,
+            allow_votes: false,
+            allow_curation_rewards: false,
+            percent_steem_dollars: 0,
+            max_accepted_payout: Asset.from(10, 'SBD'),
+            extensions: [
+                [0, {beneficiaries: [
+                    {weight: 10000, account: acc1.username}
+                ]}]
+            ],
         }, PrivateKey.fromLogin(username, password, 'posting'))
 
         const [newAcc] = await client.database.getAccounts([username])
@@ -92,6 +104,11 @@ describe('operations', function() {
         // not sure why but on the testnet the recovery account is always 'steem'
         // assert.equal(newAcc.recovery_account, acc1.username)
         assert.equal(newAcc.memo_key, PrivateKey.fromLogin(username, password, 'memo').createPublic(client.addressPrefix).toString())
+        const [post] = await client.database.getDiscussions('blog', {tag: username, limit: 1})
+        assert.deepEqual(post.beneficiaries, [{account: acc1.username, weight: 10000}])
+        assert.equal(post.max_accepted_payout, '10.000 SBD')
+        assert.equal(post.percent_steem_dollars, 0)
+        assert.equal(post.allow_votes, false)
     })
 
 })

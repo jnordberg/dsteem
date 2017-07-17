@@ -36,6 +36,7 @@
 import {PublicKey} from './../crypto'
 import {Authority} from './account'
 import {Asset} from './asset'
+import {BeneficiaryRoute} from './comment'
 import {HexBuffer} from './misc'
 
 /**
@@ -230,5 +231,34 @@ export interface TransferToSavingsOperation extends Operation {
         memo: string
         request_id: number
         to: string,
+    }
+}
+
+export interface AccountUpdateOperation extends Operation {
+    0: 'account_update' // 10
+    1: {
+        account: string // account_name_type
+        owner?: Authority // optional< authority >
+        active?: Authority // optional< authority >
+        posting?: Authority // optional< authority >
+        memo_key: string | PublicKey // public_key_type
+        json_metadata: string,
+    }
+}
+
+export interface CommentOptionsOperation extends Operation {
+    0: 'comment_options' // 19
+    1: {
+      author: string // account_name_type
+      permlink: string
+      /** SBD value of the maximum payout this post will receive. */
+      max_accepted_payout: Asset | string
+      /** The percent of Steem Dollars to key, unkept amounts will be received as Steem Power. */
+      percent_steem_dollars: number // uint16_t
+      /** Whether to allow post to receive votes. */
+      allow_votes: boolean
+      /** Whether to allow post to recieve curation rewards. */
+      allow_curation_rewards: boolean
+      extensions: Array<[0, {beneficiaries: BeneficiaryRoute[]}]>, // flat_set< comment_options_extension >
     }
 }

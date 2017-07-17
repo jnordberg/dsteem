@@ -61,6 +61,18 @@ const UInt32Serializer = (buffer: ByteBuffer, data: number) => {
     buffer.writeUint32(data)
 }
 
+const BooleanSerializer = (buffer: ByteBuffer, data: boolean) => {
+    buffer.writeByte(data ? 1 : 0)
+}
+
+const StaticVariantSerializer = (itemSerializers: Serializer[]) => {
+    return (buffer: ByteBuffer, data: [number, any], options: SerializerOptions) => {
+        const [id, item] = data
+        buffer.writeVarint32(id)
+        itemSerializers[id](buffer, item, options)
+    }
+}
+
 /**
  * Serialize asset.
  * @note This looses precision for amounts larger than 2^53-1/10^precision.
@@ -123,6 +135,11 @@ const AuthoritySerializer = ObjectSerializer([
     ['weight_threshold', UInt32Serializer],
     ['account_auths', FlatMapSerializer(StringSerializer, UInt16Serializer)],
     ['key_auths', FlatMapSerializer(PublicKeySerializer, UInt16Serializer)],
+])
+
+const BeneficiarySerializer = ObjectSerializer([
+    ['account', StringSerializer],
+    ['weight', UInt16Serializer],
 ])
 
 const OperationDataSerializer = (operationId: number, definitions: Array<[string, Serializer]>) => {
@@ -189,6 +206,32 @@ OperationSerializers.account_create = OperationDataSerializer(9, [
     ['json_metadata', StringSerializer],
 ])
 
+OperationSerializers.account_create_with_delegation = OperationDataSerializer(41, [
+    ['fee', AssetSerializer],
+    ['delegation', AssetSerializer],
+    ['creator', StringSerializer],
+    ['new_account_name', StringSerializer],
+    ['owner', AuthoritySerializer],
+    ['active', AuthoritySerializer],
+    ['posting', AuthoritySerializer],
+    ['memo_key', PublicKeySerializer],
+    ['json_metadata', StringSerializer],
+])
+
+OperationSerializers.comment_options = OperationDataSerializer(19, [
+    ['author', StringSerializer],
+    ['permlink', StringSerializer],
+    ['max_accepted_payout', AssetSerializer],
+    ['percent_steem_dollars', UInt16Serializer],
+    ['allow_votes', BooleanSerializer],
+    ['allow_curation_rewards', BooleanSerializer],
+    ['extensions', ArraySerializer(
+        StaticVariantSerializer([ObjectSerializer(
+            [['beneficiaries', ArraySerializer(BeneficiarySerializer)]],
+        )]),
+    )],
+])
+
 const OperationSerializer = (buffer: ByteBuffer, operation: Operation, options: SerializerOptions) => {
     const serializer = OperationSerializers[operation[0]]
     if (!serializer) {
@@ -209,6 +252,7 @@ export const Types = {
     Array: ArraySerializer,
     Asset: AssetSerializer,
     Authority: AuthoritySerializer,
+    Boolean: BooleanSerializer,
     Buffer: BufferSerializer,
     Date: DateSerializer,
     FlatMap: FlatMapSerializer,
@@ -216,6 +260,7 @@ export const Types = {
     Object: ObjectSerializer,
     Operation: OperationSerializer,
     PublicKey: PublicKeySerializer,
+    StaticVariant: StaticVariantSerializer,
     String: StringSerializer,
     Transaction: TransactionSerializer,
     UInt16: UInt16Serializer,

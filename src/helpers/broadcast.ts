@@ -42,6 +42,7 @@ import {HexBuffer} from './../steem/misc'
 import {
     AccountCreateOperation,
     CommentOperation,
+    CommentOptionsOperation,
     CustomJsonOperation,
     DelegateVestingSharesOperation,
     Operation,
@@ -101,6 +102,22 @@ export class BroadcastAPI {
     public async comment(comment: CommentOperation[1], key: PrivateKey) {
         const op: Operation = ['comment', comment]
         return this.sendOperations([op], key)
+    }
+
+    /**
+     * Brodcast a comment and set the options.
+     * @param comment The comment/post.
+     * @param options The comment/post options.
+     * @param key Private posting key of comment author.
+     */
+    public async commentWithOptions(comment: CommentOperation[1],
+                                    options: CommentOptionsOperation[1],
+                                    key: PrivateKey) {
+        const ops: Operation[] = [
+            ['comment', comment],
+            ['comment_options', options],
+        ]
+        return this.sendOperations(ops, key)
     }
 
     /**
