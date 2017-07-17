@@ -104,6 +104,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="privatekey.html#inspect" class="tsd-kind-icon">inspect</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="privatekey.html#sign" class="tsd-kind-icon">sign</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="privatekey.html#tostring" class="tsd-kind-icon">to<wbr>String</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="privatekey.html#from" class="tsd-kind-icon">from</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="privatekey.html#fromlogin" class="tsd-kind-icon">from<wbr>Login</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="privatekey.html#fromseed" class="tsd-kind-icon">from<wbr>Seed</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="privatekey.html#fromstring" class="tsd-kind-icon">from<wbr>String</a></li>
@@ -124,7 +125,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/account.ts#L192">account.ts:192</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/crypto.ts#L230">crypto.ts:230</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -146,7 +147,7 @@
 					<div class="tsd-signature tsd-kind-icon">key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Buffer</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/account.ts#L194">account.ts:194</a></li>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/crypto.ts#L232">crypto.ts:232</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -157,13 +158,13 @@
 					<a name="createpublic" class="tsd-anchor"></a>
 					<h3>create<wbr>Public</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">create<wbr>Public<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="publickey.html" class="tsd-signature-type">PublicKey</a></li>
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Public<span class="tsd-signature-symbol">(</span>prefix<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="publickey.html" class="tsd-signature-type">PublicKey</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/account.ts#L215">account.ts:215</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/crypto.ts#L253">crypto.ts:253</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -171,6 +172,12 @@
 									<p>Derive the public key for this private key.</p>
 								</div>
 							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> prefix: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="publickey.html" class="tsd-signature-type">PublicKey</a></h4>
 						</li>
 					</ul>
@@ -185,7 +192,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/account.ts#L230">account.ts:230</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/crypto.ts#L268">crypto.ts:268</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -208,7 +215,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/account.ts#L202">account.ts:202</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/crypto.ts#L240">crypto.ts:240</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -239,7 +246,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/account.ts#L222">account.ts:222</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/crypto.ts#L260">crypto.ts:260</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -252,16 +259,44 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
-					<a name="fromlogin" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> from<wbr>Login</h3>
+					<a name="from" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> from</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">from<wbr>Login<span class="tsd-signature-symbol">(</span>username<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, password<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, role<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="privatekey.html" class="tsd-signature-type">PrivateKey</a></li>
+						<li class="tsd-signature tsd-kind-icon">from<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="privatekey.html" class="tsd-signature-type">PrivateKey</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/account.ts#L189">account.ts:189</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/crypto.ts#L202">crypto.ts:202</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Convenience to create a new instance from WIF string or buffer.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>value: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Buffer</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="privatekey.html" class="tsd-signature-type">PrivateKey</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="fromlogin" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> from<wbr>Login</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">from<wbr>Login<span class="tsd-signature-symbol">(</span>username<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, password<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, role<span class="tsd-signature-symbol">?: </span><a href="../globals.html#keyrole" class="tsd-signature-type">KeyRole</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="privatekey.html" class="tsd-signature-type">PrivateKey</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/crypto.ts#L227">crypto.ts:227</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -278,7 +313,7 @@
 									<h5>password: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> role: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;active&quot;</span></h5>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> role: <a href="../globals.html#keyrole" class="tsd-signature-type">KeyRole</a><span class="tsd-signature-symbol"> =&nbsp;&quot;active&quot;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="privatekey.html" class="tsd-signature-type">PrivateKey</a></h4>
@@ -295,7 +330,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/account.ts#L181">account.ts:181</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/crypto.ts#L220">crypto.ts:220</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -323,7 +358,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/account.ts#L174">account.ts:174</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/crypto.ts#L213">crypto.ts:213</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -375,6 +410,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="privatekey.html#tostring" class="tsd-kind-icon">to<wbr>String</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="privatekey.html#from" class="tsd-kind-icon">from</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
 								<a href="privatekey.html#fromlogin" class="tsd-kind-icon">from<wbr>Login</a>

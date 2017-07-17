@@ -66,6 +66,13 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Class representing a steem asset, e.g. <code>1.000 STEEM</code> or <code>12.112233 VESTS</code>.</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -94,10 +101,13 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="asset.html#add" class="tsd-kind-icon">add</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="asset.html#getprecision" class="tsd-kind-icon">get<wbr>Precision</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="asset.html#multiply" class="tsd-kind-icon">multiply</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="asset.html#subtract" class="tsd-kind-icon">subtract</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="asset.html#tojson" class="tsd-kind-icon">toJSON</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="asset.html#tostring" class="tsd-kind-icon">to<wbr>String</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="asset.html#writeto" class="tsd-kind-icon">write<wbr>To</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="asset.html#from" class="tsd-kind-icon">from</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="asset.html#fromstring" class="tsd-kind-icon">from<wbr>String</a></li>
 							</ul>
 						</section>
@@ -116,7 +126,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/asset.ts#L63">steem/asset.ts:63</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/asset.ts#L75">steem/asset.ts:75</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -141,7 +151,7 @@
 					<div class="tsd-signature tsd-kind-icon">amount<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/asset.ts#L65">steem/asset.ts:65</a></li>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/asset.ts#L77">steem/asset.ts:77</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -151,13 +161,41 @@
 					<div class="tsd-signature tsd-kind-icon">symbol<span class="tsd-signature-symbol">:</span> <a href="../globals.html#assetsymbol" class="tsd-signature-type">AssetSymbol</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/asset.ts#L65">steem/asset.ts:65</a></li>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/asset.ts#L77">steem/asset.ts:77</a></li>
 						</ul>
 					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="add" class="tsd-anchor"></a>
+					<h3>add</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">add<span class="tsd-signature-symbol">(</span>amount<span class="tsd-signature-symbol">: </span><a href="asset.html" class="tsd-signature-type">Asset</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="asset.html" class="tsd-signature-type">Asset</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/asset.ts#L102">steem/asset.ts:102</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Return a new Asset instance with amount added.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>amount: <a href="asset.html" class="tsd-signature-type">Asset</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="asset.html" class="tsd-signature-type">Asset</a></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="getprecision" class="tsd-anchor"></a>
 					<h3>get<wbr>Precision</h3>
@@ -168,7 +206,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/asset.ts#L70">steem/asset.ts:70</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/asset.ts#L82">steem/asset.ts:82</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -177,6 +215,62 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="multiply" class="tsd-anchor"></a>
+					<h3>multiply</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">multiply<span class="tsd-signature-symbol">(</span>factor<span class="tsd-signature-symbol">: </span><a href="asset.html" class="tsd-signature-type">Asset</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="asset.html" class="tsd-signature-type">Asset</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/asset.ts#L120">steem/asset.ts:120</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Return a new Asset with the amount multiplied by factor.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>factor: <a href="asset.html" class="tsd-signature-type">Asset</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="asset.html" class="tsd-signature-type">Asset</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="subtract" class="tsd-anchor"></a>
+					<h3>subtract</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">subtract<span class="tsd-signature-symbol">(</span>amount<span class="tsd-signature-symbol">: </span><a href="asset.html" class="tsd-signature-type">Asset</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="asset.html" class="tsd-signature-type">Asset</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/asset.ts#L111">steem/asset.ts:111</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Return a new Asset instance with amount subtracted.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>amount: <a href="asset.html" class="tsd-signature-type">Asset</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="asset.html" class="tsd-signature-type">Asset</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -190,7 +284,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/asset.ts#L89">steem/asset.ts:89</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/asset.ts#L129">steem/asset.ts:129</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -206,13 +300,13 @@
 					<a name="tostring" class="tsd-anchor"></a>
 					<h3>to<wbr>String</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">to<wbr>String<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../globals.html#assetstring" class="tsd-signature-type">AssetString</a></li>
+						<li class="tsd-signature tsd-kind-icon">to<wbr>String<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/asset.ts#L82">steem/asset.ts:82</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/asset.ts#L95">steem/asset.ts:95</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -220,41 +314,38 @@
 									<p>Return a string representation of this asset, e.g. <code>42.000 STEEM</code>.</p>
 								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <a href="../globals.html#assetstring" class="tsd-signature-type">AssetString</a></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="writeto" class="tsd-anchor"></a>
-					<h3>write<wbr>To</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">write<wbr>To<span class="tsd-signature-symbol">(</span>buffer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ByteBuffer</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="from" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> from</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">from<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="asset.html" class="tsd-signature-type">Asset</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, symbol<span class="tsd-signature-symbol">?: </span><a href="../globals.html#assetsymbol" class="tsd-signature-type">AssetSymbol</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="asset.html" class="tsd-signature-type">Asset</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/asset.ts#L98">steem/asset.ts:98</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/asset.ts#L67">steem/asset.ts:67</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>For protocol serialization.</p>
+									<p>Convenience to create new Asset.</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>note</dt>
-									<dd><p>This looses precision for amounts larger than 2^53-1/10^precision.
-										Should not be a problem in real-word usage.</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>buffer: <span class="tsd-signature-type">ByteBuffer</span></h5>
+									<h5>value: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="asset.html" class="tsd-signature-type">Asset</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> symbol: <a href="../globals.html#assetsymbol" class="tsd-signature-type">AssetSymbol</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="asset.html" class="tsd-signature-type">Asset</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -262,24 +353,24 @@
 					<a name="fromstring" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> from<wbr>String</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">from<wbr>String<span class="tsd-signature-symbol">(</span>string<span class="tsd-signature-symbol">: </span><a href="../globals.html#assetstring" class="tsd-signature-type">AssetString</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="asset.html" class="tsd-signature-type">Asset</a></li>
+						<li class="tsd-signature tsd-kind-icon">from<wbr>String<span class="tsd-signature-symbol">(</span>string<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="asset.html" class="tsd-signature-type">Asset</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/asset.ts#L53">steem/asset.ts:53</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/asset.ts#L52">steem/asset.ts:52</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Create a new Asset instance from an AssetString, e.g. <code>42.000 STEEM</code>.</p>
+									<p>Create a new Asset instance from a string, e.g. <code>42.000 STEEM</code>.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>string: <a href="../globals.html#assetstring" class="tsd-signature-type">AssetString</a></h5>
+									<h5>string: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="asset.html" class="tsd-signature-type">Asset</a></h4>
@@ -313,7 +404,16 @@
 								<a href="asset.html#symbol" class="tsd-kind-icon">symbol</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="asset.html#add" class="tsd-kind-icon">add</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="asset.html#getprecision" class="tsd-kind-icon">get<wbr>Precision</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="asset.html#multiply" class="tsd-kind-icon">multiply</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="asset.html#subtract" class="tsd-kind-icon">subtract</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="asset.html#tojson" class="tsd-kind-icon">toJSON</a>
@@ -321,8 +421,8 @@
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="asset.html#tostring" class="tsd-kind-icon">to<wbr>String</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="asset.html#writeto" class="tsd-kind-icon">write<wbr>To</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="asset.html#from" class="tsd-kind-icon">from</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
 								<a href="asset.html#fromstring" class="tsd-kind-icon">from<wbr>String</a>

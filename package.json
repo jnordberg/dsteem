@@ -1,6 +1,6 @@
 {
   "name": "dsteem",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "steem blockchain rpc client library",
   "author": "Johan Nordberg",
   "license": "BSD-3-Clause",
@@ -51,7 +51,7 @@
     "derequire": "^2.0.6",
     "mocha": "^3.3.0",
     "node-fetch": "^2.0.0-alpha.5",
-    "nyc": "^11.0.2",
+    "nyc": "^11.1.0",
     "regenerator-runtime": "^0.10.5",
     "ts-node": "^3.2.0",
     "tsify": "^3.0.1",
