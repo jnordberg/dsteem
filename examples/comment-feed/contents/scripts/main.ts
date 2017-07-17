@@ -4,7 +4,6 @@ import {Client, BlockchainMode} from 'dsteem'
 import * as removeMarkdown from 'remove-markdown'
 
 const client = new Client('wss://gtg.steem.house:8090')
-client.blockchain.mode = BlockchainMode.Latest
 
 function sleep(ms: number): Promise<void> {
     return new Promise<void>((resolve) => {
@@ -38,7 +37,7 @@ function buildComment(comment: any): HTMLDivElement {
 }
 
 async function *getComments() {
-    for await (const operation of client.blockchain.getOperations()) {
+    for await (const operation of client.blockchain.getOperations({mode: BlockchainMode.Latest})) {
         if (operation.op[0] === 'comment') {
             const comment = operation.op[1]
             if (comment.body.slice(0, 2) == '@@') {
