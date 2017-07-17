@@ -45,9 +45,10 @@ export {utils}
 export * from './helpers/blockchain'
 export * from './helpers/database'
 
-export * from './steem/asset'
 export * from './steem/account'
+export * from './steem/asset'
 export * from './steem/block'
+export * from './steem/comment'
 export * from './steem/misc'
 export * from './steem/operation'
 export * from './steem/transaction'
