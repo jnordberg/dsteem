@@ -19,6 +19,7 @@ bundle: lib
 		--compress "dead_code,collapse_vars,reduce_vars,keep_infinity,drop_console,passes=2" \
 		--output dist/dsteem.js
 	gzip --best --keep --force dist/dsteem.js
+	dts-generator --name dsteem --project . --out dist/dsteem.d.ts
 
 .PHONY: coverage
 coverage: node_modules

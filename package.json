@@ -49,6 +49,7 @@
     "browserify": "^14.4.0",
     "coveralls": "^2.13.1",
     "derequire": "^2.0.6",
+    "dts-generator": "^2.1.0",
     "mocha": "^3.3.0",
     "node-fetch": "^2.0.0-alpha.5",
     "nyc": "^11.1.0",
