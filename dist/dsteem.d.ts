@@ -1488,7 +1488,7 @@ declare module 'dsteem/index-browser' {
 	export * from 'dsteem/crypto';
 
 }
-declare module 'dsteem/index' {
+declare module 'dsteem' {
 	/**
 	 * @file dsteem entry point for node.js.
 	 * @author Johan Nordberg <code@johan-nordberg.com>
