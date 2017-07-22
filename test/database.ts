@@ -69,15 +69,6 @@ describe('database api', function() {
         })
         assert.equal(r1.length, 1)
         assert.equal(r1[0].body, '☀️heroin for programmers')
-        const r2 = await liveClient.database.getDiscussions('promoted', {
-            tag: 'steemit',
-            limit: 1,
-            start_author: 'aggroed',
-            start_permlink: 'boston-steemit-meetup-hosted-by-aggroed-and-justtryme90-6-30-knight-moves-brookline-tuesday-august-1st-6-30pm',
-        })
-        assert.equal(r2.length, 1)
-        assert.equal(r2[0].id, 6905705)
-        assert.equal(r2[0].created, '2017-07-11T22:38:24')
     })
 
     it('getTransaction', async function() {
