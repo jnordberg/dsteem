@@ -3,14 +3,11 @@ import * as assert from 'assert'
 
 import {Client, Asset} from './../src'
 
-import {testnet} from './common'
-
 describe('database api', function() {
     this.slow(500)
     this.timeout(5 * 1000)
 
-    const {addr, chainId, addressPrefix} = testnet
-    const client = new Client(addr, {chainId, addressPrefix})
+    const client = Client.testnet()
     let serverConfig: {[key: string]: boolean | string | number}
 
     const liveClient = new Client('wss://steemd.steemit.com')

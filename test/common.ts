@@ -21,12 +21,6 @@ async function writeFile(filename: string, data: Buffer) {
 
 const NUM_TEST_ACCOUNTS = 2
 
-export const testnet = {
-    addr: 'wss://testnet.steem.vc',
-    chainId: '79276aea5d4877d9a25892eaa01b0adf019d3e5cb12a97478df3298ccdd01673',
-    addressPrefix: 'STX',
-}
-
 export function randomString(length: number) {
     return randomBytes(length*2)
         .toString('base64')

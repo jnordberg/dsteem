@@ -4,14 +4,13 @@ import {VError} from 'verror'
 
 import {Client, PrivateKey, signTransaction, CommentOperation, Transaction, utils} from './../src'
 
-import {testnet, getTestnetAccounts, randomString} from './common'
+import {getTestnetAccounts, randomString} from './common'
 
 describe('broadcast', function() {
     this.slow(10 * 1000)
     this.timeout(60 * 1000)
 
-    const {addr, chainId, addressPrefix} = testnet
-    const client = new Client(addr, {chainId, addressPrefix})
+    const client = Client.testnet()
 
     let acc1, acc2: {username: string, password: string}
     before(async function() {

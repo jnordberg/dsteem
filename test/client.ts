@@ -4,13 +4,10 @@ import {VError} from 'verror'
 
 import {Client, utils} from './../src'
 
-import {testnet} from './common'
-
 describe('client', function() {
     this.slow(200)
 
-    const {addr, chainId, addressPrefix} = testnet
-    const client = new Client(addr, {chainId, addressPrefix, autoConnect: false})
+    const client = Client.testnet({autoConnect: false})
     const aclient = client as any
 
     it('should connect', async function() {

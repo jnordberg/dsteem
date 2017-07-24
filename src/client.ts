@@ -41,7 +41,7 @@ import * as WebSocket from 'ws'
 import {Blockchain} from './helpers/blockchain'
 import {BroadcastAPI} from './helpers/broadcast'
 import {DatabaseAPI} from './helpers/database'
-import {waitForEvent} from './utils'
+import {waitForEvent, copy} from './utils'
 
 /**
  * Main steem network chain id.
@@ -201,6 +201,17 @@ export class Client extends EventEmitter implements ClientEvents {
     private sendTimeout: number
     private seqNo: number = 0
     private socket?: WebSocket
+
+    /**
+     * Create a new client instance configured for the testnet.
+     */
+    public static testnet(options?: ClientOptions) {
+        let opts: ClientOptions = {}
+        if (options) { opts = copy(options) }
+        opts.addressPrefix = 'STX'
+        opts.chainId = '79276aea5d4877d9a25892eaa01b0adf019d3e5cb12a97478df3298ccdd01673'
+        return new Client('wss://testnet.steem.vc', opts)
+    }
 
     /**
      * @param address The address to the Steem RPC server, e.g. `wss://steemd.steemit.com`.
