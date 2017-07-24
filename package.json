@@ -41,7 +41,7 @@
   "devDependencies": {
     "@types/bytebuffer": "^5.0.33",
     "@types/mocha": "^2.2.41",
-    "@types/node": "^8.0.9",
+    "@types/node": "^8.0.15",
     "@types/verror": "^1.10.0",
     "@types/ws": "^3.0.1",
     "babel-preset-env": "^1.6.0",
@@ -51,14 +51,14 @@
     "derequire": "^2.0.6",
     "dts-generator": "^2.1.0",
     "mocha": "^3.3.0",
-    "node-fetch": "^2.0.0-alpha.5",
+    "node-fetch": "^2.0.0-alpha.6",
     "nyc": "^11.1.0",
     "regenerator-runtime": "^0.10.5",
-    "ts-node": "^3.2.0",
+    "ts-node": "^3.2.1",
     "tsify": "^3.0.1",
     "tslint": "^5.5.0",
     "typedoc": "^0.7.1",
-    "typescript": "^2.4.1",
-    "uglify-js": "^3.0.24"
+    "typescript": "^2.4.2",
+    "uglify-js": "^3.0.26"
   }
 }
