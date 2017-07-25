@@ -20,7 +20,8 @@
     "url": "https://github.com/jnordberg/dsteem"
   },
   "scripts": {
-    "test": "make ci-test"
+    "test": "make ci-test",
+    "prepublishOnly": "make -j4"
   },
   "keywords": [
     "blockchain",
