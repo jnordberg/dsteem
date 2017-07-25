@@ -2,14 +2,15 @@
 SHELL := /bin/bash
 PATH  := ./node_modules/.bin:$(PATH)
 
-SRC_FILES := $(wildcard src/**/*.ts)
+SRC_FILES := $(shell find src -name '*.ts')
+
+all: lib bundle docs
 
 lib: $(SRC_FILES) node_modules
 	tsc -p tsconfig.json --outDir lib
 	touch lib
 
-.PHONY: bundle
-bundle: lib
+dist/dsteem.js: $(SRC_FILES) node_modules
 	browserify src/index-browser.ts --debug \
 		--standalone dsteem --plugin tsify \
 		--transform [ babelify --extensions .ts ] \
@@ -18,8 +19,15 @@ bundle: lib
 		--source-map "content=inline,url=dsteem.js.map,filename=dist/dsteem.js.map" \
 		--compress "dead_code,collapse_vars,reduce_vars,keep_infinity,drop_console,passes=2" \
 		--output dist/dsteem.js
-	gzip --best --keep --force dist/dsteem.js
+
+dist/dsteem.d.ts: $(SRC_FILES) node_modules
 	dts-generator --name dsteem --project . --out dist/dsteem.d.ts
+	sed -e "s/^declare module 'dsteem\/index'/declare module 'dsteem'/" -i '' dist/dsteem.d.ts
+
+dist/dsteem.js.gz: dist/dsteem.js
+	gzip --best --keep --force dist/dsteem.js
+
+bundle: dist/dsteem.js.gz dist/dsteem.d.ts
 
 .PHONY: coverage
 coverage: node_modules
@@ -41,15 +49,16 @@ lint: node_modules
 node_modules:
 	npm install
 
-.PHONY: docs
-docs: node_modules
+docs: $(SRC_FILES) node_modules
 	typedoc --gitRevision master --target ES6 --mode file --out docs src
 	find docs -name "*.html" | xargs sed -i '' 's~$(shell pwd)~.~g'
 	echo "Served at <https://jnordberg.github.io/dsteem/>" > docs/README.md
+	touch docs
 
 .PHONY: clean
 clean:
 	rm -rf lib/
+	rm -f dist/*
 
 .PHONY: distclean
 distclean: clean
