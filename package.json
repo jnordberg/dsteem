@@ -37,7 +37,7 @@
     "core-js": "^2.4.1",
     "secp256k1": "^3.3.0",
     "verror": "^1.10.0",
-    "ws": "^3.0.0"
+    "ws": "^3.1.0"
   },
   "devDependencies": {
     "@types/bytebuffer": "^5.0.33",
@@ -59,7 +59,7 @@
     "ts-node": "^3.3.0",
     "tsify": "^3.0.1",
     "tslint": "^5.5.0",
-    "typedoc": "^0.7.1",
+    "typedoc": "^0.8.0",
     "typescript": "^2.4.2",
     "uglify-js": "^3.0.26"
   }
