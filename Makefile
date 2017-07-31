@@ -59,6 +59,7 @@ docs: $(SRC_FILES) node_modules
 clean:
 	rm -rf lib/
 	rm -f dist/*
+	rm -rf docs/
 
 .PHONY: distclean
 distclean: clean
