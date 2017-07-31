@@ -41,11 +41,11 @@ import {Asset} from './../steem/asset'
 import {HexBuffer} from './../steem/misc'
 import {
     AccountCreateOperation,
+    AccountUpdateOperation,
     CommentOperation,
     CommentOptionsOperation,
     CustomJsonOperation,
     DelegateVestingSharesOperation,
-    AccountUpdateOperation,
     Operation,
     TransferOperation,
     VoteOperation,
@@ -189,7 +189,6 @@ export class BroadcastAPI {
             posting: {weight_threshold: 1, account_auths: [], key_auths: [[postingKey, 1]]},
         }, key)
     }
-
 
     /**
      * Update account.
