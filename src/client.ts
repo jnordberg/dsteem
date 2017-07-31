@@ -150,6 +150,7 @@ export interface ClientEvents {
      * Emitted when recieveing a server notice message, typically only used for callbacks.
      */
     on(event: 'notice', listener: (notice: any) => void): this
+    on(event: string, listener: Function): this;
 }
 
 /**
