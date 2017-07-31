@@ -1046,7 +1046,7 @@ declare module 'dsteem/helpers/broadcast' {
 	import { Client } from 'dsteem/client';
 	import { PrivateKey } from 'dsteem/crypto';
 	import { Asset } from 'dsteem/steem/asset';
-	import { AccountCreateOperation, CommentOperation, CommentOptionsOperation, CustomJsonOperation, DelegateVestingSharesOperation, Operation, TransferOperation, VoteOperation } from 'dsteem/steem/operation';
+	import { AccountCreateOperation, AccountUpdateOperation, CommentOperation, CommentOptionsOperation, CustomJsonOperation, DelegateVestingSharesOperation, Operation, TransferOperation, VoteOperation } from 'dsteem/steem/operation';
 	import { SignedTransaction, TransactionConfirmation } from 'dsteem/steem/transaction';
 	export interface CreateLoginOptions {
 	    /**
@@ -1124,6 +1124,13 @@ declare module 'dsteem/helpers/broadcast' {
 	     * @param key Private active key of account creator.
 	     */
 	    createLogin(options: CreateLoginOptions, key: PrivateKey): Promise<TransactionConfirmation>;
+	    /**
+	     * Update account.
+	     * @param data The account_update payload.
+	     * @param key The private key of the account affected, should be the correspinding
+	     *            key level or higher for updating account authorities.
+	     */
+	    updateAccount(data: AccountUpdateOperation[1], key: PrivateKey): Promise<TransactionConfirmation>;
 	    /**
 	     * Delegate vesting shares from one account to the other. The vesting shares are still owned
 	     * by the original account, but content voting rights and bandwidth allocation are transferred
@@ -1360,6 +1367,10 @@ declare module 'dsteem/client' {
 	 * Can be used in both node.js and the browser. Also see {@link ClientOptions}.
 	 */
 	export class Client extends EventEmitter implements ClientEvents {
+	    /**
+	     * Create a new client instance configured for the testnet.
+	     */
+	    static testnet(options?: ClientOptions): Client;
 	    /**
 	     * Client options, *read-only*.
 	     */
