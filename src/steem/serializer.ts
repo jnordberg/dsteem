@@ -131,6 +131,17 @@ const ObjectSerializer = (keySerializers: Array<[string, Serializer]>) => {
     }
 }
 
+const OptionalSerializer = (valueSerializer: Serializer) => {
+    return (buffer: ByteBuffer, data: any, options: SerializerOptions) => {
+        if (data != undefined) {
+            buffer.writeByte(1)
+            valueSerializer(buffer, data, options)
+        } else {
+            buffer.writeByte(0)
+        }
+    }
+}
+
 const AuthoritySerializer = ObjectSerializer([
     ['weight_threshold', UInt32Serializer],
     ['account_auths', FlatMapSerializer(StringSerializer, UInt16Serializer)],
@@ -230,6 +241,15 @@ OperationSerializers.comment_options = OperationDataSerializer(19, [
             [['beneficiaries', ArraySerializer(BeneficiarySerializer)]],
         )]),
     )],
+])
+
+OperationSerializers.account_update = OperationDataSerializer(10, [
+    ['account', StringSerializer],
+    ['owner', OptionalSerializer(AuthoritySerializer)],
+    ['active', OptionalSerializer(AuthoritySerializer)],
+    ['posting', OptionalSerializer(AuthoritySerializer)],
+    ['memo_key', PublicKeySerializer],
+    ['json_metadata', StringSerializer],
 ])
 
 const OperationSerializer = (buffer: ByteBuffer, operation: Operation, options: SerializerOptions) => {

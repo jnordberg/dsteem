@@ -45,6 +45,7 @@ import {
     CommentOptionsOperation,
     CustomJsonOperation,
     DelegateVestingSharesOperation,
+    AccountUpdateOperation,
     Operation,
     TransferOperation,
     VoteOperation,
@@ -187,6 +188,18 @@ export class BroadcastAPI {
             owner: {weight_threshold: 1, account_auths: [], key_auths: [[ownerKey, 1]]},
             posting: {weight_threshold: 1, account_auths: [], key_auths: [[postingKey, 1]]},
         }, key)
+    }
+
+
+    /**
+     * Update account.
+     * @param data The account_update payload.
+     * @param key The private key of the account affected, should be the correspinding
+     *            key level or higher for updating account authorities.
+     */
+    public async updateAccount(data: AccountUpdateOperation[1], key: PrivateKey) {
+        const op: Operation = ['account_update', data]
+        return this.sendOperations([op], key)
     }
 
     /**

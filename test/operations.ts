@@ -110,4 +110,16 @@ describe('operations', function() {
         assert.equal(post.allow_votes, false)
     })
 
+    it('should update account', async function() {
+        const key = PrivateKey.fromLogin(acc1.username, acc1.password, 'owner')
+        const foo = Math.random()
+        const rv = await client.broadcast.updateAccount({
+            account: acc1.username,
+            memo_key: PrivateKey.fromLogin(acc1.username, acc1.password, 'memo').createPublic(client.addressPrefix),
+            json_metadata: JSON.stringify({foo}),
+        }, key)
+        const [acc] = await client.database.getAccounts([acc1.username])
+        assert.deepEqual({foo}, JSON.parse(acc.json_metadata))
+    })
+
 })

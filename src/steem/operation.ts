@@ -262,3 +262,15 @@ export interface CommentOptionsOperation extends Operation {
       extensions: Array<[0, {beneficiaries: BeneficiaryRoute[]}]>, // flat_set< comment_options_extension >
     }
 }
+
+export interface AccountUpdateOperation extends Operation {
+    0: 'account_update' // 10
+    1: {
+      account: string // account_name_type
+      owner?: Authority
+      active?: Authority
+      posting?: Authority
+      memo_key: PublicKey
+      json_metadata: string
+    }
+}
