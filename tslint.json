@@ -2,6 +2,7 @@
   "defaultSeverity": "error",
   "extends": ["tslint:recommended"],
   "rules": {
+    "ban-types": false,
     "indent": [true, "spaces", 4],
     "interface-name": [true, "never-prefix"],
     "max-classes-per-file": false,
