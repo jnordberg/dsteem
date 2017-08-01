@@ -35,11 +35,14 @@ describe('crypto', function() {
 
     it('should decode public keys', function() {
         const k1 = PublicKey.fromString(testnetPair.public, testnetPrefix)
+        assert.equal(k1.prefix, testnetPrefix)
         assert(k1.toString(), testnetPair.public)
         const k2 = PublicKey.from(mainPair.public)
         const k3 = PublicKey.from(mainPairPub)
         assert(k2.toString(), mainPair.public)
         assert(k2.toString(), k3.toString())
+        const k4 = PublicKey.from(testnetPair.public, testnetPrefix)
+        assert(k4.toString(), testnetPair.public)
     })
 
     it('should decode private keys', function() {

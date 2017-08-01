@@ -136,7 +136,7 @@ export class PublicKey {
      * Create a new instance from a WIF-encoded key.
      */
     public static fromString(wif: string, prefix = DEFAULT_ADDRESS_PREFIX) {
-        return new PublicKey(decodePublic(wif, prefix))
+        return new PublicKey(decodePublic(wif, prefix), prefix)
     }
 
     /**
