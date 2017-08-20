@@ -132,16 +132,17 @@ export class Asset {
 
 }
 
-/** Represents quotation of the relative value of asset against another asset.
-   Similar to 'currency pair' used to determine value of currencies.
-
-   For example:
-   1 EUR / 1.25 USD where:
-   1 EUR is an asset specified as a base
-   1.25 USD us an asset specified as a qute
-
-   can determine value of EUR against USD.
-*/
+/**
+ * Represents quotation of the relative value of asset against another asset.
+ * Similar to 'currency pair' used to determine value of currencies.
+ *
+ *  For example:
+ *  1 EUR / 1.25 USD where:
+ *  1 EUR is an asset specified as a base
+ *  1.25 USD us an asset specified as a qute
+ *
+ *  can determine value of EUR against USD.
+ */
 export class Price {
 
     /**

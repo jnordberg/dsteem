@@ -267,6 +267,6 @@ export interface FeedPublishOperation extends Operation {
     0: 'feed_publish' // 7
     1: {
       publisher: string // account_name_type
-      exchange_rate: Price | {base: Asset | string, quote: Asset | string}
+      exchange_rate: Price | {base: Asset | string, quote: Asset | string},
     }
 }
