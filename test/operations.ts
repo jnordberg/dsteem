@@ -19,16 +19,19 @@ describe('operations', function() {
     })
 
     it('should delegate vesting shares', async function() {
-        const amount = new Asset(Math.random() * 100, 'VESTS')
+        const [user1] = await client.database.getAccounts([acc1.username])
+        const currentDelegation = Asset.from(user1.received_vesting_shares)
+        const newDelegation = Asset.from(
+            currentDelegation.amount >= 10000 ? 0 : 10000 + Math.random() * 10000,
+            'VESTS'
+        )
         const result = await client.broadcast.delegateVestingShares({
             delegator: acc1.username,
             delegatee: acc2.username,
-            vesting_shares: amount,
+            vesting_shares: newDelegation
         }, acc1Key)
-        const [user1, user2] = await client.database.getAccounts([acc1.username, acc2.username])
-        assert.equal(user2.received_vesting_shares, amount.toString())
-        // this does not update directly for some reason
-        // assert.equal(user1.delegated_vesting_shares, amount.toString())
+        const [user2] = await client.database.getAccounts([acc2.username])
+        assert.equal(user2.received_vesting_shares, newDelegation.toString())
     })
 
     it('should send custom binary', async function() {
