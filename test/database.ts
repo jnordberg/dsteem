@@ -19,11 +19,11 @@ describe('database api', function() {
             'total_pow', 'num_pow_witnesses', 'virtual_supply', 'current_supply',
             'confidential_supply', 'current_sbd_supply', 'confidential_sbd_supply',
             'total_vesting_fund_steem', 'total_vesting_shares', 'total_reward_fund_steem',
-            'total_reward_shares2', 'pending_rewarded_vesting_shares',
-            'pending_rewarded_vesting_steem', 'sbd_interest_rate', 'sbd_print_rate',
-            'average_block_size', 'maximum_block_size', 'current_aslot',
+            'total_reward_shares2', 'pending_rewarded_vesting_shares', 'pending_rewarded_vesting_steem',
+            'sbd_interest_rate', 'sbd_print_rate', 'maximum_block_size', 'current_aslot',
             'recent_slots_filled', 'participation_count', 'last_irreversible_block_num',
-            'max_virtual_bandwidth', 'current_reserve_ratio', 'vote_power_reserve_rate'
+            'vote_power_reserve_rate', 'current_reserve_ratio', 'average_block_size',
+            'max_virtual_bandwidth'
         ])
     })
 
@@ -51,7 +51,7 @@ describe('database api', function() {
     })
 
     it('getOperations', async function() {
-        const result = await client.database.getOperations(1)
+        const result = await client.database.getOperations(2)
         assert.deepEqual(result, [])
     })
 
