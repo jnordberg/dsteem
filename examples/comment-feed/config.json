@@ -3,7 +3,7 @@
     "name": "comments.steem.vc",
     "description": "Watch all comments on the steem blockchain in real time!",
     "author": "Johan Nordberg",
-    "version": "1.0.0"
+    "version": "1.0.1"
   },
   "ignore": [
     "**/.DS_Store",

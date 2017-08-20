@@ -3,7 +3,7 @@ import {Client, BlockchainMode} from 'dsteem'
 
 import * as removeMarkdown from 'remove-markdown'
 
-const client = new Client('wss://gtg.steem.house:8090')
+const client = new Client('wss://steemd.steemit.com')
 
 function sleep(ms: number): Promise<void> {
     return new Promise<void>((resolve) => {
