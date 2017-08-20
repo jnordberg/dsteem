@@ -131,3 +131,37 @@ export class Asset {
     }
 
 }
+
+/** Represents quotation of the relative value of asset against another asset.
+   Similar to 'currency pair' used to determine value of currencies.
+
+   For example:
+   1 EUR / 1.25 USD where:
+   1 EUR is an asset specified as a base
+   1.25 USD us an asset specified as a qute
+
+   can determine value of EUR against USD.
+*/
+export class Price {
+
+    /**
+     * Convenience to create new Price.
+     */
+     public static from(value: Price | {base: Asset | string, quote: Asset | string}) {
+         if (value instanceof Price) {
+             return value
+         } else {
+             return new Price(Asset.from(value.base), Asset.from(value.quote))
+         }
+     }
+
+    /**
+     *  @param base  - represents a value of the price object to be expressed relatively to quote
+     *                 asset. Cannot have amount == 0 if you want to build valid price.
+     *  @param quote - represents an relative asset. Cannot have amount == 0, otherwise
+     *                 asertion fail.
+     *
+     *  Both base and quote shall have different symbol defined.
+     */
+    constructor(public readonly base: Asset, public readonly quote: Asset) {}
+}

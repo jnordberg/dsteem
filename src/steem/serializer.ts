@@ -35,7 +35,7 @@
 
 import {PublicKey} from './../crypto'
 import {Authority} from './account'
-import {Asset} from './asset'
+import {Asset, Price} from './asset'
 import {HexBuffer} from './misc'
 import {Operation} from './operation'
 
@@ -153,6 +153,11 @@ const BeneficiarySerializer = ObjectSerializer([
     ['weight', UInt16Serializer],
 ])
 
+const PriceSerializer = ObjectSerializer([
+    ['base', AssetSerializer],
+    ['quote', AssetSerializer],
+])
+
 const OperationDataSerializer = (operationId: number, definitions: Array<[string, Serializer]>) => {
    const objectSerializer = ObjectSerializer(definitions)
    return (buffer: ByteBuffer, data: {[key: string]: any}, options: SerializerOptions) => {
@@ -252,6 +257,11 @@ OperationSerializers.account_update = OperationDataSerializer(10, [
     ['json_metadata', StringSerializer],
 ])
 
+OperationSerializers.feed_publish = OperationDataSerializer(7, [
+    ['publisher', StringSerializer],
+    ['exchange_rate', PriceSerializer],
+])
+
 const OperationSerializer = (buffer: ByteBuffer, operation: Operation, options: SerializerOptions) => {
     const serializer = OperationSerializers[operation[0]]
     if (!serializer) {
@@ -279,6 +289,7 @@ export const Types = {
     Int16: Int16Serializer,
     Object: ObjectSerializer,
     Operation: OperationSerializer,
+    Price: PriceSerializer,
     PublicKey: PublicKeySerializer,
     StaticVariant: StaticVariantSerializer,
     String: StringSerializer,

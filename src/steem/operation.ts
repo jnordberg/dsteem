@@ -35,7 +35,7 @@
 
 import {PublicKey} from './../crypto'
 import {Authority} from './account'
-import {Asset} from './asset'
+import {Asset, Price} from './asset'
 import {BeneficiaryRoute} from './comment'
 import {HexBuffer} from './misc'
 
@@ -260,5 +260,13 @@ export interface CommentOptionsOperation extends Operation {
       /** Whether to allow post to recieve curation rewards. */
       allow_curation_rewards: boolean
       extensions: Array<[0, {beneficiaries: BeneficiaryRoute[]}]>, // flat_set< comment_options_extension >
+    }
+}
+
+export interface FeedPublishOperation extends Operation {
+    0: 'feed_publish' // 7
+    1: {
+      publisher: string // account_name_type
+      exchange_rate: Price | {base: Asset | string, quote: Asset | string}
     }
 }
