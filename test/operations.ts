@@ -1,7 +1,7 @@
 import 'mocha'
 import * as assert from 'assert'
 
-import {Asset, Client, PrivateKey, CustomOperation} from './../src'
+import {Asset, Client, PrivateKey, CustomOperation, AccountCreateWithDelegationOperation} from './../src'
 
 import {getTestnetAccounts, randomString} from './common'
 
@@ -123,6 +123,35 @@ describe('operations', function() {
         }, key)
         const [acc] = await client.database.getAccounts([acc1.username])
         assert.deepEqual({foo}, JSON.parse(acc.json_metadata))
+    })
+
+    it('should create account with delegation', async function() {
+        const key = PrivateKey.fromLogin(acc1.username, acc1.password, 'owner')
+
+        const username = 'ds-' + randomString(12)
+        const password = randomString(32)
+        const metadata = {my_password_is: password}
+
+        const ownerKey = PrivateKey.fromLogin(username, password, 'owner').createPublic(client.addressPrefix)
+        const activeKey = PrivateKey.fromLogin(username, password, 'active').createPublic(client.addressPrefix)
+        const postingKey = PrivateKey.fromLogin(username, password, 'posting').createPublic(client.addressPrefix)
+        const memoKey = PrivateKey.fromLogin(username, password, 'memo').createPublic(client.addressPrefix)
+        const op: AccountCreateWithDelegationOperation = ['account_create_with_delegation', {
+            creator: acc1.username,
+            fee: '5.000 STEEM',
+            delegation: '1000.000000 VESTS',
+            new_account_name: username,
+            owner: {weight_threshold: 1, account_auths: [], key_auths: [[ownerKey, 1]]},
+            active: {weight_threshold: 1, account_auths: [], key_auths: [[activeKey, 1]]},
+            posting: {weight_threshold: 1, account_auths: [], key_auths: [[postingKey, 1]]},
+            memo_key: memoKey,
+            json_metadata: JSON.stringify(metadata),
+            extensions: [],
+        }]
+        await client.broadcast.sendOperations([op], key)
+        const [newAccount] = await client.database.getAccounts([username])
+        assert.equal(newAccount.name, username)
+        assert.equal(newAccount.received_vesting_shares, '1000.000000 VESTS')
     })
 
 })
