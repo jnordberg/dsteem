@@ -45,6 +45,10 @@ export interface SerializerOptions {
 
 export type Serializer = (buffer: ByteBuffer, data: any, options: SerializerOptions) => void
 
+const VoidSerializer = (buffer: ByteBuffer) => {
+    throw new Error('Void can not be serialized')
+}
+
 const StringSerializer = (buffer: ByteBuffer, data: string) => {
     buffer.writeVString(data)
 }
@@ -232,6 +236,7 @@ OperationSerializers.account_create_with_delegation = OperationDataSerializer(41
     ['posting', AuthoritySerializer],
     ['memo_key', PublicKeySerializer],
     ['json_metadata', StringSerializer],
+    ['extensions', ArraySerializer(VoidSerializer)]
 ])
 
 OperationSerializers.comment_options = OperationDataSerializer(19, [

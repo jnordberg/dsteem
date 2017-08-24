@@ -220,6 +220,7 @@ export interface AccountCreateWithDelegationOperation extends Operation {
         posting: Authority
         memo_key: string | PublicKey // public_key_type
         json_metadata: string,
+        extensions: any[],
     }
 }
 
