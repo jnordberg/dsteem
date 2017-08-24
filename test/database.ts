@@ -51,8 +51,9 @@ describe('database api', function() {
     })
 
     it('getOperations', async function() {
-        const result = await client.database.getOperations(2)
-        assert.deepEqual(result, [])
+        const result = await client.database.getOperations(1)
+        assert.equal(result.length, 1)
+        assert.equal(result[0].op[0], 'producer_reward')
     })
 
     it('getDiscussions', async function() {

@@ -1,6 +1,7 @@
 import 'mocha'
 import * as assert from 'assert'
 import {VError} from 'verror'
+import * as lorem from 'lorem-ipsum'
 
 import {Client, PrivateKey, signTransaction, CommentOperation, Transaction, utils} from './../src'
 
@@ -21,13 +22,19 @@ describe('broadcast', function() {
 
     it('should broadcast', async function() {
         const key = PrivateKey.fromLogin(acc1.username, acc1.password, 'posting')
+        const body = [
+            `![picture](https://unsplash.it/1200/800?image=${ ~~(Math.random() * 1085) })`,
+            '\n---\n',
+            lorem({count: ~~(1 + Math.random() * 10), units: 'paragraphs'}),
+            '\n\n🐢'
+        ].join('\n')
         const result = await client.broadcast.comment({
             parent_author: '',
             parent_permlink: 'test',
             author: acc1.username,
             permlink: postPermlink,
-            title: 'I like turtles',
-            body: `🐢🐢🐢🐢🐢 ${ Math.random() * 42 }`,
+            title: `Picture of the day #${ ~~(Math.random() * 1e8) }`,
+            body,
             json_metadata: JSON.stringify({foo: 'bar', tags: ['test']}),
         }, key)
         const block = await client.database.getBlock(result.block_num)
@@ -40,9 +47,9 @@ describe('broadcast', function() {
             parent_author: acc1.username,
             parent_permlink: postPermlink,
             author: acc2.username,
-            permlink: `${ postPermlink }-comment-1`,
+            permlink: `${ postPermlink }-botcomment-1`,
             title: 'Comments has titles?',
-            body: 'ME ALSO!!',
+            body: `Amazing post! Revoted upsteemed and trailing! @${ acc2.username }`,
             json_metadata: '',
         }, key)
         const votePromise = client.broadcast.vote({
