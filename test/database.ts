@@ -87,6 +87,12 @@ describe('database api', function() {
         assert.equal(Asset.from(props.account_creation_fee).symbol, 'STEEM')
     })
 
+    it('getCurrentMedianHistoryPrice', async function() {
+        const price = await liveClient.database.getCurrentMedianHistoryPrice()
+        assert.equal(Asset.from(price.base).symbol, 'SBD')
+        assert.equal(price.quote, '1.000 STEEM')
+    })
+
     it('getState', async function() {
         const state = await liveClient.database.getState('@almost-digital')
         assert.equal(state.error, '')

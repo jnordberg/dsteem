@@ -35,7 +35,7 @@
 
 import {Client} from './../client'
 import {ExtendedAccount} from './../steem/account'
-import {Asset} from './../steem/asset'
+import {Asset, Price} from './../steem/asset'
 import {BlockHeader, SignedBlock} from './../steem/block'
 import {Discussion} from './../steem/comment'
 import {DynamicGlobalProperties} from './../steem/misc'
@@ -111,6 +111,13 @@ export class DatabaseAPI {
      */
     public async getState(path: string): Promise<any> {
         return this.call('get_state', [path])
+    }
+
+    /**
+     * Return median price in SBD for 1 STEEM as reported by the witnesses.
+     */
+    public async getCurrentMedianHistoryPrice(): Promise<Price> {
+        return this.call('get_current_median_history_price')
     }
 
     /**
