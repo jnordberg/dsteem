@@ -271,3 +271,12 @@ export interface FeedPublishOperation extends Operation {
       exchange_rate: Price | {base: Asset | string, quote: Asset | string},
     }
 }
+
+export interface ConvertOperation extends Operation {
+    0: 'convert' // 8
+    1: {
+        owner: string // account_name_type
+        requestid: number // uint32_t
+        amount: Asset | string
+    }
+}

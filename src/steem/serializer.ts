@@ -267,6 +267,12 @@ OperationSerializers.feed_publish = OperationDataSerializer(7, [
     ['exchange_rate', PriceSerializer],
 ])
 
+OperationSerializers.convert = OperationDataSerializer(8, [
+    ['owner', StringSerializer],
+    ['requestid', UInt32Serializer],
+    ['amount', AssetSerializer],
+])
+
 const OperationSerializer = (buffer: ByteBuffer, operation: Operation, options: SerializerOptions) => {
     const serializer = OperationSerializers[operation[0]]
     if (!serializer) {
