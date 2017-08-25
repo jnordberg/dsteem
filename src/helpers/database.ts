@@ -47,7 +47,7 @@ import {SignedTransaction, Transaction, TransactionConfirmation} from './../stee
  * Possible categories for `get_discussions_by_*`.
  */
 export type DiscussionQueryCategory = 'active' | 'blog' | 'cashout' | 'children' | 'comments' |
-                                      'feed' | 'hot' | 'promoted' | 'trending' | 'votes'
+                                      'feed' | 'hot' | 'promoted' | 'trending' | 'votes' | 'created'
 
 export interface DisqussionQuery {
     /**
