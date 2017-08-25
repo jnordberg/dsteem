@@ -300,6 +300,7 @@ export const Types = {
     Int16: Int16Serializer,
     Object: ObjectSerializer,
     Operation: OperationSerializer,
+    Optional: OptionalSerializer,
     Price: PriceSerializer,
     PublicKey: PublicKeySerializer,
     StaticVariant: StaticVariantSerializer,
@@ -307,4 +308,5 @@ export const Types = {
     Transaction: TransactionSerializer,
     UInt16: UInt16Serializer,
     UInt32: UInt32Serializer,
+    Void: VoidSerializer,
 }

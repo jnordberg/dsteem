@@ -50,4 +50,15 @@ describe('serializers', function() {
         assert.equal(r1, 'd204f776e54207486a59010003666f6f036261720362617a1027010a6c6f6e672d70616e7473')
     })
 
+    it('Void', function() {
+        assert.throws(() => { serialize(Types.Void, null) })
+    })
+
+    it('Optional', function() {
+        const r1 = serialize(Types.Optional(Types.Boolean), true)
+        const r2 = serialize(Types.Optional(Types.Boolean), undefined)
+        assert.equal(r1, '0101')
+        assert.equal(r2, '00')
+    })
+
 })
