@@ -347,9 +347,22 @@ export class Client extends EventEmitter implements ClientEvents {
                 let {message} = response.error
                 if (data && data.stack && data.stack.length > 0) {
                     const top = data.stack[0]
+                    const topData = copy(top.data)
                     message = top.format.replace(/\$\{([a-z_]+)\}/gi, (match: string, key: string) => {
-                        return top.data[key] || match
+                        let rv = match
+                        if (topData[key]) {
+                            rv = topData[key]
+                            delete topData[key]
+                        }
+                        return rv
                     })
+                    const unformattedData = Object.keys(topData)
+                        .map((key) => ({key, value: topData[key]}))
+                        .filter((item) => typeof item.value === 'string')
+                        .map((item) => `${ item.key }=${ item.value}`)
+                    if (unformattedData.length > 0) {
+                        message += ' ' + unformattedData.join(' ')
+                    }
                 }
                 error = new VError({info: data, name: 'RPCError'}, message)
             }
