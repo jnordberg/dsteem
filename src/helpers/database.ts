@@ -105,6 +105,15 @@ export class DatabaseAPI {
     }
 
     /**
+     * Return all of the state required for a particular url path.
+     * @param path Path component of url conforming to condenser's scheme
+                   e.g. `@almost-digital` or `trending/travel`
+     */
+    public async getState(path: string): Promise<any> {
+        return this.call('get_state', [path])
+    }
+
+    /**
      * Return server config. See:
      * https://github.com/steemit/steem/blob/master/libraries/protocol/include/steemit/protocol/config.hpp
      */

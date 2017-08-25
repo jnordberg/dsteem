@@ -87,4 +87,12 @@ describe('database api', function() {
         assert.equal(Asset.from(props.account_creation_fee).symbol, 'STEEM')
     })
 
+    it('getState', async function() {
+        const state = await liveClient.database.getState('@almost-digital')
+        assert.equal(state.error, '')
+        assert.deepEqual(Object.keys(state), ['current_route', 'props', 'tag_idx', 'tags', 'content',
+                                              'accounts', 'pow_queue', 'witnesses', 'discussion_idx',
+                                              'witness_schedule', 'feed_price', 'error' ])
+    })
+
 })
