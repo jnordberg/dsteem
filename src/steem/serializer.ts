@@ -236,7 +236,7 @@ OperationSerializers.account_create_with_delegation = OperationDataSerializer(41
     ['posting', AuthoritySerializer],
     ['memo_key', PublicKeySerializer],
     ['json_metadata', StringSerializer],
-    ['extensions', ArraySerializer(VoidSerializer)]
+    ['extensions', ArraySerializer(VoidSerializer)],
 ])
 
 OperationSerializers.comment_options = OperationDataSerializer(19, [

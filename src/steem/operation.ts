@@ -277,6 +277,6 @@ export interface ConvertOperation extends Operation {
     1: {
         owner: string // account_name_type
         requestid: number // uint32_t
-        amount: Asset | string
+        amount: Asset | string,
     }
 }
