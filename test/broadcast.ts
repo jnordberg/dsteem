@@ -18,7 +18,7 @@ describe('broadcast', function() {
         [acc1, acc2] = await getTestnetAccounts()
     })
 
-    const postPermlink = `dsteem-test-${ randomString(5) }`
+    const postPermlink = `dsteem-test-${ randomString(7) }`
 
     it('should broadcast', async function() {
         const key = PrivateKey.fromLogin(acc1.username, acc1.password, 'posting')
@@ -56,7 +56,7 @@ describe('broadcast', function() {
             voter: acc2.username,
             author: acc1.username,
             permlink: postPermlink,
-            weight: 1337,
+            weight: 10000,
         }, key)
         const result = await Promise.all([commentPromise, votePromise])
         assert(result.every((r) => r.expired === false))

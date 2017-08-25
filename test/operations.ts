@@ -1,7 +1,11 @@
 import 'mocha'
 import * as assert from 'assert'
 
-import {Asset, Client, PrivateKey, CustomOperation, AccountCreateWithDelegationOperation} from './../src'
+import {
+    Asset, Client, PrivateKey,
+    CustomOperation, AccountCreateWithDelegationOperation, FeedPublishOperation,
+    ConvertOperation
+} from './../src'
 
 import {getTestnetAccounts, randomString} from './common'
 
@@ -22,7 +26,7 @@ describe('operations', function() {
         const [user1] = await client.database.getAccounts([acc1.username])
         const currentDelegation = Asset.from(user1.received_vesting_shares)
         const newDelegation = Asset.from(
-            currentDelegation.amount >= 10000 ? 0 : 10000 + Math.random() * 10000,
+            currentDelegation.amount >= 1000 ? 0 : 1000 + Math.random() * 1000,
             'VESTS'
         )
         const result = await client.broadcast.delegateVestingShares({
