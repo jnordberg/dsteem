@@ -1,7 +1,7 @@
 import 'mocha'
 import * as assert from 'assert'
 
-import {Asset} from './../src'
+import {Asset, Price} from './../src'
 
 describe('asset', function() {
 
@@ -41,6 +41,14 @@ describe('asset', function() {
         assert.throws(() => Asset.fromString('I LIKE TURT 0.42'))
         assert.throws(() => Asset.fromString('Infinity STEEM'))
         assert.throws(() => Asset.fromString('..0 STEEM'))
+    })
+
+    it('should parse price', function() {
+        const price1 = new Price(Asset.from('1.000 STEEM'), Asset.from(1, 'SBD'))
+        const price2 = Price.from(price1)
+        const price3 = Price.from({base: '1.000 STEEM', quote: price1.quote})
+        assert.equal(price2.base.toString(), price3.base.toString())
+        assert.equal(price2.quote.toString(), price3.quote.toString())
     })
 
 })
