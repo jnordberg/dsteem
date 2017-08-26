@@ -183,21 +183,4 @@ describe('operations', function() {
         }
     })
 
-    it('should update witness', async function() {
-        const witnessKey = PrivateKey.fromSeed('banana')
-        const op: ds.WitnessUpdateOperation = ['witness_update', {
-            owner: acc1.username,
-            url: 'https://example.com',
-            block_signing_key: witnessKey.createPublic(client.addressPrefix),
-            fee: Asset.from(0, 'STEEM'),
-            props: {
-                account_creation_fee: '1.000 STEEM',
-                maximum_block_size: 1234500,
-                sbd_interest_rate: 10000,
-            }
-        }]
-        const key = ds.PrivateKey.fromLogin(acc1.username, acc1.password, 'owner')
-        await client.broadcast.sendOperations([op], key)
-    })
-
 })
