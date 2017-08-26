@@ -102,17 +102,16 @@ const PublicKeySerializer = (buffer: ByteBuffer, data: PublicKey | string | Buff
 
 const BufferSerializer = (size?: number) => {
     return (buffer: ByteBuffer, data: Buffer | HexBuffer) => {
-        if (data instanceof HexBuffer) {
-            data = data.buffer
-        }
+        data = HexBuffer.from(data)
+        const len = data.buffer.length
         if (size) {
-            if (data.length !== size) {
-                throw new Error(`Unable to serialize buffer. Expected ${ size } bytes, got ${ data.length }`)
+            if (len !== size) {
+                throw new Error(`Unable to serialize buffer. Expected ${ size } bytes, got ${ len }`)
             }
         } else {
-            buffer.writeVarint32(data.length)
+            buffer.writeVarint32(len)
         }
-        buffer.append(data)
+        buffer.append(data.buffer)
     }
 }
 
