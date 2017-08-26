@@ -34,7 +34,7 @@
   "dependencies": {
     "bs58": "^4.0.1",
     "bytebuffer": "^5.0.1",
-    "core-js": "^2.4.1",
+    "core-js": "^2.5.0",
     "secp256k1": "^3.3.0",
     "verror": "^1.10.0",
     "ws": "^3.1.0"
@@ -53,15 +53,15 @@
     "dts-generator": "^2.1.0",
     "encoding": "^0.1.12",
     "lorem-ipsum": "^1.0.4",
-    "mocha": "^3.3.0",
+    "mocha": "^3.5.0",
     "node-fetch": "^2.0.0-alpha.7",
     "nyc": "^11.1.0",
     "regenerator-runtime": "^0.10.5",
     "ts-node": "^3.3.0",
     "tsify": "^3.0.1",
-    "tslint": "^5.5.0",
+    "tslint": "^5.7.0",
     "typedoc": "^0.8.0",
-    "typescript": "^2.4.2",
+    "typescript": "^2.5.0",
     "uglify-js": "^3.0.26"
   }
 }
