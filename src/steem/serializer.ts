@@ -172,7 +172,7 @@ const PriceSerializer = ObjectSerializer([
 const SignedBlockHeaderSerializer = ObjectSerializer([
     ['previous', BufferSerializer(20)],
     ['timestamp', DateSerializer],
-    ['witness', DateSerializer],
+    ['witness', StringSerializer],
     ['transaction_merkle_root', BufferSerializer(20)],
     ['extensions', ArraySerializer(VoidSerializer)],
     ['witness_signature', BufferSerializer(65)],
