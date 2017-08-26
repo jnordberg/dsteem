@@ -137,7 +137,12 @@ const ArraySerializer = (itemSerializer: Serializer) => {
 const ObjectSerializer = (keySerializers: Array<[string, Serializer]>) => {
     return (buffer: ByteBuffer, data: {[key: string]: any}, options: SerializerOptions) => {
         for (const [key, serializer] of keySerializers) {
-            serializer(buffer, data[key], options)
+            try {
+                serializer(buffer, data[key], options)
+            } catch (error) {
+                error.message = `${ key }: ${ error.message }`
+                throw error
+            }
         }
     }
 }
@@ -496,7 +501,12 @@ const OperationSerializer = (buffer: ByteBuffer, operation: Operation, options: 
     if (!serializer) {
         throw new Error(`No serializer for operation: ${ operation[0] }`)
     }
-    serializer(buffer, operation[1], options)
+    try {
+        serializer(buffer, operation[1], options)
+    } catch (error) {
+        error.message = `${ operation[0] }: ${ error.message }`
+        throw error
+    }
 }
 
 const TransactionSerializer = ObjectSerializer([
