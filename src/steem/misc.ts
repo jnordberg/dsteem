@@ -45,6 +45,21 @@ export type Bignum = string
  */
 export class HexBuffer {
 
+    /**
+     * Convenience to create a new HexBuffer, does not copy data if value passed is already a buffer.
+     */
+    public static from(value: Buffer | HexBuffer | number[] | string) {
+        if (value instanceof HexBuffer) {
+            return value
+        } else if (value instanceof Buffer) {
+            return new HexBuffer(value)
+        } else if (typeof value === 'string') {
+            return new HexBuffer(Buffer.from(value, 'hex'))
+        } else {
+            return new HexBuffer(new Buffer(value))
+        }
+    }
+
     constructor(public buffer: Buffer) {}
 
     public toString(encoding = 'hex') {
