@@ -1,11 +1,9 @@
 import 'mocha'
 import * as assert from 'assert'
 
-import {
-    Asset, Client, PrivateKey,
-    CustomOperation, AccountCreateWithDelegationOperation, FeedPublishOperation,
-    ConvertOperation
-} from './../src'
+import * as ds from './../src'
+
+const {Asset, PrivateKey, Client, HexBuffer} = ds
 
 import {getTestnetAccounts, randomString} from './common'
 
@@ -16,7 +14,7 @@ describe('operations', function() {
     const client = Client.testnet({sendTimeout: 0})
 
     let acc1, acc2: {username: string, password: string}
-    let acc1Key: PrivateKey
+    let acc1Key: ds.PrivateKey
     before(async function() {
         [acc1, acc2] = await getTestnetAccounts()
         acc1Key = PrivateKey.fromLogin(acc1.username, acc1.password, 'active')
@@ -41,7 +39,7 @@ describe('operations', function() {
     it('should send custom binary', async function() {
         const props = await client.database.getDynamicGlobalProperties()
         const size = props.maximum_block_size - 256 - 512
-        const op: CustomOperation = ['custom', {
+        const op: ds.CustomOperation = ['custom', {
             required_auths: [acc1.username],
             id: ~~(Math.random() * 65535),
             data: Buffer.alloc(size, 1),
@@ -50,7 +48,7 @@ describe('operations', function() {
         const tx = await client.database.getTransaction(rv)
         const rop = tx.operations[0]
         assert.equal(rop[0], 'custom')
-        assert.equal(rop[1].data, op[1].data.toString('hex'))
+        assert.equal(rop[1].data, HexBuffer.from(op[1].data).toString())
     })
 
     it('should send custom json', async function() {
@@ -140,7 +138,7 @@ describe('operations', function() {
         const activeKey = PrivateKey.fromLogin(username, password, 'active').createPublic(client.addressPrefix)
         const postingKey = PrivateKey.fromLogin(username, password, 'posting').createPublic(client.addressPrefix)
         const memoKey = PrivateKey.fromLogin(username, password, 'memo').createPublic(client.addressPrefix)
-        const op: AccountCreateWithDelegationOperation = ['account_create_with_delegation', {
+        const op: ds.AccountCreateWithDelegationOperation = ['account_create_with_delegation', {
             creator: acc1.username,
             fee: '5.000 STEEM',
             delegation: '1000.000000 VESTS',
@@ -156,6 +154,50 @@ describe('operations', function() {
         const [newAccount] = await client.database.getAccounts([username])
         assert.equal(newAccount.name, username)
         assert.equal(newAccount.received_vesting_shares, '1000.000000 VESTS')
+    })
+
+    it('should change recovery account', async function() {
+        const op: ds.ChangeRecoveryAccountOperation = ['change_recovery_account', {
+            account_to_recover: acc1.username,
+            new_recovery_account: acc2.username,
+            extensions: [],
+        }]
+        const key = ds.PrivateKey.fromLogin(acc1.username, acc1.password, 'owner')
+        await client.broadcast.sendOperations([op], key)
+    })
+
+    it('should report overproduction', async function() {
+        const b1 = await client.database.getBlock(10)
+        const b2 = await client.database.getBlock(11)
+        b1.timestamp = b2.timestamp
+        const op: ds.ReportOverProductionOperation = ['report_over_production', {
+            reporter: acc1.username,
+            first_block: b1,
+            second_block: b2,
+        }]
+        try {
+            await client.broadcast.sendOperations([op], acc1Key)
+            assert(false)
+        } catch (error) {
+            assert.equal(error.message, 'first_block.signee() == second_block.signee(): ')
+        }
+    })
+
+    it('should update witness', async function() {
+        const witnessKey = PrivateKey.fromSeed('banana')
+        const op: ds.WitnessUpdateOperation = ['witness_update', {
+            owner: acc1.username,
+            url: 'https://example.com',
+            block_signing_key: witnessKey.createPublic(client.addressPrefix),
+            fee: Asset.from(0, 'STEEM'),
+            props: {
+                account_creation_fee: '1.000 STEEM',
+                maximum_block_size: 1234500,
+                sbd_interest_rate: 10000,
+            }
+        }]
+        const key = ds.PrivateKey.fromLogin(acc1.username, acc1.password, 'owner')
+        await client.broadcast.sendOperations([op], key)
     })
 
 })
