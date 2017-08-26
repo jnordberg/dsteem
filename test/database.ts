@@ -101,4 +101,12 @@ describe('database api', function() {
                                               'witness_schedule', 'feed_price', 'error' ])
     })
 
+    it('getVestingDelegations', async function() {
+        this.slow(5 * 1000)
+        const [delegation] = await liveClient.database.getVestingDelegations('steem', '', 1)
+        assert.equal(delegation.delegator, 'steem')
+        assert.equal(typeof delegation.id, 'number')
+        assert.equal(Asset.from(delegation.vesting_shares).symbol, 'VESTS')
+    })
+
 })

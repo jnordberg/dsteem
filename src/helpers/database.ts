@@ -39,7 +39,7 @@ import {Asset, Price} from './../steem/asset'
 import {BlockHeader, SignedBlock} from './../steem/block'
 import {Discussion} from './../steem/comment'
 import {DynamicGlobalProperties} from './../steem/misc'
-import {ChainProperties} from './../steem/misc'
+import {ChainProperties, VestingDelegation} from './../steem/misc'
 import {AppliedOperation} from './../steem/operation'
 import {SignedTransaction, Transaction, TransactionConfirmation} from './../steem/transaction'
 
@@ -118,6 +118,18 @@ export class DatabaseAPI {
      */
     public async getCurrentMedianHistoryPrice(): Promise<Price> {
         return this.call('get_current_median_history_price')
+    }
+
+    /**
+     * Get list of delegations made by account.
+     * @param account Account delegating
+     * @param from Delegatee start offset, used for paging.
+     * @param limit Number of results, max 1000.
+     */
+    public async getVestingDelegations(account: string,
+                                       from: string = '',
+                                       limit: number = 1000): Promise<VestingDelegation[]> {
+        return this.call('get_vesting_delegations', [account, from, limit])
     }
 
     /**

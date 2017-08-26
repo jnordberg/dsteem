@@ -98,6 +98,29 @@ export interface ChainProperties {
     sbd_interest_rate: number // uint16_t STEEMIT_100_PERCENT
 }
 
+export interface VestingDelegation {
+    /**
+     * Delegation id.
+     */
+    id: number // id_type
+    /**
+     * Account that is delegating vests to delegatee.
+     */
+    delegator: string // account_name_type
+    /**
+     * Account that is receiving vests from delegator.
+     */
+    delegatee: string // account_name_type
+    /**
+     * Amount of VESTS delegated.
+     */
+    vesting_shares: Asset | string
+    /**
+     * Earliest date delegation can be removed.
+     */
+    min_delegation_time: string // time_point_sec
+}
+
 /**
  * Node state.
  */
