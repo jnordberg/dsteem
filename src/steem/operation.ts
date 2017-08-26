@@ -40,71 +40,76 @@ import {BeneficiaryRoute} from './comment'
 import {HexBuffer} from './misc'
 
 /**
- * Transaction operation name.
+ * Operation name.
  */
 export type OperationName = // <id>
-        | 'account_create' // 9
-        | 'account_create_with_delegation' // 41
-        | 'account_update' // 10
-        | 'account_witness_proxy' // 13
-        | 'account_witness_vote' // 12
-        | 'author_reward' // 43
-        | 'cancel_transfer_from_savings' // 34
-        | 'challenge_authority' // 22
-        | 'change_recovery_account' // 26
-        | 'claim_reward_balance' // 39
-        | 'comment' // 1
-        | 'comment_benefactor_reward' // 55
-        | 'comment_options' // 19
-        | 'comment_payout_update' // 53
-        | 'comment_reward' // 45
-        | 'convert' // 8
-        | 'curation_reward' // 44
-        | 'custom' // 15
-        | 'custom_binary' // 35
-        | 'custom_json' // 18
-        | 'decline_voting_rights' // 36
-        | 'delegate_vesting_shares' // 40
-        | 'delete_comment' // 17
-        | 'escrow_approve' // 31
-        | 'escrow_dispute' // 28
-        | 'escrow_release' // 29
-        | 'escrow_transfer' // 27
-        | 'feed_publish' // 7
-        | 'fill_convert_request' // 42
-        | 'fill_order' // 49
-        | 'fill_transfer_from_savings' // 51
-        | 'fill_vesting_withdraw' // 48
-        | 'hardfork' // 52
-        | 'interest' // 47
-        | 'limit_order_cancel' // 6
-        | 'limit_order_create' // 5
-        | 'limit_order_create2' // 21
-        | 'liquidity_reward' // 46
-        | 'pow' // 14
-        | 'pow2' // 30
-        | 'prove_authority' // 23
-        | 'recover_account' // 25
-        | 'report_over_production' // 16
-        | 'request_account_recovery' // 24
-        | 'reset_account' // 37
-        | 'return_vesting_delegation' // 54
-        | 'set_reset_account' // 38
-        | 'set_withdraw_vesting_route' // 20
-        | 'shutdown_witness' // 50
-        | 'transfer' // 2
-        | 'transfer_from_savings' // 33
-        | 'transfer_to_savings' // 32
-        | 'transfer_to_vesting' // 3
-        | 'vote' // 0
-        | 'withdraw_vesting' // 4
-        | 'witness_update' // 11
+    | 'account_create' // 9
+    | 'account_create_with_delegation' // 41
+    | 'account_update' // 10
+    | 'account_witness_proxy' // 13
+    | 'account_witness_vote' // 12
+    | 'cancel_transfer_from_savings' // 34
+    | 'challenge_authority' // 22
+    | 'change_recovery_account' // 26
+    | 'claim_reward_balance' // 39
+    | 'comment' // 1
+    | 'comment_options' // 19
+    | 'convert' // 8
+    | 'custom' // 15
+    | 'custom_binary' // 35
+    | 'custom_json' // 18
+    | 'decline_voting_rights' // 36
+    | 'delegate_vesting_shares' // 40
+    | 'delete_comment' // 17
+    | 'escrow_approve' // 31
+    | 'escrow_dispute' // 28
+    | 'escrow_release' // 29
+    | 'escrow_transfer' // 27
+    | 'feed_publish' // 7
+    | 'limit_order_cancel' // 6
+    | 'limit_order_create' // 5
+    | 'limit_order_create2' // 21
+    | 'pow' // 14
+    | 'pow2' // 30
+    | 'prove_authority' // 23
+    | 'recover_account' // 25
+    | 'report_over_production' // 16
+    | 'request_account_recovery' // 24
+    | 'reset_account' // 37
+    | 'set_reset_account' // 38
+    | 'set_withdraw_vesting_route' // 20
+    | 'transfer' // 2
+    | 'transfer_from_savings' // 33
+    | 'transfer_to_savings' // 32
+    | 'transfer_to_vesting' // 3
+    | 'vote' // 0
+    | 'withdraw_vesting' // 4
+    | 'witness_update' // 11
+
+/**
+ * Virtual operation name.
+ */
+export type VirtualOperationName = // <id>
+    | 'author_reward' // 43
+    | 'comment_benefactor_reward' // 55
+    | 'comment_payout_update' // 53
+    | 'comment_reward' // 45
+    | 'curation_reward' // 44
+    | 'fill_convert_request' // 42
+    | 'fill_order' // 49
+    | 'fill_transfer_from_savings' // 51
+    | 'fill_vesting_withdraw' // 48
+    | 'hardfork' // 52
+    | 'interest' // 47
+    | 'liquidity_reward' // 46
+    | 'return_vesting_delegation' // 54
+    | 'shutdown_witness' // 50
 
 /**
  * Generic operation.
  */
 export interface Operation {
-    0: OperationName
+    0: OperationName | VirtualOperationName
     1: {[key: string]: any}
 }
 
