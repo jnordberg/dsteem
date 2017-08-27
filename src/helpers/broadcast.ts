@@ -231,17 +231,13 @@ export class BroadcastAPI {
         const expiration = new Date(Date.now() + this.expireTime).toISOString().slice(0, -5)
         const extensions = []
 
-        // bit of a hack to ensure any buffers passed serializes as HexBuffer instances
-        // ideally users should pass HexBuffer instances but that would be inconvenient
-        for (const op of operations) {
-            for (const k of Object.keys(op[1])) {
-                if (op[1][k] instanceof Buffer) {
-                    op[1][k] = new HexBuffer(op[1][k])
-                }
-            }
+        const tx: Transaction = {
+            expiration,
+            extensions,
+            operations,
+            ref_block_num,
+            ref_block_prefix,
         }
-
-        const tx: Transaction = {expiration, extensions, operations, ref_block_num, ref_block_prefix}
 
         const result = await this.send(signTransaction(tx, key, this.client))
         assert(result.expired === false, 'transaction expired')

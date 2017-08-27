@@ -398,7 +398,13 @@ export class Client extends EventEmitter implements ClientEvents {
     }
 
     private write = async (request: RPCRequest) => {
-        const data = JSON.stringify(request)
+        const data = JSON.stringify(request, (key, value) => {
+            // encode Buffers as hex strings instead of an array of bytes
+            if (typeof value === 'object' && value.type === 'Buffer') {
+                return Buffer.from(value.data).toString('hex')
+            }
+            return value
+        })
         const socket = this.socket as WebSocket
         socket.send(data)
     }
