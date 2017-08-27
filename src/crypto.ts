@@ -142,7 +142,7 @@ export class PublicKey {
     /**
      * Create a new instance.
      */
-    public static from(value: string | PublicKey | Buffer, prefix?: string) {
+    public static from(value: string | PublicKey | Buffer, prefix = DEFAULT_ADDRESS_PREFIX) {
         if (value instanceof PublicKey) {
             assert.equal(value.prefix, prefix, 'invalid public key prefix')
             return value
