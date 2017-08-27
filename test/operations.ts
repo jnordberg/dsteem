@@ -1,5 +1,6 @@
 import 'mocha'
 import * as assert from 'assert'
+import {randomBytes} from 'crypto'
 
 import * as ds from './../src'
 
@@ -38,11 +39,11 @@ describe('operations', function() {
 
     it('should send custom binary', async function() {
         const props = await client.database.getDynamicGlobalProperties()
-        const size = props.maximum_block_size - 256 - 512
+        const size = ~~(props.maximum_block_size / 6)
         const op: ds.CustomOperation = ['custom', {
             required_auths: [acc1.username],
             id: ~~(Math.random() * 65535),
-            data: Buffer.alloc(size, 1),
+            data: randomBytes(size),
         }]
         const rv = await client.broadcast.sendOperations([op], acc1Key)
         const tx = await client.database.getTransaction(rv)
