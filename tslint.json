@@ -8,6 +8,7 @@
     "max-classes-per-file": false,
     "no-bitwise": false,
     "no-var-requires": false,
+    "one-variable-per-declaration": false,
     "quotemark": [true, "single", "avoid-escape"],
     "semicolon": [true, "never"],
     "triple-equals": [true, "allow-undefined-check"],

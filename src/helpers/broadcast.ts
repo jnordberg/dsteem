@@ -37,9 +37,9 @@ import * as assert from 'assert'
 
 import {Client} from './../client'
 import {PrivateKey, PublicKey, signTransaction} from './../crypto'
-import {Asset} from './../steem/asset'
 import {Authority} from './../steem/account'
-import {HexBuffer, getVestingSharePrice} from './../steem/misc'
+import {Asset} from './../steem/asset'
+import {getVestingSharePrice, HexBuffer} from './../steem/misc'
 import {
     AccountCreateOperation,
     AccountCreateWithDelegationOperation,
@@ -71,7 +71,7 @@ export interface CreateAccountOptions {
         owner: Authority
         active: Authority
         posting: Authority
-        memoKey: PublicKey
+        memoKey: PublicKey,
     }
     /**
      * Creator account, fee will be deducted from this and the key to sign
@@ -226,12 +226,14 @@ export class BroadcastAPI {
             }
         }
         const op: AccountCreateWithDelegationOperation = ['account_create_with_delegation', {
-            creator, owner, active, posting, memo_key,
+            active, creator,
             delegation: Asset.from(delegation, 'VESTS'),
             extensions: [],
             fee: Asset.from(fee, 'STEEM'),
             json_metadata: metadata ? JSON.stringify(metadata) : '',
+            memo_key,
             new_account_name: username,
+            owner, posting,
         }]
         return this.sendOperations([op], key)
     }
