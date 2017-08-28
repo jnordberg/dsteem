@@ -82,7 +82,7 @@ const StaticVariantSerializer = (itemSerializers: Serializer[]) => {
  * @note This looses precision for amounts larger than 2^53-1/10^precision.
  *       Should not be a problem in real-word usage.
  */
-const AssetSerializer = (buffer: ByteBuffer, data: Asset | string) => {
+const AssetSerializer = (buffer: ByteBuffer, data: Asset | string | number) => {
     const asset = Asset.from(data)
     const precision = asset.getPrecision()
     buffer.writeInt64(Math.round(asset.amount * Math.pow(10, precision)))

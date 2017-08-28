@@ -75,10 +75,12 @@ export class Asset {
                  throw new Error(`Invalid asset, expected symbol: ${ symbol } got: ${ value.symbol }`)
              }
              return value
-         } else if (typeof value === 'number') {
+         } else if (typeof value === 'number' && Number.isFinite(value)) {
              return new Asset(value, symbol || 'STEEM')
-         } else {
+         } else if (typeof value === 'string') {
              return Asset.fromString(value, symbol)
+         } else {
+             throw new Error(`Invalid asset '${ String(value) }'`)
          }
      }
 
@@ -214,19 +216,15 @@ export class Price {
      * Throws if passed asset symbol is not base or quote.
      */
     public convert(asset: Asset) {
-        let from: Asset
-        let to: Asset
         if (asset.symbol === this.base.symbol) {
-            from = this.base
-            to = this.quote
+            assert(this.base.amount > 0)
+            return new Asset(asset.amount * this.quote.amount / this.base.amount, this.quote.symbol)
         } else if (asset.symbol === this.quote.symbol) {
-            from = this.quote
-            to = this.base
+            assert(this.quote.amount > 0)
+            return new Asset(asset.amount * this.base.amount / this.quote.amount, this.base.symbol)
         } else {
             throw new Error(`Can not convert ${ asset } with ${ this }`)
         }
-        assert(to.amount > 0)
-        return new Asset(asset.amount * from.amount / to.amount, to.symbol)
     }
 
 }
