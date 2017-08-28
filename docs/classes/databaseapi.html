@@ -93,10 +93,13 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="databaseapi.html#getblockheader" class="tsd-kind-icon">get<wbr>Block<wbr>Header</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="databaseapi.html#getchainproperties" class="tsd-kind-icon">get<wbr>Chain<wbr>Properties</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="databaseapi.html#getconfig" class="tsd-kind-icon">get<wbr>Config</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="databaseapi.html#getcurrentmedianhistoryprice" class="tsd-kind-icon">get<wbr>Current<wbr>Median<wbr>History<wbr>Price</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="databaseapi.html#getdiscussions" class="tsd-kind-icon">get<wbr>Discussions</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="databaseapi.html#getdynamicglobalproperties" class="tsd-kind-icon">get<wbr>Dynamic<wbr>Global<wbr>Properties</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="databaseapi.html#getoperations" class="tsd-kind-icon">get<wbr>Operations</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="databaseapi.html#getstate" class="tsd-kind-icon">get<wbr>State</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="databaseapi.html#gettransaction" class="tsd-kind-icon">get<wbr>Transaction</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="databaseapi.html#getvestingdelegations" class="tsd-kind-icon">get<wbr>Vesting<wbr>Delegations</a></li>
 							</ul>
 						</section>
 					</div>
@@ -171,7 +174,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/database.ts#L151">helpers/database.ts:151</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/database.ts#L179">helpers/database.ts:179</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -202,7 +205,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/database.ts#L125">helpers/database.ts:125</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/database.ts#L153">helpers/database.ts:153</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -230,7 +233,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/database.ts#L118">helpers/database.ts:118</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/database.ts#L146">helpers/database.ts:146</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -280,7 +283,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/database.ts#L111">helpers/database.ts:111</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/database.ts#L139">helpers/database.ts:139</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -294,6 +297,28 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getcurrentmedianhistoryprice" class="tsd-anchor"></a>
+					<h3>get<wbr>Current<wbr>Median<wbr>History<wbr>Price</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Current<wbr>Median<wbr>History<wbr>Price<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="price.html" class="tsd-signature-type">Price</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/database.ts#L119">helpers/database.ts:119</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Return median price in SBD for 1 STEEM as reported by the witnesses.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="price.html" class="tsd-signature-type">Price</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="getdiscussions" class="tsd-anchor"></a>
 					<h3>get<wbr>Discussions</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -303,7 +328,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/database.ts#L143">helpers/database.ts:143</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/database.ts#L171">helpers/database.ts:171</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -362,7 +387,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/database.ts#L132">helpers/database.ts:132</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/database.ts#L160">helpers/database.ts:160</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -384,6 +409,38 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getstate" class="tsd-anchor"></a>
+					<h3>get<wbr>State</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>State<span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/database.ts#L112">helpers/database.ts:112</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Return all of the state required for a particular url path.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>path: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Path component of url conforming to condenser&#39;s scheme
+										e.g. <code>@almost-digital</code> or <code>trending/travel</code></p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="gettransaction" class="tsd-anchor"></a>
 					<h3>get<wbr>Transaction</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -393,7 +450,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/database.ts#L158">helpers/database.ts:158</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/database.ts#L186">helpers/database.ts:186</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -408,6 +465,49 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/signedtransaction.html" class="tsd-signature-type">SignedTransaction</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getvestingdelegations" class="tsd-anchor"></a>
+					<h3>get<wbr>Vesting<wbr>Delegations</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Vesting<wbr>Delegations<span class="tsd-signature-symbol">(</span>account<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, from<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, limit<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/vestingdelegation.html" class="tsd-signature-type">VestingDelegation</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/database.ts#L129">helpers/database.ts:129</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get list of delegations made by account.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>account: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Account delegating</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> from: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;&quot;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Delegatee start offset, used for paging.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> limit: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;1000</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Number of results, max 1000.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/vestingdelegation.html" class="tsd-signature-type">VestingDelegation</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -450,6 +550,9 @@
 								<a href="databaseapi.html#getconfig" class="tsd-kind-icon">get<wbr>Config</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="databaseapi.html#getcurrentmedianhistoryprice" class="tsd-kind-icon">get<wbr>Current<wbr>Median<wbr>History<wbr>Price</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="databaseapi.html#getdiscussions" class="tsd-kind-icon">get<wbr>Discussions</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
@@ -459,7 +562,13 @@
 								<a href="databaseapi.html#getoperations" class="tsd-kind-icon">get<wbr>Operations</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="databaseapi.html#getstate" class="tsd-kind-icon">get<wbr>State</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="databaseapi.html#gettransaction" class="tsd-kind-icon">get<wbr>Transaction</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="databaseapi.html#getvestingdelegations" class="tsd-kind-icon">get<wbr>Vesting<wbr>Delegations</a>
 							</li>
 						</ul>
 					</li>

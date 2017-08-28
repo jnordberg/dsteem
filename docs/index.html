@@ -64,30 +64,96 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<h1 id="-dsteem-https-github-com-jnordberg-dsteem-build-status-https-img-shields-io-travis-jnordberg-dsteem-svg-style-flat-square-https-travis-ci-org-jnordberg-dsteem-coverage-status-https-img-shields-io-coveralls-jnordberg-dsteem-svg-style-flat-square-https-coveralls-io-github-jnordberg-dsteem-branch-master-package-version-https-img-shields-io-npm-v-dsteem-svg-style-flat-square-https-www-npmjs-com-package-dsteem-license-https-img-shields-io-npm-l-dsteem-svg-style-flat-square-"><a href="https://github.com/jnordberg/dsteem">dsteem</a> <a href="https://travis-ci.org/jnordberg/dsteem"><img src="https://img.shields.io/travis/jnordberg/dsteem.svg?style=flat-square" alt="Build Status"></a> <a href="https://coveralls.io/github/jnordberg/dsteem?branch=master"><img src="https://img.shields.io/coveralls/jnordberg/dsteem.svg?style=flat-square" alt="Coverage Status"></a> <a href="https://www.npmjs.com/package/dsteem"><img src="https://img.shields.io/npm/v/dsteem.svg?style=flat-square" alt="Package Version"></a> <img src="https://img.shields.io/npm/l/dsteem.svg?style=flat-square" alt="License"></h1>
-				<p><a href="https://steem.io">Steem blockchain</a> WebSocket RPC client.</p>
+				<h1 id="-dsteem-https-github-com-jnordberg-dsteem-build-status-https-img-shields-io-travis-jnordberg-dsteem-svg-style-flat-square-https-travis-ci-org-jnordberg-dsteem-coverage-status-https-img-shields-io-coveralls-jnordberg-dsteem-svg-style-flat-square-https-coveralls-io-github-jnordberg-dsteem-branch-master-package-version-https-img-shields-io-npm-v-dsteem-svg-style-flat-square-https-www-npmjs-com-package-dsteem-"><a href="https://github.com/jnordberg/dsteem">dsteem</a> <a href="https://travis-ci.org/jnordberg/dsteem"><img src="https://img.shields.io/travis/jnordberg/dsteem.svg?style=flat-square" alt="Build Status"></a> <a href="https://coveralls.io/github/jnordberg/dsteem?branch=master"><img src="https://img.shields.io/coveralls/jnordberg/dsteem.svg?style=flat-square" alt="Coverage Status"></a> <a href="https://www.npmjs.com/package/dsteem"><img src="https://img.shields.io/npm/v/dsteem.svg?style=flat-square" alt="Package Version"></a></h1>
+				<p>Robust <a href="https://steem.io">steem blockchain</a> client library that runs in both node.js and the browser.</p>
 				<ul>
-					<li><strong><a href="https://comments.steem.vc">Demo</a></strong> (<a href="https://github.com/jnordberg/dsteem/tree/master/examples/comment-feed">source</a>)</li>
+					<li><a href="https://comments.steem.vc">Demo</a> (<a href="https://github.com/jnordberg/dsteem/tree/master/examples/comment-feed">source</a>)</li>
+					<li><a href="https://playground.steem.vc">Code playground</a></li>
 					<li><a href="https://jnordberg.github.io/dsteem/">Documentation</a></li>
-					<li><a href="https://github.com/jnordberg/dsteem/issues">Issues</a></li>
+					<li><a href="https://github.com/jnordberg/dsteem/issues">Bug tracker</a></li>
 				</ul>
 				<hr>
-				<h2 id="minimal-example">Minimal example</h2>
+				<h2 id="installation">Installation</h2>
+				<h3 id="via-npm">Via npm</h3>
+				<p>For node.js or the browser with <a href="https://github.com/substack/node-browserify">browserify</a> or <a href="https://github.com/webpack/webpack">webpack</a>.</p>
+				<pre><code>npm <span class="hljs-keyword">install</span> dsteem
+</code></pre><h3 id="from-cdn-or-self-hosted-script">From cdn or self-hosted script</h3>
+				<p>Grab <code>dist/dsteem.js</code> from a <a href="https://github.com/jnordberg/dsteem/releases">release</a> and include in your html:</p>
+				<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"dsteem.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre>
+				<p>Or from the <a href="https://unpkg.com">unpkg</a> cdn:</p>
+				<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/dsteem@^0.6.0/dist/dsteem.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre>
+				<p>Make sure to set the version you want when including from the cdn, you can also use <code>dsteem@latest</code> but that is not always desirable. See <a href="https://unpkg.com">unpkg.com</a> for more information.</p>
+				<h2 id="usage">Usage</h2>
+				<h3 id="in-the-browser">In the browser</h3>
+				<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/dsteem@latest/dist/dsteem.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+    <span class="hljs-keyword">var</span> client = <span class="hljs-keyword">new</span> dsteem.Client(<span class="hljs-string">'wss://steemd.steemit.com'</span>)
+    client.database.getDiscussions(<span class="hljs-string">'trending'</span>, {<span class="hljs-attr">tag</span>: <span class="hljs-string">'writing'</span>, <span class="hljs-attr">limit</span>: <span class="hljs-number">1</span>}).then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">discussions</span>)</span>{
+        <span class="hljs-built_in">document</span>.body.innerHTML += <span class="hljs-string">'&lt;h1&gt;'</span> + discussions[<span class="hljs-number">0</span>].title + <span class="hljs-string">'&lt;/h1&gt;'</span>
+        <span class="hljs-built_in">document</span>.body.innerHTML += <span class="hljs-string">'&lt;h2&gt;by '</span> + discussions[<span class="hljs-number">0</span>].author + <span class="hljs-string">'&lt;/h2&gt;'</span>
+        <span class="hljs-built_in">document</span>.body.innerHTML += <span class="hljs-string">'&lt;pre style="white-space: pre-wrap"&gt;'</span> + discussions[<span class="hljs-number">0</span>].body + <span class="hljs-string">'&lt;/pre&gt;'</span>
+    })
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre>
+				<p>See the <a href="https://github.com/jnordberg/dsteem/tree/master/examples/comment-feed">demo source</a> for an example on how to setup a livereloading TypeScript pipeline with <a href="https://github.com/jnordberg/wintersmith">wintersmith</a> and <a href="https://github.com/substack/node-browserify">browserify</a>.</p>
+				<h3 id="in-node-js">In node.js</h3>
+				<p>With TypeScript:</p>
 				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> {Client} <span class="hljs-keyword">from</span> <span class="hljs-string">'dsteem'</span>
 
 <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Client(<span class="hljs-string">'wss://steemd.steemit.com'</span>)
 
-<span class="hljs-comment">// get blocks using async iterator</span>
 <span class="hljs-keyword">for</span> <span class="hljs-keyword">await</span> (<span class="hljs-keyword">const</span> block of client.blockchain.getBlocks()) {
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Block ID: <span class="hljs-subst">${ block.block_id }</span>`</span>)
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`New block, id: <span class="hljs-subst">${ block.block_id }</span>`</span>)
 }
+</code></pre>
+				<p>With JavaScript:</p>
+				<pre><code class="lang-javascript">
+<span class="hljs-keyword">var</span> dsteem = <span class="hljs-built_in">require</span>(<span class="hljs-string">'dsteem'</span>)
 
-<span class="hljs-comment">// get blocks using node-style streams</span>
-<span class="hljs-keyword">const</span> stream = client.blockchain.getBlockStream()
-stream.on(<span class="hljs-string">'data'</span>, <span class="hljs-function">(<span class="hljs-params">block</span>) =&gt;</span> {
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Block ID: <span class="hljs-subst">${ block.block_id }</span>`</span>)
+<span class="hljs-keyword">var</span> client = <span class="hljs-keyword">new</span> Client(<span class="hljs-string">'wss://steemd.steemit.com'</span>)
+<span class="hljs-keyword">var</span> key = dsteem.PrivateKey.fromLogin(<span class="hljs-string">'username'</span>, <span class="hljs-string">'password'</span>, <span class="hljs-string">'posting'</span>)
+
+client.broadcast.comment({
+    <span class="hljs-attr">voter</span>: <span class="hljs-string">'username'</span>,
+    <span class="hljs-attr">author</span>: <span class="hljs-string">'almost-digital'</span>,
+    <span class="hljs-attr">permlink</span>: <span class="hljs-string">'dsteem-is-the-best'</span>,
+    <span class="hljs-attr">weight</span>: <span class="hljs-number">10000</span>
+}, key).then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">result</span>)</span>{
+   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Included in block: '</span> + result.block_num)
+}, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">error</span>) </span>{
+   <span class="hljs-built_in">console</span>.error(error)
 })
 </code></pre>
+				<p>With ES2016 (node.js 7+):</p>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> {Client} = <span class="hljs-built_in">require</span>(<span class="hljs-string">'dsteem'</span>)
+
+<span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Client(<span class="hljs-string">'wss://steemd.steemit.com'</span>)
+
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">const</span> props = <span class="hljs-keyword">await</span> client.database.getChainProperties()
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Maximum blocksize consensus: <span class="hljs-subst">${ props.maximum_block_size }</span> bytes`</span>)
+    client.disconnect()
+}
+
+main().catch(<span class="hljs-built_in">console</span>.error)
+</code></pre>
+				<p>With node.js streams:</p>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> dsteem = <span class="hljs-built_in">require</span>(<span class="hljs-string">'dsteem'</span>)
+<span class="hljs-keyword">var</span> es = <span class="hljs-built_in">require</span>(<span class="hljs-string">'event-stream'</span>) <span class="hljs-comment">// npm install event-stream</span>
+<span class="hljs-keyword">var</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'util'</span>)
+
+<span class="hljs-keyword">var</span> client = <span class="hljs-keyword">new</span> dsteem.Client(<span class="hljs-string">'wss://steemd.steemit.com'</span>)
+
+<span class="hljs-keyword">var</span> stream = client.blockchain.getBlockStream()
+
+stream.pipe(es.map(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">block, callback</span>) </span>{
+    callback(<span class="hljs-literal">null</span>, util.inspect(block, {<span class="hljs-attr">colors</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">depth</span>: <span class="hljs-literal">null</span>}) + <span class="hljs-string">'\n'</span>)
+})).pipe(process.stdout)
+</code></pre>
+				<hr>
+				<p><em>Share and Enjoy!</em></p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -122,6 +188,9 @@ stream.on(<span class="hljs-string">'data'</span>, <span class="hljs-function">(
 						<a href="classes/hexbuffer.html" class="tsd-kind-icon">Hex<wbr>Buffer</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="classes/price.html" class="tsd-kind-icon">Price</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="classes/privatekey.html" class="tsd-kind-icon">Private<wbr>Key</a>
 					</li>
 					<li class=" tsd-kind-class">
@@ -143,6 +212,12 @@ stream.on(<span class="hljs-string">'data'</span>, <span class="hljs-function">(
 						<a href="interfaces/accountupdateoperation.html" class="tsd-kind-icon">Account<wbr>Update<wbr>Operation</a>
 					</li>
 					<li class=" tsd-kind-interface">
+						<a href="interfaces/accountwitnessproxyoperation.html" class="tsd-kind-icon">Account<wbr>Witness<wbr>Proxy<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/accountwitnessvoteoperation.html" class="tsd-kind-icon">Account<wbr>Witness<wbr>Vote<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="interfaces/appliedoperation.html" class="tsd-kind-icon">Applied<wbr>Operation</a>
 					</li>
 					<li class=" tsd-kind-interface">
@@ -158,7 +233,19 @@ stream.on(<span class="hljs-string">'data'</span>, <span class="hljs-function">(
 						<a href="interfaces/blockchainstreamoptions.html" class="tsd-kind-icon">Blockchain<wbr>Stream<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-interface">
+						<a href="interfaces/canceltransferfromsavingsoperation.html" class="tsd-kind-icon">Cancel<wbr>Transfer<wbr>From<wbr>Savings<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="interfaces/chainproperties.html" class="tsd-kind-icon">Chain<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/challengeauthorityoperation.html" class="tsd-kind-icon">Challenge<wbr>Authority<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/changerecoveryaccountoperation.html" class="tsd-kind-icon">Change<wbr>Recovery<wbr>Account<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/claimrewardbalanceoperation.html" class="tsd-kind-icon">Claim<wbr>Reward<wbr>Balance<wbr>Operation</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/clientevents.html" class="tsd-kind-icon">Client<wbr>Events</a>
@@ -176,7 +263,13 @@ stream.on(<span class="hljs-string">'data'</span>, <span class="hljs-function">(
 						<a href="interfaces/commentoptionsoperation.html" class="tsd-kind-icon">Comment<wbr>Options<wbr>Operation</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="interfaces/createloginoptions.html" class="tsd-kind-icon">Create<wbr>Login<wbr>Options</a>
+						<a href="interfaces/convertoperation.html" class="tsd-kind-icon">Convert<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/createaccountoptions.html" class="tsd-kind-icon">Create<wbr>Account<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/custombinaryoperation.html" class="tsd-kind-icon">Custom<wbr>Binary<wbr>Operation</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/customjsonoperation.html" class="tsd-kind-icon">Custom<wbr>Json<wbr>Operation</a>
@@ -185,7 +278,13 @@ stream.on(<span class="hljs-string">'data'</span>, <span class="hljs-function">(
 						<a href="interfaces/customoperation.html" class="tsd-kind-icon">Custom<wbr>Operation</a>
 					</li>
 					<li class=" tsd-kind-interface">
+						<a href="interfaces/declinevotingrightsoperation.html" class="tsd-kind-icon">Decline<wbr>Voting<wbr>Rights<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="interfaces/delegatevestingsharesoperation.html" class="tsd-kind-icon">Delegate<wbr>Vesting<wbr>Shares<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/deletecommentoperation.html" class="tsd-kind-icon">Delete<wbr>Comment<wbr>Operation</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/discussion.html" class="tsd-kind-icon">Discussion</a>
@@ -197,7 +296,31 @@ stream.on(<span class="hljs-string">'data'</span>, <span class="hljs-function">(
 						<a href="interfaces/dynamicglobalproperties.html" class="tsd-kind-icon">Dynamic<wbr>Global<wbr>Properties</a>
 					</li>
 					<li class=" tsd-kind-interface">
+						<a href="interfaces/escrowapproveoperation.html" class="tsd-kind-icon">Escrow<wbr>Approve<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/escrowdisputeoperation.html" class="tsd-kind-icon">Escrow<wbr>Dispute<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/escrowreleaseoperation.html" class="tsd-kind-icon">Escrow<wbr>Release<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/escrowtransferoperation.html" class="tsd-kind-icon">Escrow<wbr>Transfer<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="interfaces/extendedaccount.html" class="tsd-kind-icon">Extended<wbr>Account</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/feedpublishoperation.html" class="tsd-kind-icon">Feed<wbr>Publish<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/limitordercanceloperation.html" class="tsd-kind-icon">Limit<wbr>Order<wbr>Cancel<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/limitordercreate2operation.html" class="tsd-kind-icon">Limit<wbr>Order<wbr>Create2<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/limitordercreateoperation.html" class="tsd-kind-icon">Limit<wbr>Order<wbr>Create<wbr>Operation</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/operation.html" class="tsd-kind-icon">Operation</a>
@@ -207,6 +330,15 @@ stream.on(<span class="hljs-string">'data'</span>, <span class="hljs-function">(
 					</li>
 					<li class=" tsd-kind-interface tsd-is-not-exported">
 						<a href="interfaces/pendingrequest.html" class="tsd-kind-icon">Pending<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/pow2operation.html" class="tsd-kind-icon">Pow2<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/powoperation.html" class="tsd-kind-icon">Pow<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/proveauthorityoperation.html" class="tsd-kind-icon">Prove<wbr>Authority<wbr>Operation</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-not-exported">
 						<a href="interfaces/rpccall.html" class="tsd-kind-icon">RPCCall</a>
@@ -221,10 +353,31 @@ stream.on(<span class="hljs-string">'data'</span>, <span class="hljs-function">(
 						<a href="interfaces/rpcresponse.html" class="tsd-kind-icon">RPCResponse</a>
 					</li>
 					<li class=" tsd-kind-interface">
+						<a href="interfaces/recoveraccountoperation.html" class="tsd-kind-icon">Recover<wbr>Account<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/reportoverproductionoperation.html" class="tsd-kind-icon">Report<wbr>Over<wbr>Production<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/requestaccountrecoveryoperation.html" class="tsd-kind-icon">Request<wbr>Account<wbr>Recovery<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/resetaccountoperation.html" class="tsd-kind-icon">Reset<wbr>Account<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="interfaces/serializeroptions.html" class="tsd-kind-icon">Serializer<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-interface">
+						<a href="interfaces/setresetaccountoperation.html" class="tsd-kind-icon">Set<wbr>Reset<wbr>Account<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/setwithdrawvestingrouteoperation.html" class="tsd-kind-icon">Set<wbr>Withdraw<wbr>Vesting<wbr>Route<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="interfaces/signedblock.html" class="tsd-kind-icon">Signed<wbr>Block</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/signedblockheader.html" class="tsd-kind-icon">Signed<wbr>Block<wbr>Header</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/signedtransaction.html" class="tsd-kind-icon">Signed<wbr>Transaction</a>
@@ -236,13 +389,28 @@ stream.on(<span class="hljs-string">'data'</span>, <span class="hljs-function">(
 						<a href="interfaces/transactionconfirmation.html" class="tsd-kind-icon">Transaction<wbr>Confirmation</a>
 					</li>
 					<li class=" tsd-kind-interface">
+						<a href="interfaces/transferfromsavingsoperation.html" class="tsd-kind-icon">Transfer<wbr>From<wbr>Savings<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="interfaces/transferoperation.html" class="tsd-kind-icon">Transfer<wbr>Operation</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/transfertosavingsoperation.html" class="tsd-kind-icon">Transfer<wbr>ToSavings<wbr>Operation</a>
 					</li>
 					<li class=" tsd-kind-interface">
+						<a href="interfaces/transfertovestingoperation.html" class="tsd-kind-icon">Transfer<wbr>ToVesting<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/vestingdelegation.html" class="tsd-kind-icon">Vesting<wbr>Delegation</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="interfaces/voteoperation.html" class="tsd-kind-icon">Vote<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/withdrawvestingoperation.html" class="tsd-kind-icon">Withdraw<wbr>Vesting<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/witnessupdateoperation.html" class="tsd-kind-icon">Witness<wbr>Update<wbr>Operation</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#assetsymbol" class="tsd-kind-icon">Asset<wbr>Symbol</a>
@@ -262,11 +430,17 @@ stream.on(<span class="hljs-string">'data'</span>, <span class="hljs-function">(
 					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#serializer" class="tsd-kind-icon">Serializer</a>
 					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualoperationname" class="tsd-kind-icon">Virtual<wbr>Operation<wbr>Name</a>
+					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="globals.html#authorityserializer" class="tsd-kind-icon">Authority<wbr>Serializer</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="globals.html#beneficiaryserializer" class="tsd-kind-icon">Beneficiary<wbr>Serializer</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#chainpropertiesserializer" class="tsd-kind-icon">Chain<wbr>Properties<wbr>Serializer</a>
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="globals.html#default_address_prefix" class="tsd-kind-icon">DEFAULT_<wbr>ADDRESS_<wbr>PREFIX</a>
@@ -279,6 +453,12 @@ stream.on(<span class="hljs-string">'data'</span>, <span class="hljs-function">(
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="globals.html#operationserializers" class="tsd-kind-icon">Operation<wbr>Serializers</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#priceserializer" class="tsd-kind-icon">Price<wbr>Serializer</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#signedblockheaderserializer" class="tsd-kind-icon">Signed<wbr>Block<wbr>Header<wbr>Serializer</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="globals.html#transactionserializer" class="tsd-kind-icon">Transaction<wbr>Serializer</a>
@@ -331,6 +511,9 @@ stream.on(<span class="hljs-string">'data'</span>, <span class="hljs-function">(
 					<li class=" tsd-kind-function tsd-is-not-exported">
 						<a href="globals.html#uint32serializer" class="tsd-kind-icon">UInt32<wbr>Serializer</a>
 					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="globals.html#voidserializer" class="tsd-kind-icon">Void<wbr>Serializer</a>
+					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter">
 						<a href="globals.html#copy" class="tsd-kind-icon">copy</a>
 					</li>
@@ -351,6 +534,9 @@ stream.on(<span class="hljs-string">'data'</span>, <span class="hljs-function">(
 					</li>
 					<li class=" tsd-kind-function tsd-is-not-exported">
 						<a href="globals.html#encodepublic" class="tsd-kind-icon">encode<wbr>Public</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getvestingshareprice" class="tsd-kind-icon">get<wbr>Vesting<wbr>Share<wbr>Price</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-not-exported">
 						<a href="globals.html#iscanonicalsignature" class="tsd-kind-icon">is<wbr>Canonical<wbr>Signature</a>

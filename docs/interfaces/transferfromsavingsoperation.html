@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>CreateLoginOptions | dsteem</title>
+	<title>TransferFromSavingsOperation | dsteem</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="createloginoptions.html">CreateLoginOptions</a>
+					<a href="transferfromsavingsoperation.html">TransferFromSavingsOperation</a>
 				</li>
 			</ul>
-			<h1>Interface CreateLoginOptions</h1>
+			<h1>Interface TransferFromSavingsOperation</h1>
 		</div>
 	</div>
 </header>
@@ -70,7 +70,12 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">CreateLoginOptions</span>
+						<a href="operation.html" class="tsd-signature-type">Operation</a>
+						<ul class="tsd-hierarchy">
+							<li>
+								<span class="target">TransferFromSavingsOperation</span>
+							</li>
+						</ul>
 					</li>
 				</ul>
 			</section>
@@ -81,11 +86,8 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="createloginoptions.html#creator" class="tsd-kind-icon">creator</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="createloginoptions.html#fee" class="tsd-kind-icon">fee</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="createloginoptions.html#metadata" class="tsd-kind-icon">metadata</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="createloginoptions.html#password" class="tsd-kind-icon">password</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="createloginoptions.html#username" class="tsd-kind-icon">username</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="transferfromsavingsoperation.html#0" class="tsd-kind-icon">0</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="transferfromsavingsoperation.html#1" class="tsd-kind-icon">1</a></li>
 							</ul>
 						</section>
 					</div>
@@ -93,80 +95,46 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="creator" class="tsd-anchor"></a>
-					<h3>creator</h3>
-					<div class="tsd-signature tsd-kind-icon">creator<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
+					<a name="0" class="tsd-anchor"></a>
+					<h3>0</h3>
+					<div class="tsd-signature tsd-kind-icon">0<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"transfer_from_savings"</span></div>
 					<aside class="tsd-sources">
+						<p>Overrides <a href="operation.html">Operation</a>.<a href="operation.html#0">0</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/broadcast.ts#L68">helpers/broadcast.ts:68</a></li>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/operation.ts#L759">steem/operation.ts:759</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Creator account, fee will be deducted from this and the key to sign
-							the transaction must be the creators active key.</p>
-						</div>
-					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="fee" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> fee</h3>
-					<div class="tsd-signature tsd-kind-icon">fee<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="../classes/asset.html" class="tsd-signature-type">Asset</a></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
+					<a name="1" class="tsd-anchor"></a>
+					<h3>1</h3>
+					<div class="tsd-signature tsd-kind-icon">1<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
+						<p>Overrides <a href="operation.html">Operation</a>.<a href="operation.html#1">1</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/broadcast.ts#L72">helpers/broadcast.ts:72</a></li>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/operation.ts#L760">steem/operation.ts:760</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Account creation fee. If omitted fee will be set to lowest possible.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="metadata" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> metadata</h3>
-					<div class="tsd-signature tsd-kind-icon">metadata<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">object</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/broadcast.ts#L76">helpers/broadcast.ts:76</a></li>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5>amount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="../classes/asset.html" class="tsd-signature-type">Asset</a></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>from<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>memo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>request_<wbr>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>to<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
 						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Optional account metadata.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="password" class="tsd-anchor"></a>
-					<h3>password</h3>
-					<div class="tsd-signature tsd-kind-icon">password<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/broadcast.ts#L63">helpers/broadcast.ts:63</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Password for the new account, all keys will be derived from this.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="username" class="tsd-anchor"></a>
-					<h3>username</h3>
-					<div class="tsd-signature tsd-kind-icon">username<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/broadcast.ts#L59">helpers/broadcast.ts:59</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Username for the new account.</p>
-						</div>
 					</div>
 				</section>
 			</section>
@@ -184,22 +152,13 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface">
-						<a href="createloginoptions.html" class="tsd-kind-icon">Create<wbr>Login<wbr>Options</a>
+						<a href="transferfromsavingsoperation.html" class="tsd-kind-icon">Transfer<wbr>From<wbr>Savings<wbr>Operation</a>
 						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="createloginoptions.html#creator" class="tsd-kind-icon">creator</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
+								<a href="transferfromsavingsoperation.html#0" class="tsd-kind-icon">0</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="createloginoptions.html#fee" class="tsd-kind-icon">fee</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="createloginoptions.html#metadata" class="tsd-kind-icon">metadata</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="createloginoptions.html#password" class="tsd-kind-icon">password</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="createloginoptions.html#username" class="tsd-kind-icon">username</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
+								<a href="transferfromsavingsoperation.html#1" class="tsd-kind-icon">1</a>
 							</li>
 						</ul>
 					</li>

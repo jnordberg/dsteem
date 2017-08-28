@@ -12,11 +12,21 @@ declare module 'dsteem/steem/asset' {
 	    /**
 	     * Create a new Asset instance from a string, e.g. `42.000 STEEM`.
 	     */
-	    static fromString(string: string): Asset;
+	    static fromString(string: string, expectedSymbol?: AssetSymbol): Asset;
 	    /**
 	     * Convenience to create new Asset.
+	     * @param symbol Symbol to use when created from number. Will also be used to validate
+	     *               the asset, throws if the passed value has a different symbol than this.
 	     */
 	    static from(value: string | Asset | number, symbol?: AssetSymbol): Asset;
+	    /**
+	     * Return the smaller of the two assets.
+	     */
+	    static min(a: Asset, b: Asset): Asset;
+	    /**
+	     * Return the larger of the two assets.
+	     */
+	    static max(a: Asset, b: Asset): Asset;
 	    constructor(amount: number, symbol: AssetSymbol);
 	    /**
 	     * Return asset precision.
@@ -39,9 +49,53 @@ declare module 'dsteem/steem/asset' {
 	     */
 	    multiply(factor: Asset | string | number): Asset;
 	    /**
+	     * Return a new Asset with the amount divided.
+	     */
+	    divide(divisor: Asset | string | number): Asset;
+	    /**
 	     * For JSON serialization, same as toString().
 	     */
 	    toJSON(): string;
+	}
+	/**
+	 * Represents quotation of the relative value of asset against another asset.
+	 * Similar to 'currency pair' used to determine value of currencies.
+	 *
+	 *  For example:
+	 *  1 EUR / 1.25 USD where:
+	 *  1 EUR is an asset specified as a base
+	 *  1.25 USD us an asset specified as a qute
+	 *
+	 *  can determine value of EUR against USD.
+	 */
+	export class Price {
+	    readonly base: Asset;
+	    readonly quote: Asset;
+	    /**
+	     * Convenience to create new Price.
+	     */
+	    static from(value: Price | {
+	        base: Asset | string;
+	        quote: Asset | string;
+	    }): Price;
+	    /**
+	     * @param base  - represents a value of the price object to be expressed relatively to quote
+	     *                asset. Cannot have amount == 0 if you want to build valid price.
+	     * @param quote - represents an relative asset. Cannot have amount == 0, otherwise
+	     *                asertion fail.
+	     *
+	     * Both base and quote shall have different symbol defined.
+	     */
+	    constructor(base: Asset, quote: Asset);
+	    /**
+	     * Return a string representation of this price pair.
+	     */
+	    toString(): string;
+	    /**
+	     * Return a new Asset with the price converted between the symbols in the pair.
+	     * Throws if passed asset symbol is not base or quote.
+	     */
+	    convert(asset: Asset): Asset;
 	}
 
 }
@@ -180,7 +234,7 @@ declare module 'dsteem/steem/misc' {
 	 * You acknowledge that this software is not designed, licensed or intended for use
 	 * in the design, construction, operation or maintenance of any military facility.
 	 */
-	import { Asset } from 'dsteem/steem/asset';
+	import { Asset, Price } from 'dsteem/steem/asset';
 	/**
 	 * Large number that may be unsafe to represent natively in JavaScript.
 	 */
@@ -190,6 +244,10 @@ declare module 'dsteem/steem/misc' {
 	 */
 	export class HexBuffer {
 	    buffer: Buffer;
+	    /**
+	     * Convenience to create a new HexBuffer, does not copy data if value passed is already a buffer.
+	     */
+	    static from(value: Buffer | HexBuffer | number[] | string): HexBuffer;
 	    constructor(buffer: Buffer);
 	    toString(encoding?: string): string;
 	    toJSON(): string;
@@ -218,6 +276,28 @@ declare module 'dsteem/steem/misc' {
 	     * The SBD interest percentage rate decided by witnesses, expressed 0 to 10000.
 	     */
 	    sbd_interest_rate: number;
+	}
+	export interface VestingDelegation {
+	    /**
+	     * Delegation id.
+	     */
+	    id: number;
+	    /**
+	     * Account that is delegating vests to delegatee.
+	     */
+	    delegator: string;
+	    /**
+	     * Account that is receiving vests from delegator.
+	     */
+	    delegatee: string;
+	    /**
+	     * Amount of VESTS delegated.
+	     */
+	    vesting_shares: Asset | string;
+	    /**
+	     * Earliest date delegation can be removed.
+	     */
+	    min_delegation_time: string;
 	}
 	/**
 	 * Node state.
@@ -326,6 +406,10 @@ declare module 'dsteem/steem/misc' {
 	     */
 	    vote_power_reserve_rate: number;
 	}
+	/**
+	 * Return the vesting share price.
+	 */
+	export function getVestingSharePrice(props: DynamicGlobalProperties): Price;
 
 }
 declare module 'dsteem/steem/serializer' {
@@ -374,12 +458,12 @@ declare module 'dsteem/steem/serializer' {
 	export type Serializer = (buffer: ByteBuffer, data: any, options: SerializerOptions) => void;
 	export const Types: {
 	    Array: (itemSerializer: Serializer) => (buffer: ByteBuffer, data: any[], options: SerializerOptions) => void;
-	    Asset: (buffer: ByteBuffer, data: string | Asset) => void;
+	    Asset: (buffer: ByteBuffer, data: string | number | Asset) => void;
 	    Authority: (buffer: ByteBuffer, data: {
 	        [key: string]: any;
 	    }, options: SerializerOptions) => void;
 	    Boolean: (buffer: ByteBuffer, data: boolean) => void;
-	    Buffer: (buffer: ByteBuffer, data: HexBuffer | Buffer) => void;
+	    Buffer: (size?: number | undefined) => (buffer: ByteBuffer, data: HexBuffer | Buffer) => void;
 	    Date: (buffer: ByteBuffer, data: string) => void;
 	    FlatMap: (keySerializer: Serializer, valueSerializer: Serializer) => (buffer: ByteBuffer, data: [any, any][], options: SerializerOptions) => void;
 	    Int16: (buffer: ByteBuffer, data: number) => void;
@@ -387,6 +471,10 @@ declare module 'dsteem/steem/serializer' {
 	        [key: string]: any;
 	    }, options: SerializerOptions) => void;
 	    Operation: (buffer: ByteBuffer, operation: Operation, options: SerializerOptions) => void;
+	    Optional: (valueSerializer: Serializer) => (buffer: ByteBuffer, data: any, options: SerializerOptions) => void;
+	    Price: (buffer: ByteBuffer, data: {
+	        [key: string]: any;
+	    }, options: SerializerOptions) => void;
 	    PublicKey: (buffer: ByteBuffer, data: string | PublicKey | Buffer, options: SerializerOptions) => void;
 	    StaticVariant: (itemSerializers: Serializer[]) => (buffer: ByteBuffer, data: [number, any], options: SerializerOptions) => void;
 	    String: (buffer: ByteBuffer, data: string) => void;
@@ -395,6 +483,7 @@ declare module 'dsteem/steem/serializer' {
 	    }, options: SerializerOptions) => void;
 	    UInt16: (buffer: ByteBuffer, data: number) => void;
 	    UInt32: (buffer: ByteBuffer, data: number) => void;
+	    Void: (buffer: ByteBuffer) => never;
 	};
 
 }
@@ -694,18 +783,23 @@ declare module 'dsteem/steem/operation' {
 	 */
 	import { PublicKey } from 'dsteem/crypto';
 	import { Authority } from 'dsteem/steem/account';
-	import { Asset } from 'dsteem/steem/asset';
+	import { Asset, Price } from 'dsteem/steem/asset';
+	import { SignedBlockHeader } from 'dsteem/steem/block';
 	import { BeneficiaryRoute } from 'dsteem/steem/comment';
-	import { HexBuffer } from 'dsteem/steem/misc';
+	import { ChainProperties, HexBuffer } from 'dsteem/steem/misc';
 	/**
-	 * Transaction operation name.
+	 * Operation name.
 	 */
-	export type OperationName = 'account_create' | 'account_create_with_delegation' | 'account_update' | 'account_witness_proxy' | 'account_witness_vote' | 'author_reward' | 'cancel_transfer_from_savings' | 'challenge_authority' | 'change_recovery_account' | 'claim_reward_balance' | 'comment' | 'comment_benefactor_reward' | 'comment_options' | 'comment_payout_update' | 'comment_reward' | 'convert' | 'curation_reward' | 'custom' | 'custom_binary' | 'custom_json' | 'decline_voting_rights' | 'delegate_vesting_shares' | 'delete_comment' | 'escrow_approve' | 'escrow_dispute' | 'escrow_release' | 'escrow_transfer' | 'feed_publish' | 'fill_convert_request' | 'fill_order' | 'fill_transfer_from_savings' | 'fill_vesting_withdraw' | 'hardfork' | 'interest' | 'limit_order_cancel' | 'limit_order_create' | 'limit_order_create2' | 'liquidity_reward' | 'pow' | 'pow2' | 'prove_authority' | 'recover_account' | 'report_over_production' | 'request_account_recovery' | 'reset_account' | 'return_vesting_delegation' | 'set_reset_account' | 'set_withdraw_vesting_route' | 'shutdown_witness' | 'transfer' | 'transfer_from_savings' | 'transfer_to_savings' | 'transfer_to_vesting' | 'vote' | 'withdraw_vesting' | 'witness_update';
+	export type OperationName = 'account_create' | 'account_create_with_delegation' | 'account_update' | 'account_witness_proxy' | 'account_witness_vote' | 'cancel_transfer_from_savings' | 'challenge_authority' | 'change_recovery_account' | 'claim_reward_balance' | 'comment' | 'comment_options' | 'convert' | 'custom' | 'custom_binary' | 'custom_json' | 'decline_voting_rights' | 'delegate_vesting_shares' | 'delete_comment' | 'escrow_approve' | 'escrow_dispute' | 'escrow_release' | 'escrow_transfer' | 'feed_publish' | 'limit_order_cancel' | 'limit_order_create' | 'limit_order_create2' | 'pow' | 'pow2' | 'prove_authority' | 'recover_account' | 'report_over_production' | 'request_account_recovery' | 'reset_account' | 'set_reset_account' | 'set_withdraw_vesting_route' | 'transfer' | 'transfer_from_savings' | 'transfer_to_savings' | 'transfer_to_vesting' | 'vote' | 'withdraw_vesting' | 'witness_update';
+	/**
+	 * Virtual operation name.
+	 */
+	export type VirtualOperationName = 'author_reward' | 'comment_benefactor_reward' | 'comment_payout_update' | 'comment_reward' | 'curation_reward' | 'fill_convert_request' | 'fill_order' | 'fill_transfer_from_savings' | 'fill_vesting_withdraw' | 'hardfork' | 'interest' | 'liquidity_reward' | 'return_vesting_delegation' | 'shutdown_witness';
 	/**
 	 * Generic operation.
 	 */
 	export interface Operation {
-	    0: OperationName;
+	    0: OperationName | VirtualOperationName;
 	    1: {
 	        [key: string]: any;
 	    };
@@ -718,76 +812,6 @@ declare module 'dsteem/steem/operation' {
 	    virtual_op: number;
 	    timestamp: string;
 	    op: Operation;
-	}
-	export interface VoteOperation extends Operation {
-	    0: 'vote';
-	    1: {
-	        voter: string;
-	        author: string;
-	        permlink: string;
-	        weight: number;
-	    };
-	}
-	export interface CommentOperation extends Operation {
-	    0: 'comment';
-	    1: {
-	        parent_author: string;
-	        parent_permlink: string;
-	        author: string;
-	        permlink: string;
-	        title: string;
-	        body: string;
-	        json_metadata: string;
-	    };
-	}
-	export interface DelegateVestingSharesOperation extends Operation {
-	    0: 'delegate_vesting_shares';
-	    1: {
-	        /**
-	         * The account delegating vesting shares.
-	         */
-	        delegator: string;
-	        /**
-	         * The account receiving vesting shares.
-	         */
-	        delegatee: string;
-	        /**
-	         * The amount of vesting shares delegated.
-	         */
-	        vesting_shares: string | Asset;
-	    };
-	}
-	export interface CustomOperation extends Operation {
-	    0: 'custom';
-	    1: {
-	        required_auths: string[];
-	        id: number;
-	        data: Buffer | HexBuffer;
-	    };
-	}
-	export interface CustomJsonOperation extends Operation {
-	    0: 'custom_json';
-	    1: {
-	        required_auths: string[];
-	        required_posting_auths: string[];
-	        /** ID string, must be less than 32 characters long. */
-	        id: string;
-	        /** JSON encoded string, must be valid JSON. */
-	        json: string;
-	    };
-	}
-	export interface TransferOperation extends Operation {
-	    0: 'transfer';
-	    1: {
-	        /** Sending account name. */
-	        from: string;
-	        /** Receiving account name. */
-	        to: string;
-	        /** Amount of STEEM or SBD to send. */
-	        amount: string | Asset;
-	        /** Plain-text note attached to transaction.  */
-	        memo: string;
-	    };
 	}
 	export interface AccountCreateOperation extends Operation {
 	    0: 'account_create';
@@ -814,16 +838,10 @@ declare module 'dsteem/steem/operation' {
 	        posting: Authority;
 	        memo_key: string | PublicKey;
 	        json_metadata: string;
-	    };
-	}
-	export interface TransferToSavingsOperation extends Operation {
-	    0: 'transfer_to_savings';
-	    1: {
-	        amount: string;
-	        from: string;
-	        memo: string;
-	        request_id: number;
-	        to: string;
+	        /**
+	         * Extensions. Not currently used.
+	         */
+	        extensions: any[];
 	    };
 	}
 	export interface AccountUpdateOperation extends Operation {
@@ -834,6 +852,92 @@ declare module 'dsteem/steem/operation' {
 	        active?: Authority;
 	        posting?: Authority;
 	        memo_key: string | PublicKey;
+	        json_metadata: string;
+	    };
+	}
+	export interface AccountWitnessProxyOperation extends Operation {
+	    0: 'account_witness_proxy';
+	    1: {
+	        account: string;
+	        proxy: string;
+	    };
+	}
+	export interface AccountWitnessVoteOperation extends Operation {
+	    0: 'account_witness_vote';
+	    1: {
+	        account: string;
+	        witness: string;
+	        approve: boolean;
+	    };
+	}
+	export interface CancelTransferFromSavingsOperation extends Operation {
+	    0: 'cancel_transfer_from_savings';
+	    1: {
+	        from: string;
+	        request_id: number;
+	    };
+	}
+	export interface ChallengeAuthorityOperation extends Operation {
+	    0: 'challenge_authority';
+	    1: {
+	        challenger: string;
+	        challenged: string;
+	        require_owner: boolean;
+	    };
+	}
+	/**
+	 * Each account lists another account as their recovery account.
+	 * The recovery account has the ability to create account_recovery_requests
+	 * for the account to recover. An account can change their recovery account
+	 * at any time with a 30 day delay. This delay is to prevent
+	 * an attacker from changing the recovery account to a malicious account
+	 * during an attack. These 30 days match the 30 days that an
+	 * owner authority is valid for recovery purposes.
+	 *
+	 * On account creation the recovery account is set either to the creator of
+	 * the account (The account that pays the creation fee and is a signer on the transaction)
+	 * or to the empty string if the account was mined. An account with no recovery
+	 * has the top voted witness as a recovery account, at the time the recover
+	 * request is created. Note: This does mean the effective recovery account
+	 * of an account with no listed recovery account can change at any time as
+	 * witness vote weights. The top voted witness is explicitly the most trusted
+	 * witness according to stake.
+	 */
+	export interface ChangeRecoveryAccountOperation extends Operation {
+	    0: 'change_recovery_account';
+	    1: {
+	        /**
+	         * The account that would be recovered in case of compromise.
+	         */
+	        account_to_recover: string;
+	        /**
+	         * The account that creates the recover request.
+	         */
+	        new_recovery_account: string;
+	        /**
+	         * Extensions. Not currently used.
+	         */
+	        extensions: any[];
+	    };
+	}
+	export interface ClaimRewardBalanceOperation extends Operation {
+	    0: 'claim_reward_balance';
+	    1: {
+	        account: string;
+	        reward_steem: string | Asset;
+	        reward_sbd: string | Asset;
+	        reward_vests: string | Asset;
+	    };
+	}
+	export interface CommentOperation extends Operation {
+	    0: 'comment';
+	    1: {
+	        parent_author: string;
+	        parent_permlink: string;
+	        author: string;
+	        permlink: string;
+	        title: string;
+	        body: string;
 	        json_metadata: string;
 	    };
 	}
@@ -853,6 +957,565 @@ declare module 'dsteem/steem/operation' {
 	        extensions: Array<[0, {
 	            beneficiaries: BeneficiaryRoute[];
 	        }]>;
+	    };
+	}
+	export interface ConvertOperation extends Operation {
+	    0: 'convert';
+	    1: {
+	        owner: string;
+	        requestid: number;
+	        amount: Asset | string;
+	    };
+	}
+	export interface CustomOperation extends Operation {
+	    0: 'custom';
+	    1: {
+	        required_auths: string[];
+	        id: number;
+	        data: Buffer | HexBuffer | number[];
+	    };
+	}
+	export interface CustomBinaryOperation extends Operation {
+	    0: 'custom_binary';
+	    1: {
+	        required_owner_auths: string[];
+	        required_active_auths: string[];
+	        required_posting_auths: string[];
+	        required_auths: Authority[];
+	        /**
+	         * ID string, must be less than 32 characters long.
+	         */
+	        id: string;
+	        data: Buffer | HexBuffer | number[];
+	    };
+	}
+	export interface CustomJsonOperation extends Operation {
+	    0: 'custom_json';
+	    1: {
+	        required_auths: string[];
+	        required_posting_auths: string[];
+	        /**
+	         * ID string, must be less than 32 characters long.
+	         */
+	        id: string;
+	        /**
+	         * JSON encoded string, must be valid JSON.
+	         */
+	        json: string;
+	    };
+	}
+	export interface DeclineVotingRightsOperation extends Operation {
+	    0: 'decline_voting_rights';
+	    1: {
+	        account: string;
+	        decline: boolean;
+	    };
+	}
+	export interface DelegateVestingSharesOperation extends Operation {
+	    0: 'delegate_vesting_shares';
+	    1: {
+	        /**
+	         * The account delegating vesting shares.
+	         */
+	        delegator: string;
+	        /**
+	         * The account receiving vesting shares.
+	         */
+	        delegatee: string;
+	        /**
+	         * The amount of vesting shares delegated.
+	         */
+	        vesting_shares: string | Asset;
+	    };
+	}
+	export interface DeleteCommentOperation extends Operation {
+	    0: 'delete_comment';
+	    1: {
+	        author: string;
+	        permlink: string;
+	    };
+	}
+	/**
+	 * The agent and to accounts must approve an escrow transaction for it to be valid on
+	 * the blockchain. Once a part approves the escrow, the cannot revoke their approval.
+	 * Subsequent escrow approve operations, regardless of the approval, will be rejected.
+	 */
+	export interface EscrowApproveOperation extends Operation {
+	    0: 'escrow_approve';
+	    1: {
+	        from: string;
+	        to: string;
+	        agent: string;
+	        /**
+	         * Either to or agent.
+	         */
+	        who: string;
+	        escrow_id: number;
+	        approve: boolean;
+	    };
+	}
+	/**
+	 * If either the sender or receiver of an escrow payment has an issue, they can
+	 * raise it for dispute. Once a payment is in dispute, the agent has authority over
+	 * who gets what.
+	 */
+	export interface EscrowDisputeOperation extends Operation {
+	    0: 'escrow_dispute';
+	    1: {
+	        from: string;
+	        to: string;
+	        agent: string;
+	        who: string;
+	        escrow_id: number;
+	    };
+	}
+	/**
+	 * This operation can be used by anyone associated with the escrow transfer to
+	 * release funds if they have permission.
+	 *
+	 * The permission scheme is as follows:
+	 * If there is no dispute and escrow has not expired, either party can release funds to the other.
+	 * If escrow expires and there is no dispute, either party can release funds to either party.
+	 * If there is a dispute regardless of expiration, the agent can release funds to either party
+	 *    following whichever agreement was in place between the parties.
+	 */
+	export interface EscrowReleaseOperation extends Operation {
+	    0: 'escrow_release';
+	    1: {
+	        from: string;
+	        /**
+	         * The original 'to'.
+	         */
+	        to: string;
+	        agent: string;
+	        /**
+	         * The account that is attempting to release the funds, determines valid 'receiver'.
+	         */
+	        who: string;
+	        /**
+	         * The account that should receive funds (might be from, might be to).
+	         */
+	        receiver: string;
+	        escrow_id: number;
+	        /**
+	         * The amount of sbd to release.
+	         */
+	        sbd_amount: Asset | string;
+	        /**
+	         * The amount of steem to release.
+	         */
+	        steem_amount: Asset | string;
+	    };
+	}
+	/**
+	 * The purpose of this operation is to enable someone to send money contingently to
+	 * another individual. The funds leave the *from* account and go into a temporary balance
+	 * where they are held until *from* releases it to *to* or *to* refunds it to *from*.
+	 *
+	 * In the event of a dispute the *agent* can divide the funds between the to/from account.
+	 * Disputes can be raised any time before or on the dispute deadline time, after the escrow
+	 * has been approved by all parties.
+	 *
+	 * This operation only creates a proposed escrow transfer. Both the *agent* and *to* must
+	 * agree to the terms of the arrangement by approving the escrow.
+	 *
+	 * The escrow agent is paid the fee on approval of all parties. It is up to the escrow agent
+	 * to determine the fee.
+	 *
+	 * Escrow transactions are uniquely identified by 'from' and 'escrow_id', the 'escrow_id' is defined
+	 * by the sender.
+	 */
+	export interface EscrowTransferOperation extends Operation {
+	    0: 'escrow_transfer';
+	    1: {
+	        from: string;
+	        to: string;
+	        agent: string;
+	        escrow_id: number;
+	        sbd_amount: Asset | string;
+	        steem_amount: Asset | string;
+	        fee: Asset | string;
+	        ratification_deadline: string;
+	        escrow_expiration: string;
+	        json_meta: string;
+	    };
+	}
+	export interface FeedPublishOperation extends Operation {
+	    0: 'feed_publish';
+	    1: {
+	        publisher: string;
+	        exchange_rate: Price | {
+	            base: Asset | string;
+	            quote: Asset | string;
+	        };
+	    };
+	}
+	/**
+	 * Cancels an order and returns the balance to owner.
+	 */
+	export interface LimitOrderCancelOperation extends Operation {
+	    0: 'limit_order_cancel';
+	    1: {
+	        owner: string;
+	        orderid: number;
+	    };
+	}
+	/**
+	 * This operation creates a limit order and matches it against existing open orders.
+	 */
+	export interface LimitOrderCreateOperation extends Operation {
+	    0: 'limit_order_create';
+	    1: {
+	        owner: string;
+	        orderid: number;
+	        amount_to_sell: Asset | string;
+	        min_to_receive: Asset | string;
+	        fill_or_kill: boolean;
+	        expiration: string;
+	    };
+	}
+	/**
+	 * This operation is identical to limit_order_create except it serializes the price rather
+	 * than calculating it from other fields.
+	 */
+	export interface LimitOrderCreate2Operation extends Operation {
+	    0: 'limit_order_create2';
+	    1: {
+	        owner: string;
+	        orderid: number;
+	        amount_to_sell: Asset | string;
+	        fill_or_kill: boolean;
+	        exchange_rate: Price | {
+	            base: Asset | string;
+	            quote: Asset | string;
+	        };
+	        expiration: string;
+	    };
+	}
+	/**
+	 * Legacy proof of work operation.
+	 */
+	export interface PowOperation extends Operation {
+	    0: 'pow';
+	    1: {
+	        worker_account: string;
+	        block_id: any;
+	        nonce: number;
+	        work: any;
+	        props: any;
+	    };
+	}
+	/**
+	 * Legacy equihash proof of work operation.
+	 */
+	export interface Pow2Operation extends Operation {
+	    0: 'pow2';
+	    1: {
+	        work: any;
+	        new_owner_key?: string | PublicKey;
+	        props: any;
+	    };
+	}
+	export interface ProveAuthorityOperation extends Operation {
+	    0: 'prove_authority';
+	    1: {
+	        challenged: string;
+	        require_owner: boolean;
+	    };
+	}
+	/**
+	 * Recover an account to a new authority using a previous authority and verification
+	 * of the recovery account as proof of identity. This operation can only succeed
+	 * if there was a recovery request sent by the account's recover account.
+	 *
+	 * In order to recover the account, the account holder must provide proof
+	 * of past ownership and proof of identity to the recovery account. Being able
+	 * to satisfy an owner authority that was used in the past 30 days is sufficient
+	 * to prove past ownership. The get_owner_history function in the database API
+	 * returns past owner authorities that are valid for account recovery.
+	 *
+	 * Proving identity is an off chain contract between the account holder and
+	 * the recovery account. The recovery request contains a new authority which
+	 * must be satisfied by the account holder to regain control. The actual process
+	 * of verifying authority may become complicated, but that is an application
+	 * level concern, not a blockchain concern.
+	 *
+	 * This operation requires both the past and future owner authorities in the
+	 * operation because neither of them can be derived from the current chain state.
+	 * The operation must be signed by keys that satisfy both the new owner authority
+	 * and the recent owner authority. Failing either fails the operation entirely.
+	 *
+	 * If a recovery request was made inadvertantly, the account holder should
+	 * contact the recovery account to have the request deleted.
+	 *
+	 * The two setp combination of the account recovery request and recover is
+	 * safe because the recovery account never has access to secrets of the account
+	 * to recover. They simply act as an on chain endorsement of off chain identity.
+	 * In other systems, a fork would be required to enforce such off chain state.
+	 * Additionally, an account cannot be permanently recovered to the wrong account.
+	 * While any owner authority from the past 30 days can be used, including a compromised
+	 * authority, the account can be continually recovered until the recovery account
+	 * is confident a combination of uncompromised authorities were used to
+	 * recover the account. The actual process of verifying authority may become
+	 * complicated, but that is an application level concern, not the blockchain's
+	 * concern.
+	 */
+	export interface RecoverAccountOperation extends Operation {
+	    0: 'recover_account';
+	    1: {
+	        /**
+	         * The account to be recovered.
+	         */
+	        account_to_recover: string;
+	        /**
+	         * The new owner authority as specified in the request account recovery operation.
+	         */
+	        new_owner_authority: Authority;
+	        /**
+	         * A previous owner authority that the account holder will use to prove
+	         * past ownership of the account to be recovered.
+	         */
+	        recent_owner_authority: Authority;
+	        /**
+	         * Extensions. Not currently used.
+	         */
+	        extensions: any[];
+	    };
+	}
+	/**
+	 * This operation is used to report a miner who signs two blocks
+	 * at the same time. To be valid, the violation must be reported within
+	 * STEEMIT_MAX_WITNESSES blocks of the head block (1 round) and the
+	 * producer must be in the ACTIVE witness set.
+	 *
+	 * Users not in the ACTIVE witness set should not have to worry about their
+	 * key getting compromised and being used to produced multiple blocks so
+	 * the attacker can report it and steel their vesting steem.
+	 *
+	 * The result of the operation is to transfer the full VESTING STEEM balance
+	 * of the block producer to the reporter.
+	 */
+	export interface ReportOverProductionOperation extends Operation {
+	    0: 'report_over_production';
+	    1: {
+	        reporter: string;
+	        first_block: SignedBlockHeader;
+	        second_block: SignedBlockHeader;
+	    };
+	}
+	/**
+	 * All account recovery requests come from a listed recovery account. This
+	 * is secure based on the assumption that only a trusted account should be
+	 * a recovery account. It is the responsibility of the recovery account to
+	 * verify the identity of the account holder of the account to recover by
+	 * whichever means they have agreed upon. The blockchain assumes identity
+	 * has been verified when this operation is broadcast.
+	 *
+	 * This operation creates an account recovery request which the account to
+	 * recover has 24 hours to respond to before the request expires and is
+	 * invalidated.
+	 *
+	 * There can only be one active recovery request per account at any one time.
+	 * Pushing this operation for an account to recover when it already has
+	 * an active request will either update the request to a new new owner authority
+	 * and extend the request expiration to 24 hours from the current head block
+	 * time or it will delete the request. To cancel a request, simply set the
+	 * weight threshold of the new owner authority to 0, making it an open authority.
+	 *
+	 * Additionally, the new owner authority must be satisfiable. In other words,
+	 * the sum of the key weights must be greater than or equal to the weight
+	 * threshold.
+	 *
+	 * This operation only needs to be signed by the the recovery account.
+	 * The account to recover confirms its identity to the blockchain in
+	 * the recover account operation.
+	 */
+	export interface RequestAccountRecoveryOperation extends Operation {
+	    0: 'request_account_recovery';
+	    1: {
+	        /**
+	         * The recovery account is listed as the recovery account on the account to recover.
+	         */
+	        recovery_account: string;
+	        /**
+	         * The account to recover. This is likely due to a compromised owner authority.
+	         */
+	        account_to_recover: string;
+	        /**
+	         * The new owner authority the account to recover wishes to have. This is secret
+	         * known by the account to recover and will be confirmed in a recover_account_operation.
+	         */
+	        new_owner_authority: Authority;
+	        /**
+	         * Extensions. Not currently used.
+	         */
+	        extensions: any[];
+	    };
+	}
+	/**
+	 * This operation allows recovery_account to change account_to_reset's owner authority to
+	 * new_owner_authority after 60 days of inactivity.
+	 */
+	export interface ResetAccountOperation extends Operation {
+	    0: 'reset_account';
+	    1: {
+	        reset_account: string;
+	        account_to_reset: string;
+	        new_owner_authority: Authority;
+	    };
+	}
+	/**
+	 * This operation allows 'account' owner to control which account has the power
+	 * to execute the 'reset_account_operation' after 60 days.
+	 */
+	export interface SetResetAccountOperation extends Operation {
+	    0: 'set_reset_account';
+	    1: {
+	        account: string;
+	        current_reset_account: string;
+	        reset_account: string;
+	    };
+	}
+	/**
+	 * Allows an account to setup a vesting withdraw but with the additional
+	 * request for the funds to be transferred directly to another account's
+	 * balance rather than the withdrawing account. In addition, those funds
+	 * can be immediately vested again, circumventing the conversion from
+	 * vests to steem and back, guaranteeing they maintain their value.
+	 */
+	export interface SetWithdrawVestingRouteOperation extends Operation {
+	    0: 'set_withdraw_vesting_route';
+	    1: {
+	        from_account: string;
+	        to_account: string;
+	        percent: number;
+	        auto_vest: boolean;
+	    };
+	}
+	/**
+	 * Transfers STEEM from one account to another.
+	 */
+	export interface TransferOperation extends Operation {
+	    0: 'transfer';
+	    1: {
+	        /**
+	         * Sending account name.
+	         */
+	        from: string;
+	        /**
+	         * Receiving account name.
+	         */
+	        to: string;
+	        /**
+	         * Amount of STEEM or SBD to send.
+	         */
+	        amount: string | Asset;
+	        /**
+	         * Plain-text note attached to transaction.
+	         */
+	        memo: string;
+	    };
+	}
+	export interface TransferFromSavingsOperation extends Operation {
+	    0: 'transfer_from_savings';
+	    1: {
+	        from: string;
+	        request_id: number;
+	        to: string;
+	        amount: string | Asset;
+	        memo: string;
+	    };
+	}
+	export interface TransferToSavingsOperation extends Operation {
+	    0: 'transfer_to_savings';
+	    1: {
+	        amount: string | Asset;
+	        from: string;
+	        memo: string;
+	        request_id: number;
+	        to: string;
+	    };
+	}
+	/**
+	 * This operation converts STEEM into VFS (Vesting Fund Shares) at
+	 * the current exchange rate. With this operation it is possible to
+	 * give another account vesting shares so that faucets can
+	 * pre-fund new accounts with vesting shares.
+	 * (A.k.a. Powering Up)
+	 */
+	export interface TransferToVestingOperation extends Operation {
+	    0: 'transfer_to_vesting';
+	    1: {
+	        from: string;
+	        to: string;
+	        /**
+	         * Amount to power up, must be STEEM.
+	         */
+	        amount: string | Asset;
+	    };
+	}
+	export interface VoteOperation extends Operation {
+	    0: 'vote';
+	    1: {
+	        voter: string;
+	        author: string;
+	        permlink: string;
+	        /**
+	         * Voting weight, 100% = 10000 (STEEMIT_100_PERCENT).
+	         */
+	        weight: number;
+	    };
+	}
+	/**
+	 * At any given point in time an account can be withdrawing from their
+	 * vesting shares. A user may change the number of shares they wish to
+	 * cash out at any time between 0 and their total vesting stake.
+	 *
+	 * After applying this operation, vesting_shares will be withdrawn
+	 * at a rate of vesting_shares/104 per week for two years starting
+	 * one week after this operation is included in the blockchain.
+	 *
+	 * This operation is not valid if the user has no vesting shares.
+	 * (A.k.a. Powering Down)
+	 */
+	export interface WithdrawVestingOperation extends Operation {
+	    0: 'withdraw_vesting';
+	    1: {
+	        account: string;
+	        /**
+	         * Amount to power down, must be VESTS.
+	         */
+	        vesting_shares: string | Asset;
+	    };
+	}
+	/**
+	 * Users who wish to become a witness must pay a fee acceptable to
+	 * the current witnesses to apply for the position and allow voting
+	 * to begin.
+	 *
+	 * If the owner isn't a witness they will become a witness.  Witnesses
+	 * are charged a fee equal to 1 weeks worth of witness pay which in
+	 * turn is derived from the current share supply.  The fee is
+	 * only applied if the owner is not already a witness.
+	 *
+	 * If the block_signing_key is null then the witness is removed from
+	 * contention.  The network will pick the top 21 witnesses for
+	 * producing blocks.
+	 */
+	export interface WitnessUpdateOperation extends Operation {
+	    0: 'witness_update';
+	    1: {
+	        owner: string;
+	        /**
+	         * URL for witness, usually a link to a post in the witness-category tag.
+	         */
+	        url: string;
+	        block_signing_key: string | PublicKey;
+	        props: ChainProperties;
+	        /**
+	         * The fee paid to register a new witness, should be 10x current block production pay.
+	         */
+	        fee: string | Asset;
 	    };
 	}
 
@@ -958,12 +1621,17 @@ declare module 'dsteem/steem/block' {
 	    extensions: any[];
 	}
 	/**
+	 * Signed block header.
+	 */
+	export interface SignedBlockHeader extends BlockHeader {
+	    witness_signature: string;
+	}
+	/**
 	 * Full signed block.
 	 */
-	export interface SignedBlock extends BlockHeader {
+	export interface SignedBlock extends SignedBlockHeader {
 	    block_id: string;
 	    signing_key: string;
-	    witness_signature: string;
 	    transaction_ids: string[];
 	    transactions: Transaction[];
 	}
@@ -1044,19 +1712,30 @@ declare module 'dsteem/helpers/blockchain' {
 }
 declare module 'dsteem/helpers/broadcast' {
 	import { Client } from 'dsteem/client';
-	import { PrivateKey } from 'dsteem/crypto';
+	import { PrivateKey, PublicKey } from 'dsteem/crypto';
+	import { Authority } from 'dsteem/steem/account';
 	import { Asset } from 'dsteem/steem/asset';
-	import { AccountCreateOperation, AccountUpdateOperation, CommentOperation, CommentOptionsOperation, CustomJsonOperation, DelegateVestingSharesOperation, Operation, TransferOperation, VoteOperation } from 'dsteem/steem/operation';
+	import { AccountUpdateOperation, CommentOperation, CommentOptionsOperation, CustomJsonOperation, DelegateVestingSharesOperation, Operation, TransferOperation, VoteOperation } from 'dsteem/steem/operation';
 	import { SignedTransaction, TransactionConfirmation } from 'dsteem/steem/transaction';
-	export interface CreateLoginOptions {
+	export interface CreateAccountOptions {
 	    /**
 	     * Username for the new account.
 	     */
 	    username: string;
 	    /**
-	     * Password for the new account, all keys will be derived from this.
+	     * Password for the new account, if set, all keys will be derived from this.
 	     */
-	    password: string;
+	    password?: string;
+	    /**
+	     * Account authorities, used to manually set account keys.
+	     * Can not be used together with the password option.
+	     */
+	    auths?: {
+	        owner: Authority;
+	        active: Authority;
+	        posting: Authority;
+	        memoKey: PublicKey;
+	    };
 	    /**
 	     * Creator account, fee will be deducted from this and the key to sign
 	     * the transaction must be the creators active key.
@@ -1065,9 +1744,15 @@ declare module 'dsteem/helpers/broadcast' {
 	    /**
 	     * Account creation fee. If omitted fee will be set to lowest possible.
 	     */
-	    fee?: string | Asset;
+	    fee?: string | Asset | number;
 	    /**
-	     * Optional account metadata.
+	     * Account delegation, amount of VESTS to delegate to the new account.
+	     * If omitted the delegation amount will be the lowest possible based
+	     * on the fee. Can be set to zero to disable delegation.
+	     */
+	    delegation?: string | Asset | number;
+	    /**
+	     * Optional account meta-data.
 	     */
 	    metadata?: {
 	        [key: string]: any;
@@ -1076,58 +1761,53 @@ declare module 'dsteem/helpers/broadcast' {
 	export class BroadcastAPI {
 	    readonly client: Client;
 	    /**
-	     * How many milliseconds to set transaction expiry from now when sending a transaction.
+	     * How many milliseconds in the future to set the expiry time to when
+	     * broadcasting a transaction, defaults to 1 minute.
 	     */
 	    expireTime: number;
 	    private pendingCallbacks;
 	    constructor(client: Client);
 	    /**
-	     * Brodcast a comment, also used to create a new top level post.
+	     * Broadcast a comment, also used to create a new top level post.
 	     * @param comment The comment/post.
 	     * @param key Private posting key of comment author.
 	     */
 	    comment(comment: CommentOperation[1], key: PrivateKey): Promise<TransactionConfirmation>;
 	    /**
-	     * Brodcast a comment and set the options.
+	     * Broadcast a comment and set the options.
 	     * @param comment The comment/post.
 	     * @param options The comment/post options.
 	     * @param key Private posting key of comment author.
 	     */
 	    commentWithOptions(comment: CommentOperation[1], options: CommentOptionsOperation[1], key: PrivateKey): Promise<TransactionConfirmation>;
 	    /**
-	     * Brodcast a vote.
+	     * Broadcast a vote.
 	     * @param vote The vote to send.
 	     * @param key Private posting key of the voter.
 	     */
 	    vote(vote: VoteOperation[1], key: PrivateKey): Promise<TransactionConfirmation>;
 	    /**
-	     * Brodcast a transfer.
+	     * Broadcast a transfer.
 	     * @param data The transfer operation payload.
 	     * @param key Private active key of sender.
 	     */
 	    transfer(data: TransferOperation[1], key: PrivateKey): Promise<TransactionConfirmation>;
 	    /**
-	     * Brodcast custom JSON.
+	     * Broadcast custom JSON.
 	     * @param data The custom_json operation payload.
 	     * @param key Private posting or active key.
 	     */
 	    json(data: CustomJsonOperation[1], key: PrivateKey): Promise<TransactionConfirmation>;
 	    /**
 	     * Create a new account.
-	     * @param data The account_create operation payload.
-	     * @param key Private active key of account creator.
-	     */
-	    createAccount(data: AccountCreateOperation[1], key: PrivateKey): Promise<TransactionConfirmation>;
-	    /**
-	     * Convenience to create a new account with username and password.
 	     * @param options New account options.
 	     * @param key Private active key of account creator.
 	     */
-	    createLogin(options: CreateLoginOptions, key: PrivateKey): Promise<TransactionConfirmation>;
+	    createAccount(options: CreateAccountOptions, key: PrivateKey): Promise<TransactionConfirmation>;
 	    /**
 	     * Update account.
 	     * @param data The account_update payload.
-	     * @param key The private key of the account affected, should be the correspinding
+	     * @param key The private key of the account affected, should be the corresponding
 	     *            key level or higher for updating account authorities.
 	     */
 	    updateAccount(data: AccountUpdateOperation[1], key: PrivateKey): Promise<TransactionConfirmation>;
@@ -1201,16 +1881,17 @@ declare module 'dsteem/helpers/database' {
 	 */
 	import { Client } from 'dsteem/client';
 	import { ExtendedAccount } from 'dsteem/steem/account';
+	import { Price } from 'dsteem/steem/asset';
 	import { BlockHeader, SignedBlock } from 'dsteem/steem/block';
 	import { Discussion } from 'dsteem/steem/comment';
 	import { DynamicGlobalProperties } from 'dsteem/steem/misc';
-	import { ChainProperties } from 'dsteem/steem/misc';
+	import { ChainProperties, VestingDelegation } from 'dsteem/steem/misc';
 	import { AppliedOperation } from 'dsteem/steem/operation';
 	import { SignedTransaction, TransactionConfirmation } from 'dsteem/steem/transaction';
 	/**
 	 * Possible categories for `get_discussions_by_*`.
 	 */
-	export type DiscussionQueryCategory = 'active' | 'blog' | 'cashout' | 'children' | 'comments' | 'feed' | 'hot' | 'promoted' | 'trending' | 'votes';
+	export type DiscussionQueryCategory = 'active' | 'blog' | 'cashout' | 'children' | 'comments' | 'feed' | 'hot' | 'promoted' | 'trending' | 'votes' | 'created';
 	export interface DisqussionQuery {
 	    /**
 	     * Name of author or tag to fetch.
@@ -1255,6 +1936,23 @@ declare module 'dsteem/helpers/database' {
 	     * Return median chain properties decided by witness.
 	     */
 	    getChainProperties(): Promise<ChainProperties>;
+	    /**
+	     * Return all of the state required for a particular url path.
+	     * @param path Path component of url conforming to condenser's scheme
+	     *             e.g. `@almost-digital` or `trending/travel`
+	     */
+	    getState(path: string): Promise<any>;
+	    /**
+	     * Return median price in SBD for 1 STEEM as reported by the witnesses.
+	     */
+	    getCurrentMedianHistoryPrice(): Promise<Price>;
+	    /**
+	     * Get list of delegations made by account.
+	     * @param account Account delegating
+	     * @param from Delegatee start offset, used for paging.
+	     * @param limit Number of results, max 1000.
+	     */
+	    getVestingDelegations(account: string, from?: string, limit?: number): Promise<VestingDelegation[]>;
 	    /**
 	     * Return server config. See:
 	     * https://github.com/steemit/steem/blob/master/libraries/protocol/include/steemit/protocol/config.hpp
