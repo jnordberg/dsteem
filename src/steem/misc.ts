@@ -33,7 +33,7 @@
  * in the design, construction, operation or maintenance of any military facility.
  */
 
-import {Asset} from './asset'
+import {Asset, Price} from './asset'
 
 /**
  * Large number that may be unsafe to represent natively in JavaScript.
@@ -227,4 +227,16 @@ export interface DynamicGlobalProperties {
      * their votes reduced.
      */
     vote_power_reserve_rate: number
+}
+
+/**
+ * Return the vesting share price.
+ */
+export function getVestingSharePrice(props: DynamicGlobalProperties): Price {
+    const totalVestingFund = Asset.from(props.total_vesting_fund_steem)
+    const totalVestingShares = Asset.from(props.total_vesting_shares)
+    if (totalVestingFund.amount === 0 || totalVestingShares.amount === 0) {
+        return new Price(new Asset(1, 'STEEM'), new Asset(1, 'VESTS'))
+    }
+    return new Price(totalVestingShares, totalVestingFund)
 }

@@ -49,10 +49,13 @@ export class Asset {
     /**
      * Create a new Asset instance from a string, e.g. `42.000 STEEM`.
      */
-    public static fromString(string: string) {
+    public static fromString(string: string, expectedSymbol?: AssetSymbol) {
         const [amountString, symbol] = string.split(' ')
         if (['STEEM', 'VESTS', 'SBD'].indexOf(symbol) === -1) {
             throw new Error(`Invalid asset symbol: ${ symbol }`)
+        }
+        if (expectedSymbol && symbol !== expectedSymbol) {
+            throw new Error(`Invalid asset, expected symbol: ${ expectedSymbol } got: ${ symbol }`)
         }
         const amount = Number.parseFloat(amountString)
         if (!Number.isFinite(amount)) {
@@ -63,16 +66,37 @@ export class Asset {
 
     /**
      * Convenience to create new Asset.
+     * @param symbol Symbol to use when created from number. Will also be used to validate
+     *               the asset, throws if the passed value has a different symbol than this.
      */
      public static from(value: string | Asset | number, symbol?: AssetSymbol) {
          if (value instanceof Asset) {
+             if (symbol && value.symbol !== symbol) {
+                 throw new Error(`Invalid asset, expected symbol: ${ symbol } got: ${ value.symbol }`)
+             }
              return value
          } else if (typeof value === 'number') {
              return new Asset(value, symbol || 'STEEM')
          } else {
-             return Asset.fromString(value)
+             return Asset.fromString(value, symbol)
          }
      }
+
+    /**
+     * Return the smaller of the two assets.
+     */
+    public static min(a: Asset, b: Asset) {
+        assert(a.symbol === b.symbol, 'can not compare assets with different symbols')
+        return a.amount < b.amount ? a : b
+    }
+
+    /**
+     * Return the larger of the two assets.
+     */
+    public static max(a: Asset, b: Asset) {
+        assert(a.symbol === b.symbol, 'can not compare assets with different symbols')
+        return a.amount > b.amount ? a : b
+    }
 
     constructor(public readonly amount: number, public readonly symbol: AssetSymbol) {}
 
@@ -124,6 +148,15 @@ export class Asset {
      }
 
     /**
+     * Return a new Asset with the amount divided.
+     */
+     public divide(divisor: Asset | string | number): Asset {
+         const other = Asset.from(divisor, this.symbol)
+         assert(this.symbol === other.symbol, 'can not divide with different symbols')
+         return new Asset(this.amount / other.amount, this.symbol)
+     }
+
+    /**
      * For JSON serialization, same as toString().
      */
     public toJSON(): string {
@@ -157,12 +190,43 @@ export class Price {
      }
 
     /**
-     *  @param base  - represents a value of the price object to be expressed relatively to quote
-     *                 asset. Cannot have amount == 0 if you want to build valid price.
-     *  @param quote - represents an relative asset. Cannot have amount == 0, otherwise
-     *                 asertion fail.
+     * @param base  - represents a value of the price object to be expressed relatively to quote
+     *                asset. Cannot have amount == 0 if you want to build valid price.
+     * @param quote - represents an relative asset. Cannot have amount == 0, otherwise
+     *                asertion fail.
      *
-     *  Both base and quote shall have different symbol defined.
+     * Both base and quote shall have different symbol defined.
      */
-    constructor(public readonly base: Asset, public readonly quote: Asset) {}
+    constructor(public readonly base: Asset, public readonly quote: Asset) {
+        assert(base.amount !== 0 && quote.amount !== 0)
+        assert(base.symbol !== quote.symbol)
+    }
+
+    /**
+     * Return a string representation of this price pair.
+     */
+    public toString() {
+        return `${ this.base }:${ this.quote }`
+    }
+
+    /**
+     * Return a new Asset with the price converted between the symbols in the pair.
+     * Throws if passed asset symbol is not base or quote.
+     */
+    public convert(asset: Asset) {
+        let from: Asset
+        let to: Asset
+        if (asset.symbol === this.base.symbol) {
+            from = this.base
+            to = this.quote
+        } else if (asset.symbol === this.quote.symbol) {
+            from = this.quote
+            to = this.base
+        } else {
+            throw new Error(`Can not convert ${ asset } with ${ this }`)
+        }
+        assert(to.amount > 0)
+        return new Asset(asset.amount * from.amount / to.amount, to.symbol)
+    }
+
 }
