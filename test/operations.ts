@@ -37,7 +37,7 @@ describe('operations', function() {
         assert.equal(user2.received_vesting_shares, newDelegation.toString())
     })
 
-    it('should send custom binary', async function() {
+    it('should send custom', async function() {
         const props = await client.database.getDynamicGlobalProperties()
         const size = ~~(props.maximum_block_size / 6)
         const op: ds.CustomOperation = ['custom', {
@@ -51,6 +51,24 @@ describe('operations', function() {
         assert.equal(rop[0], 'custom')
         assert.equal(rop[1].data, HexBuffer.from(op[1].data).toString())
     })
+
+    it('should send custom binary', async function() {
+        const size = 1337
+        const op: ds.CustomBinaryOperation = ['custom_binary', {
+            required_auths: [{weight_threshold: 1, key_auths: [], account_auths: [[acc1.username, 1]]}],
+            required_owner_auths: [],
+            required_active_auths: [acc1.username],
+            required_posting_auths: [],
+            id: 'baz-' + ~~(Math.random() * 65535),
+            data: new HexBuffer(randomBytes(size)),
+        }]
+        const rv = await client.broadcast.sendOperations([op], acc1Key)
+        const tx = await client.database.getTransaction(rv)
+        const rop = tx.operations[0]
+        assert.equal(rop[0], 'custom_binary')
+        assert.equal(rop[1].data, HexBuffer.from(op[1].data).toString())
+    })
+
 
     it('should send custom json', async function() {
         const data = {test: 123, string: 'unicode🐳'}
