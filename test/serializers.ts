@@ -68,4 +68,14 @@ describe('serializers', function() {
         assert.equal(r2, '00')
     })
 
+    it('Operation', function() {
+        const r1 = serialize(Types.Operation, ['transfer', {
+            from: 'foo', to: 'bar', amount: 1, memo: 'wedding present'
+        }])
+        assert.equal(r1, '0203666f6f03626172e80300000000000003535445454d00000f77656464696e672070726573656e74')
+        assert.throws(() => { serialize(Types.Operation, ['transfer', {}]) })
+        assert.throws(() => { serialize(Types.Operation, ['transfer', {from: 1}]) })
+        assert.throws(() => { serialize(Types.Operation, ['transfer', 10]) })
+    })
+
 })
