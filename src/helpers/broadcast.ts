@@ -36,11 +36,13 @@
 import * as assert from 'assert'
 
 import {Client} from './../client'
-import {PrivateKey, signTransaction} from './../crypto'
+import {PrivateKey, PublicKey, signTransaction} from './../crypto'
 import {Asset} from './../steem/asset'
-import {HexBuffer} from './../steem/misc'
+import {Authority} from './../steem/account'
+import {HexBuffer, getVestingSharePrice} from './../steem/misc'
 import {
     AccountCreateOperation,
+    AccountCreateWithDelegationOperation,
     AccountUpdateOperation,
     CommentOperation,
     CommentOptionsOperation,
@@ -52,15 +54,25 @@ import {
 } from './../steem/operation'
 import {SignedTransaction, Transaction, TransactionConfirmation} from './../steem/transaction'
 
-export interface CreateLoginOptions {
+export interface CreateAccountOptions {
     /**
      * Username for the new account.
      */
-    username: string,
+    username: string
     /**
-     * Password for the new account, all keys will be derived from this.
+     * Password for the new account, if set, all keys will be derived from this.
      */
-    password: string,
+    password?: string
+    /**
+     * Account authorities, used to manually set account keys.
+     * Can not be used together with the password option.
+     */
+    auths?: {
+        owner: Authority
+        active: Authority
+        posting: Authority
+        memoKey: PublicKey
+    }
     /**
      * Creator account, fee will be deducted from this and the key to sign
      * the transaction must be the creators active key.
@@ -69,9 +81,15 @@ export interface CreateLoginOptions {
     /**
      * Account creation fee. If omitted fee will be set to lowest possible.
      */
-    fee?: string | Asset
+    fee?: string | Asset | number
     /**
-     * Optional account metadata.
+     * Account delegation, amount of VESTS to delegate to the new account.
+     * If omitted the delegation amount will be the lowest possible based
+     * on the fee. Can be set to zero to disable delegation.
+     */
+    delegation?: string | Asset | number
+    /**
+     * Optional account meta-data.
      */
     metadata?: {[key: string]: any}
 }
@@ -84,7 +102,8 @@ interface PendingCallback {
 export class BroadcastAPI {
 
     /**
-     * How many milliseconds to set transaction expiry from now when sending a transaction.
+     * How many milliseconds in the future to set the expiry time to when
+     * broadcasting a transaction, defaults to 1 minute.
      */
     public expireTime = 60 * 1000
 
@@ -96,7 +115,7 @@ export class BroadcastAPI {
     }
 
     /**
-     * Brodcast a comment, also used to create a new top level post.
+     * Broadcast a comment, also used to create a new top level post.
      * @param comment The comment/post.
      * @param key Private posting key of comment author.
      */
@@ -106,7 +125,7 @@ export class BroadcastAPI {
     }
 
     /**
-     * Brodcast a comment and set the options.
+     * Broadcast a comment and set the options.
      * @param comment The comment/post.
      * @param options The comment/post options.
      * @param key Private posting key of comment author.
@@ -122,7 +141,7 @@ export class BroadcastAPI {
     }
 
     /**
-     * Brodcast a vote.
+     * Broadcast a vote.
      * @param vote The vote to send.
      * @param key Private posting key of the voter.
      */
@@ -132,7 +151,7 @@ export class BroadcastAPI {
     }
 
     /**
-     * Brodcast a transfer.
+     * Broadcast a transfer.
      * @param data The transfer operation payload.
      * @param key Private active key of sender.
      */
@@ -142,7 +161,7 @@ export class BroadcastAPI {
     }
 
     /**
-     * Brodcast custom JSON.
+     * Broadcast custom JSON.
      * @param data The custom_json operation payload.
      * @param key Private posting or active key.
      */
@@ -153,47 +172,74 @@ export class BroadcastAPI {
 
     /**
      * Create a new account.
-     * @param data The account_create operation payload.
-     * @param key Private active key of account creator.
-     */
-    public async createAccount(data: AccountCreateOperation[1], key: PrivateKey) {
-        const op: Operation = ['account_create', data]
-        return this.sendOperations([op], key)
-    }
-
-    /**
-     * Convenience to create a new account with username and password.
      * @param options New account options.
      * @param key Private active key of account creator.
      */
-    public async createLogin(options: CreateLoginOptions, key: PrivateKey) {
-        const {username, password, metadata, creator} = options
-        const prefix = this.client.addressPrefix
-        const ownerKey = PrivateKey.fromLogin(username, password, 'owner').createPublic(prefix)
-        const activeKey = PrivateKey.fromLogin(username, password, 'active').createPublic(prefix)
-        const postingKey = PrivateKey.fromLogin(username, password, 'posting').createPublic(prefix)
-        const memoKey = PrivateKey.fromLogin(username, password, 'memo').createPublic(prefix)
-        let fee = options.fee
-        if (!fee) {
-            const chainProps = await this.client.database.getChainProperties()
-            const modifier = 30 // STEEMIT_CREATE_ACCOUNT_WITH_STEEM_MODIFIER
-            fee = Asset.from(chainProps.account_creation_fee).multiply(modifier)
+    public async createAccount(options: CreateAccountOptions, key: PrivateKey) {
+        const {username, metadata, creator} = options
+
+        let owner: Authority, active: Authority, posting: Authority, memo_key: PublicKey
+        if (options.password) {
+            const prefix = this.client.addressPrefix
+            const ownerKey = PrivateKey.fromLogin(username, options.password, 'owner').createPublic(prefix)
+            owner = {weight_threshold: 1, account_auths: [], key_auths: [[ownerKey, 1]]}
+            const activeKey = PrivateKey.fromLogin(username, options.password, 'active').createPublic(prefix)
+            active = {weight_threshold: 1, account_auths: [], key_auths: [[activeKey, 1]]}
+            const postingKey = PrivateKey.fromLogin(username, options.password, 'posting').createPublic(prefix)
+            posting = {weight_threshold: 1, account_auths: [], key_auths: [[postingKey, 1]]}
+            memo_key = PrivateKey.fromLogin(username, options.password, 'memo').createPublic(prefix)
+        } else if (options.auths) {
+            owner = options.auths.owner
+            active = options.auths.active
+            posting = options.auths.posting
+            memo_key = options.auths.memoKey
+        } else {
+            throw new Error('Must specify either password or auths')
         }
-        return this.createAccount({
-            active: {weight_threshold: 1, account_auths: [], key_auths: [[activeKey, 1]]},
-            creator, fee,
+
+        let {fee, delegation} = options
+        if (fee === undefined || delegation === undefined) {
+            const [dynamicProps, chainProps] = await Promise.all([
+                this.client.database.getDynamicGlobalProperties(),
+                this.client.database.getChainProperties(),
+            ])
+
+            const sharePrice = getVestingSharePrice(dynamicProps)
+            const creationFee = Asset.from(chainProps.account_creation_fee)
+            const modifier = 30 // STEEMIT_CREATE_ACCOUNT_WITH_STEEM_MODIFIER
+            const ratio = 5 // STEEMIT_CREATE_ACCOUNT_DELEGATION_RATIO
+
+            const targetDelegation = sharePrice.convert(creationFee.multiply(modifier * ratio))
+
+            if (delegation !== undefined && fee === undefined) {
+                delegation = Asset.from(delegation, 'VESTS')
+                fee = Asset.max(
+                    sharePrice.convert(targetDelegation.subtract(delegation)).divide(ratio),
+                    creationFee,
+                )
+            } else {
+                fee = Asset.from(fee || creationFee, 'STEEM')
+                delegation = Asset.max(
+                    targetDelegation.subtract(sharePrice.convert(fee.multiply(ratio))),
+                    Asset.from(0, 'VESTS'),
+                )
+            }
+        }
+        const op: AccountCreateWithDelegationOperation = ['account_create_with_delegation', {
+            creator, owner, active, posting, memo_key,
+            delegation: Asset.from(delegation, 'VESTS'),
+            extensions: [],
+            fee: Asset.from(fee, 'STEEM'),
             json_metadata: metadata ? JSON.stringify(metadata) : '',
-            memo_key: memoKey,
             new_account_name: username,
-            owner: {weight_threshold: 1, account_auths: [], key_auths: [[ownerKey, 1]]},
-            posting: {weight_threshold: 1, account_auths: [], key_auths: [[postingKey, 1]]},
-        }, key)
+        }]
+        return this.sendOperations([op], key)
     }
 
     /**
      * Update account.
      * @param data The account_update payload.
-     * @param key The private key of the account affected, should be the correspinding
+     * @param key The private key of the account affected, should be the corresponding
      *            key level or higher for updating account authorities.
      */
     public async updateAccount(data: AccountUpdateOperation[1], key: PrivateKey) {

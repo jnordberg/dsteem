@@ -79,7 +79,7 @@ describe('operations', function() {
     it('should create account and post with options', async function() {
         const username = 'ds-' + randomString(12)
         const password = randomString(32)
-        await client.broadcast.createLogin({
+        await client.broadcast.createAccount({
             username, password, creator: acc1.username, metadata: {date: new Date()}
         }, acc1Key)
         const permlink = 'hello-world'
@@ -128,7 +128,7 @@ describe('operations', function() {
         assert.deepEqual({foo}, JSON.parse(acc.json_metadata))
     })
 
-    it('should create account with delegation', async function() {
+    it('should create account custom auths', async function() {
         const key = PrivateKey.fromLogin(acc1.username, acc1.password, 'owner')
 
         const username = 'ds-' + randomString(12)
@@ -139,22 +139,52 @@ describe('operations', function() {
         const activeKey = PrivateKey.fromLogin(username, password, 'active').createPublic(client.addressPrefix)
         const postingKey = PrivateKey.fromLogin(username, password, 'posting').createPublic(client.addressPrefix)
         const memoKey = PrivateKey.fromLogin(username, password, 'memo').createPublic(client.addressPrefix)
-        const op: ds.AccountCreateWithDelegationOperation = ['account_create_with_delegation', {
+        await client.broadcast.createAccount({
             creator: acc1.username,
-            fee: '5.000 STEEM',
-            delegation: '1000.000000 VESTS',
-            new_account_name: username,
-            owner: {weight_threshold: 1, account_auths: [], key_auths: [[ownerKey, 1]]},
-            active: {weight_threshold: 1, account_auths: [], key_auths: [[activeKey, 1]]},
-            posting: {weight_threshold: 1, account_auths: [], key_auths: [[postingKey, 1]]},
-            memo_key: memoKey,
-            json_metadata: JSON.stringify(metadata),
-            extensions: [],
-        }]
-        await client.broadcast.sendOperations([op], key)
+            username,
+            auths: {
+                owner: {weight_threshold: 1, account_auths: [], key_auths: [[ownerKey, 1]]},
+                active: {weight_threshold: 1, account_auths: [], key_auths: [[activeKey, 1]]},
+                posting: {weight_threshold: 1, account_auths: [], key_auths: [[postingKey, 1]]},
+                memoKey,
+            },
+            metadata
+        }, key)
         const [newAccount] = await client.database.getAccounts([username])
         assert.equal(newAccount.name, username)
-        assert.equal(newAccount.received_vesting_shares, '1000.000000 VESTS')
+        assert(Asset.from(newAccount.received_vesting_shares).amount > 0)
+    })
+
+    it('should create account and calculate fees', async function() {
+        const password = randomString(32)
+        const metadata = {my_password_is: password}
+        const creator = acc1.username
+
+        // no delegation and auto fee
+        await client.broadcast.createAccount({
+            password, metadata, creator, username: 'foo' + randomString(12),
+            delegation: 0
+        }, acc1Key)
+
+        // fixed fee and auto delegation
+        await client.broadcast.createAccount({
+            password, metadata, creator, username: 'foo' + randomString(12),
+            fee: '2.000 STEEM'
+        }, acc1Key)
+
+        // fixed fee and delegation
+        await client.broadcast.createAccount({
+            password, creator, username: 'foo' + randomString(12),
+            fee: '2.000 STEEM', delegation: Asset.from(1000, 'VESTS')
+        }, acc1Key)
+
+        try {
+            await client.broadcast.createAccount({metadata, creator, username: 'foo'}, acc1Key)
+            assert(false, 'should not be reached')
+        } catch (error) {
+            assert.equal(error.message, 'Must specify either password or auths')
+        }
+
     })
 
     it('should change recovery account', async function() {
