@@ -119,7 +119,7 @@ export interface ClientOptions extends WebSocket.IClientOptions {
      */
     addressPrefix?: string
     /**
-     * Retry backoff function, returns milliseconds. Default = {@link defaultBackoff}.
+     * Retry back-off function, returns milliseconds. Default = {@link defaultBackoff}.
      */
     backoff?: (tries: number) => number
     /**
@@ -152,7 +152,7 @@ export interface ClientEvents {
      */
     on(event: 'error', listener: (error: Error) => void): this
     /**
-     * Emitted when recieveing a server notice message, typically only used for callbacks.
+     * Emitted when receiving a server notice message, typically only used for callbacks.
      */
     on(event: 'notice', listener: (notice: any) => void): this
     on(event: string, listener: Function): this
@@ -430,7 +430,7 @@ export class Client extends EventEmitter implements ClientEvents {
 }
 
 /**
- * Default backoff function.
+ * Default back-off function.
  * ```min(tries*10^2, 10 seconds)```
  */
 const defaultBackoff = (tries: number): number => {
