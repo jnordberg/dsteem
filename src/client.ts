@@ -123,6 +123,11 @@ export interface ClientOptions extends WebSocket.IClientOptions {
      */
     backoff?: (tries: number) => number
     /**
+     * Number of attempts to reconnect before giving up, set to `0` to disable retrying altogether.
+     * Default = `Infinity`.
+     */
+    retry?: number
+    /**
      * Whether to connect when {@link Client} instance is created. Default = `true`.
      */
     autoConnect?: boolean
@@ -208,6 +213,7 @@ export class Client extends EventEmitter implements ClientEvents {
 
     private active: boolean = false
     private backoff: (tries: number) => number
+    private maxRetries: number
     private numRetries: number = 0
     private pending = new Map<number, PendingRequest>()
     private sendTimeout: number
@@ -224,6 +230,7 @@ export class Client extends EventEmitter implements ClientEvents {
         this.address = address
         this.options = options
         this.backoff = options.backoff || defaultBackoff
+        this.maxRetries = options.retry || Infinity
 
         this.chainId = options.chainId ? Buffer.from(options.chainId, 'hex') : DEFAULT_CHAIN_ID
         assert.equal(this.chainId.length, 32, 'invalid chain id')
@@ -381,7 +388,7 @@ export class Client extends EventEmitter implements ClientEvents {
 
     private closeHandler = () => {
         this.socket = undefined
-        if (this.active) {
+        if (this.active && this.numRetries < this.maxRetries) {
             setTimeout(this.retryHandler, this.backoff(this.numRetries++))
         }
         this.emit('close')
