@@ -1,7 +1,8 @@
 import 'mocha'
 import * as assert from 'assert'
 
-import {Client, Asset} from './../src'
+import {Client, Asset, Transaction, signTransaction, PrivateKey} from './../src'
+import {getTestnetAccounts, randomString} from './common'
 
 describe('database api', function() {
     this.slow(500)
@@ -9,8 +10,12 @@ describe('database api', function() {
 
     const client = Client.testnet()
     let serverConfig: {[key: string]: boolean | string | number}
-
     const liveClient = new Client('wss://steemd.steemit.com')
+
+    let acc: {username: string, password: string}
+    before(async function() {
+        [acc] = await getTestnetAccounts()
+    })
 
     it('getDynamicGlobalProperties', async function() {
         const result = await client.database.getDynamicGlobalProperties()
@@ -107,6 +112,33 @@ describe('database api', function() {
         assert.equal(delegation.delegator, 'steem')
         assert.equal(typeof delegation.id, 'number')
         assert.equal(Asset.from(delegation.vesting_shares).symbol, 'VESTS')
+    })
+
+    it('verifyAuthority', async function() {
+        this.slow(5 * 1000)
+        const tx: Transaction = {
+            ref_block_num: 0,
+            ref_block_prefix: 0,
+            expiration: '2000-01-01T00:00:00',
+            operations: [['custom_json', {
+                required_auths: [],
+                required_posting_auths: [acc.username],
+                id: 'rpc-params',
+                json: '{"foo": "bar"}'
+            }]],
+            'extensions': [],
+        }
+        const key = PrivateKey.fromLogin(acc.username, acc.password, 'posting')
+        const stx = client.broadcast.sign(tx, key)
+        const rv = await client.database.verifyAuthority(stx)
+        assert(rv === true)
+        const bogusKey = PrivateKey.fromSeed('ogus')
+        try {
+            await client.database.verifyAuthority(client.broadcast.sign(tx, bogusKey))
+            assert(false, 'should not be reached')
+        } catch (error) {
+            assert.equal(error.message, `Missing Posting Authority ${ acc.username }`)
+        }
     })
 
 })

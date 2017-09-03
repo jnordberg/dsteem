@@ -192,4 +192,11 @@ export class DatabaseAPI {
         return block.transactions[idx] as SignedTransaction
     }
 
+    /**
+     * Verify signed transaction.
+     */
+    public async verifyAuthority(stx: SignedTransaction): Promise<boolean> {
+        return this.call('verify_authority', [stx])
+    }
+
 }
