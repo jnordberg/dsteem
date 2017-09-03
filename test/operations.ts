@@ -54,8 +54,9 @@ describe('operations', function() {
 
     it('should send custom binary', async function() {
         const size = 1337
+        const auth = ds.Authority.from({weight_threshold: 1, key_auths: [], account_auths: [[acc1.username, 1]]})
         const op: ds.CustomBinaryOperation = ['custom_binary', {
-            required_auths: [{weight_threshold: 1, key_auths: [], account_auths: [[acc1.username, 1]]}],
+            required_auths: [ds.Authority.from(auth)],
             required_owner_auths: [],
             required_active_auths: [acc1.username],
             required_posting_auths: [],
@@ -68,7 +69,6 @@ describe('operations', function() {
         assert.equal(rop[0], 'custom_binary')
         assert.equal(rop[1].data, HexBuffer.from(op[1].data).toString())
     })
-
 
     it('should send custom json', async function() {
         const data = {test: 123, string: 'unicode🐳'}
@@ -161,8 +161,8 @@ describe('operations', function() {
             creator: acc1.username,
             username,
             auths: {
-                owner: {weight_threshold: 1, account_auths: [], key_auths: [[ownerKey, 1]]},
-                active: {weight_threshold: 1, account_auths: [], key_auths: [[activeKey, 1]]},
+                owner: ownerKey,
+                active: activeKey.toString(),
                 posting: {weight_threshold: 1, account_auths: [], key_auths: [[postingKey, 1]]},
                 memoKey,
             },
