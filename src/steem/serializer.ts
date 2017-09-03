@@ -34,7 +34,6 @@
  */
 
 import {PublicKey} from './../crypto'
-import {Authority} from './account'
 import {Asset, Price} from './asset'
 import {HexBuffer} from './misc'
 import {Operation} from './operation'
