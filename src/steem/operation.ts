@@ -134,7 +134,7 @@ export interface AccountCreateOperation extends Operation {
         active: AuthorityType
         posting: AuthorityType
         memo_key: string | PublicKey // public_key_type
-        json_metadata: string,
+        json_metadata: string
     }
 }
 
@@ -149,11 +149,11 @@ export interface AccountCreateWithDelegationOperation extends Operation {
         active: AuthorityType
         posting: AuthorityType
         memo_key: string | PublicKey // public_key_type
-        json_metadata: string,
+        json_metadata: string
         /**
          * Extensions. Not currently used.
          */
-        extensions: any[],
+        extensions: any[]
     }
 }
 
@@ -165,7 +165,7 @@ export interface AccountUpdateOperation extends Operation {
         active?: AuthorityType // optional< authority >
         posting?: AuthorityType // optional< authority >
         memo_key: string | PublicKey // public_key_type
-        json_metadata: string,
+        json_metadata: string
     }
 }
 
@@ -173,7 +173,7 @@ export interface AccountWitnessProxyOperation extends Operation {
     0: 'account_witness_proxy' // 13
     1: {
         account: string // account_name_type
-        proxy: string, // account_name_type
+        proxy: string // account_name_type
     }
 }
 
@@ -182,7 +182,7 @@ export interface AccountWitnessVoteOperation extends Operation {
     1: {
         account: string // account_name_type
         witness: string // account_name_type
-        approve: boolean,
+        approve: boolean
     }
 }
 
@@ -190,7 +190,7 @@ export interface CancelTransferFromSavingsOperation extends Operation {
     0: 'cancel_transfer_from_savings' // 34
     1: {
         from: string // account_name_type
-        request_id: number, // uint32_t
+        request_id: number // uint32_t
     }
 }
 
@@ -199,7 +199,7 @@ export interface ChallengeAuthorityOperation extends Operation {
     1: {
         challenger: string // account_name_type
         challenged: string // account_name_type
-        require_owner: boolean,
+        require_owner: boolean
     }
 }
 
@@ -235,7 +235,7 @@ export interface ChangeRecoveryAccountOperation extends Operation {
         /**
          * Extensions. Not currently used.
          */
-        extensions: any[], // extensions_type
+        extensions: any[] // extensions_type
     }
 }
 
@@ -245,7 +245,7 @@ export interface ClaimRewardBalanceOperation extends Operation {
         account: string // account_name_type
         reward_steem: string | Asset
         reward_sbd: string | Asset
-        reward_vests: string | Asset,
+        reward_vests: string | Asset
     }
 }
 
@@ -258,7 +258,7 @@ export interface CommentOperation extends Operation {
         permlink: string
         title: string
         body: string
-        json_metadata: string,
+        json_metadata: string
     }
 }
 
@@ -275,7 +275,7 @@ export interface CommentOptionsOperation extends Operation {
       allow_votes: boolean
       /** Whether to allow post to recieve curation rewards. */
       allow_curation_rewards: boolean
-      extensions: Array<[0, {beneficiaries: BeneficiaryRoute[]}]>, // flat_set< comment_options_extension >
+      extensions: Array<[0, {beneficiaries: BeneficiaryRoute[]}]> // flat_set< comment_options_extension >
     }
 }
 
@@ -284,7 +284,7 @@ export interface ConvertOperation extends Operation {
     1: {
         owner: string // account_name_type
         requestid: number // uint32_t
-        amount: Asset | string,
+        amount: Asset | string
     }
 }
 
@@ -293,7 +293,7 @@ export interface CustomOperation extends Operation {
     1: {
         required_auths: string[]
         id: number // uint16
-        data: Buffer | HexBuffer | number[],
+        data: Buffer | HexBuffer | number[]
     }
 }
 
@@ -303,12 +303,12 @@ export interface CustomBinaryOperation extends Operation {
         required_owner_auths: string[] // flat_set< account_name_type >
         required_active_auths: string[] // flat_set< account_name_type >
         required_posting_auths: string[] // flat_set< account_name_type >
-        required_auths: Authority[]
+        required_auths: AuthorityType[]
         /**
          * ID string, must be less than 32 characters long.
          */
         id: string
-        data: Buffer | HexBuffer | number[],
+        data: Buffer | HexBuffer | number[]
     }
 }
 
@@ -324,7 +324,7 @@ export interface CustomJsonOperation extends Operation {
         /**
          * JSON encoded string, must be valid JSON.
          */
-        json: string,
+        json: string
     }
 }
 
@@ -332,7 +332,7 @@ export interface DeclineVotingRightsOperation extends Operation {
     0: 'decline_voting_rights' // 36
     1: {
         account: string // account_name_type
-        decline: boolean,
+        decline: boolean
     }
 }
 
@@ -350,7 +350,7 @@ export interface DelegateVestingSharesOperation extends Operation {
         /**
          * The amount of vesting shares delegated.
          */
-        vesting_shares: string | Asset,
+        vesting_shares: string | Asset
     }
 }
 
@@ -358,7 +358,7 @@ export interface DeleteCommentOperation extends Operation {
     0: 'delete_comment' // 17
     1: {
         author: string // account_name_type
-        permlink: string,
+        permlink: string
     }
 }
 
@@ -378,7 +378,7 @@ export interface EscrowApproveOperation extends Operation {
          */
         who: string // account_name_type
         escrow_id: number // uint32_t
-        approve: boolean,
+        approve: boolean
     }
 }
 
@@ -394,7 +394,7 @@ export interface EscrowDisputeOperation extends Operation {
         to: string // account_name_type
         agent: string // account_name_type
         who: string // account_name_type
-        escrow_id: number, // uint32_t
+        escrow_id: number // uint32_t
     }
 }
 
@@ -433,7 +433,7 @@ export interface EscrowReleaseOperation extends Operation {
         /**
          * The amount of steem to release.
          */
-        steem_amount: Asset | string,
+        steem_amount: Asset | string
     }
 }
 
@@ -467,7 +467,7 @@ export interface EscrowTransferOperation extends Operation {
         fee: Asset | string
         ratification_deadline: string // time_point_sec
         escrow_expiration: string // time_point_sec
-        json_meta: string,
+        json_meta: string
     }
 }
 
@@ -475,7 +475,7 @@ export interface FeedPublishOperation extends Operation {
     0: 'feed_publish' // 7
     1: {
       publisher: string // account_name_type
-      exchange_rate: Price | {base: Asset | string, quote: Asset | string},
+      exchange_rate: Price | {base: Asset | string, quote: Asset | string}
     }
 }
 
@@ -486,7 +486,7 @@ export interface LimitOrderCancelOperation extends Operation {
     0: 'limit_order_cancel' // 6
     1: {
       owner: string // account_name_type
-      orderid: number, // uint32_t
+      orderid: number // uint32_t
     }
 }
 
@@ -501,7 +501,7 @@ export interface LimitOrderCreateOperation extends Operation {
       amount_to_sell: Asset | string
       min_to_receive: Asset | string
       fill_or_kill: boolean
-      expiration: string, // time_point_sec
+      expiration: string // time_point_sec
     }
 }
 
@@ -516,8 +516,8 @@ export interface LimitOrderCreate2Operation extends Operation {
       orderid: number // uint32_t
       amount_to_sell: Asset | string
       fill_or_kill: boolean
-      exchange_rate: Price | {base: Asset | string, quote: Asset | string},
-      expiration: string, // time_point_sec
+      exchange_rate: Price | {base: Asset | string, quote: Asset | string}
+      expiration: string // time_point_sec
     }
 }
 
@@ -531,7 +531,7 @@ export interface PowOperation extends Operation {
         block_id: any
         nonce: number // uint64_t
         work: any
-        props: any,
+        props: any
     }
 }
 
@@ -543,7 +543,7 @@ export interface Pow2Operation extends Operation {
     1: {
         work: any
         new_owner_key?: string | PublicKey // public_key_type
-        props: any,
+        props: any
     }
 }
 
@@ -551,7 +551,7 @@ export interface ProveAuthorityOperation extends Operation {
     0: 'prove_authority' // 23
     1: {
         challenged: string // account_name_type
-        require_owner: boolean,
+        require_owner: boolean
     }
 }
 
@@ -611,7 +611,7 @@ export interface RecoverAccountOperation extends Operation {
         /**
          * Extensions. Not currently used.
          */
-        extensions: any[], // extensions_type
+        extensions: any[] // extensions_type
     }
 }
 
@@ -633,7 +633,7 @@ export interface ReportOverProductionOperation extends Operation {
     1: {
         reporter: string // account_name_type
         first_block: SignedBlockHeader
-        second_block: SignedBlockHeader,
+        second_block: SignedBlockHeader
     }
 }
 
@@ -683,7 +683,7 @@ export interface RequestAccountRecoveryOperation extends Operation {
         /**
          * Extensions. Not currently used.
          */
-        extensions: any[], // extensions_type
+        extensions: any[] // extensions_type
     }
 }
 
@@ -709,7 +709,7 @@ export interface SetResetAccountOperation extends Operation {
     1: {
         account: string // account_name_type
         current_reset_account: string // account_name_type
-        reset_account: string, // account_name_type
+        reset_account: string // account_name_type
     }
 }
 
@@ -726,7 +726,7 @@ export interface SetWithdrawVestingRouteOperation extends Operation {
         from_account: string // account_name_type
         to_account: string // account_name_type
         percent: number // uint16_t (100% = STEEMIT_100_PERCENT = 10000)
-        auto_vest: boolean,
+        auto_vest: boolean
     }
 }
 
@@ -751,7 +751,7 @@ export interface TransferOperation extends Operation {
         /**
          * Plain-text note attached to transaction.
          */
-        memo: string,
+        memo: string
     }
 }
 
@@ -762,7 +762,7 @@ export interface TransferFromSavingsOperation extends Operation {
         request_id: number // uint32_t
         to: string // account_name_type
         amount: string | Asset
-        memo: string,
+        memo: string
     }
 }
 
@@ -773,7 +773,7 @@ export interface TransferToSavingsOperation extends Operation {
         from: string // account_name_type
         memo: string
         request_id: number // uint32_t
-        to: string, // account_name_type
+        to: string // account_name_type
     }
 }
 
@@ -792,7 +792,7 @@ export interface TransferToVestingOperation extends Operation {
         /**
          * Amount to power up, must be STEEM.
          */
-        amount: string | Asset,
+        amount: string | Asset
     }
 }
 
@@ -805,7 +805,7 @@ export interface VoteOperation extends Operation {
         /**
          * Voting weight, 100% = 10000 (STEEMIT_100_PERCENT).
          */
-        weight: number, // int16_t
+        weight: number // int16_t
     }
 }
 
@@ -828,7 +828,7 @@ export interface WithdrawVestingOperation extends Operation {
         /**
          * Amount to power down, must be VESTS.
          */
-        vesting_shares: string | Asset,
+        vesting_shares: string | Asset
     }
 }
 
@@ -859,6 +859,6 @@ export interface WitnessUpdateOperation extends Operation {
         /**
          * The fee paid to register a new witness, should be 10x current block production pay.
          */
-        fee: string | Asset,
+        fee: string | Asset
     }
 }

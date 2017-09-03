@@ -11,6 +11,7 @@
     "one-variable-per-declaration": false,
     "quotemark": [true, "single", "avoid-escape"],
     "semicolon": [true, "never"],
+    "trailing-comma": [true, "never"],
     "triple-equals": [true, "allow-undefined-check"],
     "variable-name": false
   }
