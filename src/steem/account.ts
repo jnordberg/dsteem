@@ -46,6 +46,9 @@ export interface AuthorityType {
 
 export class Authority implements AuthorityType {
 
+    /**
+     * Convenience to create a new instance from PublicKey or authority object.
+     */
     public static from(value: string | PublicKey | AuthorityType) {
         if (value instanceof Authority) {
             return value
