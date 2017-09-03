@@ -37,7 +37,7 @@ import * as assert from 'assert'
 
 import {Client} from './../client'
 import {PrivateKey, PublicKey, signTransaction} from './../crypto'
-import {Authority} from './../steem/account'
+import {Authority, AuthorityType} from './../steem/account'
 import {Asset} from './../steem/asset'
 import {getVestingSharePrice, HexBuffer} from './../steem/misc'
 import {
@@ -68,10 +68,10 @@ export interface CreateAccountOptions {
      * Can not be used together with the password option.
      */
     auths?: {
-        owner: Authority
-        active: Authority
-        posting: Authority
-        memoKey: PublicKey,
+        owner: AuthorityType | string | PublicKey
+        active: AuthorityType | string | PublicKey
+        posting: AuthorityType | string | PublicKey
+        memoKey: PublicKey | string
     }
     /**
      * Creator account, fee will be deducted from this and the key to sign
@@ -177,22 +177,21 @@ export class BroadcastAPI {
      */
     public async createAccount(options: CreateAccountOptions, key: PrivateKey) {
         const {username, metadata, creator} = options
-
+        const prefix = this.client.addressPrefix
         let owner: Authority, active: Authority, posting: Authority, memo_key: PublicKey
         if (options.password) {
-            const prefix = this.client.addressPrefix
             const ownerKey = PrivateKey.fromLogin(username, options.password, 'owner').createPublic(prefix)
-            owner = {weight_threshold: 1, account_auths: [], key_auths: [[ownerKey, 1]]}
+            owner = Authority.from(ownerKey)
             const activeKey = PrivateKey.fromLogin(username, options.password, 'active').createPublic(prefix)
-            active = {weight_threshold: 1, account_auths: [], key_auths: [[activeKey, 1]]}
+            active = Authority.from(activeKey)
             const postingKey = PrivateKey.fromLogin(username, options.password, 'posting').createPublic(prefix)
-            posting = {weight_threshold: 1, account_auths: [], key_auths: [[postingKey, 1]]}
+            posting = Authority.from(postingKey)
             memo_key = PrivateKey.fromLogin(username, options.password, 'memo').createPublic(prefix)
         } else if (options.auths) {
-            owner = options.auths.owner
-            active = options.auths.active
-            posting = options.auths.posting
-            memo_key = options.auths.memoKey
+            owner = Authority.from(options.auths.owner)
+            active = Authority.from(options.auths.active)
+            posting = Authority.from(options.auths.posting)
+            memo_key = PublicKey.from(options.auths.memoKey, prefix)
         } else {
             throw new Error('Must specify either password or auths')
         }

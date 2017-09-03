@@ -38,10 +38,37 @@ import * as ByteBuffer from 'bytebuffer'
 import {PublicKey} from './../crypto'
 import {Asset} from './asset'
 
-export interface Authority {
+export interface AuthorityType {
     weight_threshold: number // uint32_t
     account_auths: Array<[string, number]> // flat_map< account_name_type, uint16_t >
     key_auths: Array<[string | PublicKey, number]>// flat_map< public_key_type, uint16_t >
+}
+
+export class Authority implements AuthorityType {
+
+    static from(value: string | PublicKey | AuthorityType) {
+        if (value instanceof Authority) {
+            return value
+        } else if (typeof value === 'string' || value instanceof PublicKey) {
+            return new Authority({
+                weight_threshold: 1,
+                account_auths: [],
+                key_auths: [[value, 1]],
+            })
+        } else {
+            return new Authority(value)
+        }
+    }
+
+    public weight_threshold: number
+    public account_auths: Array<[string, number]>
+    public key_auths: Array<[string | PublicKey, number]>
+
+    constructor({weight_threshold, account_auths, key_auths}: AuthorityType) {
+        this.weight_threshold = weight_threshold
+        this.account_auths = account_auths
+        this.key_auths = key_auths
+    }
 }
 
 export interface Account {
