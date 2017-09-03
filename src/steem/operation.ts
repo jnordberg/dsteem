@@ -34,7 +34,7 @@
  */
 
 import {PublicKey} from './../crypto'
-import {Authority} from './account'
+import {AuthorityType} from './account'
 import {Asset, Price} from './asset'
 import {SignedBlockHeader} from './block'
 import {BeneficiaryRoute} from './comment'
@@ -130,9 +130,9 @@ export interface AccountCreateOperation extends Operation {
         fee: string | Asset
         creator: string // account_name_type
         new_account_name: string // account_name_type
-        owner: Authority
-        active: Authority
-        posting: Authority
+        owner: AuthorityType
+        active: AuthorityType
+        posting: AuthorityType
         memo_key: string | PublicKey // public_key_type
         json_metadata: string,
     }
@@ -145,9 +145,9 @@ export interface AccountCreateWithDelegationOperation extends Operation {
         delegation: string | Asset
         creator: string // account_name_type
         new_account_name: string // account_name_type
-        owner: Authority
-        active: Authority
-        posting: Authority
+        owner: AuthorityType
+        active: AuthorityType
+        posting: AuthorityType
         memo_key: string | PublicKey // public_key_type
         json_metadata: string,
         /**
@@ -161,9 +161,9 @@ export interface AccountUpdateOperation extends Operation {
     0: 'account_update' // 10
     1: {
         account: string // account_name_type
-        owner?: Authority // optional< authority >
-        active?: Authority // optional< authority >
-        posting?: Authority // optional< authority >
+        owner?: AuthorityType // optional< authority >
+        active?: AuthorityType // optional< authority >
+        posting?: AuthorityType // optional< authority >
         memo_key: string | PublicKey // public_key_type
         json_metadata: string,
     }
@@ -602,12 +602,12 @@ export interface RecoverAccountOperation extends Operation {
         /**
          * The new owner authority as specified in the request account recovery operation.
          */
-        new_owner_authority: Authority
+        new_owner_authority: AuthorityType
         /**
          * A previous owner authority that the account holder will use to prove
          * past ownership of the account to be recovered.
          */
-        recent_owner_authority: Authority
+        recent_owner_authority: AuthorityType
         /**
          * Extensions. Not currently used.
          */
@@ -679,7 +679,7 @@ export interface RequestAccountRecoveryOperation extends Operation {
          * The new owner authority the account to recover wishes to have. This is secret
          * known by the account to recover and will be confirmed in a recover_account_operation.
          */
-        new_owner_authority: Authority
+        new_owner_authority: AuthorityType
         /**
          * Extensions. Not currently used.
          */
@@ -696,7 +696,7 @@ export interface ResetAccountOperation extends Operation {
     1: {
         reset_account: string // account_name_type
         account_to_reset: string // account_name_type
-        new_owner_authority: Authority,
+        new_owner_authority: AuthorityType
     }
 }
 

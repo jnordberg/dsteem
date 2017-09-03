@@ -46,14 +46,14 @@ export interface AuthorityType {
 
 export class Authority implements AuthorityType {
 
-    static from(value: string | PublicKey | AuthorityType) {
+    public static from(value: string | PublicKey | AuthorityType) {
         if (value instanceof Authority) {
             return value
         } else if (typeof value === 'string' || value instanceof PublicKey) {
             return new Authority({
-                weight_threshold: 1,
                 account_auths: [],
                 key_auths: [[value, 1]],
+                weight_threshold: 1,
             })
         } else {
             return new Authority(value)
