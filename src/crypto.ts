@@ -316,10 +316,10 @@ export class Signature {
 /**
  * Return copy of transaction with signature appended to signatures array.
  * @param transaction Transaction to sign.
- * @param key Key to sign transaction with.
+ * @param keys Key(s) to sign transaction with.
  * @param options Chain id and address prefix, compatible with {@link Client}.
  */
-export function signTransaction(transaction: Transaction, key: PrivateKey,
+export function signTransaction(transaction: Transaction, keys: PrivateKey | PrivateKey[],
                                 options: {chainId: Buffer, addressPrefix: string}) {
 
     const buffer = new ByteBuffer(ByteBuffer.DEFAULT_CAPACITY, ByteBuffer.LITTLE_ENDIAN)
@@ -332,14 +332,17 @@ export function signTransaction(transaction: Transaction, key: PrivateKey,
 
     const transactionData = Buffer.from(buffer.toBuffer())
     const digest = sha256(Buffer.concat([options.chainId, transactionData]))
-    const signature = key.sign(digest)
 
     const signedTransaction = copy(transaction) as SignedTransaction
     if (!signedTransaction.signatures) {
         signedTransaction.signatures = []
     }
 
-    signedTransaction.signatures.push(signature.toString())
+    if (!Array.isArray(keys)) { keys = [keys] }
+    for (const key of keys) {
+        const signature = key.sign(digest)
+        signedTransaction.signatures.push(signature.toString())
+    }
 
     return signedTransaction
 }
