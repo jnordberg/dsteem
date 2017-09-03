@@ -208,7 +208,9 @@ export class BroadcastAPI {
             const modifier = 30 // STEEMIT_CREATE_ACCOUNT_WITH_STEEM_MODIFIER
             const ratio = 5 // STEEMIT_CREATE_ACCOUNT_DELEGATION_RATIO
 
-            const targetDelegation = sharePrice.convert(creationFee.multiply(modifier * ratio))
+            const targetDelegation = sharePrice
+                .convert(creationFee.multiply(modifier * ratio))
+                .add('0.000001 VESTS') // add a tiny buffer since we are trying to hit a moving target
 
             if (delegation !== undefined && fee === undefined) {
                 delegation = Asset.from(delegation, 'VESTS')
