@@ -35,13 +35,21 @@
 
 import * as assert from 'assert'
 import {EventEmitter} from 'events'
+import * as http from 'http'
+import * as https from 'https'
+import {parse as parseUrl, Url} from 'url'
 import {VError} from 'verror'
-import * as WebSocket from 'ws'
+import packageVersion from './version'
 
 import {Blockchain} from './helpers/blockchain'
 import {BroadcastAPI} from './helpers/broadcast'
 import {DatabaseAPI} from './helpers/database'
-import {copy, waitForEvent} from './utils'
+import {copy, jsonRequest, waitForEvent} from './utils'
+
+/**
+ * Library version.
+ */
+export const VERSION = packageVersion
 
 /**
  * Main steem network chain id.
@@ -104,10 +112,8 @@ interface PendingRequest {
 /**
  * RPC Client options
  * ------------------
- * *Note* - The options inherited from `WebSocket.IClientOptions` are only
- * valid when running in node.js, they have no effect in the browser.
  */
-export interface ClientOptions extends WebSocket.IClientOptions {
+export interface ClientOptions {
     /**
      * Steem chain id. Defaults to main steem network:
      * `0000000000000000000000000000000000000000000000000000000000000000`
@@ -119,23 +125,16 @@ export interface ClientOptions extends WebSocket.IClientOptions {
      */
     addressPrefix?: string
     /**
-     * Retry back-off function, returns milliseconds. Default = {@link defaultBackoff}.
-     */
-    backoff?: (tries: number) => number
-    /**
-     * Number of attempts to reconnect before giving up, set to `0` to disable retrying altogether.
-     * Default = `Infinity`.
-     */
-    retry?: number
-    /**
-     * Whether to connect when {@link Client} instance is created. Default = `true`.
-     */
-    autoConnect?: boolean
-    /**
-     * How long in milliseconds before a message times out, set to `0` to disable.
-     * Default = `14 * 1000`.
+     * How long in milliseconds before a request times out, set to `0` to disable.
+     * Defaults to five seconds.
      */
     sendTimeout?: number
+    /**
+     * Node.js http(s) agent, use if you want http keep-alive.
+     * Defaults to using https.globalAgent.
+     * @see https://nodejs.org/api/http.html#http_new_agent_options.
+     */
+    agent?: https.Agent
 }
 
 /**
@@ -170,10 +169,13 @@ export class Client extends EventEmitter implements ClientEvents {
      */
     public static testnet(options?: ClientOptions) {
         let opts: ClientOptions = {}
-        if (options) { opts = copy(options) }
+        if (options) {
+            opts = copy(options)
+            opts.agent = options.agent
+        }
         opts.addressPrefix = 'STX'
         opts.chainId = '79276aea5d4877d9a25892eaa01b0adf019d3e5cb12a97478df3298ccdd01673'
-        return new Client('wss://testnet.steem.vc', opts)
+        return new Client('https://testnet.steem.vc', opts)
     }
 
     /**
@@ -182,7 +184,7 @@ export class Client extends EventEmitter implements ClientEvents {
     public readonly options: ClientOptions
 
     /**
-     * Address to Steem WebSocket RPC server, *read-only*.
+     * Address to Steem RPC server, *read-only*.
      */
     public readonly address: string
 
@@ -211,17 +213,12 @@ export class Client extends EventEmitter implements ClientEvents {
      */
     public readonly addressPrefix: string
 
-    private active: boolean = false
-    private backoff: (tries: number) => number
-    private maxRetries: number
-    private numRetries: number = 0
     private pending = new Map<number, PendingRequest>()
-    private sendTimeout: number
     private seqNo: number = 0
-    private socket?: WebSocket
+    private rpcOptions: https.RequestOptions
 
     /**
-     * @param address The address to the Steem RPC server, e.g. `wss://steemd.steemit.com`.
+     * @param address The address to the Steem RPC server, e.g. `https://steemd.steemit.com`.
      * @param options Client options.
      */
     constructor(address: string, options: ClientOptions = {}) {
@@ -229,67 +226,29 @@ export class Client extends EventEmitter implements ClientEvents {
 
         this.address = address
         this.options = options
-        this.backoff = options.backoff || defaultBackoff
-        this.maxRetries = options.retry || Infinity
+
+        const url = parseUrl(address, false)
+        assert(url.protocol !== 'wss:' && url.protocol !== 'ws:', 'websocket support deprecated')
+
+        this.rpcOptions = url as https.RequestOptions
+        this.rpcOptions.agent = options.agent
+        this.rpcOptions.method = 'post'
+        this.rpcOptions.headers = {
+            'User-Agent': `dsteem/${ VERSION }`
+        }
+
+        const timeout = options.sendTimeout || 5 * 1000
+        if (timeout !== 0) {
+            this.rpcOptions.timeout = options.sendTimeout
+        }
 
         this.chainId = options.chainId ? Buffer.from(options.chainId, 'hex') : DEFAULT_CHAIN_ID
         assert.equal(this.chainId.length, 32, 'invalid chain id')
         this.addressPrefix = options.addressPrefix || DEFAULT_ADDRESS_PREFIX
 
-        this.sendTimeout = options.sendTimeout || 14 * 1000
-
         this.database = new DatabaseAPI(this)
         this.broadcast = new BroadcastAPI(this)
         this.blockchain = new Blockchain(this)
-
-        if (options.autoConnect === undefined || options.autoConnect === true) {
-            this.connect()
-        }
-    }
-
-    /**
-     * Return `true` if the client is connected, otherwise `false`.
-     */
-    public isConnected(): boolean {
-        return (this.socket !== undefined && this.socket.readyState === WebSocket.OPEN)
-    }
-
-    /**
-     * Connect to the server.
-     */
-    public async connect() {
-        this.active = true
-        if (!this.socket) {
-            this.socket = new WebSocket(this.address)
-            this.socket.addEventListener('message', this.messageHandler)
-            this.socket.addEventListener('open', this.openHandler)
-            this.socket.addEventListener('close', this.closeHandler)
-            this.socket.addEventListener('error', this.errorHandler)
-            await new Promise((resolve) => {
-                const done = () => {
-                    this.removeListener('open', done)
-                    this.removeListener('close', done)
-                    resolve()
-                }
-                this.on('open', done)
-                this.on('close', done)
-            })
-        }
-    }
-
-    /**
-     * Disconnect from the server.
-     */
-    public async disconnect() {
-        this.active = false
-        if (
-            this.socket &&
-            this.socket.readyState !== WebSocket.CLOSED &&
-            this.socket.readyState !== WebSocket.CLOSING
-        ) {
-            this.socket.close()
-            await waitForEvent(this, 'close')
-        }
     }
 
     /**
@@ -300,139 +259,39 @@ export class Client extends EventEmitter implements ClientEvents {
      * @param params  Array of parameters to pass to the method, optional.
      *
      */
-    public call(api: string, method: string, params: any[] = []): Promise<any> {
+    public async call(api: string, method: string, params: any[] = []): Promise<any> {
         const request: RPCCall = {
             id: ++this.seqNo,
             method: 'call',
             params: [api, method, params],
         }
-        return this.send(request)
-    }
-
-    private send(request: RPCRequest): Promise<any> {
-        return new Promise<any>((resolve, reject) => {
-            let timer: NodeJS.Timer|undefined
-            if (this.sendTimeout > 0) {
-                timer = setTimeout(() => {
-                    const error = new VError({name: 'TimeoutError'}, `Timed out after ${ this.sendTimeout }ms`)
-                    this.rpcHandler(request.id, error)
-                }, this.sendTimeout)
-            }
-            this.pending.set(request.id, {reject, request, resolve, timer})
-            if (this.isConnected()) {
-                this.write(request).catch((error: Error) => {
-                    this.rpcHandler(request.id, error)
-                })
-            }
-        })
-    }
-
-    private rpcHandler = (seq: number, error?: Error, response?: any) => {
-        if (this.pending.has(seq)) {
-            const {resolve, reject, timer} = this.pending.get(seq) as PendingRequest
-            if (timer) { clearTimeout(timer) }
-            this.pending.delete(seq)
-            if (error) {
-                reject(error)
-            } else {
-                resolve(response)
-            }
-        }
-    }
-
-    private messageHandler = (event: {data: string, type: string, target: WebSocket}) => {
-        try {
-            const rpcMessage = JSON.parse(event.data)
-            if (rpcMessage.method && rpcMessage.method === 'notice') {
-                this.emit('notice', rpcMessage.params)
-                return
-            }
-            const response = rpcMessage as RPCResponse
-            let error: Error | undefined
-            if (response.error) {
-                const {data} = response.error
-                let {message} = response.error
-                if (data && data.stack && data.stack.length > 0) {
-                    const top = data.stack[0]
-                    const topData = copy(top.data)
-                    message = top.format.replace(/\$\{([a-z_]+)\}/gi, (match: string, key: string) => {
-                        let rv = match
-                        if (topData[key]) {
-                            rv = topData[key]
-                            delete topData[key]
-                        }
-                        return rv
-                    })
-                    const unformattedData = Object.keys(topData)
-                        .map((key) => ({key, value: topData[key]}))
-                        .filter((item) => typeof item.value === 'string')
-                        .map((item) => `${ item.key }=${ item.value}`)
-                    if (unformattedData.length > 0) {
-                        message += ' ' + unformattedData.join(' ')
+        const response = await jsonRequest(this.rpcOptions, request) as RPCResponse
+        if (response.error) {
+            const {data} = response.error
+            let {message} = response.error
+            if (data && data.stack && data.stack.length > 0) {
+                const top = data.stack[0]
+                const topData = copy(top.data)
+                message = top.format.replace(/\$\{([a-z_]+)\}/gi, (match: string, key: string) => {
+                    let rv = match
+                    if (topData[key]) {
+                        rv = topData[key]
+                        delete topData[key]
                     }
+                    return rv
+                })
+                const unformattedData = Object.keys(topData)
+                    .map((key) => ({key, value: topData[key]}))
+                    .filter((item) => typeof item.value === 'string')
+                    .map((item) => `${ item.key }=${ item.value}`)
+                if (unformattedData.length > 0) {
+                    message += ' ' + unformattedData.join(' ')
                 }
-                error = new VError({info: data, name: 'RPCError'}, message)
             }
-            this.rpcHandler(response.id, error, response.result)
-        } catch (cause) {
-            const error = new VError({cause, name: 'MessageError'}, 'got invalid message')
-            this.errorHandler(error)
+            throw new VError({info: data, name: 'RPCError'}, message)
         }
+        assert.equal(response.id, request.id, 'got invalid response id')
+        return response.result
     }
 
-    private retryHandler = () => {
-        if (this.active) {
-            this.connect()
-        }
-    }
-
-    private closeHandler = () => {
-        this.socket = undefined
-        if (this.active && this.numRetries < this.maxRetries) {
-            setTimeout(this.retryHandler, this.backoff(this.numRetries++))
-        }
-        this.emit('close')
-    }
-
-    private errorHandler = (error: Error) => {
-        this.emit('error', error)
-    }
-
-    private openHandler = () => {
-        this.numRetries = 0
-        this.flushPending()
-        this.emit('open')
-    }
-
-    private write = async (request: RPCRequest) => {
-        const data = JSON.stringify(request, (key, value) => {
-            // encode Buffers as hex strings instead of an array of bytes
-            if (typeof value === 'object' && value.type === 'Buffer') {
-                return Buffer.from(value.data).toString('hex')
-            }
-            return value
-        })
-        const socket = this.socket as WebSocket
-        socket.send(data)
-    }
-
-    private flushPending() {
-        const toSend: PendingRequest[] = Array.from(this.pending.values())
-        toSend.sort((a, b) => a.request.id - b.request.id)
-        toSend.map(async (pending) => {
-            try {
-                await this.write(pending.request)
-            } catch (error) {
-                this.rpcHandler(pending.request.id, error)
-            }
-        })
-    }
-}
-
-/**
- * Default back-off function.
- * ```min(tries*10^2, 10 seconds)```
- */
-const defaultBackoff = (tries: number): number => {
-    return Math.min(Math.pow(tries * 10, 2), 10 * 1000)
 }

@@ -6,13 +6,13 @@ import * as ds from './../src'
 
 const {Asset, PrivateKey, Client, HexBuffer} = ds
 
-import {getTestnetAccounts, randomString} from './common'
+import {getTestnetAccounts, randomString, agent} from './common'
 
 describe('operations', function() {
     this.slow(20 * 1000)
     this.timeout(60 * 1000)
 
-    const client = Client.testnet({sendTimeout: 0})
+    const client = Client.testnet({sendTimeout: 0, agent})
 
     let acc1, acc2: {username: string, password: string}
     let acc1Key: ds.PrivateKey

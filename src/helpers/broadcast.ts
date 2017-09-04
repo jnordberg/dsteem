@@ -94,11 +94,6 @@ export interface CreateAccountOptions {
     metadata?: {[key: string]: any}
 }
 
-interface PendingCallback {
-    resolve: (confirmation: TransactionConfirmation) => void
-    reject: (error: Error) => void
-}
-
 export class BroadcastAPI {
 
     /**
@@ -107,12 +102,7 @@ export class BroadcastAPI {
      */
     public expireTime = 60 * 1000
 
-    private pendingCallbacks = new Map<number, PendingCallback>()
-
-    constructor(readonly client: Client) {
-        this.client.addListener('notice', this.noticeHandler)
-        this.client.addListener('close', this.closeHandler)
-    }
+    constructor(readonly client: Client) {}
 
     /**
      * Broadcast a comment, also used to create a new top level post.
@@ -306,9 +296,7 @@ export class BroadcastAPI {
      * Broadcast a signed transaction to the network.
      */
     public async send(transaction: SignedTransaction): Promise<TransactionConfirmation> {
-        const callbackId = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER)
-        await this.call('broadcast_transaction_with_callback', [callbackId, transaction])
-        return this.waitForCallback(callbackId)
+        return this.call('broadcast_transaction_synchronous', [transaction])
     }
 
     /**
@@ -316,28 +304,6 @@ export class BroadcastAPI {
      */
     public call(method: string, params?: any[]) {
         return this.client.call('network_broadcast_api', method, params)
-    }
-
-    private waitForCallback(id: number) {
-        return new Promise<TransactionConfirmation>((resolve, reject) => {
-            this.pendingCallbacks.set(id, {resolve, reject})
-        })
-    }
-
-    private noticeHandler = (notice: any) => {
-        const id = Number.parseInt(notice[0])
-        if (Number.isFinite(id) && this.pendingCallbacks.has(id)) {
-            const pending = this.pendingCallbacks.get(id) as PendingCallback
-            pending.resolve(notice[1][0])
-            this.pendingCallbacks.delete(id)
-        }
-    }
-
-    private closeHandler = () => {
-        this.pendingCallbacks.forEach((pending) => {
-            pending.reject(new Error('Connection unexpectedly closed'))
-        })
-        this.pendingCallbacks.clear()
     }
 
 }

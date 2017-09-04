@@ -7,10 +7,12 @@ SRC_FILES := $(shell find src -name '*.ts')
 all: lib bundle docs
 
 lib: $(SRC_FILES) node_modules
-	tsc -p tsconfig.json --outDir lib
-	touch lib
+	tsc -p tsconfig.json --outDir lib && \
+	V=`node -p 'require("./package.json").version'` && \
+	sed -e "s}require('./../package.json').version}'$${V}'}" \
+	-i '' lib/version.js && touch lib
 
-dist/dsteem.js: $(SRC_FILES) node_modules
+dist/dsteem.js: $(SRC_FILES) node_modules lib
 	browserify src/index-browser.ts --debug \
 		--standalone dsteem --plugin tsify \
 		--transform [ babelify --extensions .ts ] \

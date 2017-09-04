@@ -1,7 +1,10 @@
 
 import * as fetch from 'node-fetch'
 import * as fs from 'fs'
+import * as https from 'https'
 import {randomBytes} from 'crypto'
+
+export const agent = new https.Agent({keepAlive: true})
 
 async function readFile(filename: string) {
     return new Promise<Buffer>((resolve, reject) => {

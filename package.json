@@ -1,19 +1,18 @@
 {
   "name": "dsteem",
   "version": "0.6.0",
-  "description": "steem blockchain rpc client library",
+  "description": "Steem blockchain RPC client library",
   "author": "Johan Nordberg",
   "license": "BSD-3-Clause",
   "main": "./lib/index",
   "typings": "./lib/index",
   "browser": {
     "./lib/index": "./dist/dsteem.js",
-    "ws": "./ws-browser.js"
+    "./src/version": "./lib/version.js"
   },
   "files": [
     "lib/*",
-    "dist/*",
-    "ws-browser.js"
+    "dist/*"
   ],
   "repository": {
     "type": "git",
@@ -28,23 +27,20 @@
     "client",
     "rpc",
     "steem",
-    "steemit",
-    "websocket"
+    "steemit"
   ],
   "dependencies": {
     "bs58": "^4.0.1",
     "bytebuffer": "^5.0.1",
     "core-js": "^2.5.0",
     "secp256k1": "^3.3.0",
-    "verror": "^1.10.0",
-    "ws": "^3.1.0"
+    "verror": "^1.10.0"
   },
   "devDependencies": {
     "@types/bytebuffer": "^5.0.33",
     "@types/mocha": "^2.2.41",
     "@types/node": "^8.0.16",
     "@types/verror": "^1.10.0",
-    "@types/ws": "^3.0.1",
     "babel-preset-env": "^1.6.0",
     "babelify": "^7.3.0",
     "browserify": "^14.4.0",

@@ -2,15 +2,15 @@ import 'mocha'
 import * as assert from 'assert'
 
 import {Client, Asset, Transaction, signTransaction, PrivateKey} from './../src'
-import {getTestnetAccounts, randomString} from './common'
+import {getTestnetAccounts, randomString, agent} from './common'
 
 describe('database api', function() {
     this.slow(500)
     this.timeout(5 * 1000)
 
-    const client = Client.testnet()
+    const client = Client.testnet({agent})
     let serverConfig: {[key: string]: boolean | string | number}
-    const liveClient = new Client('wss://steemd.steemit.com')
+    const liveClient = new Client('https://steemd.steemit.com', {agent})
 
     let acc: {username: string, password: string}
     before(async function() {
@@ -95,7 +95,7 @@ describe('database api', function() {
     it('getCurrentMedianHistoryPrice', async function() {
         const price = await liveClient.database.getCurrentMedianHistoryPrice()
         assert.equal(Asset.from(price.base).symbol, 'SBD')
-        assert.equal(price.quote, '1.000 STEEM')
+        assert.equal(price.quote.symbol, 'STEEM')
     })
 
     it('getState', async function() {

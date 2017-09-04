@@ -3,11 +3,13 @@ import * as assert from 'assert'
 
 import {Client, SignedBlock, AppliedOperation, BlockchainMode} from './../src'
 
+import {agent} from './common'
+
 describe('blockchain', function() {
     this.slow(5 * 1000)
     this.timeout(10 * 1000)
 
-    const client = new Client('wss://steemd.steemit.com')
+    const client = new Client('https://steemd.steemit.com', {agent})
 
     const expectedIds = ['0000000109833ce528d5bbfb3f6225b39ee10086',
                          '00000002ed04e3c3def0238f693931ee7eebbdf1']

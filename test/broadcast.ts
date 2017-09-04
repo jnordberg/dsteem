@@ -5,13 +5,13 @@ import * as lorem from 'lorem-ipsum'
 
 import {Client, PrivateKey, signTransaction, CommentOperation, Transaction, utils} from './../src'
 
-import {getTestnetAccounts, randomString} from './common'
+import {getTestnetAccounts, randomString, agent} from './common'
 
 describe('broadcast', function() {
     this.slow(10 * 1000)
     this.timeout(60 * 1000)
 
-    const client = Client.testnet()
+    const client = Client.testnet({agent})
 
     let acc1, acc2: {username: string, password: string}
     before(async function() {
@@ -60,30 +60,6 @@ describe('broadcast', function() {
         }, key)
         const result = await Promise.all([commentPromise, votePromise])
         assert(result.every((r) => r.expired === false))
-    })
-
-    it('should handle dropped connection', async function() {
-        const key = PrivateKey.fromLogin(acc1.username, acc1.password, 'posting')
-        if (!client.isConnected()) {
-            await utils.waitForEvent(client, 'open')
-        }
-        const promise = client.broadcast.vote({
-            voter: acc1.username,
-            author: acc1.username,
-            permlink: postPermlink,
-            weight: 10000,
-        }, key)
-        const ac = client as any
-        try {
-            while (ac.broadcast.pendingCallbacks.size === 0) {
-                await utils.sleep(10)
-            }
-            client.disconnect()
-            await promise
-            assert(false, 'should not be reached')
-        } catch (error) {
-            assert.equal(error.message, 'Connection unexpectedly closed')
-        }
     })
 
 })
