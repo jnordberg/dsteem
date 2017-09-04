@@ -88,26 +88,23 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="broadcastapi.html#expiretime" class="tsd-kind-icon">expire<wbr>Time</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="broadcastapi.html#pendingcallbacks" class="tsd-kind-icon">pending<wbr>Callbacks</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="broadcastapi.html#call" class="tsd-kind-icon">call</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="broadcastapi.html#closehandler" class="tsd-kind-icon">close<wbr>Handler</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="broadcastapi.html#comment" class="tsd-kind-icon">comment</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="broadcastapi.html#commentwithoptions" class="tsd-kind-icon">comment<wbr>With<wbr>Options</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="broadcastapi.html#createaccount" class="tsd-kind-icon">create<wbr>Account</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="broadcastapi.html#delegatevestingshares" class="tsd-kind-icon">delegate<wbr>Vesting<wbr>Shares</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="broadcastapi.html#json" class="tsd-kind-icon">json</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="broadcastapi.html#noticehandler" class="tsd-kind-icon">notice<wbr>Handler</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="broadcastapi.html#send" class="tsd-kind-icon">send</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="broadcastapi.html#sendoperations" class="tsd-kind-icon">send<wbr>Operations</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="broadcastapi.html#sign" class="tsd-kind-icon">sign</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="broadcastapi.html#transfer" class="tsd-kind-icon">transfer</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="broadcastapi.html#updateaccount" class="tsd-kind-icon">update<wbr>Account</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="broadcastapi.html#vote" class="tsd-kind-icon">vote</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="broadcastapi.html#waitforcallback" class="tsd-kind-icon">wait<wbr>For<wbr>Callback</a></li>
 							</ul>
 						</section>
 					</div>
@@ -125,7 +122,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/broadcast.ts#L110">helpers/broadcast.ts:110</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/broadcast.ts#L103">helpers/broadcast.ts:103</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -147,7 +144,7 @@
 					<div class="tsd-signature tsd-kind-icon">expire<wbr>Time<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;60 * 1000</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/broadcast.ts#L108">helpers/broadcast.ts:108</a></li>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/broadcast.ts#L103">helpers/broadcast.ts:103</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -156,16 +153,6 @@
 							broadcasting a transaction, defaults to 1 minute.</p>
 						</div>
 					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="pendingcallbacks" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> pending<wbr>Callbacks</h3>
-					<div class="tsd-signature tsd-kind-icon">pending<wbr>Callbacks<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/pendingcallback.html" class="tsd-signature-type">PendingCallback</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new Map&lt;number, PendingCallback&gt;()</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/broadcast.ts#L110">helpers/broadcast.ts:110</a></li>
-						</ul>
-					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -180,7 +167,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/broadcast.ts#L308">helpers/broadcast.ts:308</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/broadcast.ts#L305">helpers/broadcast.ts:305</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -201,23 +188,6 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
-					<a name="closehandler" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> close<wbr>Handler</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
-						<li class="tsd-signature tsd-kind-icon">close<wbr>Handler<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/broadcast.ts#L327">helpers/broadcast.ts:327</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="comment" class="tsd-anchor"></a>
 					<h3>comment</h3>
@@ -228,7 +198,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/broadcast.ts#L122">helpers/broadcast.ts:122</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/broadcast.ts#L112">helpers/broadcast.ts:112</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -288,7 +258,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/broadcast.ts#L133">helpers/broadcast.ts:133</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/broadcast.ts#L123">helpers/broadcast.ts:123</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -397,7 +367,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/broadcast.ts#L178">helpers/broadcast.ts:178</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/broadcast.ts#L168">helpers/broadcast.ts:168</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -434,7 +404,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/broadcast.ts#L264">helpers/broadcast.ts:264</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/broadcast.ts#L255">helpers/broadcast.ts:255</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -502,7 +472,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/broadcast.ts#L168">helpers/broadcast.ts:168</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/broadcast.ts#L158">helpers/broadcast.ts:158</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -553,29 +523,6 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
-					<a name="noticehandler" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> notice<wbr>Handler</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
-						<li class="tsd-signature tsd-kind-icon">notice<wbr>Handler<span class="tsd-signature-symbol">(</span>notice<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/broadcast.ts#L318">helpers/broadcast.ts:318</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>notice: <span class="tsd-signature-type">any</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="send" class="tsd-anchor"></a>
 					<h3>send</h3>
@@ -586,7 +533,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/broadcast.ts#L299">helpers/broadcast.ts:299</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/broadcast.ts#L298">helpers/broadcast.ts:298</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -608,13 +555,13 @@
 					<a name="sendoperations" class="tsd-anchor"></a>
 					<h3>send<wbr>Operations</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">send<wbr>Operations<span class="tsd-signature-symbol">(</span>operations<span class="tsd-signature-symbol">: </span><a href="../interfaces/operation.html" class="tsd-signature-type">Operation</a><span class="tsd-signature-symbol">[]</span>, key<span class="tsd-signature-symbol">: </span><a href="privatekey.html" class="tsd-signature-type">PrivateKey</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/transactionconfirmation.html" class="tsd-signature-type">TransactionConfirmation</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">send<wbr>Operations<span class="tsd-signature-symbol">(</span>operations<span class="tsd-signature-symbol">: </span><a href="../interfaces/operation.html" class="tsd-signature-type">Operation</a><span class="tsd-signature-symbol">[]</span>, key<span class="tsd-signature-symbol">: </span><a href="privatekey.html" class="tsd-signature-type">PrivateKey</a><span class="tsd-signature-symbol"> | </span><a href="privatekey.html" class="tsd-signature-type">PrivateKey</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/transactionconfirmation.html" class="tsd-signature-type">TransactionConfirmation</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/broadcast.ts#L274">helpers/broadcast.ts:274</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/broadcast.ts#L265">helpers/broadcast.ts:265</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -631,13 +578,44 @@
 									</div>
 								</li>
 								<li>
-									<h5>key: <a href="privatekey.html" class="tsd-signature-type">PrivateKey</a></h5>
+									<h5>key: <a href="privatekey.html" class="tsd-signature-type">PrivateKey</a><span class="tsd-signature-symbol"> | </span><a href="privatekey.html" class="tsd-signature-type">PrivateKey</a><span class="tsd-signature-symbol">[]</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>Private key used to sign transaction.</p>
+										<p>Private key(s) used to sign transaction.</p>
 									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/transactionconfirmation.html" class="tsd-signature-type">TransactionConfirmation</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="sign" class="tsd-anchor"></a>
+					<h3>sign</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">sign<span class="tsd-signature-symbol">(</span>transaction<span class="tsd-signature-symbol">: </span><a href="../interfaces/transaction.html" class="tsd-signature-type">Transaction</a>, key<span class="tsd-signature-symbol">: </span><a href="privatekey.html" class="tsd-signature-type">PrivateKey</a><span class="tsd-signature-symbol"> | </span><a href="privatekey.html" class="tsd-signature-type">PrivateKey</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/signedtransaction.html" class="tsd-signature-type">SignedTransaction</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/broadcast.ts#L291">helpers/broadcast.ts:291</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sign a transaction with key(s).</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>transaction: <a href="../interfaces/transaction.html" class="tsd-signature-type">Transaction</a></h5>
+								</li>
+								<li>
+									<h5>key: <a href="privatekey.html" class="tsd-signature-type">PrivateKey</a><span class="tsd-signature-symbol"> | </span><a href="privatekey.html" class="tsd-signature-type">PrivateKey</a><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/signedtransaction.html" class="tsd-signature-type">SignedTransaction</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -651,7 +629,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/broadcast.ts#L158">helpers/broadcast.ts:158</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/broadcast.ts#L148">helpers/broadcast.ts:148</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -722,7 +700,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/broadcast.ts#L247">helpers/broadcast.ts:247</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/broadcast.ts#L238">helpers/broadcast.ts:238</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -742,7 +720,7 @@
 											<h5>account<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
 										</li>
 										<li class="tsd-parameter">
-											<h5><span class="tsd-flag ts-flagOptional">Optional</span> active<span class="tsd-signature-symbol">?: </span><a href="../interfaces/authority.html" class="tsd-signature-type">Authority</a></h5>
+											<h5><span class="tsd-flag ts-flagOptional">Optional</span> active<span class="tsd-signature-symbol">?: </span><a href="../interfaces/authoritytype.html" class="tsd-signature-type">AuthorityType</a></h5>
 										</li>
 										<li class="tsd-parameter">
 											<h5>json_<wbr>metadata<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
@@ -751,10 +729,10 @@
 											<h5>memo_<wbr>key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="publickey.html" class="tsd-signature-type">PublicKey</a></h5>
 										</li>
 										<li class="tsd-parameter">
-											<h5><span class="tsd-flag ts-flagOptional">Optional</span> owner<span class="tsd-signature-symbol">?: </span><a href="../interfaces/authority.html" class="tsd-signature-type">Authority</a></h5>
+											<h5><span class="tsd-flag ts-flagOptional">Optional</span> owner<span class="tsd-signature-symbol">?: </span><a href="../interfaces/authoritytype.html" class="tsd-signature-type">AuthorityType</a></h5>
 										</li>
 										<li class="tsd-parameter">
-											<h5><span class="tsd-flag ts-flagOptional">Optional</span> posting<span class="tsd-signature-symbol">?: </span><a href="../interfaces/authority.html" class="tsd-signature-type">Authority</a></h5>
+											<h5><span class="tsd-flag ts-flagOptional">Optional</span> posting<span class="tsd-signature-symbol">?: </span><a href="../interfaces/authoritytype.html" class="tsd-signature-type">AuthorityType</a></h5>
 										</li>
 									</ul>
 								</li>
@@ -780,7 +758,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/broadcast.ts#L148">helpers/broadcast.ts:148</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/broadcast.ts#L138">helpers/broadcast.ts:138</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -826,29 +804,6 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
-					<a name="waitforcallback" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> wait<wbr>For<wbr>Callback</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
-						<li class="tsd-signature tsd-kind-icon">wait<wbr>For<wbr>Callback<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/transactionconfirmation.html" class="tsd-signature-type">TransactionConfirmation</a><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/helpers/broadcast.ts#L312">helpers/broadcast.ts:312</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>id: <span class="tsd-signature-type">number</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/transactionconfirmation.html" class="tsd-signature-type">TransactionConfirmation</a><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
 			</section>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -872,14 +827,8 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="broadcastapi.html#expiretime" class="tsd-kind-icon">expire<wbr>Time</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="broadcastapi.html#pendingcallbacks" class="tsd-kind-icon">pending<wbr>Callbacks</a>
-							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="broadcastapi.html#call" class="tsd-kind-icon">call</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
-								<a href="broadcastapi.html#closehandler" class="tsd-kind-icon">close<wbr>Handler</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="broadcastapi.html#comment" class="tsd-kind-icon">comment</a>
@@ -896,14 +845,14 @@
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="broadcastapi.html#json" class="tsd-kind-icon">json</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
-								<a href="broadcastapi.html#noticehandler" class="tsd-kind-icon">notice<wbr>Handler</a>
-							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="broadcastapi.html#send" class="tsd-kind-icon">send</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="broadcastapi.html#sendoperations" class="tsd-kind-icon">send<wbr>Operations</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="broadcastapi.html#sign" class="tsd-kind-icon">sign</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="broadcastapi.html#transfer" class="tsd-kind-icon">transfer</a>
@@ -913,9 +862,6 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="broadcastapi.html#vote" class="tsd-kind-icon">vote</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
-								<a href="broadcastapi.html#waitforcallback" class="tsd-kind-icon">wait<wbr>For<wbr>Callback</a>
 							</li>
 						</ul>
 					</li>

@@ -1,3 +1,8 @@
+declare module 'dsteem/version' {
+	 const _default: string;
+	export default _default;
+
+}
 declare module 'dsteem/steem/asset' {
 	/**
 	 * Asset symbol string.
@@ -96,105 +101,6 @@ declare module 'dsteem/steem/asset' {
 	     * Throws if passed asset symbol is not base or quote.
 	     */
 	    convert(asset: Asset): Asset;
-	}
-
-}
-declare module 'dsteem/steem/account' {
-	import { PublicKey } from 'dsteem/crypto';
-	import { Asset } from 'dsteem/steem/asset';
-	export interface Authority {
-	    weight_threshold: number;
-	    account_auths: Array<[string, number]>;
-	    key_auths: Array<[string | PublicKey, number]>;
-	}
-	export interface Account {
-	    id: number;
-	    name: string;
-	    owner: Authority;
-	    active: Authority;
-	    posting: Authority;
-	    memo_key: string;
-	    json_metadata: string;
-	    proxy: string;
-	    last_owner_update: string;
-	    last_account_update: string;
-	    created: string;
-	    mined: boolean;
-	    owner_challenged: boolean;
-	    active_challenged: boolean;
-	    last_owner_proved: string;
-	    last_active_proved: string;
-	    recovery_account: string;
-	    reset_account: string;
-	    last_account_recovery: string;
-	    comment_count: number;
-	    lifetime_vote_count: number;
-	    post_count: number;
-	    can_vote: boolean;
-	    voting_power: number;
-	    last_vote_time: string;
-	    balance: string | Asset;
-	    savings_balance: string | Asset;
-	    sbd_balance: string | Asset;
-	    sbd_seconds: string;
-	    sbd_seconds_last_update: string;
-	    sbd_last_interest_payment: string;
-	    savings_sbd_balance: string | Asset;
-	    savings_sbd_seconds: string;
-	    savings_sbd_seconds_last_update: string;
-	    savings_sbd_last_interest_payment: string;
-	    savings_withdraw_requests: number;
-	    reward_sbd_balance: string | Asset;
-	    reward_steem_balance: string | Asset;
-	    reward_vesting_balance: string | Asset;
-	    reward_vesting_steem: string | Asset;
-	    curation_rewards: number | string;
-	    posting_rewards: number | string;
-	    vesting_shares: string | Asset;
-	    delegated_vesting_shares: string | Asset;
-	    received_vesting_shares: string | Asset;
-	    vesting_withdraw_rate: string | Asset;
-	    next_vesting_withdrawal: string;
-	    withdrawn: number | string;
-	    to_withdraw: number | string;
-	    withdraw_routes: number;
-	    proxied_vsf_votes: number[];
-	    witnesses_voted_for: number;
-	    average_bandwidth: number | string;
-	    lifetime_bandwidth: number | string;
-	    last_bandwidth_update: string;
-	    average_market_bandwidth: number | string;
-	    lifetime_market_bandwidth: number | string;
-	    last_market_bandwidth_update: string;
-	    last_post: string;
-	    last_root_post: string;
-	}
-	export interface ExtendedAccount extends Account {
-	    /**
-	     * Convert vesting_shares to vesting steem.
-	     */
-	    vesting_balance: string | Asset;
-	    reputation: string | number;
-	    /**
-	     * Transfer to/from vesting.
-	     */
-	    transfer_history: any[];
-	    /**
-	     * Limit order / cancel / fill.
-	     */
-	    market_history: any[];
-	    post_history: any[];
-	    vote_history: any[];
-	    other_history: any[];
-	    witness_votes: string[];
-	    tags_usage: string[];
-	    guest_bloggers: string[];
-	    open_orders?: any[];
-	    comments?: any[];
-	    blog?: any[];
-	    feed?: any[];
-	    recent_replies?: any[];
-	    recommended?: any[];
 	}
 
 }
@@ -475,7 +381,7 @@ declare module 'dsteem/steem/serializer' {
 	    Price: (buffer: ByteBuffer, data: {
 	        [key: string]: any;
 	    }, options: SerializerOptions) => void;
-	    PublicKey: (buffer: ByteBuffer, data: string | PublicKey | Buffer, options: SerializerOptions) => void;
+	    PublicKey: (buffer: ByteBuffer, data: string | Buffer | PublicKey, options: SerializerOptions) => void;
 	    StaticVariant: (itemSerializers: Serializer[]) => (buffer: ByteBuffer, data: [number, any], options: SerializerOptions) => void;
 	    String: (buffer: ByteBuffer, data: string) => void;
 	    Transaction: (buffer: ByteBuffer, data: {
@@ -524,6 +430,7 @@ declare module 'dsteem/utils' {
 	 * in the design, construction, operation or maintenance of any military facility.
 	 */
 	import { EventEmitter } from 'events';
+	import * as https from 'https';
 	/**
 	 * Return a promise that will resove when a specific event is emitted.
 	 */
@@ -540,6 +447,14 @@ declare module 'dsteem/utils' {
 	 * Return a deep copy of a JSON-serializable object.
 	 */
 	export function copy<T>(object: T): T;
+	/**
+	 * Reads stream to memory and tries to parse the result as JSON.
+	 */
+	export function readJson(stream: NodeJS.ReadableStream): Promise<any>;
+	/**
+	 * Sends JSON data to server and read JSON response.
+	 */
+	export function jsonRequest(options: https.RequestOptions, data: any): Promise<{}>;
 
 }
 declare module 'dsteem/crypto' {
@@ -641,13 +556,122 @@ declare module 'dsteem/crypto' {
 	/**
 	 * Return copy of transaction with signature appended to signatures array.
 	 * @param transaction Transaction to sign.
-	 * @param key Key to sign transaction with.
+	 * @param keys Key(s) to sign transaction with.
 	 * @param options Chain id and address prefix, compatible with {@link Client}.
 	 */
-	export function signTransaction(transaction: Transaction, key: PrivateKey, options: {
+	export function signTransaction(transaction: Transaction, keys: PrivateKey | PrivateKey[], options: {
 	    chainId: Buffer;
 	    addressPrefix: string;
 	}): SignedTransaction;
+
+}
+declare module 'dsteem/steem/account' {
+	import { PublicKey } from 'dsteem/crypto';
+	import { Asset } from 'dsteem/steem/asset';
+	export interface AuthorityType {
+	    weight_threshold: number;
+	    account_auths: Array<[string, number]>;
+	    key_auths: Array<[string | PublicKey, number]>;
+	}
+	export class Authority implements AuthorityType {
+	    /**
+	     * Convenience to create a new instance from PublicKey or authority object.
+	     */
+	    static from(value: string | PublicKey | AuthorityType): Authority;
+	    weight_threshold: number;
+	    account_auths: Array<[string, number]>;
+	    key_auths: Array<[string | PublicKey, number]>;
+	    constructor({weight_threshold, account_auths, key_auths}: AuthorityType);
+	}
+	export interface Account {
+	    id: number;
+	    name: string;
+	    owner: Authority;
+	    active: Authority;
+	    posting: Authority;
+	    memo_key: string;
+	    json_metadata: string;
+	    proxy: string;
+	    last_owner_update: string;
+	    last_account_update: string;
+	    created: string;
+	    mined: boolean;
+	    owner_challenged: boolean;
+	    active_challenged: boolean;
+	    last_owner_proved: string;
+	    last_active_proved: string;
+	    recovery_account: string;
+	    reset_account: string;
+	    last_account_recovery: string;
+	    comment_count: number;
+	    lifetime_vote_count: number;
+	    post_count: number;
+	    can_vote: boolean;
+	    voting_power: number;
+	    last_vote_time: string;
+	    balance: string | Asset;
+	    savings_balance: string | Asset;
+	    sbd_balance: string | Asset;
+	    sbd_seconds: string;
+	    sbd_seconds_last_update: string;
+	    sbd_last_interest_payment: string;
+	    savings_sbd_balance: string | Asset;
+	    savings_sbd_seconds: string;
+	    savings_sbd_seconds_last_update: string;
+	    savings_sbd_last_interest_payment: string;
+	    savings_withdraw_requests: number;
+	    reward_sbd_balance: string | Asset;
+	    reward_steem_balance: string | Asset;
+	    reward_vesting_balance: string | Asset;
+	    reward_vesting_steem: string | Asset;
+	    curation_rewards: number | string;
+	    posting_rewards: number | string;
+	    vesting_shares: string | Asset;
+	    delegated_vesting_shares: string | Asset;
+	    received_vesting_shares: string | Asset;
+	    vesting_withdraw_rate: string | Asset;
+	    next_vesting_withdrawal: string;
+	    withdrawn: number | string;
+	    to_withdraw: number | string;
+	    withdraw_routes: number;
+	    proxied_vsf_votes: number[];
+	    witnesses_voted_for: number;
+	    average_bandwidth: number | string;
+	    lifetime_bandwidth: number | string;
+	    last_bandwidth_update: string;
+	    average_market_bandwidth: number | string;
+	    lifetime_market_bandwidth: number | string;
+	    last_market_bandwidth_update: string;
+	    last_post: string;
+	    last_root_post: string;
+	}
+	export interface ExtendedAccount extends Account {
+	    /**
+	     * Convert vesting_shares to vesting steem.
+	     */
+	    vesting_balance: string | Asset;
+	    reputation: string | number;
+	    /**
+	     * Transfer to/from vesting.
+	     */
+	    transfer_history: any[];
+	    /**
+	     * Limit order / cancel / fill.
+	     */
+	    market_history: any[];
+	    post_history: any[];
+	    vote_history: any[];
+	    other_history: any[];
+	    witness_votes: string[];
+	    tags_usage: string[];
+	    guest_bloggers: string[];
+	    open_orders?: any[];
+	    comments?: any[];
+	    blog?: any[];
+	    feed?: any[];
+	    recent_replies?: any[];
+	    recommended?: any[];
+	}
 
 }
 declare module 'dsteem/steem/comment' {
@@ -782,7 +806,7 @@ declare module 'dsteem/steem/operation' {
 	 * in the design, construction, operation or maintenance of any military facility.
 	 */
 	import { PublicKey } from 'dsteem/crypto';
-	import { Authority } from 'dsteem/steem/account';
+	import { AuthorityType } from 'dsteem/steem/account';
 	import { Asset, Price } from 'dsteem/steem/asset';
 	import { SignedBlockHeader } from 'dsteem/steem/block';
 	import { BeneficiaryRoute } from 'dsteem/steem/comment';
@@ -819,9 +843,9 @@ declare module 'dsteem/steem/operation' {
 	        fee: string | Asset;
 	        creator: string;
 	        new_account_name: string;
-	        owner: Authority;
-	        active: Authority;
-	        posting: Authority;
+	        owner: AuthorityType;
+	        active: AuthorityType;
+	        posting: AuthorityType;
 	        memo_key: string | PublicKey;
 	        json_metadata: string;
 	    };
@@ -833,9 +857,9 @@ declare module 'dsteem/steem/operation' {
 	        delegation: string | Asset;
 	        creator: string;
 	        new_account_name: string;
-	        owner: Authority;
-	        active: Authority;
-	        posting: Authority;
+	        owner: AuthorityType;
+	        active: AuthorityType;
+	        posting: AuthorityType;
 	        memo_key: string | PublicKey;
 	        json_metadata: string;
 	        /**
@@ -848,9 +872,9 @@ declare module 'dsteem/steem/operation' {
 	    0: 'account_update';
 	    1: {
 	        account: string;
-	        owner?: Authority;
-	        active?: Authority;
-	        posting?: Authority;
+	        owner?: AuthorityType;
+	        active?: AuthorityType;
+	        posting?: AuthorityType;
 	        memo_key: string | PublicKey;
 	        json_metadata: string;
 	    };
@@ -981,7 +1005,7 @@ declare module 'dsteem/steem/operation' {
 	        required_owner_auths: string[];
 	        required_active_auths: string[];
 	        required_posting_auths: string[];
-	        required_auths: Authority[];
+	        required_auths: AuthorityType[];
 	        /**
 	         * ID string, must be less than 32 characters long.
 	         */
@@ -1270,12 +1294,12 @@ declare module 'dsteem/steem/operation' {
 	        /**
 	         * The new owner authority as specified in the request account recovery operation.
 	         */
-	        new_owner_authority: Authority;
+	        new_owner_authority: AuthorityType;
 	        /**
 	         * A previous owner authority that the account holder will use to prove
 	         * past ownership of the account to be recovered.
 	         */
-	        recent_owner_authority: Authority;
+	        recent_owner_authority: AuthorityType;
 	        /**
 	         * Extensions. Not currently used.
 	         */
@@ -1345,7 +1369,7 @@ declare module 'dsteem/steem/operation' {
 	         * The new owner authority the account to recover wishes to have. This is secret
 	         * known by the account to recover and will be confirmed in a recover_account_operation.
 	         */
-	        new_owner_authority: Authority;
+	        new_owner_authority: AuthorityType;
 	        /**
 	         * Extensions. Not currently used.
 	         */
@@ -1361,7 +1385,7 @@ declare module 'dsteem/steem/operation' {
 	    1: {
 	        reset_account: string;
 	        account_to_reset: string;
-	        new_owner_authority: Authority;
+	        new_owner_authority: AuthorityType;
 	    };
 	}
 	/**
@@ -1713,10 +1737,10 @@ declare module 'dsteem/helpers/blockchain' {
 declare module 'dsteem/helpers/broadcast' {
 	import { Client } from 'dsteem/client';
 	import { PrivateKey, PublicKey } from 'dsteem/crypto';
-	import { Authority } from 'dsteem/steem/account';
+	import { AuthorityType } from 'dsteem/steem/account';
 	import { Asset } from 'dsteem/steem/asset';
 	import { AccountUpdateOperation, CommentOperation, CommentOptionsOperation, CustomJsonOperation, DelegateVestingSharesOperation, Operation, TransferOperation, VoteOperation } from 'dsteem/steem/operation';
-	import { SignedTransaction, TransactionConfirmation } from 'dsteem/steem/transaction';
+	import { SignedTransaction, Transaction, TransactionConfirmation } from 'dsteem/steem/transaction';
 	export interface CreateAccountOptions {
 	    /**
 	     * Username for the new account.
@@ -1731,10 +1755,10 @@ declare module 'dsteem/helpers/broadcast' {
 	     * Can not be used together with the password option.
 	     */
 	    auths?: {
-	        owner: Authority;
-	        active: Authority;
-	        posting: Authority;
-	        memoKey: PublicKey;
+	        owner: AuthorityType | string | PublicKey;
+	        active: AuthorityType | string | PublicKey;
+	        posting: AuthorityType | string | PublicKey;
+	        memoKey: PublicKey | string;
 	    };
 	    /**
 	     * Creator account, fee will be deducted from this and the key to sign
@@ -1765,7 +1789,6 @@ declare module 'dsteem/helpers/broadcast' {
 	     * broadcasting a transaction, defaults to 1 minute.
 	     */
 	    expireTime: number;
-	    private pendingCallbacks;
 	    constructor(client: Client);
 	    /**
 	     * Broadcast a comment, also used to create a new top level post.
@@ -1827,9 +1850,13 @@ declare module 'dsteem/helpers/broadcast' {
 	    /**
 	     * Sign and broadcast transaction with operations to the network. Throws if the transaction expires.
 	     * @param operations List of operations to send.
-	     * @param key Private key used to sign transaction.
+	     * @param key Private key(s) used to sign transaction.
 	     */
-	    sendOperations(operations: Operation[], key: PrivateKey): Promise<TransactionConfirmation>;
+	    sendOperations(operations: Operation[], key: PrivateKey | PrivateKey[]): Promise<TransactionConfirmation>;
+	    /**
+	     * Sign a transaction with key(s).
+	     */
+	    sign(transaction: Transaction, key: PrivateKey | PrivateKey[]): SignedTransaction;
 	    /**
 	     * Broadcast a signed transaction to the network.
 	     */
@@ -1838,9 +1865,6 @@ declare module 'dsteem/helpers/broadcast' {
 	     * Convenience for calling `network_broadcast_api`.
 	     */
 	    call(method: string, params?: any[]): Promise<any>;
-	    private waitForCallback(id);
-	    private noticeHandler;
-	    private closeHandler;
 	}
 
 }
@@ -1992,16 +2016,24 @@ declare module 'dsteem/helpers/database' {
 	        block_num: number;
 	        id: string;
 	    }): Promise<SignedTransaction>;
+	    /**
+	     * Verify signed transaction.
+	     */
+	    verifyAuthority(stx: SignedTransaction): Promise<boolean>;
 	}
 
 }
 declare module 'dsteem/client' {
 	/// <reference types="node" />
 	import { EventEmitter } from 'events';
-	import * as WebSocket from 'ws';
+	import * as https from 'https';
 	import { Blockchain } from 'dsteem/helpers/blockchain';
 	import { BroadcastAPI } from 'dsteem/helpers/broadcast';
 	import { DatabaseAPI } from 'dsteem/helpers/database';
+	/**
+	 * Library version.
+	 */
+	export const VERSION: string;
 	/**
 	 * Main steem network chain id.
 	 */
@@ -2013,10 +2045,8 @@ declare module 'dsteem/client' {
 	/**
 	 * RPC Client options
 	 * ------------------
-	 * *Note* - The options inherited from `WebSocket.IClientOptions` are only
-	 * valid when running in node.js, they have no effect in the browser.
 	 */
-	export interface ClientOptions extends WebSocket.IClientOptions {
+	export interface ClientOptions {
 	    /**
 	     * Steem chain id. Defaults to main steem network:
 	     * `0000000000000000000000000000000000000000000000000000000000000000`
@@ -2028,18 +2058,16 @@ declare module 'dsteem/client' {
 	     */
 	    addressPrefix?: string;
 	    /**
-	     * Retry backoff function, returns milliseconds. Default = {@link defaultBackoff}.
-	     */
-	    backoff?: (tries: number) => number;
-	    /**
-	     * Whether to connect when {@link Client} instance is created. Default = `true`.
-	     */
-	    autoConnect?: boolean;
-	    /**
-	     * How long in milliseconds before a message times out, set to `0` to disable.
-	     * Default = `14 * 1000`.
+	     * How long in milliseconds before a request times out, set to `0` to disable.
+	     * Defaults to five seconds.
 	     */
 	    sendTimeout?: number;
+	    /**
+	     * Node.js http(s) agent, use if you want http keep-alive.
+	     * Defaults to using https.globalAgent.
+	     * @see https://nodejs.org/api/http.html#http_new_agent_options.
+	     */
+	    agent?: https.Agent;
 	}
 	/**
 	 * RPC Client events
@@ -2055,7 +2083,7 @@ declare module 'dsteem/client' {
 	     */
 	    on(event: 'error', listener: (error: Error) => void): this;
 	    /**
-	     * Emitted when recieveing a server notice message, typically only used for callbacks.
+	     * Emitted when receiving a server notice message, typically only used for callbacks.
 	     */
 	    on(event: 'notice', listener: (notice: any) => void): this;
 	    on(event: string, listener: Function): this;
@@ -2075,7 +2103,7 @@ declare module 'dsteem/client' {
 	     */
 	    readonly options: ClientOptions;
 	    /**
-	     * Address to Steem WebSocket RPC server, *read-only*.
+	     * Address to Steem RPC server, *read-only*.
 	     */
 	    readonly address: string;
 	    /**
@@ -2098,30 +2126,14 @@ declare module 'dsteem/client' {
 	     * Address prefix for current network.
 	     */
 	    readonly addressPrefix: string;
-	    private active;
-	    private backoff;
-	    private numRetries;
 	    private pending;
-	    private sendTimeout;
 	    private seqNo;
-	    private socket?;
+	    private rpcOptions;
 	    /**
-	     * @param address The address to the Steem RPC server, e.g. `wss://steemd.steemit.com`.
+	     * @param address The address to the Steem RPC server, e.g. `https://steemd.steemit.com`.
 	     * @param options Client options.
 	     */
 	    constructor(address: string, options?: ClientOptions);
-	    /**
-	     * Return `true` if the client is connected, otherwise `false`.
-	     */
-	    isConnected(): boolean;
-	    /**
-	     * Connect to the server.
-	     */
-	    connect(): Promise<void>;
-	    /**
-	     * Disconnect from the server.
-	     */
-	    disconnect(): Promise<void>;
 	    /**
 	     * Make a RPC call to the server.
 	     *
@@ -2131,15 +2143,6 @@ declare module 'dsteem/client' {
 	     *
 	     */
 	    call(api: string, method: string, params?: any[]): Promise<any>;
-	    private send(request);
-	    private rpcHandler;
-	    private messageHandler;
-	    private retryHandler;
-	    private closeHandler;
-	    private errorHandler;
-	    private openHandler;
-	    private write;
-	    private flushPending();
 	}
 
 }

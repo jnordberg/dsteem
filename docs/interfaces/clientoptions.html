@@ -70,8 +70,6 @@
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
 						<h2 id="rpc-client-options">RPC Client options</h2>
-						<p><em>Note</em> - The options inherited from <code>WebSocket.IClientOptions</code> are only
-						valid when running in node.js, they have no effect in the browser.</p>
 					</div>
 				</div>
 			</section>
@@ -79,12 +77,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="tsd-signature-type">IClientOptions</span>
-						<ul class="tsd-hierarchy">
-							<li>
-								<span class="target">ClientOptions</span>
-							</li>
-						</ul>
+						<span class="target">ClientOptions</span>
 					</li>
 				</ul>
 			</section>
@@ -96,26 +89,8 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="clientoptions.html#addressprefix" class="tsd-kind-icon">address<wbr>Prefix</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="clientoptions.html#agent" class="tsd-kind-icon">agent</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="clientoptions.html#autoconnect" class="tsd-kind-icon">auto<wbr>Connect</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="clientoptions.html#backoff" class="tsd-kind-icon">backoff</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="clientoptions.html#ca" class="tsd-kind-icon">ca</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="clientoptions.html#cert" class="tsd-kind-icon">cert</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="clientoptions.html#agent" class="tsd-kind-icon">agent</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="clientoptions.html#chainid" class="tsd-kind-icon">chain<wbr>Id</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="clientoptions.html#checkserveridentity" class="tsd-kind-icon">check<wbr>Server<wbr>Identity</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="clientoptions.html#ciphers" class="tsd-kind-icon">ciphers</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="clientoptions.html#family" class="tsd-kind-icon">family</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="clientoptions.html#headers" class="tsd-kind-icon">headers</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="clientoptions.html#host" class="tsd-kind-icon">host</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="clientoptions.html#key" class="tsd-kind-icon">key</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="clientoptions.html#localaddress" class="tsd-kind-icon">local<wbr>Address</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="clientoptions.html#origin" class="tsd-kind-icon">origin</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="clientoptions.html#passphrase" class="tsd-kind-icon">passphrase</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="clientoptions.html#permessagedeflate" class="tsd-kind-icon">per<wbr>Message<wbr>Deflate</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="clientoptions.html#pfx" class="tsd-kind-icon">pfx</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="clientoptions.html#protocol" class="tsd-kind-icon">protocol</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="clientoptions.html#protocolversion" class="tsd-kind-icon">protocol<wbr>Version</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="clientoptions.html#rejectunauthorized" class="tsd-kind-icon">reject<wbr>Unauthorized</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="clientoptions.html#sendtimeout" class="tsd-kind-icon">send<wbr>Timeout</a></li>
 							</ul>
 						</section>
@@ -130,7 +105,7 @@
 					<div class="tsd-signature tsd-kind-icon">address<wbr>Prefix<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/client.ts#L120">client.ts:120</a></li>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/client.ts#L126">client.ts:126</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -140,68 +115,26 @@
 						</div>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="agent" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> agent</h3>
-					<div class="tsd-signature tsd-kind-icon">agent<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">http.Agent</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from IClientOptions.agent</p>
-						<ul>
-							<li>Defined in ./node_modules/@types/ws/index.d.ts:119</li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="autoconnect" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> auto<wbr>Connect</h3>
-					<div class="tsd-signature tsd-kind-icon">auto<wbr>Connect<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span></div>
+					<div class="tsd-signature tsd-kind-icon">agent<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">https.Agent</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/client.ts#L128">client.ts:128</a></li>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/client.ts#L137">client.ts:137</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Whether to connect when <a href="../classes/client.html">Client</a> instance is created. Default = <code>true</code>.</p>
+							<p>Node.js http(s) agent, use if you want http keep-alive.
+							Defaults to using https.globalAgent.</p>
 						</div>
+						<dl class="tsd-comment-tags">
+							<dt>see</dt>
+							<dd><p><a href="https://nodejs.org/api/http.html#http_new_agent_options">https://nodejs.org/api/http.html#http_new_agent_options</a>.</p>
+							</dd>
+						</dl>
 					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="backoff" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> backoff</h3>
-					<div class="tsd-signature tsd-kind-icon">backoff<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">function</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/client.ts#L124">client.ts:124</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Retry backoff function, returns milliseconds. Default = <a href="../globals.html#defaultbackoff">defaultBackoff</a>.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="ca" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> ca</h3>
-					<div class="tsd-signature tsd-kind-icon">ca<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">CertMeta</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from IClientOptions.ca</p>
-						<ul>
-							<li>Defined in ./node_modules/@types/ws/index.d.ts:129</li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="cert" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> cert</h3>
-					<div class="tsd-signature tsd-kind-icon">cert<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">CertMeta</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from IClientOptions.cert</p>
-						<ul>
-							<li>Defined in ./node_modules/@types/ws/index.d.ts:126</li>
-						</ul>
-					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="chainid" class="tsd-anchor"></a>
@@ -209,7 +142,7 @@
 					<div class="tsd-signature tsd-kind-icon">chain<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/client.ts#L115">client.ts:115</a></li>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/client.ts#L121">client.ts:121</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -219,173 +152,19 @@
 						</div>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="checkserveridentity" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> check<wbr>Server<wbr>Identity</h3>
-					<div class="tsd-signature tsd-kind-icon">check<wbr>Server<wbr>Identity<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Function</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from IClientOptions.checkServerIdentity</p>
-						<ul>
-							<li>Defined in ./node_modules/@types/ws/index.d.ts:122</li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="ciphers" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> ciphers</h3>
-					<div class="tsd-signature tsd-kind-icon">ciphers<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from IClientOptions.ciphers</p>
-						<ul>
-							<li>Defined in ./node_modules/@types/ws/index.d.ts:125</li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="family" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> family</h3>
-					<div class="tsd-signature tsd-kind-icon">family<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from IClientOptions.family</p>
-						<ul>
-							<li>Defined in ./node_modules/@types/ws/index.d.ts:121</li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="headers" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> headers</h3>
-					<div class="tsd-signature tsd-kind-icon">headers<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">object</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from IClientOptions.headers</p>
-						<ul>
-							<li>Defined in ./node_modules/@types/ws/index.d.ts:117</li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="host" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> host</h3>
-					<div class="tsd-signature tsd-kind-icon">host<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from IClientOptions.host</p>
-						<ul>
-							<li>Defined in ./node_modules/@types/ws/index.d.ts:120</li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="key" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> key</h3>
-					<div class="tsd-signature tsd-kind-icon">key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">CertMeta</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from IClientOptions.key</p>
-						<ul>
-							<li>Defined in ./node_modules/@types/ws/index.d.ts:127</li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="localaddress" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> local<wbr>Address</h3>
-					<div class="tsd-signature tsd-kind-icon">local<wbr>Address<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from IClientOptions.localAddress</p>
-						<ul>
-							<li>Defined in ./node_modules/@types/ws/index.d.ts:115</li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="origin" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> origin</h3>
-					<div class="tsd-signature tsd-kind-icon">origin<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from IClientOptions.origin</p>
-						<ul>
-							<li>Defined in ./node_modules/@types/ws/index.d.ts:118</li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="passphrase" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> passphrase</h3>
-					<div class="tsd-signature tsd-kind-icon">passphrase<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from IClientOptions.passphrase</p>
-						<ul>
-							<li>Defined in ./node_modules/@types/ws/index.d.ts:124</li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="permessagedeflate" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> per<wbr>Message<wbr>Deflate</h3>
-					<div class="tsd-signature tsd-kind-icon">per<wbr>Message<wbr>Deflate<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">IPerMessageDeflateOptions</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from IClientOptions.perMessageDeflate</p>
-						<ul>
-							<li>Defined in ./node_modules/@types/ws/index.d.ts:114</li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="pfx" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> pfx</h3>
-					<div class="tsd-signature tsd-kind-icon">pfx<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Buffer</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from IClientOptions.pfx</p>
-						<ul>
-							<li>Defined in ./node_modules/@types/ws/index.d.ts:128</li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="protocol" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> protocol</h3>
-					<div class="tsd-signature tsd-kind-icon">protocol<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from IClientOptions.protocol</p>
-						<ul>
-							<li>Defined in ./node_modules/@types/ws/index.d.ts:113</li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="protocolversion" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> protocol<wbr>Version</h3>
-					<div class="tsd-signature tsd-kind-icon">protocol<wbr>Version<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from IClientOptions.protocolVersion</p>
-						<ul>
-							<li>Defined in ./node_modules/@types/ws/index.d.ts:116</li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="rejectunauthorized" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> reject<wbr>Unauthorized</h3>
-					<div class="tsd-signature tsd-kind-icon">reject<wbr>Unauthorized<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from IClientOptions.rejectUnauthorized</p>
-						<ul>
-							<li>Defined in ./node_modules/@types/ws/index.d.ts:123</li>
-						</ul>
-					</aside>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="sendtimeout" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> send<wbr>Timeout</h3>
 					<div class="tsd-signature tsd-kind-icon">send<wbr>Timeout<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/client.ts#L133">client.ts:133</a></li>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/client.ts#L131">client.ts:131</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>How long in milliseconds before a message times out, set to <code>0</code> to disable.
-							Default = <code>14 * 1000</code>.</p>
+							<p>How long in milliseconds before a request times out, set to <code>0</code> to disable.
+							Defaults to five seconds.</p>
 						</div>
 					</div>
 				</section>
@@ -409,65 +188,11 @@
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="clientoptions.html#addressprefix" class="tsd-kind-icon">address<wbr>Prefix</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="clientoptions.html#agent" class="tsd-kind-icon">agent</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="clientoptions.html#autoconnect" class="tsd-kind-icon">auto<wbr>Connect</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="clientoptions.html#backoff" class="tsd-kind-icon">backoff</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="clientoptions.html#ca" class="tsd-kind-icon">ca</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="clientoptions.html#cert" class="tsd-kind-icon">cert</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="clientoptions.html#chainid" class="tsd-kind-icon">chain<wbr>Id</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="clientoptions.html#checkserveridentity" class="tsd-kind-icon">check<wbr>Server<wbr>Identity</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="clientoptions.html#ciphers" class="tsd-kind-icon">ciphers</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="clientoptions.html#family" class="tsd-kind-icon">family</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="clientoptions.html#headers" class="tsd-kind-icon">headers</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="clientoptions.html#host" class="tsd-kind-icon">host</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="clientoptions.html#key" class="tsd-kind-icon">key</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="clientoptions.html#localaddress" class="tsd-kind-icon">local<wbr>Address</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="clientoptions.html#origin" class="tsd-kind-icon">origin</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="clientoptions.html#passphrase" class="tsd-kind-icon">passphrase</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="clientoptions.html#permessagedeflate" class="tsd-kind-icon">per<wbr>Message<wbr>Deflate</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="clientoptions.html#pfx" class="tsd-kind-icon">pfx</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="clientoptions.html#protocol" class="tsd-kind-icon">protocol</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="clientoptions.html#protocolversion" class="tsd-kind-icon">protocol<wbr>Version</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="clientoptions.html#rejectunauthorized" class="tsd-kind-icon">reject<wbr>Unauthorized</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="clientoptions.html#sendtimeout" class="tsd-kind-icon">send<wbr>Timeout</a>
