@@ -36,7 +36,7 @@ coverage: node_modules
 	nyc -r html -r text -e .ts -i ts-node/register mocha --reporter nyan --require ts-node/register test/*.ts
 
 .PHONY: test
-test: node_modules
+test: node_modules lib
 	mocha --require ts-node/register test/*.ts --grep '$(grep)'
 
 .PHONY: ci-test
