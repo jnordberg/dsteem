@@ -51,6 +51,7 @@ export * from './steem/block'
 export * from './steem/comment'
 export * from './steem/misc'
 export * from './steem/operation'
+export * from './steem/serializer'
 export * from './steem/transaction'
 
 export * from './client'
