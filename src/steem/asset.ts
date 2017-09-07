@@ -200,8 +200,8 @@ export class Price {
      * Both base and quote shall have different symbol defined.
      */
     constructor(public readonly base: Asset, public readonly quote: Asset) {
-        assert(base.amount !== 0 && quote.amount !== 0)
-        assert(base.symbol !== quote.symbol)
+        assert(base.amount !== 0 && quote.amount !== 0, 'base and quote assets must be non-zero')
+        assert(base.symbol !== quote.symbol, 'base and quote can not have the same symbol')
     }
 
     /**
