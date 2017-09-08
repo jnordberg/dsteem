@@ -8,7 +8,9 @@
   "typings": "./lib/index",
   "browser": {
     "./lib/index": "./dist/dsteem.js",
-    "./src/version": "./lib/version.js"
+    "./src": "./dist/dsteem.js",
+    "./src/version": "./lib/version.js",
+    "node-fetch": "./fetch.js"
   },
   "files": [
     "lib/*",
