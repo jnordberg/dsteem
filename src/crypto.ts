@@ -146,7 +146,7 @@ export class PublicKey {
         if (value instanceof PublicKey) {
             assert.equal(value.prefix, prefix, 'invalid public key prefix')
             return value
-        } else if (value instanceof Buffer) {
+        } else if (Buffer.isBuffer(value)) {
             return new PublicKey(value, prefix)
         } else {
             return PublicKey.fromString(value, prefix)
