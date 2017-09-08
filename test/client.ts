@@ -45,4 +45,23 @@ describe('client', function() {
         }
     })
 
+    it('should retry and timeout', async function() {
+        this.slow(1500)
+        aclient.timeout = 300
+        aclient.address = 'https://jnordberg.github.io/dsteem/FAIL'
+        const backoff = aclient.backoff
+        let seenBackoff = false
+        aclient.backoff = (tries) => {
+            seenBackoff = true
+            return backoff(tries)
+        }
+        const tx = {operations: [['witness_update', {}]]}
+        try {
+            await client.database.getChainProperties()
+            assert(false, 'should not be reached')
+        } catch (error) {
+            assert(seenBackoff, 'should have seen backoff')
+        }
+    })
+
 })

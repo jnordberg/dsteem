@@ -37,6 +37,8 @@ import {EventEmitter} from 'events'
 import {PassThrough} from 'stream'
 import {VError} from 'verror'
 
+const fetch = global['fetch']
+
 /**
  * Return a promise that will resove when a specific event is emitted.
  */
@@ -81,4 +83,27 @@ export function iteratorStream<T>(iterator: AsyncIterableIterator<T>): NodeJS.Re
  */
 export function copy<T>(object: T): T {
     return JSON.parse(JSON.stringify(object))
+}
+
+/**
+ * Fetch API wrapper that retries until timeout is reached.
+ */
+export async function retryingFetch(url: string, opts: any, timeout: number,
+                                    backoff: (tries: number) => number) {
+    const start = Date.now()
+    let tries = 0
+    do {
+        try {
+            const response = await fetch(url, opts)
+            if (!response.ok) {
+                throw new Error(`HTTP ${ response.status }: ${ response.statusText }`)
+            }
+            return response
+        } catch (error) {
+            if (timeout !== 0 && Date.now() - start > timeout) {
+                throw error
+            }
+            await sleep(backoff(tries++))
+        }
+    } while (true)
 }

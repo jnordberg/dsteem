@@ -12,24 +12,27 @@ lib: $(SRC_FILES) node_modules
 	sed -e "s}require('./../package.json').version}'$${V}'}" \
 	-i '' lib/version.js && touch lib
 
-dist/dsteem.js: $(SRC_FILES) node_modules lib
-	browserify src/index-browser.ts --debug \
+dist/%.js: lib
+	browserify $(filter-out $<,$^) --debug --full-paths \
 		--standalone dsteem --plugin tsify \
 		--transform [ babelify --extensions .ts ] \
-		| derequire > dist/dsteem.js
-	uglifyjs dist/dsteem.js \
-		--source-map "content=inline,url=dsteem.js.map,filename=dist/dsteem.js.map" \
+		| derequire > $@
+	uglifyjs $@ \
+		--source-map "content=inline,url=$(notdir $@).map,filename=$@.map" \
 		--compress "dead_code,collapse_vars,reduce_vars,keep_infinity,drop_console,passes=2" \
-		--output dist/dsteem.js
+		--output $@ || rm $@
+
+dist/dsteem.js: src/index-browser.ts
+dist/dsteem-nopf.js: src/index.ts
 
 dist/dsteem.d.ts: $(SRC_FILES) node_modules
 	dts-generator --name dsteem --project . --out dist/dsteem.d.ts
 	sed -e "s@'dsteem/index'@'dsteem'@g" -i '' dist/dsteem.d.ts
 
-dist/dsteem.js.gz: dist/dsteem.js
-	gzip --best --keep --force dist/dsteem.js
+dist/%.gz: dist/dsteem.js dist/dsteem-nopf.js
+	gzip --best --keep --force $(basename $@)
 
-bundle: dist/dsteem.js.gz dist/dsteem.d.ts
+bundle: dist/dsteem.js.gz dist/dsteem-nopf.js.gz dist/dsteem.d.ts
 
 .PHONY: coverage
 coverage: node_modules
@@ -45,14 +48,13 @@ ci-test: node_modules
 	nyc -r lcov -e .ts -i ts-node/register mocha --reporter tap --require ts-node/register test/*.ts
 
 .PHONY: browser-test
-browser-test: bundle
+browser-test: dist/dsteem.js
 	BUILD_NUMBER="$$(git rev-parse --short HEAD)-$$(date +%s)" \
-		karma start test/_karma.ci.js
+		karma start test/_karma-sauce.js
 
 .PHONY: browser-test-local
-browser-test-local: bundle
+browser-test-local: dist/dsteem.js
 	karma start test/_karma.js
-
 
 .PHONY: lint
 lint: node_modules

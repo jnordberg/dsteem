@@ -40,9 +40,7 @@ import packageVersion from './version'
 import {Blockchain} from './helpers/blockchain'
 import {BroadcastAPI} from './helpers/broadcast'
 import {DatabaseAPI} from './helpers/database'
-import {copy, waitForEvent} from './utils'
-
-const fetch = global['fetch']
+import {copy, waitForEvent, retryingFetch} from './utils'
 
 /**
  * Library version.
@@ -124,6 +122,18 @@ export interface ClientOptions {
      */
     addressPrefix?: string
     /**
+     * Send timeout, how long to wait in milliseconds before giving
+     * up on a rpc call. Note that this is not an exact timeout,
+     * no in-flight requests will be aborted, they will just not
+     * be retried any more past the timeout.
+     * Can be set to 0 to retry forever. Defaults to 60 * 1000 ms.
+     */
+    timeout?: number
+    /**
+     * Retry backoff function, returns milliseconds. Default = {@link defaultBackoff}.
+     */
+    backoff?: (tries: number) => number
+    /**
      * Node.js http(s) agent, use if you want http keep-alive.
      * Defaults to using https.globalAgent.
      * @see https://nodejs.org/api/http.html#http_new_agent_options.
@@ -188,6 +198,8 @@ export class Client {
     public readonly addressPrefix: string
 
     private seqNo: number = 0
+    private timeout: number
+    private backoff: typeof defaultBackoff
 
     /**
      * @param address The address to the Steem RPC server, e.g. `https://steemd.steemit.com`.
@@ -200,6 +212,9 @@ export class Client {
         this.chainId = options.chainId ? Buffer.from(options.chainId, 'hex') : DEFAULT_CHAIN_ID
         assert.equal(this.chainId.length, 32, 'invalid chain id')
         this.addressPrefix = options.addressPrefix || DEFAULT_ADDRESS_PREFIX
+
+        this.timeout = options.timeout || 60 * 1000
+        this.backoff = options.backoff || defaultBackoff
 
         this.database = new DatabaseAPI(this)
         this.broadcast = new BroadcastAPI(this)
@@ -228,14 +243,19 @@ export class Client {
             }
             return value
         })
-        const req = {
+        const opts: any = {
             body,
             cache: 'no-cache',
             headers: {'User-Agent': `dsteem/${ packageVersion }`},
             method: 'POST',
             mode: 'cors',
         }
-        const response = await (await fetch(this.address, req)).json() as RPCResponse
+        if (this.options.agent) {
+            opts.agent = this.options.agent
+        }
+        const response: RPCResponse = await (
+            await retryingFetch(this.address, opts, this.timeout, this.backoff)
+        ).json()
         if (response.error) {
             const {data} = response.error
             let {message} = response.error
@@ -264,4 +284,12 @@ export class Client {
         return response.result
     }
 
+}
+
+/**
+ * Default backoff function.
+ * ```min(tries*10^2, 10 seconds)```
+ */
+const defaultBackoff = (tries: number): number => {
+    return Math.min(Math.pow(tries * 10, 2), 10 * 1000)
 }
