@@ -34,17 +34,14 @@
  */
 
 import * as assert from 'assert'
-import {EventEmitter} from 'events'
-import * as http from 'http'
-import * as https from 'https'
-import {parse as parseUrl, Url} from 'url'
 import {VError} from 'verror'
 import packageVersion from './version'
+import fetch = require('node-fetch')
 
 import {Blockchain} from './helpers/blockchain'
 import {BroadcastAPI} from './helpers/broadcast'
 import {DatabaseAPI} from './helpers/database'
-import {copy, jsonRequest, waitForEvent} from './utils'
+import {copy, waitForEvent} from './utils'
 
 /**
  * Library version.
@@ -73,6 +70,7 @@ interface RPCRequest {
     /**
      * Array of parameters to pass to the method.
      */
+    jsonrpc: '2.0'
     params: any[]
 }
 
@@ -125,36 +123,11 @@ export interface ClientOptions {
      */
     addressPrefix?: string
     /**
-     * How long in milliseconds before a request times out, set to `0` to disable.
-     * Defaults to five seconds.
-     */
-    sendTimeout?: number
-    /**
      * Node.js http(s) agent, use if you want http keep-alive.
      * Defaults to using https.globalAgent.
      * @see https://nodejs.org/api/http.html#http_new_agent_options.
      */
-    agent?: https.Agent
-}
-
-/**
- * RPC Client events
- * -----------------
- */
-export interface ClientEvents {
-    /**
-     * Emitted when the connection closes/opens.
-     */
-    on(event: 'open' | 'close', listener: () => void): this
-    /**
-     * Emitted on error, throws if there is no listener.
-     */
-    on(event: 'error', listener: (error: Error) => void): this
-    /**
-     * Emitted when receiving a server notice message, typically only used for callbacks.
-     */
-    on(event: 'notice', listener: (notice: any) => void): this
-    on(event: string, listener: Function): this
+    agent?: any // https.Agent
 }
 
 /**
@@ -162,7 +135,7 @@ export interface ClientEvents {
  * ----------
  * Can be used in both node.js and the browser. Also see {@link ClientOptions}.
  */
-export class Client extends EventEmitter implements ClientEvents {
+export class Client {
 
     /**
      * Create a new client instance configured for the testnet.
@@ -213,34 +186,15 @@ export class Client extends EventEmitter implements ClientEvents {
      */
     public readonly addressPrefix: string
 
-    private pending = new Map<number, PendingRequest>()
     private seqNo: number = 0
-    private rpcOptions: https.RequestOptions
 
     /**
      * @param address The address to the Steem RPC server, e.g. `https://steemd.steemit.com`.
      * @param options Client options.
      */
     constructor(address: string, options: ClientOptions = {}) {
-        super()
-
         this.address = address
         this.options = options
-
-        const url = parseUrl(address, false)
-        assert(url.protocol !== 'wss:' && url.protocol !== 'ws:', 'websocket support deprecated')
-
-        this.rpcOptions = url as https.RequestOptions
-        this.rpcOptions.agent = options.agent
-        this.rpcOptions.method = 'post'
-        this.rpcOptions.headers = {
-            'User-Agent': `dsteem/${ VERSION }`
-        }
-
-        const timeout = options.sendTimeout || 5 * 1000
-        if (timeout !== 0) {
-            this.rpcOptions.timeout = options.sendTimeout
-        }
 
         this.chainId = options.chainId ? Buffer.from(options.chainId, 'hex') : DEFAULT_CHAIN_ID
         assert.equal(this.chainId.length, 32, 'invalid chain id')
@@ -262,10 +216,25 @@ export class Client extends EventEmitter implements ClientEvents {
     public async call(api: string, method: string, params: any[] = []): Promise<any> {
         const request: RPCCall = {
             id: ++this.seqNo,
+            jsonrpc: '2.0',
             method: 'call',
             params: [api, method, params],
         }
-        const response = await jsonRequest(this.rpcOptions, request) as RPCResponse
+        const body = JSON.stringify(request, (key, value) => {
+            // encode Buffers as hex strings instead of an array of bytes
+            if (typeof value === 'object' && value.type === 'Buffer') {
+                return Buffer.from(value.data).toString('hex')
+            }
+            return value
+        })
+        const req = {
+            body,
+            cache: 'no-cache',
+            headers: {'User-Agent': `dsteem/${ packageVersion }`},
+            method: 'POST',
+            mode: 'cors',
+        }
+        const response = await (await fetch(this.address, req)).json() as RPCResponse
         if (response.error) {
             const {data} = response.error
             let {message} = response.error
