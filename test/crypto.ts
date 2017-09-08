@@ -14,7 +14,7 @@ import {
     signTransaction,
     Transaction,
     Types,
-} from './../src'
+} from './../src/index-node'
 
 describe('crypto', function() {
 

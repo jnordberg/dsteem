@@ -2,7 +2,7 @@ import 'mocha'
 import * as assert from 'assert'
 import * as ByteBuffer from 'bytebuffer'
 
-import {Types, Serializer, HexBuffer} from './../src'
+import {Types, Serializer, HexBuffer} from './../src/index-node'
 
 function serialize(serializer: Serializer, data: any) {
     const buffer = new ByteBuffer(ByteBuffer.DEFAULT_CAPACITY, ByteBuffer.LITTLE_ENDIAN)

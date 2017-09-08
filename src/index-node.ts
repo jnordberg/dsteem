@@ -1,5 +1,5 @@
 /**
- * @file dsteem entry point for browsers.
+ * @file dsteem entry point for node.js.
  * @author Johan Nordberg <code@johan-nordberg.com>
  * @license
  * Copyright (c) 2017 Johan Nordberg. All Rights Reserved.
@@ -33,19 +33,7 @@
  * in the design, construction, operation or maintenance of any military facility.
  */
 
-// Microsoft is keeping to their long-held tradition of shipping broken
-// standards implementations, this forces Edge to use the polyfill insted.
-if (global['navigator'] && /Edge/.test(global['navigator'].userAgent)) {
-  delete global['fetch']
-}
-
-import 'core-js/es6/map'
-import 'core-js/es6/promise'
-import 'core-js/es6/symbol'
-import 'core-js/es6/number'
-import 'core-js/fn/array/from'
 import 'core-js/modules/es7.symbol.async-iterator'
-import 'regenerator-runtime/runtime'
-import 'whatwg-fetch'
+global['fetch'] = require('node-fetch')
 
 export * from './index'

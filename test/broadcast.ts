@@ -3,7 +3,7 @@ import * as assert from 'assert'
 import * as lorem from 'lorem-ipsum'
 import {VError} from 'verror'
 
-import {Client, PrivateKey, utils} from './../src'
+import {Client, PrivateKey, utils} from './../src/index-node'
 
 import {getTestnetAccounts, randomString, agent} from './common'
 

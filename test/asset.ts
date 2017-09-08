@@ -1,7 +1,7 @@
 import 'mocha'
 import * as assert from 'assert'
 
-import {Asset, Price, getVestingSharePrice} from './../src'
+import {Asset, Price, getVestingSharePrice} from './../src/index-node'
 
 describe('asset', function() {
 

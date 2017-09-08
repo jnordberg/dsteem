@@ -4,13 +4,12 @@
   "description": "Steem blockchain RPC client library",
   "author": "Johan Nordberg",
   "license": "BSD-3-Clause",
-  "main": "./lib/index",
+  "main": "./lib/index-node",
   "typings": "./lib/index",
   "browser": {
-    "./lib/index": "./dist/dsteem.js",
-    "./src": "./dist/dsteem.js",
-    "./src/version": "./lib/version.js",
-    "node-fetch": "./fetch.js"
+    "./lib/index-node": "./dist/dsteem.js",
+    "./src/index-node": "./dist/dsteem.js",
+    "./src/version": "./lib/version.js"
   },
   "files": [
     "lib/*",

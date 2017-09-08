@@ -36,12 +36,13 @@
 import * as assert from 'assert'
 import {VError} from 'verror'
 import packageVersion from './version'
-import fetch = require('node-fetch')
 
 import {Blockchain} from './helpers/blockchain'
 import {BroadcastAPI} from './helpers/broadcast'
 import {DatabaseAPI} from './helpers/database'
 import {copy, waitForEvent} from './utils'
+
+const fetch = global['fetch']
 
 /**
  * Library version.

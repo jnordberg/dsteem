@@ -1,5 +1,5 @@
 /**
- * @file dsteem entry point for node.js.
+ * @file dsteem exports.
  * @author Johan Nordberg <code@johan-nordberg.com>
  * @license
  * Copyright (c) 2017 Johan Nordberg. All Rights Reserved.
@@ -32,8 +32,6 @@
  * You acknowledge that this software is not designed, licensed or intended for use
  * in the design, construction, operation or maintenance of any military facility.
  */
-
-import 'core-js/modules/es7.symbol.async-iterator'
 
 import * as utils from './utils'
 export {utils}

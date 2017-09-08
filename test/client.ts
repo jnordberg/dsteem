@@ -2,7 +2,7 @@ import 'mocha'
 import * as assert from 'assert'
 import {VError} from 'verror'
 
-import {Client, utils} from './../src'
+import {Client, utils} from './../src/index-node'
 
 describe('client', function() {
     this.slow(200)

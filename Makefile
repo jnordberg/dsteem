@@ -24,7 +24,7 @@ dist/dsteem.js: $(SRC_FILES) node_modules lib
 
 dist/dsteem.d.ts: $(SRC_FILES) node_modules
 	dts-generator --name dsteem --project . --out dist/dsteem.d.ts
-	sed -e "s/^declare module 'dsteem\/index'/declare module 'dsteem'/" -i '' dist/dsteem.d.ts
+	sed -e "s@'dsteem/index'@'dsteem'@g" -i '' dist/dsteem.d.ts
 
 dist/dsteem.js.gz: dist/dsteem.js
 	gzip --best --keep --force dist/dsteem.js
