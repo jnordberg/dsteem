@@ -1,0 +1,10 @@
+global['isBrowser'] = true
+require('./asset.ts')
+require('./blockchain.ts')
+require('./broadcast.ts')
+require('./client.ts')
+require('./crypto.ts')
+require('./database.ts')
+require('./misc.ts')
+require('./operations.ts')
+require('./serializers.ts')
