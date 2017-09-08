@@ -1,7 +1,6 @@
 
 import * as fs from 'fs'
 import * as https from 'https'
-import * as request from 'superagent'
 import {randomBytes} from 'crypto'
 
 export const NUM_TEST_ACCOUNTS = 2
@@ -9,6 +8,8 @@ export const IS_BROWSER = global['isBrowser'] === true
 export const TEST_NODE = process.env['TEST_NODE'] || 'https://gtg.steem.house:8090'
 
 export const agent = IS_BROWSER ? undefined : new https.Agent({keepAlive: true})
+
+const fetch = global['fetch']
 
 async function readFile(filename: string) {
     return new Promise<Buffer>((resolve, reject) => {
@@ -37,9 +38,12 @@ export function randomString(length: number) {
 export async function createAccount(): Promise<{username: string, password: string}> {
     const password = randomString(32)
     const username = `dsteem-${ randomString(9) }`
-    const response = await request.post('https://testnet.steem.vc/create')
-        .type('form').send({username, password})
-    const text = response.body
+    const response = await fetch('https://testnet.steem.vc/create', {
+        method: 'POST',
+        body: `username=${ username }&password=${ password }`,
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+    })
+    const text = await response.text()
     if (response.status !== 200) {
         throw new Error(`Unable to create user: ${ text }`)
     }

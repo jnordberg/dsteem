@@ -36,13 +36,23 @@ coverage: node_modules
 	nyc -r html -r text -e .ts -i ts-node/register mocha --reporter nyan --require ts-node/register test/*.ts
 
 .PHONY: test
-test: node_modules lib
+test: node_modules
 	mocha --require ts-node/register test/*.ts --grep '$(grep)'
 
 .PHONY: ci-test
 ci-test: node_modules
 	tslint -p tsconfig.json -c tslint.json
 	nyc -r lcov -e .ts -i ts-node/register mocha --reporter tap --require ts-node/register test/*.ts
+
+.PHONY: browser-test
+browser-test: bundle
+	BUILD_NUMBER="$$(git rev-parse --short HEAD)-$$(date +%s)" \
+		karma start test/_karma.ci.js
+
+.PHONY: browser-test-local
+browser-test-local: bundle
+	karma start test/_karma.js
+
 
 .PHONY: lint
 lint: node_modules
