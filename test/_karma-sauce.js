@@ -173,13 +173,6 @@ addLauncher((caps) => {
 })
 
 addLauncher((caps) => {
-    caps = {browserName: 'MicrosoftEdge'};
-    caps['platform'] = 'Windows 10';
-    caps['version'] = '13.10586';
-    return caps
-})
-
-addLauncher((caps) => {
     caps = {browserName: 'firefox'};
     caps['platform'] = 'Windows 7';
     caps['version'] = '54.0';
@@ -222,20 +215,6 @@ addLauncher((caps) => {
     caps = {browserName: 'safari'};
     caps['platform'] = 'OS X 10.9';
     caps['version'] = '7.0';
-    return caps
-})
-
-addLauncher((caps) => {
-    caps = {browserName: 'internet explorer'};
-    caps['platform'] = 'Windows 8';
-    caps['version'] = '10.0';
-    return caps
-})
-
-addLauncher((caps) => {
-    caps = {browserName: 'internet explorer'};
-    caps['platform'] = 'Windows 7';
-    caps['version'] = '9.0';
     return caps
 })
 
