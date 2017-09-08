@@ -12,7 +12,7 @@ describe('operations', function() {
     this.slow(20 * 1000)
     this.timeout(60 * 1000)
 
-    const client = Client.testnet({sendTimeout: 0, agent})
+    const client = Client.testnet({agent})
 
     let acc1, acc2: {username: string, password: string}
     let acc1Key: ds.PrivateKey
@@ -39,11 +39,10 @@ describe('operations', function() {
 
     it('should send custom', async function() {
         const props = await client.database.getDynamicGlobalProperties()
-        const size = ~~(props.maximum_block_size / 6)
         const op: ds.CustomOperation = ['custom', {
             required_auths: [acc1.username],
             id: ~~(Math.random() * 65535),
-            data: randomBytes(size),
+            data: randomBytes(512),
         }]
         const rv = await client.broadcast.sendOperations([op], acc1Key)
         const tx = await client.database.getTransaction(rv)

@@ -2,8 +2,7 @@ import 'mocha'
 import * as assert from 'assert'
 import * as ByteBuffer from 'bytebuffer'
 
-import {Types, Serializer} from '../src/steem/serializer'
-import {HexBuffer} from '../src/steem/misc'
+import {Types, Serializer, HexBuffer} from './../src'
 
 function serialize(serializer: Serializer, data: any) {
     const buffer = new ByteBuffer(ByteBuffer.DEFAULT_CAPACITY, ByteBuffer.LITTLE_ENDIAN)

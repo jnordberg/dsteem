@@ -5,17 +5,16 @@ import {inspect} from 'util'
 import {randomBytes, createHash} from 'crypto'
 
 import {
+    DEFAULT_ADDRESS_PREFIX,
+    DEFAULT_CHAIN_ID,
+    Operation,
     PrivateKey,
     PublicKey,
     Signature,
     signTransaction,
-    Operation,
     Transaction,
-    DEFAULT_ADDRESS_PREFIX,
-    DEFAULT_CHAIN_ID
+    Types,
 } from './../src'
-
-import {Types} from './../src/steem/serializer'
 
 describe('crypto', function() {
 
@@ -38,8 +37,8 @@ describe('crypto', function() {
         assert.equal(k1.prefix, testnetPrefix)
         assert(k1.toString(), testnetPair.public)
         const k2 = PublicKey.from(mainPair.public)
-        const k3 = PublicKey.from(mainPairPub)
         assert(k2.toString(), mainPair.public)
+        const k3 = PublicKey.from(mainPairPub)
         assert(k2.toString(), k3.toString())
         const k4 = PublicKey.from(testnetPair.public, testnetPrefix)
         assert(k4.toString(), testnetPair.public)

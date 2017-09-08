@@ -1,9 +1,9 @@
 import 'mocha'
 import * as assert from 'assert'
-import {VError} from 'verror'
 import * as lorem from 'lorem-ipsum'
+import {VError} from 'verror'
 
-import {Client, PrivateKey, signTransaction, CommentOperation, Transaction, utils} from './../src'
+import {Client, PrivateKey, utils} from './../src'
 
 import {getTestnetAccounts, randomString, agent} from './common'
 

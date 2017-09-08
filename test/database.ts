@@ -2,15 +2,15 @@ import 'mocha'
 import * as assert from 'assert'
 
 import {Client, Asset, Transaction, signTransaction, PrivateKey} from './../src'
-import {getTestnetAccounts, randomString, agent} from './common'
+import {getTestnetAccounts, randomString, agent, TEST_NODE} from './common'
 
 describe('database api', function() {
     this.slow(500)
-    this.timeout(5 * 1000)
+    this.timeout(20 * 1000)
 
     const client = Client.testnet({agent})
     let serverConfig: {[key: string]: boolean | string | number}
-    const liveClient = new Client('https://steemd.steemit.com', {agent})
+    const liveClient = new Client(TEST_NODE, {agent})
 
     let acc: {username: string, password: string}
     before(async function() {
@@ -62,8 +62,6 @@ describe('database api', function() {
     })
 
     it('getDiscussions', async function() {
-        this.slow(5 * 1000)
-        this.timeout(10 * 1000)
         const r1 = await liveClient.database.getDiscussions('comments', {
             start_author: 'almost-digital',
             start_permlink: 're-pal-re-almost-digital-dsteem-a-strongly-typed-steem-client-library-20170702t131034262z',
@@ -75,8 +73,6 @@ describe('database api', function() {
     })
 
     it('getTransaction', async function() {
-        this.slow(5 * 1000)
-        this.timeout(10 * 1000)
         const tx = await liveClient.database.getTransaction({id: 'c20a84c8a12164e1e0750f0ee5d3c37214e2f073', block_num: 13680277})
         assert.deepEqual(tx.signatures, ['201e02e8daa827382b1a3aefb6809a4501eb77aa813b705be4983d50d74c66432529601e5ae43981dcba2a7e171de5fd75be2e1820942260375d2daf647df2ccaa'])
         try {

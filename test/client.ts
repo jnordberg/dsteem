@@ -6,8 +6,10 @@ import {Client, utils} from './../src'
 
 describe('client', function() {
     this.slow(200)
+    this.timeout(30 * 1000)
 
     const client = Client.testnet()
+    const aclient = client as any
 
     it('should make rpc call', async function() {
         const result = await client.call('database_api', 'get_accounts', [['initminer']]) as any[]

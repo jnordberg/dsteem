@@ -1,10 +1,14 @@
 
-import * as fetch from 'node-fetch'
 import * as fs from 'fs'
 import * as https from 'https'
+import * as request from 'superagent'
 import {randomBytes} from 'crypto'
 
-export const agent = new https.Agent({keepAlive: true})
+export const NUM_TEST_ACCOUNTS = 2
+export const IS_BROWSER = global['isBrowser'] === true
+export const TEST_NODE = process.env['TEST_NODE'] || 'https://gtg.steem.house:8090'
+
+export const agent = IS_BROWSER ? undefined : new https.Agent({keepAlive: true})
 
 async function readFile(filename: string) {
     return new Promise<Buffer>((resolve, reject) => {
@@ -22,8 +26,6 @@ async function writeFile(filename: string, data: Buffer) {
     })
 }
 
-const NUM_TEST_ACCOUNTS = 2
-
 export function randomString(length: number) {
     return randomBytes(length*2)
         .toString('base64')
@@ -32,31 +34,42 @@ export function randomString(length: number) {
         .toLowerCase()
 }
 
-export async function getTestnetAccounts(): Promise<{username: string, password: string}[]> {
-    try {
-        const data = await readFile('.testnetrc')
-        return JSON.parse(data.toString())
-    } catch (error) {
-        if (error.code !== 'ENOENT') {
-            throw error
-        }
+export async function createAccount(): Promise<{username: string, password: string}> {
+    const password = randomString(32)
+    const username = `dsteem-${ randomString(9) }`
+    const response = await request.post('https://testnet.steem.vc/create')
+        .type('form').send({username, password})
+    const text = response.body
+    if (response.status !== 200) {
+        throw new Error(`Unable to create user: ${ text }`)
     }
-    console.warn('-- CREATING TESTNET ACCOUNTS --')
+    return {username, password}
+}
+
+export async function getTestnetAccounts(): Promise<{username: string, password: string}[]> {
+    if (!IS_BROWSER) {
+        try {
+            const data = await readFile('.testnetrc')
+            return JSON.parse(data.toString())
+        } catch (error) {
+            if (error.code !== 'ENOENT') {
+                throw error
+            }
+        }
+    } else if (global['__testnet_accounts']) {
+        return global['__testnet_accounts']
+    }
     let rv: {username: string, password: string}[] = []
     while (rv.length < NUM_TEST_ACCOUNTS) {
-        const password = randomString(32)
-        const username = `dsteem-${ randomString(9) }`
-        const response = await fetch('https://testnet.steem.vc/create', {
-            method: 'POST',
-            body: `username=${ username }&password=${ password }`,
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        })
-        const text = await response.text()
-        if (response.status !== 200) {
-            throw new Error(`Unable to create user: ${ text }`)
-        }
-        rv.push({username, password})
+        rv.push(await createAccount())
     }
-    await writeFile('.testnetrc', Buffer.from(JSON.stringify(rv)))
+    if (console && console.log) {
+        console.log(`CREATED TESTNET ACCOUNTS: ${ rv.map((i)=>i.username) }`)
+    }
+    if (!IS_BROWSER) {
+        await writeFile('.testnetrc', Buffer.from(JSON.stringify(rv)))
+    } else {
+        global['__testnet_accounts'] = rv
+    }
     return rv
 }
