@@ -212,13 +212,6 @@ addLauncher((caps) => {
 })
 
 addLauncher((caps) => {
-    caps = {browserName: 'safari'};
-    caps['platform'] = 'OS X 10.9';
-    caps['version'] = '7.0';
-    return caps
-})
-
-addLauncher((caps) => {
     caps = {browserName: 'chrome'};
     caps['platform'] = 'Windows 8.1';
     caps['version'] = '60.0';
