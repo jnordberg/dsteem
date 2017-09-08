@@ -121,7 +121,7 @@ export class Blockchain {
                     return
                 }
             }
-            sleep(interval * 1000)
+            await sleep(interval * 1000)
             current = await this.getCurrentBlockNum(options.mode)
         }
     }
