@@ -33,11 +33,8 @@
  * in the design, construction, operation or maintenance of any military facility.
  */
 
-import {Duplex} from 'stream'
-
 import {Client} from './../client'
 import {BlockHeader, SignedBlock} from './../steem/block'
-import {Bignum} from './../steem/misc'
 import {AppliedOperation} from './../steem/operation'
 import {iteratorStream, sleep} from './../utils'
 
