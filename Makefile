@@ -23,16 +23,15 @@ dist/%.js: lib
 		--output $@ || rm $@
 
 dist/dsteem.js: src/index-browser.ts
-dist/dsteem-nopf.js: src/index.ts
 
 dist/dsteem.d.ts: $(SRC_FILES) node_modules
 	dts-generator --name dsteem --project . --out dist/dsteem.d.ts
 	sed -e "s@'dsteem/index'@'dsteem'@g" -i '' dist/dsteem.d.ts
 
-dist/%.gz: dist/dsteem.js dist/dsteem-nopf.js
+dist/%.gz: dist/dsteem.js
 	gzip --best --keep --force $(basename $@)
 
-bundle: dist/dsteem.js.gz dist/dsteem-nopf.js.gz dist/dsteem.d.ts
+bundle: dist/dsteem.js.gz dist/dsteem.d.ts
 
 .PHONY: coverage
 coverage: node_modules
