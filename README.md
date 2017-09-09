@@ -124,6 +124,13 @@ stream.pipe(es.map(function(block, callback) {
 })).pipe(process.stdout)
 ```
 
+
+Browser compatibility
+---------------------
+
+[![Build Status](https://saucelabs.com/browser-matrix/jnordberg-dsteem.svg)](https://saucelabs.com/open_sauce/user/jnordberg-dsteem)
+
+
 ---
 
 *Share and Enjoy!*
