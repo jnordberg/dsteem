@@ -37,7 +37,7 @@ import {EventEmitter} from 'events'
 import {PassThrough} from 'stream'
 import {VError} from 'verror'
 
-const fetch = global['fetch']
+const fetch = global['fetch'] // tslint:disable-line:no-string-literal
 
 /**
  * Return a promise that will resove when a specific event is emitted.

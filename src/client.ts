@@ -40,7 +40,7 @@ import packageVersion from './version'
 import {Blockchain} from './helpers/blockchain'
 import {BroadcastAPI} from './helpers/broadcast'
 import {DatabaseAPI} from './helpers/database'
-import {copy, waitForEvent, retryingFetch} from './utils'
+import {copy, retryingFetch, waitForEvent} from './utils'
 
 /**
  * Library version.
