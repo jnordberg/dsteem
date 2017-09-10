@@ -1,6 +1,6 @@
 {
-  "private": "true",
+  "private": true,
   "dependencies": {
-    "dsteem": "^0.3.0"
+    "dsteem": "^0.8.1"
   }
 }
