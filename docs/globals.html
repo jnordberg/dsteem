@@ -108,7 +108,6 @@
 								<li class="tsd-kind-interface"><a href="interfaces/challengeauthorityoperation.html" class="tsd-kind-icon">Challenge<wbr>Authority<wbr>Operation</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/changerecoveryaccountoperation.html" class="tsd-kind-icon">Change<wbr>Recovery<wbr>Account<wbr>Operation</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/claimrewardbalanceoperation.html" class="tsd-kind-icon">Claim<wbr>Reward<wbr>Balance<wbr>Operation</a></li>
-								<li class="tsd-kind-interface"><a href="interfaces/clientevents.html" class="tsd-kind-icon">Client<wbr>Events</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/clientoptions.html" class="tsd-kind-icon">Client<wbr>Options</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/comment.html" class="tsd-kind-icon">Comment</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/commentoperation.html" class="tsd-kind-icon">Comment<wbr>Operation</a></li>
@@ -190,6 +189,7 @@
 								<li class="tsd-kind-variable tsd-is-not-exported"><a href="globals.html#signedblockheaderserializer" class="tsd-kind-icon">Signed<wbr>Block<wbr>Header<wbr>Serializer</a></li>
 								<li class="tsd-kind-variable tsd-is-not-exported"><a href="globals.html#transactionserializer" class="tsd-kind-icon">Transaction<wbr>Serializer</a></li>
 								<li class="tsd-kind-variable"><a href="globals.html#version" class="tsd-kind-icon">VERSION</a></li>
+								<li class="tsd-kind-variable tsd-is-not-exported"><a href="globals.html#fetch" class="tsd-kind-icon">fetch</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -215,14 +215,14 @@
 								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#copy" class="tsd-kind-icon">copy</a></li>
 								<li class="tsd-kind-function tsd-is-not-exported"><a href="globals.html#decodeprivate" class="tsd-kind-icon">decode<wbr>Private</a></li>
 								<li class="tsd-kind-function tsd-is-not-exported"><a href="globals.html#decodepublic" class="tsd-kind-icon">decode<wbr>Public</a></li>
+								<li class="tsd-kind-function tsd-is-not-exported"><a href="globals.html#defaultbackoff" class="tsd-kind-icon">default<wbr>Backoff</a></li>
 								<li class="tsd-kind-function tsd-is-not-exported"><a href="globals.html#doublesha256" class="tsd-kind-icon">double<wbr>Sha256</a></li>
 								<li class="tsd-kind-function tsd-is-not-exported"><a href="globals.html#encodeprivate" class="tsd-kind-icon">encode<wbr>Private</a></li>
 								<li class="tsd-kind-function tsd-is-not-exported"><a href="globals.html#encodepublic" class="tsd-kind-icon">encode<wbr>Public</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#getvestingshareprice" class="tsd-kind-icon">get<wbr>Vesting<wbr>Share<wbr>Price</a></li>
 								<li class="tsd-kind-function tsd-is-not-exported"><a href="globals.html#iscanonicalsignature" class="tsd-kind-icon">is<wbr>Canonical<wbr>Signature</a></li>
 								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#iteratorstream" class="tsd-kind-icon">iterator<wbr>Stream</a></li>
-								<li class="tsd-kind-function"><a href="globals.html#jsonrequest" class="tsd-kind-icon">json<wbr>Request</a></li>
-								<li class="tsd-kind-function"><a href="globals.html#readjson" class="tsd-kind-icon">read<wbr>Json</a></li>
+								<li class="tsd-kind-function"><a href="globals.html#retryingfetch" class="tsd-kind-icon">retrying<wbr>Fetch</a></li>
 								<li class="tsd-kind-function tsd-is-not-exported"><a href="globals.html#ripemd160" class="tsd-kind-icon">ripemd160</a></li>
 								<li class="tsd-kind-function tsd-is-not-exported"><a href="globals.html#sha256" class="tsd-kind-icon">sha256</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#signtransaction" class="tsd-kind-icon">sign<wbr>Transaction</a></li>
@@ -402,7 +402,7 @@
 					<div class="tsd-signature tsd-kind-icon">DEFAULT_<wbr>ADDRESS_<wbr>PREFIX<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"STM"</span><span class="tsd-signature-symbol"> =&nbsp;&quot;STM&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/client.ts#L62">client.ts:62</a></li>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/client.ts#L58">client.ts:58</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -417,7 +417,7 @@
 					<div class="tsd-signature tsd-kind-icon">DEFAULT_<wbr>CHAIN_<wbr>ID<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol"> =&nbsp;Buffer.from(&#x27;0000000000000000000000000000000000000000000000000000000000000000&#x27;, &#x27;hex&#x27;)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/client.ts#L57">client.ts:57</a></li>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/client.ts#L53">client.ts:53</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -495,7 +495,7 @@
 					<div class="tsd-signature tsd-kind-icon">VERSION<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;packageVersion</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/client.ts#L52">client.ts:52</a></li>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/client.ts#L48">client.ts:48</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -503,6 +503,16 @@
 							<p>Library version.</p>
 						</div>
 					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-is-not-exported">
+					<a name="fetch" class="tsd-anchor"></a>
+					<h3>fetch</h3>
+					<div class="tsd-signature tsd-kind-icon">fetch<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> =&nbsp;global[&#x27;fetch&#x27;]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/utils.ts#L40">utils.ts:40</a></li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -1036,6 +1046,35 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-is-not-exported">
+					<a name="defaultbackoff" class="tsd-anchor"></a>
+					<h3>default<wbr>Backoff</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">default<wbr>Backoff<span class="tsd-signature-symbol">(</span>tries<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/client.ts#L293">client.ts:293</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Default backoff function.
+									<code>min(tries*10^2, 10 seconds)</code></p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>tries: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-is-not-exported">
 					<a name="doublesha256" class="tsd-anchor"></a>
 					<h3>double<wbr>Sha256</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-is-not-exported">
@@ -1213,41 +1252,10 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function">
-					<a name="jsonrequest" class="tsd-anchor"></a>
-					<h3>json<wbr>Request</h3>
+					<a name="retryingfetch" class="tsd-anchor"></a>
+					<h3>retrying<wbr>Fetch</h3>
 					<ul class="tsd-signatures tsd-kind-function">
-						<li class="tsd-signature tsd-kind-icon">json<wbr>Request<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RequestOptions</span>, data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/utils.ts#L114">utils.ts:114</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Sends JSON data to server and read JSON response.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>options: <span class="tsd-signature-type">RequestOptions</span></h5>
-								</li>
-								<li>
-									<h5>data: <span class="tsd-signature-type">any</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function">
-					<a name="readjson" class="tsd-anchor"></a>
-					<h3>read<wbr>Json</h3>
-					<ul class="tsd-signatures tsd-kind-function">
-						<li class="tsd-signature tsd-kind-icon">read<wbr>Json<span class="tsd-signature-symbol">(</span>stream<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ReadableStream</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">retrying<wbr>Fetch<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, opts<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, timeout<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, backoff<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -1258,13 +1266,40 @@
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Reads stream to memory and tries to parse the result as JSON.</p>
+									<p>Fetch API wrapper that retries until timeout is reached.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>stream: <span class="tsd-signature-type">ReadableStream</span></h5>
+									<h5>url: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>opts: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>timeout: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>backoff: <span class="tsd-signature-type">function</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-siganture">
+											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>tries<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>tries: <span class="tsd-signature-type">number</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -1743,9 +1778,6 @@
 						<a href="interfaces/claimrewardbalanceoperation.html" class="tsd-kind-icon">Claim<wbr>Reward<wbr>Balance<wbr>Operation</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="interfaces/clientevents.html" class="tsd-kind-icon">Client<wbr>Events</a>
-					</li>
-					<li class=" tsd-kind-interface">
 						<a href="interfaces/clientoptions.html" class="tsd-kind-icon">Client<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-interface">
@@ -1958,6 +1990,9 @@
 					<li class=" tsd-kind-variable">
 						<a href="globals.html#version" class="tsd-kind-icon">VERSION</a>
 					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#fetch" class="tsd-kind-icon">fetch</a>
+					</li>
 					<li class=" tsd-kind-function tsd-is-not-exported">
 						<a href="globals.html#arrayserializer" class="tsd-kind-icon">Array<wbr>Serializer</a>
 					</li>
@@ -2019,6 +2054,9 @@
 						<a href="globals.html#decodepublic" class="tsd-kind-icon">decode<wbr>Public</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="globals.html#defaultbackoff" class="tsd-kind-icon">default<wbr>Backoff</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
 						<a href="globals.html#doublesha256" class="tsd-kind-icon">double<wbr>Sha256</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-not-exported">
@@ -2037,10 +2075,7 @@
 						<a href="globals.html#iteratorstream" class="tsd-kind-icon">iterator<wbr>Stream</a>
 					</li>
 					<li class=" tsd-kind-function">
-						<a href="globals.html#jsonrequest" class="tsd-kind-icon">json<wbr>Request</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#readjson" class="tsd-kind-icon">read<wbr>Json</a>
+						<a href="globals.html#retryingfetch" class="tsd-kind-icon">retrying<wbr>Fetch</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-not-exported">
 						<a href="globals.html#ripemd160" class="tsd-kind-icon">ripemd160</a>

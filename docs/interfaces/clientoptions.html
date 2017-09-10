@@ -90,8 +90,9 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="clientoptions.html#addressprefix" class="tsd-kind-icon">address<wbr>Prefix</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="clientoptions.html#agent" class="tsd-kind-icon">agent</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="clientoptions.html#backoff" class="tsd-kind-icon">backoff</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="clientoptions.html#chainid" class="tsd-kind-icon">chain<wbr>Id</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="clientoptions.html#sendtimeout" class="tsd-kind-icon">send<wbr>Timeout</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="clientoptions.html#timeout" class="tsd-kind-icon">timeout</a></li>
 							</ul>
 						</section>
 					</div>
@@ -105,7 +106,7 @@
 					<div class="tsd-signature tsd-kind-icon">address<wbr>Prefix<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/client.ts#L126">client.ts:126</a></li>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/client.ts#L123">client.ts:123</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -118,10 +119,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="agent" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> agent</h3>
-					<div class="tsd-signature tsd-kind-icon">agent<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">https.Agent</span></div>
+					<div class="tsd-signature tsd-kind-icon">agent<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/client.ts#L137">client.ts:137</a></li>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/client.ts#L141">client.ts:141</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -137,12 +138,27 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="backoff" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> backoff</h3>
+					<div class="tsd-signature tsd-kind-icon">backoff<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/client.ts#L135">client.ts:135</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Retry backoff function, returns milliseconds. Default = <a href="../globals.html#defaultbackoff">defaultBackoff</a>.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="chainid" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> chain<wbr>Id</h3>
 					<div class="tsd-signature tsd-kind-icon">chain<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/client.ts#L121">client.ts:121</a></li>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/client.ts#L118">client.ts:118</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -153,9 +169,9 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="sendtimeout" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> send<wbr>Timeout</h3>
-					<div class="tsd-signature tsd-kind-icon">send<wbr>Timeout<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
+					<a name="timeout" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> timeout</h3>
+					<div class="tsd-signature tsd-kind-icon">timeout<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
 							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/client.ts#L131">client.ts:131</a></li>
@@ -163,8 +179,11 @@
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>How long in milliseconds before a request times out, set to <code>0</code> to disable.
-							Defaults to five seconds.</p>
+							<p>Send timeout, how long to wait in milliseconds before giving
+								up on a rpc call. Note that this is not an exact timeout,
+								no in-flight requests will be aborted, they will just not
+								be retried any more past the timeout.
+							Can be set to 0 to retry forever. Defaults to 60 * 1000 ms.</p>
 						</div>
 					</div>
 				</section>
@@ -192,10 +211,13 @@
 								<a href="clientoptions.html#agent" class="tsd-kind-icon">agent</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="clientoptions.html#backoff" class="tsd-kind-icon">backoff</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="clientoptions.html#chainid" class="tsd-kind-icon">chain<wbr>Id</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="clientoptions.html#sendtimeout" class="tsd-kind-icon">send<wbr>Timeout</a>
+								<a href="clientoptions.html#timeout" class="tsd-kind-icon">timeout</a>
 							</li>
 						</ul>
 					</li>

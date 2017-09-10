@@ -430,7 +430,6 @@ declare module 'dsteem/utils' {
 	 * in the design, construction, operation or maintenance of any military facility.
 	 */
 	import { EventEmitter } from 'events';
-	import * as https from 'https';
 	/**
 	 * Return a promise that will resove when a specific event is emitted.
 	 */
@@ -448,13 +447,9 @@ declare module 'dsteem/utils' {
 	 */
 	export function copy<T>(object: T): T;
 	/**
-	 * Reads stream to memory and tries to parse the result as JSON.
+	 * Fetch API wrapper that retries until timeout is reached.
 	 */
-	export function readJson(stream: NodeJS.ReadableStream): Promise<any>;
-	/**
-	 * Sends JSON data to server and read JSON response.
-	 */
-	export function jsonRequest(options: https.RequestOptions, data: any): Promise<{}>;
+	export function retryingFetch(url: string, opts: any, timeout: number, backoff: (tries: number) => number): Promise<any>;
 
 }
 declare module 'dsteem/crypto' {
@@ -1663,6 +1658,40 @@ declare module 'dsteem/steem/block' {
 }
 declare module 'dsteem/helpers/blockchain' {
 	/// <reference types="node" />
+	/**
+	 * @file Steem blockchain helpers.
+	 * @author Johan Nordberg <code@johan-nordberg.com>
+	 * @license
+	 * Copyright (c) 2017 Johan Nordberg. All Rights Reserved.
+	 *
+	 * Redistribution and use in source and binary forms, with or without modification,
+	 * are permitted provided that the following conditions are met:
+	 *
+	 *  1. Redistribution of source code must retain the above copyright notice, this
+	 *     list of conditions and the following disclaimer.
+	 *
+	 *  2. Redistribution in binary form must reproduce the above copyright notice,
+	 *     this list of conditions and the following disclaimer in the documentation
+	 *     and/or other materials provided with the distribution.
+	 *
+	 *  3. Neither the name of the copyright holder nor the names of its contributors
+	 *     may be used to endorse or promote products derived from this software without
+	 *     specific prior written permission.
+	 *
+	 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+	 * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+	 * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+	 * IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+	 * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+	 * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+	 * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+	 * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+	 * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+	 * OF THE POSSIBILITY OF SUCH DAMAGE.
+	 *
+	 * You acknowledge that this software is not designed, licensed or intended for use
+	 * in the design, construction, operation or maintenance of any military facility.
+	 */
 	import { Client } from 'dsteem/client';
 	import { BlockHeader, SignedBlock } from 'dsteem/steem/block';
 	import { AppliedOperation } from 'dsteem/steem/operation';
@@ -2025,8 +2054,6 @@ declare module 'dsteem/helpers/database' {
 }
 declare module 'dsteem/client' {
 	/// <reference types="node" />
-	import { EventEmitter } from 'events';
-	import * as https from 'https';
 	import { Blockchain } from 'dsteem/helpers/blockchain';
 	import { BroadcastAPI } from 'dsteem/helpers/broadcast';
 	import { DatabaseAPI } from 'dsteem/helpers/database';
@@ -2058,42 +2085,30 @@ declare module 'dsteem/client' {
 	     */
 	    addressPrefix?: string;
 	    /**
-	     * How long in milliseconds before a request times out, set to `0` to disable.
-	     * Defaults to five seconds.
+	     * Send timeout, how long to wait in milliseconds before giving
+	     * up on a rpc call. Note that this is not an exact timeout,
+	     * no in-flight requests will be aborted, they will just not
+	     * be retried any more past the timeout.
+	     * Can be set to 0 to retry forever. Defaults to 60 * 1000 ms.
 	     */
-	    sendTimeout?: number;
+	    timeout?: number;
+	    /**
+	     * Retry backoff function, returns milliseconds. Default = {@link defaultBackoff}.
+	     */
+	    backoff?: (tries: number) => number;
 	    /**
 	     * Node.js http(s) agent, use if you want http keep-alive.
 	     * Defaults to using https.globalAgent.
 	     * @see https://nodejs.org/api/http.html#http_new_agent_options.
 	     */
-	    agent?: https.Agent;
-	}
-	/**
-	 * RPC Client events
-	 * -----------------
-	 */
-	export interface ClientEvents {
-	    /**
-	     * Emitted when the connection closes/opens.
-	     */
-	    on(event: 'open' | 'close', listener: () => void): this;
-	    /**
-	     * Emitted on error, throws if there is no listener.
-	     */
-	    on(event: 'error', listener: (error: Error) => void): this;
-	    /**
-	     * Emitted when receiving a server notice message, typically only used for callbacks.
-	     */
-	    on(event: 'notice', listener: (notice: any) => void): this;
-	    on(event: string, listener: Function): this;
+	    agent?: any;
 	}
 	/**
 	 * RPC Client
 	 * ----------
 	 * Can be used in both node.js and the browser. Also see {@link ClientOptions}.
 	 */
-	export class Client extends EventEmitter implements ClientEvents {
+	export class Client {
 	    /**
 	     * Create a new client instance configured for the testnet.
 	     */
@@ -2126,9 +2141,9 @@ declare module 'dsteem/client' {
 	     * Address prefix for current network.
 	     */
 	    readonly addressPrefix: string;
-	    private pending;
 	    private seqNo;
-	    private rpcOptions;
+	    private timeout;
+	    private backoff;
 	    /**
 	     * @param address The address to the Steem RPC server, e.g. `https://steemd.steemit.com`.
 	     * @param options Client options.
@@ -2146,9 +2161,9 @@ declare module 'dsteem/client' {
 	}
 
 }
-declare module 'dsteem/index-browser' {
+declare module 'dsteem' {
 	/**
-	 * @file dsteem entry point for browsers.
+	 * @file dsteem exports.
 	 * @author Johan Nordberg <code@johan-nordberg.com>
 	 * @license
 	 * Copyright (c) 2017 Johan Nordberg. All Rights Reserved.
@@ -2181,11 +2196,6 @@ declare module 'dsteem/index-browser' {
 	 * You acknowledge that this software is not designed, licensed or intended for use
 	 * in the design, construction, operation or maintenance of any military facility.
 	 */
-	import 'core-js/es6/map';
-	import 'core-js/es6/promise';
-	import 'core-js/fn/array/from';
-	import 'core-js/modules/es7.symbol.async-iterator';
-	import 'regenerator-runtime/runtime';
 	import * as utils from 'dsteem/utils';
 	export { utils };
 	export * from 'dsteem/helpers/blockchain';
@@ -2196,12 +2206,25 @@ declare module 'dsteem/index-browser' {
 	export * from 'dsteem/steem/comment';
 	export * from 'dsteem/steem/misc';
 	export * from 'dsteem/steem/operation';
+	export * from 'dsteem/steem/serializer';
 	export * from 'dsteem/steem/transaction';
 	export * from 'dsteem/client';
 	export * from 'dsteem/crypto';
 
 }
-declare module 'dsteem' {
+declare module 'dsteem/index-browser' {
+	import 'core-js/es6/map';
+	import 'core-js/es6/number';
+	import 'core-js/es6/promise';
+	import 'core-js/es6/symbol';
+	import 'core-js/fn/array/from';
+	import 'core-js/modules/es7.symbol.async-iterator';
+	import 'regenerator-runtime/runtime';
+	import 'whatwg-fetch';
+	export * from 'dsteem';
+
+}
+declare module 'dsteem/index-node' {
 	/**
 	 * @file dsteem entry point for node.js.
 	 * @author Johan Nordberg <code@johan-nordberg.com>
@@ -2237,18 +2260,6 @@ declare module 'dsteem' {
 	 * in the design, construction, operation or maintenance of any military facility.
 	 */
 	import 'core-js/modules/es7.symbol.async-iterator';
-	import * as utils from 'dsteem/utils';
-	export { utils };
-	export * from 'dsteem/helpers/blockchain';
-	export * from 'dsteem/helpers/database';
-	export * from 'dsteem/steem/account';
-	export * from 'dsteem/steem/asset';
-	export * from 'dsteem/steem/block';
-	export * from 'dsteem/steem/comment';
-	export * from 'dsteem/steem/misc';
-	export * from 'dsteem/steem/operation';
-	export * from 'dsteem/steem/transaction';
-	export * from 'dsteem/client';
-	export * from 'dsteem/crypto';
+	export * from 'dsteem';
 
 }
