@@ -449,7 +449,7 @@ declare module 'dsteem/utils' {
 	/**
 	 * Fetch API wrapper that retries until timeout is reached.
 	 */
-	export function retryingFetch(url: string, opts: any, timeout: number, backoff: (tries: number) => number): Promise<any>;
+	export function retryingFetch(url: string, opts: any, timeout: number, backoff: (tries: number) => number, fetchTimeout?: (tries: number) => number): Promise<any>;
 
 }
 declare module 'dsteem/crypto' {

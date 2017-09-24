@@ -1,6 +1,6 @@
 {
   "name": "dsteem",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "description": "Steem blockchain RPC client library",
   "author": "Johan Nordberg",
   "license": "BSD-3-Clause",
