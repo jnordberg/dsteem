@@ -253,8 +253,15 @@ export class Client {
         if (this.options.agent) {
             opts.agent = this.options.agent
         }
+        let fetchTimeout: any
+        if (api !== 'network_broadcast_api') {
+            // bit of a hack to work around some nodes high error rates
+            // (looking at you steemd.steemit.com)
+            // only effective in node.js (until timeout spec lands in browsers)
+            fetchTimeout = (tries) => (tries + 1) * 500
+        }
         const response: RPCResponse = await (
-            await retryingFetch(this.address, opts, this.timeout, this.backoff)
+            await retryingFetch(this.address, opts, this.timeout, this.backoff, fetchTimeout)
         ).json()
         if (response.error) {
             const {data} = response.error

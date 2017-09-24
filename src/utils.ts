@@ -88,12 +88,17 @@ export function copy<T>(object: T): T {
 /**
  * Fetch API wrapper that retries until timeout is reached.
  */
-export async function retryingFetch(url: string, opts: any, timeout: number,
-                                    backoff: (tries: number) => number) {
+export async function retryingFetch(url: string, options: any, timeout: number,
+                                    backoff: (tries: number) => number,
+                                    fetchTimeout?: (tries: number) => number) {
     const start = Date.now()
+    let opts = fetchTimeout ? copy(options) : options
     let tries = 0
     do {
         try {
+            if (fetchTimeout) {
+                opts.timeout = fetchTimeout(tries)
+            }
             const response = await fetch(url, opts)
             if (!response.ok) {
                 throw new Error(`HTTP ${ response.status }: ${ response.statusText }`)
