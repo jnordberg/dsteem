@@ -34,7 +34,7 @@
     "bs58": "^4.0.1",
     "bytebuffer": "^5.0.1",
     "core-js": "^2.5.0",
-    "node-fetch": "^2.0.0-alpha.8",
+    "node-fetch": "^2.0.0-alpha.9",
     "secp256k1": "^3.3.0",
     "verror": "^1.10.0",
     "whatwg-fetch": "^2.0.3"
@@ -42,7 +42,7 @@
   "devDependencies": {
     "@types/bytebuffer": "^5.0.33",
     "@types/mocha": "^2.2.43",
-    "@types/node": "^8.0.28",
+    "@types/node": "^8.0.30",
     "@types/verror": "^1.10.0",
     "babel-preset-env": "^1.6.0",
     "babelify": "^7.3.0",
@@ -57,7 +57,7 @@
     "karma-mocha-reporter": "^2.2.4",
     "karma-sauce-launcher": "^1.2.0",
     "lorem-ipsum": "^1.0.4",
-    "mocha": "^3.5.1",
+    "mocha": "^3.5.3",
     "nyc": "^11.1.0",
     "regenerator-runtime": "^0.11.0",
     "ts-node": "^3.3.0",
@@ -65,7 +65,7 @@
     "tslint": "^5.7.0",
     "typedoc": "^0.8.0",
     "typescript": "^2.5.0",
-    "uglify-js": "^3.1.0",
+    "uglify-js": "^3.1.2",
     "watchify": "^3.9.0"
   }
 }
