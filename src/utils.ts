@@ -102,7 +102,7 @@ export async function retryingFetch(url: string, opts: any, timeout: number,
             if (!response.ok) {
                 throw new Error(`HTTP ${ response.status }: ${ response.statusText }`)
             }
-            return response
+            return await response.json()
         } catch (error) {
             if (timeout !== 0 && Date.now() - start > timeout) {
                 throw error

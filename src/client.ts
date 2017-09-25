@@ -260,9 +260,9 @@ export class Client {
             // only effective in node.js (until timeout spec lands in browsers)
             fetchTimeout = (tries) => (tries + 1) * 500
         }
-        const response: RPCResponse = await (
-            await retryingFetch(this.address, opts, this.timeout, this.backoff, fetchTimeout)
-        ).json()
+        const response: RPCResponse = await retryingFetch(
+            this.address, opts, this.timeout, this.backoff, fetchTimeout
+        )
         if (response.error) {
             const {data} = response.error
             let {message} = response.error
