@@ -11,7 +11,7 @@ import {
     PrivateKey,
     PublicKey,
     Signature,
-    signTransaction,
+    cryptoUtils,
     Transaction,
     Types,
 } from './../src/index-node'
@@ -112,7 +112,7 @@ describe('crypto', function() {
         buffer.flip()
         const data = Buffer.from(buffer.toBuffer())
         const digest = createHash('sha256').update(Buffer.concat([opts.chainId, data])).digest()
-        const signed = signTransaction(tx, key, opts)
+        const signed = cryptoUtils.signTransaction(tx, key, opts)
         const pkey = key.createPublic()
         const sig = Signature.fromString(signed.signatures[0])
         assert(pkey.verify(digest, sig))
@@ -130,7 +130,7 @@ describe('crypto', function() {
             ]
         }
         try {
-            signTransaction(tx, testKey, {chainId: DEFAULT_CHAIN_ID, addressPrefix: DEFAULT_ADDRESS_PREFIX})
+            cryptoUtils.signTransaction(tx, testKey, {chainId: DEFAULT_CHAIN_ID, addressPrefix: DEFAULT_ADDRESS_PREFIX})
             assert(false, 'should not be reached')
         } catch (error) {
             assert.equal(error.name, 'SerializationError')

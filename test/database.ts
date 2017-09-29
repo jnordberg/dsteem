@@ -1,7 +1,7 @@
 import 'mocha'
 import * as assert from 'assert'
 
-import {Client, Asset, Transaction, signTransaction, PrivateKey} from './../src/index-node'
+import {Client, Asset, Transaction, PrivateKey} from './../src/index-node'
 import {getTestnetAccounts, randomString, agent, TEST_NODE} from './common'
 
 describe('database api', function() {

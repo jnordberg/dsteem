@@ -48,7 +48,7 @@ import {copy} from './utils'
 /**
  * Network id used in WIF-encoding.
  */
-const NETWORK_ID = Buffer.from([0x80])
+export const NETWORK_ID = Buffer.from([0x80])
 
 /**
  * Return ripemd160 hash of input.
@@ -319,8 +319,8 @@ export class Signature {
  * @param keys Key(s) to sign transaction with.
  * @param options Chain id and address prefix, compatible with {@link Client}.
  */
-export function signTransaction(transaction: Transaction, keys: PrivateKey | PrivateKey[],
-                                options: {chainId: Buffer, addressPrefix: string}) {
+function signTransaction(transaction: Transaction, keys: PrivateKey | PrivateKey[],
+                         options: {chainId: Buffer, addressPrefix: string}) {
 
     const buffer = new ByteBuffer(ByteBuffer.DEFAULT_CAPACITY, ByteBuffer.LITTLE_ENDIAN)
     try {
@@ -345,4 +345,16 @@ export function signTransaction(transaction: Transaction, keys: PrivateKey | Pri
     }
 
     return signedTransaction
+}
+
+/** Misc crypto utility functions. */
+export const cryptoUtils = {
+    decodePrivate,
+    doubleSha256,
+    encodePrivate,
+    encodePublic,
+    isCanonicalSignature,
+    ripemd160,
+    sha256,
+    signTransaction,
 }

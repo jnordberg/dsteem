@@ -36,7 +36,7 @@
 import * as assert from 'assert'
 
 import {Client} from './../client'
-import {PrivateKey, PublicKey, signTransaction} from './../crypto'
+import {PrivateKey, PublicKey, cryptoUtils} from './../crypto'
 import {Authority, AuthorityType} from './../steem/account'
 import {Asset} from './../steem/asset'
 import {getVestingSharePrice, HexBuffer} from './../steem/misc'
@@ -289,7 +289,7 @@ export class BroadcastAPI {
      * Sign a transaction with key(s).
      */
     public sign(transaction: Transaction, key: PrivateKey | PrivateKey[]): SignedTransaction {
-        return signTransaction(transaction, key, this.client)
+        return cryptoUtils.signTransaction(transaction, key, this.client)
     }
 
     /**
