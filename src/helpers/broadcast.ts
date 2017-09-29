@@ -36,7 +36,7 @@
 import * as assert from 'assert'
 
 import {Client} from './../client'
-import {PrivateKey, PublicKey, cryptoUtils} from './../crypto'
+import {cryptoUtils, PrivateKey, PublicKey} from './../crypto'
 import {Authority, AuthorityType} from './../steem/account'
 import {Asset} from './../steem/asset'
 import {getVestingSharePrice, HexBuffer} from './../steem/misc'
