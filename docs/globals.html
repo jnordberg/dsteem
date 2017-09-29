@@ -183,7 +183,7 @@
 								<li class="tsd-kind-variable tsd-is-not-exported"><a href="globals.html#chainpropertiesserializer" class="tsd-kind-icon">Chain<wbr>Properties<wbr>Serializer</a></li>
 								<li class="tsd-kind-variable"><a href="globals.html#default_address_prefix" class="tsd-kind-icon">DEFAULT_<wbr>ADDRESS_<wbr>PREFIX</a></li>
 								<li class="tsd-kind-variable"><a href="globals.html#default_chain_id" class="tsd-kind-icon">DEFAULT_<wbr>CHAIN_<wbr>ID</a></li>
-								<li class="tsd-kind-variable tsd-is-not-exported"><a href="globals.html#network_id" class="tsd-kind-icon">NETWORK_<wbr>ID</a></li>
+								<li class="tsd-kind-variable"><a href="globals.html#network_id" class="tsd-kind-icon">NETWORK_<wbr>ID</a></li>
 								<li class="tsd-kind-variable tsd-is-not-exported"><a href="globals.html#operationserializers" class="tsd-kind-icon">Operation<wbr>Serializers</a></li>
 								<li class="tsd-kind-variable tsd-is-not-exported"><a href="globals.html#priceserializer" class="tsd-kind-icon">Price<wbr>Serializer</a></li>
 								<li class="tsd-kind-variable tsd-is-not-exported"><a href="globals.html#signedblockheaderserializer" class="tsd-kind-icon">Signed<wbr>Block<wbr>Header<wbr>Serializer</a></li>
@@ -225,7 +225,7 @@
 								<li class="tsd-kind-function"><a href="globals.html#retryingfetch" class="tsd-kind-icon">retrying<wbr>Fetch</a></li>
 								<li class="tsd-kind-function tsd-is-not-exported"><a href="globals.html#ripemd160" class="tsd-kind-icon">ripemd160</a></li>
 								<li class="tsd-kind-function tsd-is-not-exported"><a href="globals.html#sha256" class="tsd-kind-icon">sha256</a></li>
-								<li class="tsd-kind-function"><a href="globals.html#signtransaction" class="tsd-kind-icon">sign<wbr>Transaction</a></li>
+								<li class="tsd-kind-function tsd-is-not-exported"><a href="globals.html#signtransaction" class="tsd-kind-icon">sign<wbr>Transaction</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#sleep" class="tsd-kind-icon">sleep</a></li>
 								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#waitforevent" class="tsd-kind-icon">wait<wbr>For<wbr>Event</a></li>
 							</ul>
@@ -234,6 +234,7 @@
 							<h3>Object literals</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-object-literal"><a href="globals.html#types" class="tsd-kind-icon">Types</a></li>
+								<li class="tsd-kind-object-literal"><a href="globals.html#cryptoutils" class="tsd-kind-icon">crypto<wbr>Utils</a></li>
 							</ul>
 						</section>
 					</div>
@@ -426,7 +427,7 @@
 						</div>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-variable tsd-is-not-exported">
+				<section class="tsd-panel tsd-member tsd-kind-variable">
 					<a name="network_id" class="tsd-anchor"></a>
 					<h3>NETWORK_<wbr>ID</h3>
 					<div class="tsd-signature tsd-kind-icon">NETWORK_<wbr>ID<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol"> =&nbsp;Buffer.from([0x80])</span></div>
@@ -1365,10 +1366,10 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function">
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-is-not-exported">
 					<a name="signtransaction" class="tsd-anchor"></a>
 					<h3>sign<wbr>Transaction</h3>
-					<ul class="tsd-signatures tsd-kind-function">
+					<ul class="tsd-signatures tsd-kind-function tsd-is-not-exported">
 						<li class="tsd-signature tsd-kind-icon">sign<wbr>Transaction<span class="tsd-signature-symbol">(</span>transaction<span class="tsd-signature-symbol">: </span><a href="interfaces/transaction.html" class="tsd-signature-type">Transaction</a>, keys<span class="tsd-signature-symbol">: </span><a href="classes/privatekey.html" class="tsd-signature-type">PrivateKey</a><span class="tsd-signature-symbol"> | </span><a href="classes/privatekey.html" class="tsd-signature-type">PrivateKey</a><span class="tsd-signature-symbol">[]</span>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="interfaces/signedtransaction.html" class="tsd-signature-type">SignedTransaction</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
@@ -1684,6 +1685,101 @@
 						</aside>
 					</section>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-object-literal">
+					<a name="cryptoutils" class="tsd-anchor"></a>
+					<h3>crypto<wbr>Utils</h3>
+					<div class="tsd-signature tsd-kind-icon">crypto<wbr>Utils<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/crypto.ts#L351">crypto.ts:351</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Misc crypto utility functions.</p>
+						</div>
+					</div>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="cryptoutils.decodeprivate" class="tsd-anchor"></a>
+						<h3>decode<wbr>Private</h3>
+						<div class="tsd-signature tsd-kind-icon">decode<wbr>Private<span class="tsd-signature-symbol">:</span> <a href="globals.html#decodeprivate" class="tsd-signature-type">decodePrivate</a></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/crypto.ts#L352">crypto.ts:352</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="cryptoutils.doublesha256" class="tsd-anchor"></a>
+						<h3>double<wbr>Sha256</h3>
+						<div class="tsd-signature tsd-kind-icon">double<wbr>Sha256<span class="tsd-signature-symbol">:</span> <a href="globals.html#doublesha256" class="tsd-signature-type">doubleSha256</a></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/crypto.ts#L353">crypto.ts:353</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="cryptoutils.encodeprivate" class="tsd-anchor"></a>
+						<h3>encode<wbr>Private</h3>
+						<div class="tsd-signature tsd-kind-icon">encode<wbr>Private<span class="tsd-signature-symbol">:</span> <a href="globals.html#encodeprivate" class="tsd-signature-type">encodePrivate</a></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/crypto.ts#L354">crypto.ts:354</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="cryptoutils.encodepublic" class="tsd-anchor"></a>
+						<h3>encode<wbr>Public</h3>
+						<div class="tsd-signature tsd-kind-icon">encode<wbr>Public<span class="tsd-signature-symbol">:</span> <a href="globals.html#encodepublic" class="tsd-signature-type">encodePublic</a></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/crypto.ts#L355">crypto.ts:355</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="cryptoutils.iscanonicalsignature" class="tsd-anchor"></a>
+						<h3>is<wbr>Canonical<wbr>Signature</h3>
+						<div class="tsd-signature tsd-kind-icon">is<wbr>Canonical<wbr>Signature<span class="tsd-signature-symbol">:</span> <a href="globals.html#iscanonicalsignature" class="tsd-signature-type">isCanonicalSignature</a></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/crypto.ts#L356">crypto.ts:356</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="cryptoutils.ripemd160" class="tsd-anchor"></a>
+						<h3>ripemd160</h3>
+						<div class="tsd-signature tsd-kind-icon">ripemd160<span class="tsd-signature-symbol">:</span> <a href="globals.html#ripemd160" class="tsd-signature-type">ripemd160</a></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/crypto.ts#L357">crypto.ts:357</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="cryptoutils.sha256" class="tsd-anchor"></a>
+						<h3>sha256</h3>
+						<div class="tsd-signature tsd-kind-icon">sha256<span class="tsd-signature-symbol">:</span> <a href="globals.html#sha256" class="tsd-signature-type">sha256</a></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/crypto.ts#L358">crypto.ts:358</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="cryptoutils.signtransaction" class="tsd-anchor"></a>
+						<h3>sign<wbr>Transaction</h3>
+						<div class="tsd-signature tsd-kind-icon">sign<wbr>Transaction<span class="tsd-signature-symbol">:</span> <a href="globals.html#signtransaction" class="tsd-signature-type">signTransaction</a></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/crypto.ts#L359">crypto.ts:359</a></li>
+							</ul>
+						</aside>
+					</section>
+				</section>
 			</section>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -1975,7 +2071,7 @@
 					<li class=" tsd-kind-variable">
 						<a href="globals.html#default_chain_id" class="tsd-kind-icon">DEFAULT_<wbr>CHAIN_<wbr>ID</a>
 					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
+					<li class=" tsd-kind-variable">
 						<a href="globals.html#network_id" class="tsd-kind-icon">NETWORK_<wbr>ID</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
@@ -2086,7 +2182,7 @@
 					<li class=" tsd-kind-function tsd-is-not-exported">
 						<a href="globals.html#sha256" class="tsd-kind-icon">sha256</a>
 					</li>
-					<li class=" tsd-kind-function">
+					<li class=" tsd-kind-function tsd-is-not-exported">
 						<a href="globals.html#signtransaction" class="tsd-kind-icon">sign<wbr>Transaction</a>
 					</li>
 					<li class=" tsd-kind-function">
@@ -2097,6 +2193,9 @@
 					</li>
 					<li class=" tsd-kind-object-literal">
 						<a href="globals.html#types" class="tsd-kind-icon">Types</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#cryptoutils" class="tsd-kind-icon">crypto<wbr>Utils</a>
 					</li>
 				</ul>
 			</nav>

@@ -456,6 +456,10 @@ declare module 'dsteem/crypto' {
 	/// <reference types="node" />
 	import { SignedTransaction, Transaction } from 'dsteem/steem/transaction';
 	/**
+	 * Network id used in WIF-encoding.
+	 */
+	export const NETWORK_ID: Buffer;
+	/**
 	 * ECDSA (secp256k1) public key.
 	 */
 	export class PublicKey {
@@ -548,16 +552,20 @@ declare module 'dsteem/crypto' {
 	    toBuffer(): Buffer;
 	    toString(): string;
 	}
-	/**
-	 * Return copy of transaction with signature appended to signatures array.
-	 * @param transaction Transaction to sign.
-	 * @param keys Key(s) to sign transaction with.
-	 * @param options Chain id and address prefix, compatible with {@link Client}.
-	 */
-	export function signTransaction(transaction: Transaction, keys: PrivateKey | PrivateKey[], options: {
-	    chainId: Buffer;
-	    addressPrefix: string;
-	}): SignedTransaction;
+	/** Misc crypto utility functions. */
+	export const cryptoUtils: {
+	    decodePrivate: (encodedKey: string) => Buffer;
+	    doubleSha256: (input: string | Buffer) => Buffer;
+	    encodePrivate: (key: Buffer) => string;
+	    encodePublic: (key: Buffer, prefix: string) => string;
+	    isCanonicalSignature: (signature: Buffer) => boolean;
+	    ripemd160: (input: string | Buffer) => Buffer;
+	    sha256: (input: string | Buffer) => Buffer;
+	    signTransaction: (transaction: Transaction, keys: PrivateKey | PrivateKey[], options: {
+	        chainId: Buffer;
+	        addressPrefix: string;
+	    }) => SignedTransaction;
+	};
 
 }
 declare module 'dsteem/steem/account' {
