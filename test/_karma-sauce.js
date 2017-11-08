@@ -90,7 +90,7 @@ addLauncher((caps) => {
 
 addLauncher((caps) => {
     caps = {browserName: 'chrome'};
-    caps['platform'] = 'Windows XP';
+    caps['platform'] = 'Windows 7';
     caps['version'] = '48.0';
     return caps
 })
