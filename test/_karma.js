@@ -7,6 +7,7 @@ module.exports = function(config) {
     preprocessors: {
       '_browser.js': [ 'browserify' ]
     },
+    browserNoActivityTimeout: 1000 * 60 * 5,
     browserify: {
       debug: true,
       plugin: [ ['tsify', {project: 'test/tsconfig.json'} ] ]
