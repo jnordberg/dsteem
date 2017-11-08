@@ -5,7 +5,7 @@ import {randomBytes} from 'crypto'
 
 export const NUM_TEST_ACCOUNTS = 2
 export const IS_BROWSER = global['isBrowser'] === true
-export const TEST_NODE = process.env['TEST_NODE'] || 'https://gtg.steem.house:8090'
+export const TEST_NODE = process.env['TEST_NODE'] || 'https://api.steemit.com'
 
 export const agent = IS_BROWSER ? undefined : new https.Agent({keepAlive: true})
 
