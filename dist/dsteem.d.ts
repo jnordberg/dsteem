@@ -354,6 +354,7 @@ declare module 'dsteem/steem/serializer' {
 	 * You acknowledge that this software is not designed, licensed or intended for use
 	 * in the design, construction, operation or maintenance of any military facility.
 	 */
+	import * as ByteBuffer from 'bytebuffer';
 	import { PublicKey } from 'dsteem/crypto';
 	import { Asset } from 'dsteem/steem/asset';
 	import { HexBuffer } from 'dsteem/steem/misc';
@@ -2153,7 +2154,7 @@ declare module 'dsteem/client' {
 	    private timeout;
 	    private backoff;
 	    /**
-	     * @param address The address to the Steem RPC server, e.g. `https://steemd.steemit.com`.
+	     * @param address The address to the Steem RPC server, e.g. `https://api.steemit.com`.
 	     * @param options Client options.
 	     */
 	    constructor(address: string, options?: ClientOptions);

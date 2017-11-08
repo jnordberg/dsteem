@@ -93,7 +93,7 @@
 				<h3 id="in-the-browser">In the browser</h3>
 				<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/dsteem@latest/dist/dsteem.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
-    <span class="hljs-keyword">var</span> client = <span class="hljs-keyword">new</span> dsteem.Client(<span class="hljs-string">'https://steemd.steemit.com'</span>)
+    <span class="hljs-keyword">var</span> client = <span class="hljs-keyword">new</span> dsteem.Client(<span class="hljs-string">'https://api.steemit.com'</span>)
     client.database.getDiscussions(<span class="hljs-string">'trending'</span>, {<span class="hljs-attr">tag</span>: <span class="hljs-string">'writing'</span>, <span class="hljs-attr">limit</span>: <span class="hljs-number">1</span>}).then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">discussions</span>)</span>{
         <span class="hljs-built_in">document</span>.body.innerHTML += <span class="hljs-string">'&lt;h1&gt;'</span> + discussions[<span class="hljs-number">0</span>].title + <span class="hljs-string">'&lt;/h1&gt;'</span>
         <span class="hljs-built_in">document</span>.body.innerHTML += <span class="hljs-string">'&lt;h2&gt;by '</span> + discussions[<span class="hljs-number">0</span>].author + <span class="hljs-string">'&lt;/h2&gt;'</span>
@@ -106,7 +106,7 @@
 				<p>With TypeScript:</p>
 				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> {Client} <span class="hljs-keyword">from</span> <span class="hljs-string">'dsteem'</span>
 
-<span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Client(<span class="hljs-string">'https://steemd.steemit.com'</span>)
+<span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Client(<span class="hljs-string">'https://api.steemit.com'</span>)
 
 <span class="hljs-keyword">for</span> <span class="hljs-keyword">await</span> (<span class="hljs-keyword">const</span> block of client.blockchain.getBlocks()) {
     <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`New block, id: <span class="hljs-subst">${ block.block_id }</span>`</span>)
@@ -115,7 +115,7 @@
 				<p>With JavaScript:</p>
 				<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> dsteem = <span class="hljs-built_in">require</span>(<span class="hljs-string">'dsteem'</span>)
 
-<span class="hljs-keyword">var</span> client = <span class="hljs-keyword">new</span> Client(<span class="hljs-string">'https://steemd.steemit.com'</span>)
+<span class="hljs-keyword">var</span> client = <span class="hljs-keyword">new</span> Client(<span class="hljs-string">'https://api.steemit.com'</span>)
 <span class="hljs-keyword">var</span> key = dsteem.PrivateKey.fromLogin(<span class="hljs-string">'username'</span>, <span class="hljs-string">'password'</span>, <span class="hljs-string">'posting'</span>)
 
 client.broadcast.comment({
@@ -132,7 +132,7 @@ client.broadcast.comment({
 				<p>With ES2016 (node.js 7+):</p>
 				<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> {Client} = <span class="hljs-built_in">require</span>(<span class="hljs-string">'dsteem'</span>)
 
-<span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Client(<span class="hljs-string">'https://steemd.steemit.com'</span>)
+<span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Client(<span class="hljs-string">'https://api.steemit.com'</span>)
 
 <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span>(<span class="hljs-params"></span>) </span>{
     <span class="hljs-keyword">const</span> props = <span class="hljs-keyword">await</span> client.database.getChainProperties()
@@ -147,7 +147,7 @@ main().catch(<span class="hljs-built_in">console</span>.error)
 <span class="hljs-keyword">var</span> es = <span class="hljs-built_in">require</span>(<span class="hljs-string">'event-stream'</span>) <span class="hljs-comment">// npm install event-stream</span>
 <span class="hljs-keyword">var</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'util'</span>)
 
-<span class="hljs-keyword">var</span> client = <span class="hljs-keyword">new</span> dsteem.Client(<span class="hljs-string">'https://steemd.steemit.com'</span>)
+<span class="hljs-keyword">var</span> client = <span class="hljs-keyword">new</span> dsteem.Client(<span class="hljs-string">'https://api.steemit.com'</span>)
 
 <span class="hljs-keyword">var</span> stream = client.blockchain.getBlockStream()
 
