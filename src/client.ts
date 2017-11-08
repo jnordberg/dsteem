@@ -202,7 +202,7 @@ export class Client {
     private backoff: typeof defaultBackoff
 
     /**
-     * @param address The address to the Steem RPC server, e.g. `https://steemd.steemit.com`.
+     * @param address The address to the Steem RPC server, e.g. `https://api.steemit.com`.
      * @param options Client options.
      */
     constructor(address: string, options: ClientOptions = {}) {
@@ -256,7 +256,6 @@ export class Client {
         let fetchTimeout: any
         if (api !== 'network_broadcast_api') {
             // bit of a hack to work around some nodes high error rates
-            // (looking at you steemd.steemit.com)
             // only effective in node.js (until timeout spec lands in browsers)
             fetchTimeout = (tries) => (tries + 1) * 500
         }

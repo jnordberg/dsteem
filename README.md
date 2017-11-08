@@ -57,7 +57,7 @@ Usage
 ```html
 <script src="https://unpkg.com/dsteem@latest/dist/dsteem.js"></script>
 <script>
-    var client = new dsteem.Client('https://steemd.steemit.com')
+    var client = new dsteem.Client('https://api.steemit.com')
     client.database.getDiscussions('trending', {tag: 'writing', limit: 1}).then(function(discussions){
         document.body.innerHTML += '<h1>' + discussions[0].title + '</h1>'
         document.body.innerHTML += '<h2>by ' + discussions[0].author + '</h2>'
@@ -75,7 +75,7 @@ With TypeScript:
 ```typescript
 import {Client} from 'dsteem'
 
-const client = new Client('https://steemd.steemit.com')
+const client = new Client('https://api.steemit.com')
 
 for await (const block of client.blockchain.getBlocks()) {
     console.log(`New block, id: ${ block.block_id }`)
@@ -87,7 +87,7 @@ With JavaScript:
 ```javascript
 var dsteem = require('dsteem')
 
-var client = new Client('https://steemd.steemit.com')
+var client = new Client('https://api.steemit.com')
 var key = dsteem.PrivateKey.fromLogin('username', 'password', 'posting')
 
 client.broadcast.comment({
@@ -107,7 +107,7 @@ With ES2016 (node.js 7+):
 ```javascript
 const {Client} = require('dsteem')
 
-const client = new Client('https://steemd.steemit.com')
+const client = new Client('https://api.steemit.com')
 
 async function main() {
     const props = await client.database.getChainProperties()
@@ -125,7 +125,7 @@ var dsteem = require('dsteem')
 var es = require('event-stream') // npm install event-stream
 var util = require('util')
 
-var client = new dsteem.Client('https://steemd.steemit.com')
+var client = new dsteem.Client('https://api.steemit.com')
 
 var stream = client.blockchain.getBlockStream()
 

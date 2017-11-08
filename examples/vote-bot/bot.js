@@ -12,7 +12,7 @@ const FOLLOW_USER = process.env['FOLLOW_USER'] || die('FOLLOW_USER missing')
 const VOTE_WEIGHT = process.env['VOTE_WEIGHT'] ? parseInt(process.env['VOTE_WEIGHT']) : 10000
 
 // setup the dsteem client, you can use other nodes, for example gtg's public node at https://gtg.steem.house:8090
-const client = new dsteem.Client('https://steemd.steemit.com')
+const client = new dsteem.Client('https://api.steemit.com')
 
 // deserialize the posting key (in wif format, same format as you find on the steemit.com interface)
 const key = dsteem.PrivateKey.from(POSTING_KEY)
