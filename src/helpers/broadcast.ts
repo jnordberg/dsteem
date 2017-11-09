@@ -200,7 +200,7 @@ export class BroadcastAPI {
 
             const targetDelegation = sharePrice
                 .convert(creationFee.multiply(modifier * ratio))
-                .add('0.000001 VESTS') // add a tiny buffer since we are trying to hit a moving target
+                .add('0.000002 VESTS') // add a tiny buffer since we are trying to hit a moving target
 
             if (delegation !== undefined && fee === undefined) {
                 delegation = Asset.from(delegation, 'VESTS')
