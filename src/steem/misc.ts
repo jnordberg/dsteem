@@ -41,34 +41,83 @@ import {Asset, Price} from './asset'
 export type Bignum = string
 
 /**
- * Buffer wrapper that serializes to a hex-encoded string.
+ * Binary data type.
+ */
+export type BufferType = ArrayBuffer | HexBuffer | number[] | string
+
+
+/**
+ * ArrayBuffer wrapper with helpers for hex-encoding.
  */
 export class HexBuffer {
 
     /**
-     * Convenience to create a new HexBuffer, does not copy data if value passed is already a buffer.
+     * Convenience to create a new HexBuffer, does not copy data if value passed is already an ArrayBuffer.
      */
-    public static from(value: Buffer | HexBuffer | number[] | string) {
+    public static from(value: BufferType) {
         if (value instanceof HexBuffer) {
             return value
-        } else if (value instanceof Buffer) {
+        } else if (value instanceof ArrayBuffer) {
             return new HexBuffer(value)
         } else if (typeof value === 'string') {
-            return new HexBuffer(Buffer.from(value, 'hex'))
+            return this.fromString(value)
         } else {
-            return new HexBuffer(new Buffer(value))
+            return new HexBuffer(new Uint8Array(value).buffer)
         }
     }
 
-    constructor(public buffer: Buffer) {}
-
-    public toString(encoding = 'hex') {
-        return this.buffer.toString(encoding)
+    /**
+     * Create a new HexBuffer instance from a hex-encoded string.
+     */
+    public static fromString(value: string) {
+        if ((value.length % 2) !== 0) {
+            throw new Error('Expected hex string to be an even number of characters')
+        }
+        const view = new Uint8Array(value.length / 2)
+        for (let i = 0; i < value.length; i += 2) {
+            view[i / 2] = Number.parseInt(value.substring(i, i + 2), 16)
+        }
+        return new HexBuffer(view.buffer)
     }
 
+    constructor(public buffer: ArrayBuffer) {}
+
+    /**
+     * Return data as hex-encoded string.
+     */
+    public toString() {
+        const view = new Uint8Array(this.buffer)
+        return [...view].map((byte) => ('0' + byte.toString(16)).slice(-2))
+    }
+
+    /**
+     * Convenience for JSON serialization, same as toString().
+     */
     public toJSON() {
         return this.toString()
     }
+
+    /**
+     * Return Uint8Array view for underlying ArrayBuffer.
+     */
+    public get uint8Array() {
+        return new Uint8Array(this.buffer)
+    }
+
+    /**
+     * Return DataView for underlying ArrayBuffer.
+     */
+    public get dataView() {
+        return new DataView(this.buffer)
+    }
+
+    /**
+     * Return node.js Buffer view for underlying ArrayBuffer.
+     * @deprecated Will be removed when steem-crypto integration is done.
+     */
+     public toBuffer() {
+         return Buffer.from(this.buffer)
+     }
 
 }
 
