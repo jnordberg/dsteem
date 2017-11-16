@@ -41,6 +41,7 @@ import {Blockchain} from './helpers/blockchain'
 import {BroadcastAPI} from './helpers/broadcast'
 import {DatabaseAPI} from './helpers/database'
 import {copy, retryingFetch, waitForEvent} from './utils'
+import {HexBuffer} from './steem/misc'
 
 /**
  * Library version.
@@ -50,7 +51,7 @@ export const VERSION = packageVersion
 /**
  * Main steem network chain id.
  */
-export const DEFAULT_CHAIN_ID = Buffer.from('0000000000000000000000000000000000000000000000000000000000000000', 'hex')
+export const DEFAULT_CHAIN_ID = HexBuffer.from('0000000000000000000000000000000000000000000000000000000000000000')
 
 /**
  * Main steem network address prefix.
@@ -190,7 +191,7 @@ export class Client {
     /**
      * Chain ID for current network.
      */
-    public readonly chainId: Buffer
+    public readonly chainId: HexBuffer
 
     /**
      * Address prefix for current network.
@@ -209,8 +210,8 @@ export class Client {
         this.address = address
         this.options = options
 
-        this.chainId = options.chainId ? Buffer.from(options.chainId, 'hex') : DEFAULT_CHAIN_ID
-        assert.equal(this.chainId.length, 32, 'invalid chain id')
+        this.chainId = options.chainId ? HexBuffer.from(options.chainId) : DEFAULT_CHAIN_ID
+        assert.equal(this.chainId.buffer.byteLength, 32, 'invalid chain id')
         this.addressPrefix = options.addressPrefix || DEFAULT_ADDRESS_PREFIX
 
         this.timeout = options.timeout || 60 * 1000
