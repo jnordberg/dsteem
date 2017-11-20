@@ -53,8 +53,24 @@ const StringSerializer = (buffer: ByteBuffer, data: string) => {
     buffer.writeVString(data)
 }
 
+const Int8Serializer = (buffer: ByteBuffer, data: number) => {
+    buffer.writeInt8(data)
+}
+
 const Int16Serializer = (buffer: ByteBuffer, data: number) => {
     buffer.writeInt16(data)
+}
+
+const Int32Serializer = (buffer: ByteBuffer, data: number) => {
+    buffer.writeInt32(data)
+}
+
+const Int64Serializer = (buffer: ByteBuffer, data: number) => {
+    buffer.writeInt64(data)
+}
+
+const UInt8Serializer = (buffer: ByteBuffer, data: number) => {
+    buffer.writeUint8(data)
 }
 
 const UInt16Serializer = (buffer: ByteBuffer, data: number) => {
@@ -63,6 +79,10 @@ const UInt16Serializer = (buffer: ByteBuffer, data: number) => {
 
 const UInt32Serializer = (buffer: ByteBuffer, data: number) => {
     buffer.writeUint32(data)
+}
+
+const UInt64Serializer = (buffer: ByteBuffer, data: number) => {
+    buffer.writeUint64(data)
 }
 
 const BooleanSerializer = (buffer: ByteBuffer, data: boolean) => {
@@ -526,6 +546,9 @@ export const Types = {
     Date: DateSerializer,
     FlatMap: FlatMapSerializer,
     Int16: Int16Serializer,
+    Int32: Int32Serializer,
+    Int64: Int64Serializer,
+    Int8: Int8Serializer,
     Object: ObjectSerializer,
     Operation: OperationSerializer,
     Optional: OptionalSerializer,
@@ -536,5 +559,7 @@ export const Types = {
     Transaction: TransactionSerializer,
     UInt16: UInt16Serializer,
     UInt32: UInt32Serializer,
+    UInt64: UInt64Serializer,
+    UInt8: UInt8Serializer,
     Void: VoidSerializer,
 }
