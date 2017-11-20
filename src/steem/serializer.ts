@@ -120,13 +120,13 @@ const PublicKeySerializer = (buffer: ByteBuffer, data: PublicKey | string | Buff
     buffer.append(PublicKey.from(data, options.addressPrefix).key)
 }
 
-const BufferSerializer = (size?: number) => {
+const BinarySerializer = (size?: number) => {
     return (buffer: ByteBuffer, data: Buffer | HexBuffer) => {
         data = HexBuffer.from(data)
         const len = data.buffer.length
         if (size) {
             if (len !== size) {
-                throw new Error(`Unable to serialize buffer. Expected ${ size } bytes, got ${ len }`)
+                throw new Error(`Unable to serialize binary. Expected ${ size } bytes, got ${ len }`)
             }
         } else {
             buffer.writeVarint32(len)
@@ -195,12 +195,12 @@ const PriceSerializer = ObjectSerializer([
 ])
 
 const SignedBlockHeaderSerializer = ObjectSerializer([
-    ['previous', BufferSerializer(20)],
+    ['previous', BinarySerializer(20)],
     ['timestamp', DateSerializer],
     ['witness', StringSerializer],
-    ['transaction_merkle_root', BufferSerializer(20)],
+    ['transaction_merkle_root', BinarySerializer(20)],
     ['extensions', ArraySerializer(VoidSerializer)],
-    ['witness_signature', BufferSerializer(65)],
+    ['witness_signature', BinarySerializer(65)],
 ])
 
 const ChainPropertiesSerializer = ObjectSerializer([
@@ -320,7 +320,7 @@ OperationSerializers.convert = OperationDataSerializer(8, [
 OperationSerializers.custom = OperationDataSerializer(15, [
     ['required_auths', ArraySerializer(StringSerializer)],
     ['id', UInt16Serializer],
-    ['data', BufferSerializer()],
+    ['data', BinarySerializer()],
 ])
 
 OperationSerializers.custom_binary = OperationDataSerializer(35, [
@@ -329,7 +329,7 @@ OperationSerializers.custom_binary = OperationDataSerializer(35, [
     ['required_posting_auths', ArraySerializer(StringSerializer)],
     ['required_auths', ArraySerializer(AuthoritySerializer)],
     ['id', StringSerializer],
-    ['data', BufferSerializer()],
+    ['data', BinarySerializer()],
 ])
 
 OperationSerializers.custom_json = OperationDataSerializer(18, [
@@ -541,8 +541,8 @@ export const Types = {
     Array: ArraySerializer,
     Asset: AssetSerializer,
     Authority: AuthoritySerializer,
+    Binary: BinarySerializer,
     Boolean: BooleanSerializer,
-    Buffer: BufferSerializer,
     Date: DateSerializer,
     FlatMap: FlatMapSerializer,
     Int16: Int16Serializer,
