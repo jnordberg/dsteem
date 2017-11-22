@@ -175,5 +175,11 @@
     "values": [
       ["e80300000000000003535445454d00000b020000000000000353424400000000", {"base": "1.000 STEEM", "quote": "0.523 SBD"}]
     ]
+  },
+  {
+    "name": "PublicKey",
+    "values": [
+      ["021ec205b7c084b96814310c8acb4a0048e82b236f1878acc273fd1cfd03dac7e1", "STM5832HKCJzs6K3rRCsZ1PidTKgjF38ZJb718Y3pCW92HEMsCGPf"]
+    ]
   }
 ]
