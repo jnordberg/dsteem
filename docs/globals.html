@@ -197,11 +197,14 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-function tsd-is-not-exported"><a href="globals.html#arrayserializer" class="tsd-kind-icon">Array<wbr>Serializer</a></li>
 								<li class="tsd-kind-function tsd-is-not-exported"><a href="globals.html#assetserializer" class="tsd-kind-icon">Asset<wbr>Serializer</a></li>
+								<li class="tsd-kind-function tsd-is-not-exported"><a href="globals.html#binaryserializer" class="tsd-kind-icon">Binary<wbr>Serializer</a></li>
 								<li class="tsd-kind-function tsd-is-not-exported"><a href="globals.html#booleanserializer" class="tsd-kind-icon">Boolean<wbr>Serializer</a></li>
-								<li class="tsd-kind-function tsd-is-not-exported"><a href="globals.html#bufferserializer" class="tsd-kind-icon">Buffer<wbr>Serializer</a></li>
 								<li class="tsd-kind-function tsd-is-not-exported"><a href="globals.html#dateserializer" class="tsd-kind-icon">Date<wbr>Serializer</a></li>
 								<li class="tsd-kind-function tsd-is-not-exported"><a href="globals.html#flatmapserializer" class="tsd-kind-icon">Flat<wbr>Map<wbr>Serializer</a></li>
 								<li class="tsd-kind-function tsd-is-not-exported"><a href="globals.html#int16serializer" class="tsd-kind-icon">Int16<wbr>Serializer</a></li>
+								<li class="tsd-kind-function tsd-is-not-exported"><a href="globals.html#int32serializer" class="tsd-kind-icon">Int32<wbr>Serializer</a></li>
+								<li class="tsd-kind-function tsd-is-not-exported"><a href="globals.html#int64serializer" class="tsd-kind-icon">Int64<wbr>Serializer</a></li>
+								<li class="tsd-kind-function tsd-is-not-exported"><a href="globals.html#int8serializer" class="tsd-kind-icon">Int8<wbr>Serializer</a></li>
 								<li class="tsd-kind-function tsd-is-not-exported"><a href="globals.html#objectserializer" class="tsd-kind-icon">Object<wbr>Serializer</a></li>
 								<li class="tsd-kind-function tsd-is-not-exported"><a href="globals.html#operationdataserializer" class="tsd-kind-icon">Operation<wbr>Data<wbr>Serializer</a></li>
 								<li class="tsd-kind-function tsd-is-not-exported"><a href="globals.html#operationserializer" class="tsd-kind-icon">Operation<wbr>Serializer</a></li>
@@ -211,6 +214,8 @@
 								<li class="tsd-kind-function tsd-is-not-exported"><a href="globals.html#stringserializer" class="tsd-kind-icon">String<wbr>Serializer</a></li>
 								<li class="tsd-kind-function tsd-is-not-exported"><a href="globals.html#uint16serializer" class="tsd-kind-icon">UInt16<wbr>Serializer</a></li>
 								<li class="tsd-kind-function tsd-is-not-exported"><a href="globals.html#uint32serializer" class="tsd-kind-icon">UInt32<wbr>Serializer</a></li>
+								<li class="tsd-kind-function tsd-is-not-exported"><a href="globals.html#uint64serializer" class="tsd-kind-icon">UInt64<wbr>Serializer</a></li>
+								<li class="tsd-kind-function tsd-is-not-exported"><a href="globals.html#uint8serializer" class="tsd-kind-icon">UInt8<wbr>Serializer</a></li>
 								<li class="tsd-kind-function tsd-is-not-exported"><a href="globals.html#voidserializer" class="tsd-kind-icon">Void<wbr>Serializer</a></li>
 								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#copy" class="tsd-kind-icon">copy</a></li>
 								<li class="tsd-kind-function tsd-is-not-exported"><a href="globals.html#decodeprivate" class="tsd-kind-icon">decode<wbr>Private</a></li>
@@ -373,7 +378,7 @@
 					<div class="tsd-signature tsd-kind-icon">Authority<wbr>Serializer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">(Anonymous function)</span><span class="tsd-signature-symbol"> =&nbsp;ObjectSerializer([[&#x27;weight_threshold&#x27;, UInt32Serializer],[&#x27;account_auths&#x27;, FlatMapSerializer(StringSerializer, UInt16Serializer)],[&#x27;key_auths&#x27;, FlatMapSerializer(PublicKeySerializer, UInt16Serializer)],])</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L161">steem/serializer.ts:161</a></li>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L181">steem/serializer.ts:181</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -383,7 +388,7 @@
 					<div class="tsd-signature tsd-kind-icon">Beneficiary<wbr>Serializer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">(Anonymous function)</span><span class="tsd-signature-symbol"> =&nbsp;ObjectSerializer([[&#x27;account&#x27;, StringSerializer],[&#x27;weight&#x27;, UInt16Serializer],])</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L167">steem/serializer.ts:167</a></li>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L187">steem/serializer.ts:187</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -393,7 +398,7 @@
 					<div class="tsd-signature tsd-kind-icon">Chain<wbr>Properties<wbr>Serializer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">(Anonymous function)</span><span class="tsd-signature-symbol"> =&nbsp;ObjectSerializer([[&#x27;account_creation_fee&#x27;, AssetSerializer],[&#x27;maximum_block_size&#x27;, UInt32Serializer],[&#x27;sbd_interest_rate&#x27;, UInt16Serializer],])</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L186">steem/serializer.ts:186</a></li>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L206">steem/serializer.ts:206</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -448,7 +453,7 @@
 					<div class="tsd-signature tsd-kind-icon">Operation<wbr>Serializers<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L200">steem/serializer.ts:200</a></li>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L220">steem/serializer.ts:220</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -466,17 +471,17 @@
 					<div class="tsd-signature tsd-kind-icon">Price<wbr>Serializer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">(Anonymous function)</span><span class="tsd-signature-symbol"> =&nbsp;ObjectSerializer([[&#x27;base&#x27;, AssetSerializer],[&#x27;quote&#x27;, AssetSerializer],])</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L172">steem/serializer.ts:172</a></li>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L192">steem/serializer.ts:192</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-is-not-exported">
 					<a name="signedblockheaderserializer" class="tsd-anchor"></a>
 					<h3>Signed<wbr>Block<wbr>Header<wbr>Serializer</h3>
-					<div class="tsd-signature tsd-kind-icon">Signed<wbr>Block<wbr>Header<wbr>Serializer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">(Anonymous function)</span><span class="tsd-signature-symbol"> =&nbsp;ObjectSerializer([[&#x27;previous&#x27;, BufferSerializer(20)],[&#x27;timestamp&#x27;, DateSerializer],[&#x27;witness&#x27;, StringSerializer],[&#x27;transaction_merkle_root&#x27;, BufferSerializer(20)],[&#x27;extensions&#x27;, ArraySerializer(VoidSerializer)],[&#x27;witness_signature&#x27;, BufferSerializer(65)],])</span></div>
+					<div class="tsd-signature tsd-kind-icon">Signed<wbr>Block<wbr>Header<wbr>Serializer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">(Anonymous function)</span><span class="tsd-signature-symbol"> =&nbsp;ObjectSerializer([[&#x27;previous&#x27;, BinarySerializer(20)],[&#x27;timestamp&#x27;, DateSerializer],[&#x27;witness&#x27;, StringSerializer],[&#x27;transaction_merkle_root&#x27;, BinarySerializer(20)],[&#x27;extensions&#x27;, ArraySerializer(VoidSerializer)],[&#x27;witness_signature&#x27;, BinarySerializer(65)],])</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L177">steem/serializer.ts:177</a></li>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L197">steem/serializer.ts:197</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -486,7 +491,7 @@
 					<div class="tsd-signature tsd-kind-icon">Transaction<wbr>Serializer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">(Anonymous function)</span><span class="tsd-signature-symbol"> =&nbsp;ObjectSerializer([[&#x27;ref_block_num&#x27;, UInt16Serializer],[&#x27;ref_block_prefix&#x27;, UInt32Serializer],[&#x27;expiration&#x27;, DateSerializer],[&#x27;operations&#x27;, ArraySerializer(OperationSerializer)],[&#x27;extensions&#x27;, ArraySerializer(StringSerializer)],])</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L512">steem/serializer.ts:512</a></li>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L532">steem/serializer.ts:532</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -528,7 +533,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L128">steem/serializer.ts:128</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L148">steem/serializer.ts:148</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -551,7 +556,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L85">steem/serializer.ts:85</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L105">steem/serializer.ts:105</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -573,6 +578,29 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-is-not-exported">
+					<a name="binaryserializer" class="tsd-anchor"></a>
+					<h3>Binary<wbr>Serializer</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">Binary<wbr>Serializer<span class="tsd-signature-symbol">(</span>size<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">(Anonymous function)</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L123">steem/serializer.ts:123</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> size: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">(Anonymous function)</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-is-not-exported">
 					<a name="booleanserializer" class="tsd-anchor"></a>
 					<h3>Boolean<wbr>Serializer</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-is-not-exported">
@@ -582,7 +610,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L68">steem/serializer.ts:68</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L88">steem/serializer.ts:88</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -599,29 +627,6 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-is-not-exported">
-					<a name="bufferserializer" class="tsd-anchor"></a>
-					<h3>Buffer<wbr>Serializer</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">Buffer<wbr>Serializer<span class="tsd-signature-symbol">(</span>size<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">(Anonymous function)</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L103">steem/serializer.ts:103</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> size: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">(Anonymous function)</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-is-not-exported">
 					<a name="dateserializer" class="tsd-anchor"></a>
 					<h3>Date<wbr>Serializer</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-is-not-exported">
@@ -631,7 +636,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L95">steem/serializer.ts:95</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L115">steem/serializer.ts:115</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -657,7 +662,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L118">steem/serializer.ts:118</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L138">steem/serializer.ts:138</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -678,6 +683,84 @@
 					<h3>Int16<wbr>Serializer</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-is-not-exported">
 						<li class="tsd-signature tsd-kind-icon">Int16<wbr>Serializer<span class="tsd-signature-symbol">(</span>buffer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ByteBuffer</span>, data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L60">steem/serializer.ts:60</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>buffer: <span class="tsd-signature-type">ByteBuffer</span></h5>
+								</li>
+								<li>
+									<h5>data: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-is-not-exported">
+					<a name="int32serializer" class="tsd-anchor"></a>
+					<h3>Int32<wbr>Serializer</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">Int32<wbr>Serializer<span class="tsd-signature-symbol">(</span>buffer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ByteBuffer</span>, data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L64">steem/serializer.ts:64</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>buffer: <span class="tsd-signature-type">ByteBuffer</span></h5>
+								</li>
+								<li>
+									<h5>data: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-is-not-exported">
+					<a name="int64serializer" class="tsd-anchor"></a>
+					<h3>Int64<wbr>Serializer</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">Int64<wbr>Serializer<span class="tsd-signature-symbol">(</span>buffer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ByteBuffer</span>, data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L68">steem/serializer.ts:68</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>buffer: <span class="tsd-signature-type">ByteBuffer</span></h5>
+								</li>
+								<li>
+									<h5>data: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-is-not-exported">
+					<a name="int8serializer" class="tsd-anchor"></a>
+					<h3>Int8<wbr>Serializer</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">Int8<wbr>Serializer<span class="tsd-signature-symbol">(</span>buffer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ByteBuffer</span>, data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -709,7 +792,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L137">steem/serializer.ts:137</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L157">steem/serializer.ts:157</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -732,7 +815,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L192">steem/serializer.ts:192</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L212">steem/serializer.ts:212</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -758,7 +841,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L499">steem/serializer.ts:499</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L519">steem/serializer.ts:519</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -787,7 +870,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L150">steem/serializer.ts:150</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L170">steem/serializer.ts:170</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -810,7 +893,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L99">steem/serializer.ts:99</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L119">steem/serializer.ts:119</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -839,7 +922,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L72">steem/serializer.ts:72</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L92">steem/serializer.ts:92</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -888,7 +971,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L60">steem/serializer.ts:60</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L76">steem/serializer.ts:76</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -914,7 +997,59 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L64">steem/serializer.ts:64</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L80">steem/serializer.ts:80</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>buffer: <span class="tsd-signature-type">ByteBuffer</span></h5>
+								</li>
+								<li>
+									<h5>data: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-is-not-exported">
+					<a name="uint64serializer" class="tsd-anchor"></a>
+					<h3>UInt64<wbr>Serializer</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">UInt64<wbr>Serializer<span class="tsd-signature-symbol">(</span>buffer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ByteBuffer</span>, data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L84">steem/serializer.ts:84</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>buffer: <span class="tsd-signature-type">ByteBuffer</span></h5>
+								</li>
+								<li>
+									<h5>data: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-is-not-exported">
+					<a name="uint8serializer" class="tsd-anchor"></a>
+					<h3>UInt8<wbr>Serializer</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">UInt8<wbr>Serializer<span class="tsd-signature-symbol">(</span>buffer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ByteBuffer</span>, data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L72">steem/serializer.ts:72</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1491,7 +1626,7 @@
 					<div class="tsd-signature tsd-kind-icon">Types<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L520">steem/serializer.ts:520</a></li>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L540">steem/serializer.ts:540</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
@@ -1500,7 +1635,7 @@
 						<div class="tsd-signature tsd-kind-icon">Array<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">ArraySerializer</a><span class="tsd-signature-symbol"> =&nbsp;ArraySerializer</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L521">steem/serializer.ts:521</a></li>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L541">steem/serializer.ts:541</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1510,7 +1645,7 @@
 						<div class="tsd-signature tsd-kind-icon">Asset<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">AssetSerializer</a><span class="tsd-signature-symbol"> =&nbsp;AssetSerializer</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L522">steem/serializer.ts:522</a></li>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L542">steem/serializer.ts:542</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1520,7 +1655,17 @@
 						<div class="tsd-signature tsd-kind-icon">Authority<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">(Anonymous function)</span><span class="tsd-signature-symbol"> =&nbsp;AuthoritySerializer</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L523">steem/serializer.ts:523</a></li>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L543">steem/serializer.ts:543</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="types.binary" class="tsd-anchor"></a>
+						<h3>Binary</h3>
+						<div class="tsd-signature tsd-kind-icon">Binary<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">BinarySerializer</a><span class="tsd-signature-symbol"> =&nbsp;BinarySerializer</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L544">steem/serializer.ts:544</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1530,17 +1675,7 @@
 						<div class="tsd-signature tsd-kind-icon">Boolean<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">BooleanSerializer</a><span class="tsd-signature-symbol"> =&nbsp;BooleanSerializer</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L524">steem/serializer.ts:524</a></li>
-							</ul>
-						</aside>
-					</section>
-					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
-						<a name="types.buffer" class="tsd-anchor"></a>
-						<h3>Buffer</h3>
-						<div class="tsd-signature tsd-kind-icon">Buffer<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">BufferSerializer</a><span class="tsd-signature-symbol"> =&nbsp;BufferSerializer</span></div>
-						<aside class="tsd-sources">
-							<ul>
-								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L525">steem/serializer.ts:525</a></li>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L545">steem/serializer.ts:545</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1550,7 +1685,7 @@
 						<div class="tsd-signature tsd-kind-icon">Date<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">DateSerializer</a><span class="tsd-signature-symbol"> =&nbsp;DateSerializer</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L526">steem/serializer.ts:526</a></li>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L546">steem/serializer.ts:546</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1560,7 +1695,7 @@
 						<div class="tsd-signature tsd-kind-icon">Flat<wbr>Map<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">FlatMapSerializer</a><span class="tsd-signature-symbol"> =&nbsp;FlatMapSerializer</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L527">steem/serializer.ts:527</a></li>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L547">steem/serializer.ts:547</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1570,7 +1705,37 @@
 						<div class="tsd-signature tsd-kind-icon">Int16<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">Int16Serializer</a><span class="tsd-signature-symbol"> =&nbsp;Int16Serializer</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L528">steem/serializer.ts:528</a></li>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L548">steem/serializer.ts:548</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="types.int32" class="tsd-anchor"></a>
+						<h3>Int32</h3>
+						<div class="tsd-signature tsd-kind-icon">Int32<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">Int32Serializer</a><span class="tsd-signature-symbol"> =&nbsp;Int32Serializer</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L549">steem/serializer.ts:549</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="types.int64" class="tsd-anchor"></a>
+						<h3>Int64</h3>
+						<div class="tsd-signature tsd-kind-icon">Int64<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">Int64Serializer</a><span class="tsd-signature-symbol"> =&nbsp;Int64Serializer</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L550">steem/serializer.ts:550</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="types.int8" class="tsd-anchor"></a>
+						<h3>Int8</h3>
+						<div class="tsd-signature tsd-kind-icon">Int8<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">Int8Serializer</a><span class="tsd-signature-symbol"> =&nbsp;Int8Serializer</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L551">steem/serializer.ts:551</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1580,7 +1745,7 @@
 						<div class="tsd-signature tsd-kind-icon">Object<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">ObjectSerializer</a><span class="tsd-signature-symbol"> =&nbsp;ObjectSerializer</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L529">steem/serializer.ts:529</a></li>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L552">steem/serializer.ts:552</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1590,7 +1755,7 @@
 						<div class="tsd-signature tsd-kind-icon">Operation<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">OperationSerializer</a><span class="tsd-signature-symbol"> =&nbsp;OperationSerializer</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L530">steem/serializer.ts:530</a></li>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L553">steem/serializer.ts:553</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1600,7 +1765,7 @@
 						<div class="tsd-signature tsd-kind-icon">Optional<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">OptionalSerializer</a><span class="tsd-signature-symbol"> =&nbsp;OptionalSerializer</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L531">steem/serializer.ts:531</a></li>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L554">steem/serializer.ts:554</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1610,7 +1775,7 @@
 						<div class="tsd-signature tsd-kind-icon">Price<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">(Anonymous function)</span><span class="tsd-signature-symbol"> =&nbsp;PriceSerializer</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L532">steem/serializer.ts:532</a></li>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L555">steem/serializer.ts:555</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1620,7 +1785,7 @@
 						<div class="tsd-signature tsd-kind-icon">Public<wbr>Key<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">PublicKeySerializer</a><span class="tsd-signature-symbol"> =&nbsp;PublicKeySerializer</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L533">steem/serializer.ts:533</a></li>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L556">steem/serializer.ts:556</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1630,7 +1795,7 @@
 						<div class="tsd-signature tsd-kind-icon">Static<wbr>Variant<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">StaticVariantSerializer</a><span class="tsd-signature-symbol"> =&nbsp;StaticVariantSerializer</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L534">steem/serializer.ts:534</a></li>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L557">steem/serializer.ts:557</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1640,7 +1805,7 @@
 						<div class="tsd-signature tsd-kind-icon">String<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">StringSerializer</a><span class="tsd-signature-symbol"> =&nbsp;StringSerializer</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L535">steem/serializer.ts:535</a></li>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L558">steem/serializer.ts:558</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1650,7 +1815,7 @@
 						<div class="tsd-signature tsd-kind-icon">Transaction<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">(Anonymous function)</span><span class="tsd-signature-symbol"> =&nbsp;TransactionSerializer</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L536">steem/serializer.ts:536</a></li>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L559">steem/serializer.ts:559</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1660,7 +1825,7 @@
 						<div class="tsd-signature tsd-kind-icon">UInt16<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">UInt16Serializer</a><span class="tsd-signature-symbol"> =&nbsp;UInt16Serializer</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L537">steem/serializer.ts:537</a></li>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L560">steem/serializer.ts:560</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1670,7 +1835,27 @@
 						<div class="tsd-signature tsd-kind-icon">UInt32<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">UInt32Serializer</a><span class="tsd-signature-symbol"> =&nbsp;UInt32Serializer</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L538">steem/serializer.ts:538</a></li>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L561">steem/serializer.ts:561</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="types.uint64" class="tsd-anchor"></a>
+						<h3>UInt64</h3>
+						<div class="tsd-signature tsd-kind-icon">UInt64<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">UInt64Serializer</a><span class="tsd-signature-symbol"> =&nbsp;UInt64Serializer</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L562">steem/serializer.ts:562</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="types.uint8" class="tsd-anchor"></a>
+						<h3>UInt8</h3>
+						<div class="tsd-signature tsd-kind-icon">UInt8<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">UInt8Serializer</a><span class="tsd-signature-symbol"> =&nbsp;UInt8Serializer</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L563">steem/serializer.ts:563</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1680,7 +1865,7 @@
 						<div class="tsd-signature tsd-kind-icon">Void<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">VoidSerializer</a><span class="tsd-signature-symbol"> =&nbsp;VoidSerializer</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L539">steem/serializer.ts:539</a></li>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L564">steem/serializer.ts:564</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -2099,10 +2284,10 @@
 						<a href="globals.html#assetserializer" class="tsd-kind-icon">Asset<wbr>Serializer</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-not-exported">
-						<a href="globals.html#booleanserializer" class="tsd-kind-icon">Boolean<wbr>Serializer</a>
+						<a href="globals.html#binaryserializer" class="tsd-kind-icon">Binary<wbr>Serializer</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-not-exported">
-						<a href="globals.html#bufferserializer" class="tsd-kind-icon">Buffer<wbr>Serializer</a>
+						<a href="globals.html#booleanserializer" class="tsd-kind-icon">Boolean<wbr>Serializer</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-not-exported">
 						<a href="globals.html#dateserializer" class="tsd-kind-icon">Date<wbr>Serializer</a>
@@ -2112,6 +2297,15 @@
 					</li>
 					<li class=" tsd-kind-function tsd-is-not-exported">
 						<a href="globals.html#int16serializer" class="tsd-kind-icon">Int16<wbr>Serializer</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="globals.html#int32serializer" class="tsd-kind-icon">Int32<wbr>Serializer</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="globals.html#int64serializer" class="tsd-kind-icon">Int64<wbr>Serializer</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="globals.html#int8serializer" class="tsd-kind-icon">Int8<wbr>Serializer</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-not-exported">
 						<a href="globals.html#objectserializer" class="tsd-kind-icon">Object<wbr>Serializer</a>
@@ -2139,6 +2333,12 @@
 					</li>
 					<li class=" tsd-kind-function tsd-is-not-exported">
 						<a href="globals.html#uint32serializer" class="tsd-kind-icon">UInt32<wbr>Serializer</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="globals.html#uint64serializer" class="tsd-kind-icon">UInt64<wbr>Serializer</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="globals.html#uint8serializer" class="tsd-kind-icon">UInt8<wbr>Serializer</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-not-exported">
 						<a href="globals.html#voidserializer" class="tsd-kind-icon">Void<wbr>Serializer</a>
