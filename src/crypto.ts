@@ -296,8 +296,8 @@ export class Signature {
      * Recover public key from signature by providing original signed message.
      * @param message 32-byte message that was used to create the signature.
      */
-    public recover(message: Buffer) {
-        return new PublicKey(secp256k1.recover(message, this.data, this.recovery))
+    public recover(message: Buffer, prefix?: string) {
+        return new PublicKey(secp256k1.recover(message, this.data, this.recovery), prefix)
     }
 
     public toBuffer() {
