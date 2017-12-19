@@ -369,11 +369,14 @@ declare module 'dsteem/steem/serializer' {
 	    Authority: (buffer: ByteBuffer, data: {
 	        [key: string]: any;
 	    }, options: SerializerOptions) => void;
+	    Binary: (size?: number | undefined) => (buffer: ByteBuffer, data: HexBuffer | Buffer) => void;
 	    Boolean: (buffer: ByteBuffer, data: boolean) => void;
-	    Buffer: (size?: number | undefined) => (buffer: ByteBuffer, data: HexBuffer | Buffer) => void;
 	    Date: (buffer: ByteBuffer, data: string) => void;
 	    FlatMap: (keySerializer: Serializer, valueSerializer: Serializer) => (buffer: ByteBuffer, data: [any, any][], options: SerializerOptions) => void;
 	    Int16: (buffer: ByteBuffer, data: number) => void;
+	    Int32: (buffer: ByteBuffer, data: number) => void;
+	    Int64: (buffer: ByteBuffer, data: number) => void;
+	    Int8: (buffer: ByteBuffer, data: number) => void;
 	    Object: (keySerializers: [string, Serializer][]) => (buffer: ByteBuffer, data: {
 	        [key: string]: any;
 	    }, options: SerializerOptions) => void;
@@ -390,6 +393,8 @@ declare module 'dsteem/steem/serializer' {
 	    }, options: SerializerOptions) => void;
 	    UInt16: (buffer: ByteBuffer, data: number) => void;
 	    UInt32: (buffer: ByteBuffer, data: number) => void;
+	    UInt64: (buffer: ByteBuffer, data: number) => void;
+	    UInt8: (buffer: ByteBuffer, data: number) => void;
 	    Void: (buffer: ByteBuffer) => never;
 	};
 
@@ -549,7 +554,7 @@ declare module 'dsteem/crypto' {
 	     * Recover public key from signature by providing original signed message.
 	     * @param message 32-byte message that was used to create the signature.
 	     */
-	    recover(message: Buffer): PublicKey;
+	    recover(message: Buffer, prefix?: string): PublicKey;
 	    toBuffer(): Buffer;
 	    toString(): string;
 	}
