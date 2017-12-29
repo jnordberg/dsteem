@@ -87,10 +87,10 @@ With JavaScript:
 ```javascript
 var dsteem = require('dsteem')
 
-var client = new Client('https://api.steemit.com')
+var client = new dsteem.Client('https://api.steemit.com')
 var key = dsteem.PrivateKey.fromLogin('username', 'password', 'posting')
 
-client.broadcast.comment({
+client.broadcast.vote({
     voter: 'username',
     author: 'almost-digital',
     permlink: 'dsteem-is-the-best',
