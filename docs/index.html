@@ -115,10 +115,10 @@
 				<p>With JavaScript:</p>
 				<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> dsteem = <span class="hljs-built_in">require</span>(<span class="hljs-string">'dsteem'</span>)
 
-<span class="hljs-keyword">var</span> client = <span class="hljs-keyword">new</span> Client(<span class="hljs-string">'https://api.steemit.com'</span>)
+<span class="hljs-keyword">var</span> client = <span class="hljs-keyword">new</span> dsteem.Client(<span class="hljs-string">'https://api.steemit.com'</span>)
 <span class="hljs-keyword">var</span> key = dsteem.PrivateKey.fromLogin(<span class="hljs-string">'username'</span>, <span class="hljs-string">'password'</span>, <span class="hljs-string">'posting'</span>)
 
-client.broadcast.comment({
+client.broadcast.vote({
     <span class="hljs-attr">voter</span>: <span class="hljs-string">'username'</span>,
     <span class="hljs-attr">author</span>: <span class="hljs-string">'almost-digital'</span>,
     <span class="hljs-attr">permlink</span>: <span class="hljs-string">'dsteem-is-the-best'</span>,
