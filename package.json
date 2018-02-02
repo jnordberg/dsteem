@@ -21,7 +21,7 @@
   },
   "scripts": {
     "test": "make ci-test",
-    "prepublishOnly": "make all"
+    "prepublish": "make all"
   },
   "keywords": [
     "blockchain",

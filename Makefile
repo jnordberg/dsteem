@@ -60,7 +60,7 @@ lint: node_modules
 	tslint -p tsconfig.json -c tslint.json -t stylish --fix
 
 node_modules:
-	npm install
+	yarn install --non-interactive --frozen-lockfile
 
 docs: $(SRC_FILES) node_modules
 	typedoc --gitRevision master --target ES6 --mode file --out docs src
