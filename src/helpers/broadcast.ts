@@ -181,7 +181,7 @@ export class BroadcastAPI {
             owner = Authority.from(options.auths.owner)
             active = Authority.from(options.auths.active)
             posting = Authority.from(options.auths.posting)
-            memo_key = PublicKey.from(options.auths.memoKey, prefix)
+            memo_key = PublicKey.from(options.auths.memoKey)
         } else {
             throw new Error('Must specify either password or auths')
         }

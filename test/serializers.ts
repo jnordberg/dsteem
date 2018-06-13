@@ -12,7 +12,7 @@ const serializerTests = require('./serializer-tests.json')
 
 function serialize(serializer: Serializer, data: any) {
     const buffer = new ByteBuffer(ByteBuffer.DEFAULT_CAPACITY, ByteBuffer.LITTLE_ENDIAN)
-    serializer(buffer, data, {addressPrefix: 'STM'})
+    serializer(buffer, data)
     buffer.flip()
     return Buffer.from(buffer.toBuffer()).toString('hex')
 }
