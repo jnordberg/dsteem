@@ -29,7 +29,7 @@ dist/dsteem.d.ts: $(SRC_FILES) node_modules
 	sed -e "s@'dsteem/index'@'dsteem'@g" -i '' dist/dsteem.d.ts
 
 dist/%.gz: dist/dsteem.js
-	gzip --best --keep --force $(basename $@)
+	gzip -9 -f -c $(basename $@) > $(basename $@).gz
 
 bundle: dist/dsteem.js.gz dist/dsteem.d.ts
 
