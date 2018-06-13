@@ -34,14 +34,14 @@ describe('database api', function() {
 
     it('getConfig', async function() {
         const result = await client.database.getConfig()
-        assert.equal(result['STEEMIT_CHAIN_ID'], client.options.chainId)
+        assert.equal(result['STEEM_CHAIN_ID'], client.options.chainId)
         serverConfig = result
         // also test some assumptions made throughout the code
         const conf = await liveClient.database.getConfig()
-        assert.equal(conf['STEEMIT_CREATE_ACCOUNT_WITH_STEEM_MODIFIER'], 30)
-        assert.equal(conf['STEEMIT_CREATE_ACCOUNT_DELEGATION_RATIO'], 5)
-        assert.equal(conf['STEEMIT_100_PERCENT'], 10000)
-        assert.equal(conf['STEEMIT_1_PERCENT'], 100)
+        assert.equal(conf['STEEM_CREATE_ACCOUNT_WITH_STEEM_MODIFIER'], 30)
+        assert.equal(conf['STEEM_CREATE_ACCOUNT_DELEGATION_RATIO'], 5)
+        assert.equal(conf['STEEM_100_PERCENT'], 10000)
+        assert.equal(conf['STEEM_1_PERCENT'], 100)
     })
 
     it('getBlockHeader', async function() {
@@ -92,14 +92,6 @@ describe('database api', function() {
         const price = await liveClient.database.getCurrentMedianHistoryPrice()
         assert.equal(Asset.from(price.base).symbol, 'SBD')
         assert.equal(price.quote.symbol, 'STEEM')
-    })
-
-    it('getState', async function() {
-        const state = await liveClient.database.getState('@almost-digital')
-        assert.equal(state.error, '')
-        assert.deepEqual(Object.keys(state), ['current_route', 'props', 'tag_idx', 'tags', 'content',
-                                              'accounts', 'pow_queue', 'witnesses', 'discussion_idx',
-                                              'witness_schedule', 'feed_price', 'error' ])
     })
 
     it('getVestingDelegations', async function() {
