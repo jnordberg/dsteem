@@ -39,11 +39,7 @@ import {Asset, Price} from './asset'
 import {HexBuffer} from './misc'
 import {Operation} from './operation'
 
-export interface SerializerOptions {
-    addressPrefix: string
-}
-
-export type Serializer = (buffer: ByteBuffer, data: any, options: SerializerOptions) => void
+export type Serializer = (buffer: ByteBuffer, data: any) => void
 
 const VoidSerializer = (buffer: ByteBuffer) => {
     throw new Error('Void can not be serialized')
@@ -90,10 +86,10 @@ const BooleanSerializer = (buffer: ByteBuffer, data: boolean) => {
 }
 
 const StaticVariantSerializer = (itemSerializers: Serializer[]) => {
-    return (buffer: ByteBuffer, data: [number, any], options: SerializerOptions) => {
+    return (buffer: ByteBuffer, data: [number, any]) => {
         const [id, item] = data
         buffer.writeVarint32(id)
-        itemSerializers[id](buffer, item, options)
+        itemSerializers[id](buffer, item)
     }
 }
 
@@ -116,8 +112,8 @@ const DateSerializer = (buffer: ByteBuffer, data: string) => {
     buffer.writeUint32(Math.floor(new Date(data + 'Z').getTime() / 1000))
 }
 
-const PublicKeySerializer = (buffer: ByteBuffer, data: PublicKey | string | Buffer, options: SerializerOptions) => {
-    buffer.append(PublicKey.from(data, options.addressPrefix).key)
+const PublicKeySerializer = (buffer: ByteBuffer, data: PublicKey | string) => {
+    buffer.append(PublicKey.from(data).key)
 }
 
 const BinarySerializer = (size?: number) => {
@@ -136,29 +132,29 @@ const BinarySerializer = (size?: number) => {
 }
 
 const FlatMapSerializer = (keySerializer: Serializer, valueSerializer: Serializer) => {
-    return (buffer: ByteBuffer, data: Array<[any, any]>, options: SerializerOptions) => {
+    return (buffer: ByteBuffer, data: Array<[any, any]>) => {
         buffer.writeVarint32(data.length)
         for (const [key, value] of data) {
-            keySerializer(buffer, key, options)
-            valueSerializer(buffer, value, options)
+            keySerializer(buffer, key)
+            valueSerializer(buffer, value)
         }
     }
 }
 
 const ArraySerializer = (itemSerializer: Serializer) => {
-    return (buffer: ByteBuffer, data: any[], options: SerializerOptions) => {
+    return (buffer: ByteBuffer, data: any[]) => {
         buffer.writeVarint32(data.length)
         for (const item of data) {
-            itemSerializer(buffer, item, options)
+            itemSerializer(buffer, item)
         }
     }
 }
 
 const ObjectSerializer = (keySerializers: Array<[string, Serializer]>) => {
-    return (buffer: ByteBuffer, data: {[key: string]: any}, options: SerializerOptions) => {
+    return (buffer: ByteBuffer, data: {[key: string]: any}) => {
         for (const [key, serializer] of keySerializers) {
             try {
-                serializer(buffer, data[key], options)
+                serializer(buffer, data[key])
             } catch (error) {
                 error.message = `${ key }: ${ error.message }`
                 throw error
@@ -168,10 +164,10 @@ const ObjectSerializer = (keySerializers: Array<[string, Serializer]>) => {
 }
 
 const OptionalSerializer = (valueSerializer: Serializer) => {
-    return (buffer: ByteBuffer, data: any, options: SerializerOptions) => {
+    return (buffer: ByteBuffer, data: any) => {
         if (data != undefined) {
             buffer.writeByte(1)
-            valueSerializer(buffer, data, options)
+            valueSerializer(buffer, data)
         } else {
             buffer.writeByte(0)
         }
@@ -211,9 +207,9 @@ const ChainPropertiesSerializer = ObjectSerializer([
 
 const OperationDataSerializer = (operationId: number, definitions: Array<[string, Serializer]>) => {
    const objectSerializer = ObjectSerializer(definitions)
-   return (buffer: ByteBuffer, data: {[key: string]: any}, options: SerializerOptions) => {
+   return (buffer: ByteBuffer, data: {[key: string]: any}) => {
         buffer.writeVarint32(operationId)
-        objectSerializer(buffer, data, options)
+        objectSerializer(buffer, data)
     }
 }
 
@@ -516,13 +512,13 @@ OperationSerializers.witness_update = OperationDataSerializer(11, [
     ['fee', AssetSerializer],
 ])
 
-const OperationSerializer = (buffer: ByteBuffer, operation: Operation, options: SerializerOptions) => {
+const OperationSerializer = (buffer: ByteBuffer, operation: Operation) => {
     const serializer = OperationSerializers[operation[0]]
     if (!serializer) {
         throw new Error(`No serializer for operation: ${ operation[0] }`)
     }
     try {
-        serializer(buffer, operation[1], options)
+        serializer(buffer, operation[1])
     } catch (error) {
         error.message = `${ operation[0] }: ${ error.message }`
         throw error

@@ -289,7 +289,7 @@ export class BroadcastAPI {
      * Sign a transaction with key(s).
      */
     public sign(transaction: Transaction, key: PrivateKey | PrivateKey[]): SignedTransaction {
-        return cryptoUtils.signTransaction(transaction, key, this.client)
+        return cryptoUtils.signTransaction(transaction, key, this.client.chainId)
     }
 
     /**

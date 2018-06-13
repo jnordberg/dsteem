@@ -40,7 +40,7 @@ import {createHash} from 'crypto'
 import * as secp256k1 from 'secp256k1'
 import {VError} from 'verror'
 
-import {DEFAULT_ADDRESS_PREFIX} from './client'
+import {DEFAULT_ADDRESS_PREFIX, DEFAULT_CHAIN_ID} from './client'
 import {Types} from './steem/serializer'
 import {SignedTransaction, Transaction} from './steem/transaction'
 import {copy} from './utils'
@@ -82,15 +82,16 @@ function encodePublic(key: Buffer, prefix: string): string {
 /**
  * Decode bs58+ripemd160-checksum encoded public key.
  */
-function decodePublic(encodedKey: string, prefix: string): Buffer {
-    assert.equal(encodedKey.slice(0, prefix.length), prefix, 'public key invalid prefix')
-    encodedKey = encodedKey.slice(prefix.length)
+function decodePublic(encodedKey: string): {key: Buffer, prefix: string} {
+    const prefix = encodedKey.slice(0, 3)
+    assert.equal(prefix.length, 3, 'public key invalid prefix')
+    encodedKey = encodedKey.slice(3)
     const buffer: Buffer = bs58.decode(encodedKey)
     const checksum = buffer.slice(-4)
     const key = buffer.slice(0, -4)
     const checksumVerify = ripemd160(key).slice(0, 4)
     assert.deepEqual(checksumVerify, checksum, 'public key checksum mismatch')
-    return key
+    return {key, prefix}
 }
 
 /**
@@ -135,21 +136,19 @@ export class PublicKey {
     /**
      * Create a new instance from a WIF-encoded key.
      */
-    public static fromString(wif: string, prefix = DEFAULT_ADDRESS_PREFIX) {
-        return new PublicKey(decodePublic(wif, prefix), prefix)
+    public static fromString(wif: string) {
+        const {key, prefix} = decodePublic(wif)
+        return new PublicKey(key, prefix)
     }
 
     /**
      * Create a new instance.
      */
-    public static from(value: string | PublicKey | Buffer, prefix = DEFAULT_ADDRESS_PREFIX) {
+    public static from(value: string | PublicKey) {
         if (value instanceof PublicKey) {
-            assert.equal(value.prefix, prefix, 'invalid public key prefix')
             return value
-        } else if (Buffer.isBuffer(value)) {
-            return new PublicKey(value, prefix)
         } else {
-            return PublicKey.fromString(value, prefix)
+            return PublicKey.fromString(value)
         }
     }
 
@@ -312,6 +311,23 @@ export class Signature {
     }
 
 }
+/**
+ * Return the sha256 transaction digest.
+ * @param chainId The chain id to use when creating the hash.
+ */
+function transactionDigest(transaction: Transaction | SignedTransaction, chainId: Buffer = DEFAULT_CHAIN_ID) {
+    const buffer = new ByteBuffer(ByteBuffer.DEFAULT_CAPACITY, ByteBuffer.LITTLE_ENDIAN)
+    try {
+        Types.Transaction(buffer, transaction)
+    } catch (cause) {
+        throw new VError({cause, name: 'SerializationError'}, 'Unable to serialize transaction')
+    }
+    buffer.flip()
+
+    const transactionData = Buffer.from(buffer.toBuffer())
+    const digest = sha256(Buffer.concat([chainId, transactionData]))
+    return digest
+}
 
 /**
  * Return copy of transaction with signature appended to signatures array.
@@ -319,20 +335,12 @@ export class Signature {
  * @param keys Key(s) to sign transaction with.
  * @param options Chain id and address prefix, compatible with {@link Client}.
  */
-function signTransaction(transaction: Transaction, keys: PrivateKey | PrivateKey[],
-                         options: {chainId: Buffer, addressPrefix: string}) {
-
-    const buffer = new ByteBuffer(ByteBuffer.DEFAULT_CAPACITY, ByteBuffer.LITTLE_ENDIAN)
-    try {
-        Types.Transaction(buffer, transaction, options)
-    } catch (cause) {
-        throw new VError({cause, name: 'SerializationError'}, 'Unable to serialize transaction')
-    }
-    buffer.flip()
-
-    const transactionData = Buffer.from(buffer.toBuffer())
-    const digest = sha256(Buffer.concat([options.chainId, transactionData]))
-
+function signTransaction(
+    transaction: Transaction,
+    keys: PrivateKey | PrivateKey[],
+    chainId: Buffer = DEFAULT_CHAIN_ID
+) {
+    const digest = transactionDigest(transaction, chainId)
     const signedTransaction = copy(transaction) as SignedTransaction
     if (!signedTransaction.signatures) {
         signedTransaction.signatures = []
@@ -357,4 +365,5 @@ export const cryptoUtils = {
     ripemd160,
     sha256,
     signTransaction,
+    transactionDigest,
 }

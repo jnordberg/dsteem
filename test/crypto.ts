@@ -33,14 +33,14 @@ describe('crypto', function() {
     const testKey = PrivateKey.from(randomBytes(32))
 
     it('should decode public keys', function() {
-        const k1 = PublicKey.fromString(testnetPair.public, testnetPrefix)
+        const k1 = PublicKey.fromString(testnetPair.public)
         assert.equal(k1.prefix, testnetPrefix)
         assert(k1.toString(), testnetPair.public)
         const k2 = PublicKey.from(mainPair.public)
         assert(k2.toString(), mainPair.public)
-        const k3 = PublicKey.from(mainPairPub)
+        const k3 = new PublicKey(mainPairPub, 'STM')
         assert(k2.toString(), k3.toString())
-        const k4 = PublicKey.from(testnetPair.public, testnetPrefix)
+        const k4 = PublicKey.from(testnetPair.public)
         assert(k4.toString(), testnetPair.public)
     })
 
@@ -57,7 +57,7 @@ describe('crypto', function() {
     })
 
     it('should handle prefixed keys', function() {
-        const key = PublicKey.from(testnetPair.public, testnetPrefix)
+        const key = PublicKey.from(testnetPair.public)
         assert(key.toString(), testnetPair.public)
         assert(PrivateKey.fromString(testnetPair.private).createPublic(testnetPrefix).toString(), testnetPair.public)
     })
@@ -106,13 +106,12 @@ describe('crypto', function() {
             ]
         }
         const key = PrivateKey.fromSeed('hello')
-        const opts = {chainId: DEFAULT_CHAIN_ID, addressPrefix: DEFAULT_ADDRESS_PREFIX}
         const buffer = new ByteBuffer(ByteBuffer.DEFAULT_CAPACITY, ByteBuffer.LITTLE_ENDIAN)
-        Types.Transaction(buffer, tx, opts)
+        Types.Transaction(buffer, tx)
         buffer.flip()
         const data = Buffer.from(buffer.toBuffer())
-        const digest = createHash('sha256').update(Buffer.concat([opts.chainId, data])).digest()
-        const signed = cryptoUtils.signTransaction(tx, key, opts)
+        const digest = createHash('sha256').update(Buffer.concat([DEFAULT_CHAIN_ID, data])).digest()
+        const signed = cryptoUtils.signTransaction(tx, key)
         const pkey = key.createPublic()
         const sig = Signature.fromString(signed.signatures[0])
         assert(pkey.verify(digest, sig))
@@ -130,7 +129,7 @@ describe('crypto', function() {
             ]
         }
         try {
-            cryptoUtils.signTransaction(tx, testKey, {chainId: DEFAULT_CHAIN_ID, addressPrefix: DEFAULT_ADDRESS_PREFIX})
+            cryptoUtils.signTransaction(tx, testKey)
             assert(false, 'should not be reached')
         } catch (error) {
             assert.equal(error.name, 'SerializationError')
