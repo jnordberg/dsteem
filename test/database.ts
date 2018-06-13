@@ -34,14 +34,15 @@ describe('database api', function() {
 
     it('getConfig', async function() {
         const result = await client.database.getConfig()
-        assert.equal(result['STEEM_CHAIN_ID'], client.options.chainId)
+        const r = (key: string) => result['STEEM_'+key] || result['STEEMIT_'+key]
+        assert.equal(r('CHAIN_ID'), client.options.chainId)
         serverConfig = result
         // also test some assumptions made throughout the code
         const conf = await liveClient.database.getConfig()
-        assert.equal(conf['STEEM_CREATE_ACCOUNT_WITH_STEEM_MODIFIER'], 30)
-        assert.equal(conf['STEEM_CREATE_ACCOUNT_DELEGATION_RATIO'], 5)
-        assert.equal(conf['STEEM_100_PERCENT'], 10000)
-        assert.equal(conf['STEEM_1_PERCENT'], 100)
+        assert.equal(r('CREATE_ACCOUNT_WITH_STEEM_MODIFIER'), 30)
+        assert.equal(r('CREATE_ACCOUNT_DELEGATION_RATIO'), 5)
+        assert.equal(r('100_PERCENT'), 10000)
+        assert.equal(r('1_PERCENT'), 100)
     })
 
     it('getBlockHeader', async function() {
@@ -52,7 +53,11 @@ describe('database api', function() {
     it('getBlock', async function() {
         const result = await client.database.getBlock(1)
         assert.equal('0000000000000000000000000000000000000000', result.previous)
-        assert.equal(serverConfig['STEEMIT_INIT_PUBLIC_KEY_STR'], result.signing_key)
+        assert.equal(
+            serverConfig['STEEMIT_INIT_PUBLIC_KEY_STR'] ||
+            serverConfig['STEEM_INIT_PUBLIC_KEY_STR'],
+            result.signing_key
+        )
     })
 
     it('getOperations', async function() {
