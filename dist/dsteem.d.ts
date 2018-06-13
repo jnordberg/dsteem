@@ -5,6 +5,40 @@ declare module 'dsteem/version' {
 }
 declare module 'dsteem/steem/asset' {
 	/**
+	 * @file Steem asset type definitions and helpers.
+	 * @author Johan Nordberg <code@johan-nordberg.com>
+	 * @license
+	 * Copyright (c) 2017 Johan Nordberg. All Rights Reserved.
+	 *
+	 * Redistribution and use in source and binary forms, with or without modification,
+	 * are permitted provided that the following conditions are met:
+	 *
+	 *  1. Redistribution of source code must retain the above copyright notice, this
+	 *     list of conditions and the following disclaimer.
+	 *
+	 *  2. Redistribution in binary form must reproduce the above copyright notice,
+	 *     this list of conditions and the following disclaimer in the documentation
+	 *     and/or other materials provided with the distribution.
+	 *
+	 *  3. Neither the name of the copyright holder nor the names of its contributors
+	 *     may be used to endorse or promote products derived from this software without
+	 *     specific prior written permission.
+	 *
+	 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+	 * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+	 * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+	 * IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+	 * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+	 * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+	 * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+	 * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+	 * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+	 * OF THE POSSIBILITY OF SUCH DAMAGE.
+	 *
+	 * You acknowledge that this software is not designed, licensed or intended for use
+	 * in the design, construction, operation or maintenance of any military facility.
+	 */
+	/**
 	 * Asset symbol string.
 	 */
 	export type AssetSymbol = 'STEEM' | 'VESTS' | 'SBD';
@@ -105,7 +139,6 @@ declare module 'dsteem/steem/asset' {
 
 }
 declare module 'dsteem/steem/misc' {
-	/// <reference types="node" />
 	/**
 	 * @file Misc steem type definitions.
 	 * @author Johan Nordberg <code@johan-nordberg.com>
@@ -140,6 +173,7 @@ declare module 'dsteem/steem/misc' {
 	 * You acknowledge that this software is not designed, licensed or intended for use
 	 * in the design, construction, operation or maintenance of any military facility.
 	 */
+	/// <reference types="node" />
 	import { Asset, Price } from 'dsteem/steem/asset';
 	/**
 	 * Large number that may be unsafe to represent natively in JavaScript.
@@ -319,7 +353,6 @@ declare module 'dsteem/steem/misc' {
 
 }
 declare module 'dsteem/steem/serializer' {
-	/// <reference types="node" />
 	/**
 	 * @file Steem protocol serialization.
 	 * @author Johan Nordberg <code@johan-nordberg.com>
@@ -354,43 +387,41 @@ declare module 'dsteem/steem/serializer' {
 	 * You acknowledge that this software is not designed, licensed or intended for use
 	 * in the design, construction, operation or maintenance of any military facility.
 	 */
+	/// <reference types="node" />
 	import * as ByteBuffer from 'bytebuffer';
 	import { PublicKey } from 'dsteem/crypto';
 	import { Asset } from 'dsteem/steem/asset';
 	import { HexBuffer } from 'dsteem/steem/misc';
 	import { Operation } from 'dsteem/steem/operation';
-	export interface SerializerOptions {
-	    addressPrefix: string;
-	}
-	export type Serializer = (buffer: ByteBuffer, data: any, options: SerializerOptions) => void;
+	export type Serializer = (buffer: ByteBuffer, data: any) => void;
 	export const Types: {
-	    Array: (itemSerializer: Serializer) => (buffer: ByteBuffer, data: any[], options: SerializerOptions) => void;
+	    Array: (itemSerializer: Serializer) => (buffer: ByteBuffer, data: any[]) => void;
 	    Asset: (buffer: ByteBuffer, data: string | number | Asset) => void;
 	    Authority: (buffer: ByteBuffer, data: {
 	        [key: string]: any;
-	    }, options: SerializerOptions) => void;
+	    }) => void;
 	    Binary: (size?: number | undefined) => (buffer: ByteBuffer, data: HexBuffer | Buffer) => void;
 	    Boolean: (buffer: ByteBuffer, data: boolean) => void;
 	    Date: (buffer: ByteBuffer, data: string) => void;
-	    FlatMap: (keySerializer: Serializer, valueSerializer: Serializer) => (buffer: ByteBuffer, data: [any, any][], options: SerializerOptions) => void;
+	    FlatMap: (keySerializer: Serializer, valueSerializer: Serializer) => (buffer: ByteBuffer, data: [any, any][]) => void;
 	    Int16: (buffer: ByteBuffer, data: number) => void;
 	    Int32: (buffer: ByteBuffer, data: number) => void;
 	    Int64: (buffer: ByteBuffer, data: number) => void;
 	    Int8: (buffer: ByteBuffer, data: number) => void;
 	    Object: (keySerializers: [string, Serializer][]) => (buffer: ByteBuffer, data: {
 	        [key: string]: any;
-	    }, options: SerializerOptions) => void;
-	    Operation: (buffer: ByteBuffer, operation: Operation, options: SerializerOptions) => void;
-	    Optional: (valueSerializer: Serializer) => (buffer: ByteBuffer, data: any, options: SerializerOptions) => void;
+	    }) => void;
+	    Operation: (buffer: ByteBuffer, operation: Operation) => void;
+	    Optional: (valueSerializer: Serializer) => (buffer: ByteBuffer, data: any) => void;
 	    Price: (buffer: ByteBuffer, data: {
 	        [key: string]: any;
-	    }, options: SerializerOptions) => void;
-	    PublicKey: (buffer: ByteBuffer, data: string | Buffer | PublicKey, options: SerializerOptions) => void;
-	    StaticVariant: (itemSerializers: Serializer[]) => (buffer: ByteBuffer, data: [number, any], options: SerializerOptions) => void;
+	    }) => void;
+	    PublicKey: (buffer: ByteBuffer, data: string | PublicKey) => void;
+	    StaticVariant: (itemSerializers: Serializer[]) => (buffer: ByteBuffer, data: [number, any]) => void;
 	    String: (buffer: ByteBuffer, data: string) => void;
 	    Transaction: (buffer: ByteBuffer, data: {
 	        [key: string]: any;
-	    }, options: SerializerOptions) => void;
+	    }) => void;
 	    UInt16: (buffer: ByteBuffer, data: number) => void;
 	    UInt32: (buffer: ByteBuffer, data: number) => void;
 	    UInt64: (buffer: ByteBuffer, data: number) => void;
@@ -400,7 +431,6 @@ declare module 'dsteem/steem/serializer' {
 
 }
 declare module 'dsteem/utils' {
-	/// <reference types="node" />
 	/**
 	 * @file Misc utility functions.
 	 * @author Johan Nordberg <code@johan-nordberg.com>
@@ -435,6 +465,7 @@ declare module 'dsteem/utils' {
 	 * You acknowledge that this software is not designed, licensed or intended for use
 	 * in the design, construction, operation or maintenance of any military facility.
 	 */
+	/// <reference types="node" />
 	import { EventEmitter } from 'events';
 	/**
 	 * Return a promise that will resove when a specific event is emitted.
@@ -459,12 +490,46 @@ declare module 'dsteem/utils' {
 
 }
 declare module 'dsteem/crypto' {
+	/**
+	 * @file Steem crypto helpers.
+	 * @author Johan Nordberg <code@johan-nordberg.com>
+	 * @license
+	 * Copyright (c) 2017 Johan Nordberg. All Rights Reserved.
+	 *
+	 * Redistribution and use in source and binary forms, with or without modification,
+	 * are permitted provided that the following conditions are met:
+	 *
+	 *  1. Redistribution of source code must retain the above copyright notice, this
+	 *     list of conditions and the following disclaimer.
+	 *
+	 *  2. Redistribution in binary form must reproduce the above copyright notice,
+	 *     this list of conditions and the following disclaimer in the documentation
+	 *     and/or other materials provided with the distribution.
+	 *
+	 *  3. Neither the name of the copyright holder nor the names of its contributors
+	 *     may be used to endorse or promote products derived from this software without
+	 *     specific prior written permission.
+	 *
+	 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+	 * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+	 * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+	 * IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+	 * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+	 * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+	 * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+	 * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+	 * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+	 * OF THE POSSIBILITY OF SUCH DAMAGE.
+	 *
+	 * You acknowledge that this software is not designed, licensed or intended for use
+	 * in the design, construction, operation or maintenance of any military facility.
+	 */
 	/// <reference types="node" />
 	import { SignedTransaction, Transaction } from 'dsteem/steem/transaction';
 	/**
 	 * Network id used in WIF-encoding.
 	 */
-	export const NETWORK_ID: Buffer;
+	export const NETWORK_ID: Buffer; function ripemd160(input: Buffer | string): Buffer; function sha256(input: Buffer | string): Buffer; function doubleSha256(input: Buffer | string): Buffer; function encodePublic(key: Buffer, prefix: string): string; function encodePrivate(key: Buffer): string; function decodePrivate(encodedKey: string): Buffer; function isCanonicalSignature(signature: Buffer): boolean;
 	/**
 	 * ECDSA (secp256k1) public key.
 	 */
@@ -474,11 +539,11 @@ declare module 'dsteem/crypto' {
 	    /**
 	     * Create a new instance from a WIF-encoded key.
 	     */
-	    static fromString(wif: string, prefix?: string): PublicKey;
+	    static fromString(wif: string): PublicKey;
 	    /**
 	     * Create a new instance.
 	     */
-	    static from(value: string | PublicKey | Buffer, prefix?: string): PublicKey;
+	    static from(value: string | PublicKey): PublicKey;
 	    constructor(key: Buffer, prefix?: string);
 	    /**
 	     * Verify a 32-byte signature.
@@ -557,24 +622,57 @@ declare module 'dsteem/crypto' {
 	    recover(message: Buffer, prefix?: string): PublicKey;
 	    toBuffer(): Buffer;
 	    toString(): string;
-	}
+	} function transactionDigest(transaction: Transaction | SignedTransaction, chainId?: Buffer): Buffer; function signTransaction(transaction: Transaction, keys: PrivateKey | PrivateKey[], chainId?: Buffer): SignedTransaction;
 	/** Misc crypto utility functions. */
 	export const cryptoUtils: {
-	    decodePrivate: (encodedKey: string) => Buffer;
-	    doubleSha256: (input: string | Buffer) => Buffer;
-	    encodePrivate: (key: Buffer) => string;
-	    encodePublic: (key: Buffer, prefix: string) => string;
-	    isCanonicalSignature: (signature: Buffer) => boolean;
-	    ripemd160: (input: string | Buffer) => Buffer;
-	    sha256: (input: string | Buffer) => Buffer;
-	    signTransaction: (transaction: Transaction, keys: PrivateKey | PrivateKey[], options: {
-	        chainId: Buffer;
-	        addressPrefix: string;
-	    }) => SignedTransaction;
+	    decodePrivate: typeof decodePrivate;
+	    doubleSha256: typeof doubleSha256;
+	    encodePrivate: typeof encodePrivate;
+	    encodePublic: typeof encodePublic;
+	    isCanonicalSignature: typeof isCanonicalSignature;
+	    ripemd160: typeof ripemd160;
+	    sha256: typeof sha256;
+	    signTransaction: typeof signTransaction;
+	    transactionDigest: typeof transactionDigest;
 	};
+	export {};
 
 }
 declare module 'dsteem/steem/account' {
+	/**
+	 * @file Steem account type definitions.
+	 * @author Johan Nordberg <code@johan-nordberg.com>
+	 * @license
+	 * Copyright (c) 2017 Johan Nordberg. All Rights Reserved.
+	 *
+	 * Redistribution and use in source and binary forms, with or without modification,
+	 * are permitted provided that the following conditions are met:
+	 *
+	 *  1. Redistribution of source code must retain the above copyright notice, this
+	 *     list of conditions and the following disclaimer.
+	 *
+	 *  2. Redistribution in binary form must reproduce the above copyright notice,
+	 *     this list of conditions and the following disclaimer in the documentation
+	 *     and/or other materials provided with the distribution.
+	 *
+	 *  3. Neither the name of the copyright holder nor the names of its contributors
+	 *     may be used to endorse or promote products derived from this software without
+	 *     specific prior written permission.
+	 *
+	 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+	 * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+	 * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+	 * IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+	 * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+	 * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+	 * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+	 * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+	 * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+	 * OF THE POSSIBILITY OF SUCH DAMAGE.
+	 *
+	 * You acknowledge that this software is not designed, licensed or intended for use
+	 * in the design, construction, operation or maintenance of any military facility.
+	 */
 	import { PublicKey } from 'dsteem/crypto';
 	import { Asset } from 'dsteem/steem/asset';
 	export interface AuthorityType {
@@ -590,7 +688,7 @@ declare module 'dsteem/steem/account' {
 	    weight_threshold: number;
 	    account_auths: Array<[string, number]>;
 	    key_auths: Array<[string | PublicKey, number]>;
-	    constructor({weight_threshold, account_auths, key_auths}: AuthorityType);
+	    constructor({ weight_threshold, account_auths, key_auths }: AuthorityType);
 	}
 	export interface Account {
 	    id: number;
@@ -779,7 +877,6 @@ declare module 'dsteem/steem/comment' {
 
 }
 declare module 'dsteem/steem/operation' {
-	/// <reference types="node" />
 	/**
 	 * @file Steem operation type definitions.
 	 * @author Johan Nordberg <code@johan-nordberg.com>
@@ -814,6 +911,7 @@ declare module 'dsteem/steem/operation' {
 	 * You acknowledge that this software is not designed, licensed or intended for use
 	 * in the design, construction, operation or maintenance of any military facility.
 	 */
+	/// <reference types="node" />
 	import { PublicKey } from 'dsteem/crypto';
 	import { AuthorityType } from 'dsteem/steem/account';
 	import { Asset, Price } from 'dsteem/steem/asset';
@@ -1671,7 +1769,6 @@ declare module 'dsteem/steem/block' {
 
 }
 declare module 'dsteem/helpers/blockchain' {
-	/// <reference types="node" />
 	/**
 	 * @file Steem blockchain helpers.
 	 * @author Johan Nordberg <code@johan-nordberg.com>
@@ -1706,6 +1803,7 @@ declare module 'dsteem/helpers/blockchain' {
 	 * You acknowledge that this software is not designed, licensed or intended for use
 	 * in the design, construction, operation or maintenance of any military facility.
 	 */
+	/// <reference types="node" />
 	import { Client } from 'dsteem/client';
 	import { BlockHeader, SignedBlock } from 'dsteem/steem/block';
 	import { AppliedOperation } from 'dsteem/steem/operation';
@@ -1717,7 +1815,7 @@ declare module 'dsteem/helpers/blockchain' {
 	    /**
 	     * Get all blocks.
 	     */
-	    Latest = 1,
+	    Latest = 1
 	}
 	export interface BlockchainStreamOptions {
 	    /**
@@ -1778,6 +1876,40 @@ declare module 'dsteem/helpers/blockchain' {
 
 }
 declare module 'dsteem/helpers/broadcast' {
+	/**
+	 * @file Broadcast API helpers.
+	 * @author Johan Nordberg <code@johan-nordberg.com>
+	 * @license
+	 * Copyright (c) 2017 Johan Nordberg. All Rights Reserved.
+	 *
+	 * Redistribution and use in source and binary forms, with or without modification,
+	 * are permitted provided that the following conditions are met:
+	 *
+	 *  1. Redistribution of source code must retain the above copyright notice, this
+	 *     list of conditions and the following disclaimer.
+	 *
+	 *  2. Redistribution in binary form must reproduce the above copyright notice,
+	 *     this list of conditions and the following disclaimer in the documentation
+	 *     and/or other materials provided with the distribution.
+	 *
+	 *  3. Neither the name of the copyright holder nor the names of its contributors
+	 *     may be used to endorse or promote products derived from this software without
+	 *     specific prior written permission.
+	 *
+	 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+	 * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+	 * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+	 * IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+	 * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+	 * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+	 * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+	 * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+	 * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+	 * OF THE POSSIBILITY OF SUCH DAMAGE.
+	 *
+	 * You acknowledge that this software is not designed, licensed or intended for use
+	 * in the design, construction, operation or maintenance of any military facility.
+	 */
 	import { Client } from 'dsteem/client';
 	import { PrivateKey, PublicKey } from 'dsteem/crypto';
 	import { AuthorityType } from 'dsteem/steem/account';
@@ -2067,6 +2199,40 @@ declare module 'dsteem/helpers/database' {
 
 }
 declare module 'dsteem/client' {
+	/**
+	 * @file Steem RPC client implementation.
+	 * @author Johan Nordberg <code@johan-nordberg.com>
+	 * @license
+	 * Copyright (c) 2017 Johan Nordberg. All Rights Reserved.
+	 *
+	 * Redistribution and use in source and binary forms, with or without modification,
+	 * are permitted provided that the following conditions are met:
+	 *
+	 *  1. Redistribution of source code must retain the above copyright notice, this
+	 *     list of conditions and the following disclaimer.
+	 *
+	 *  2. Redistribution in binary form must reproduce the above copyright notice,
+	 *     this list of conditions and the following disclaimer in the documentation
+	 *     and/or other materials provided with the distribution.
+	 *
+	 *  3. Neither the name of the copyright holder nor the names of its contributors
+	 *     may be used to endorse or promote products derived from this software without
+	 *     specific prior written permission.
+	 *
+	 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+	 * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+	 * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+	 * IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+	 * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+	 * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+	 * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+	 * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+	 * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+	 * OF THE POSSIBILITY OF SUCH DAMAGE.
+	 *
+	 * You acknowledge that this software is not designed, licensed or intended for use
+	 * in the design, construction, operation or maintenance of any military facility.
+	 */
 	/// <reference types="node" />
 	import { Blockchain } from 'dsteem/helpers/blockchain';
 	import { BroadcastAPI } from 'dsteem/helpers/broadcast';
@@ -2227,6 +2393,40 @@ declare module 'dsteem' {
 
 }
 declare module 'dsteem/index-browser' {
+	/**
+	 * @file dsteem entry point for browsers.
+	 * @author Johan Nordberg <code@johan-nordberg.com>
+	 * @license
+	 * Copyright (c) 2017 Johan Nordberg. All Rights Reserved.
+	 *
+	 * Redistribution and use in source and binary forms, with or without modification,
+	 * are permitted provided that the following conditions are met:
+	 *
+	 *  1. Redistribution of source code must retain the above copyright notice, this
+	 *     list of conditions and the following disclaimer.
+	 *
+	 *  2. Redistribution in binary form must reproduce the above copyright notice,
+	 *     this list of conditions and the following disclaimer in the documentation
+	 *     and/or other materials provided with the distribution.
+	 *
+	 *  3. Neither the name of the copyright holder nor the names of its contributors
+	 *     may be used to endorse or promote products derived from this software without
+	 *     specific prior written permission.
+	 *
+	 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+	 * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+	 * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+	 * IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+	 * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+	 * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+	 * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+	 * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+	 * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+	 * OF THE POSSIBILITY OF SUCH DAMAGE.
+	 *
+	 * You acknowledge that this software is not designed, licensed or intended for use
+	 * in the design, construction, operation or maintenance of any military facility.
+	 */
 	import 'core-js/es6/map';
 	import 'core-js/es6/number';
 	import 'core-js/es6/promise';
