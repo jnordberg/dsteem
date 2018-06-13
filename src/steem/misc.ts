@@ -56,7 +56,7 @@ export class HexBuffer {
         } else if (typeof value === 'string') {
             return new HexBuffer(Buffer.from(value, 'hex'))
         } else {
-            return new HexBuffer(new Buffer(value))
+            return new HexBuffer(Buffer.from(value))
         }
     }
 

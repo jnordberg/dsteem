@@ -240,7 +240,7 @@ export class PrivateKey {
         let rv: {signature: Buffer, recovery: number}
         let attempts = 0
         do {
-            const options = {data: sha256(Buffer.concat([message, new Buffer(++attempts)]))}
+            const options = {data: sha256(Buffer.concat([message, Buffer.alloc(1, ++attempts)]))}
             rv = secp256k1.sign(message, this.key, options)
         } while (!isCanonicalSignature(rv.signature))
         return new Signature(rv.signature, rv.recovery)
