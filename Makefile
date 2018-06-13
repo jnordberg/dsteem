@@ -8,9 +8,9 @@ all: lib bundle docs
 
 lib: $(SRC_FILES) node_modules
 	tsc -p tsconfig.json --outDir lib && \
-	V=`node -p 'require("./package.json").version'` && \
-	sed -e "s}require('./../package.json').version}'$${V}'}" \
-	-i '' lib/version.js && touch lib
+	VERSION="$$(node -p 'require("./package.json").version')"; \
+	echo "module.exports = '$${VERSION}';" > lib/version.js
+	touch lib
 
 dist/%.js: lib
 	browserify $(filter-out $<,$^) --debug --full-paths \
