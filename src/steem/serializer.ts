@@ -264,15 +264,15 @@ OperationSerializers.cancel_transfer_from_savings = OperationDataSerializer(34, 
     ['request_id', UInt32Serializer],
 ])
 
-OperationSerializers.challenge_authority = OperationDataSerializer(22, [
-    ['challenger', StringSerializer],
-    ['challenged', StringSerializer],
-    ['require_owner', BooleanSerializer],
-])
-
 OperationSerializers.change_recovery_account = OperationDataSerializer(26, [
     ['account_to_recover', StringSerializer],
     ['new_recovery_account', StringSerializer],
+    ['extensions', ArraySerializer(VoidSerializer)],
+])
+
+OperationSerializers.claim_account = OperationDataSerializer(22, [
+    ['creator', StringSerializer],
+    ['fee', AssetSerializer],
     ['extensions', ArraySerializer(VoidSerializer)],
 ])
 
@@ -311,6 +311,17 @@ OperationSerializers.convert = OperationDataSerializer(8, [
     ['owner', StringSerializer],
     ['requestid', UInt32Serializer],
     ['amount', AssetSerializer],
+])
+
+OperationSerializers.create_claimed_account = OperationDataSerializer(23, [
+    ['creator', StringSerializer],
+    ['new_account_name', StringSerializer],
+    ['owner', AuthoritySerializer],
+    ['active', AuthoritySerializer],
+    ['posting', AuthoritySerializer],
+    ['memo_key', PublicKeySerializer],
+    ['json_metadata', StringSerializer],
+    ['extensions', ArraySerializer(VoidSerializer)],
 ])
 
 OperationSerializers.custom = OperationDataSerializer(15, [
@@ -418,11 +429,6 @@ OperationSerializers.limit_order_create2 = OperationDataSerializer(21, [
     ['fill_or_kill', BooleanSerializer],
     ['exchange_rate', PriceSerializer],
     ['expiration', DateSerializer],
-])
-
-OperationSerializers.prove_authority = OperationDataSerializer(23, [
-    ['challenged', StringSerializer],
-    ['require_owner', BooleanSerializer],
 ])
 
 OperationSerializers.recover_account = OperationDataSerializer(25, [
