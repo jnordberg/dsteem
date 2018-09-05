@@ -308,7 +308,6 @@ export interface CreateClaimedAccountOperation extends Operation {
     }
 }
 
-
 export interface CustomOperation extends Operation {
     0: 'custom' // 15
     1: {
