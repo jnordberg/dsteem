@@ -94,6 +94,9 @@ describe('operations', function() {
     })
 
     it('should create account and post with options', async function() {
+        // ensure not testing accounts on mainnet
+        assert(client.chainId.toString('hex') !== '0000000000000000000000000000000000000000000000000000000000000000')
+
         const username = 'ds-' + randomString(12)
         const password = randomString(32)
         await client.broadcast.createAccount({
@@ -177,23 +180,37 @@ describe('operations', function() {
         const metadata = {my_password_is: password}
         const creator = acc1.username
 
-        // no delegation and auto fee
+        // ensure not testing accounts on mainnet
+        assert(client.chainId.toString('hex') !== '0000000000000000000000000000000000000000000000000000000000000000')
+
+        const chainProps = await client.database.getChainProperties()
+        const creationFee = Asset.from(chainProps.account_creation_fee)
+
+        // no delegation and no fee (uses RC instead)
         await client.broadcast.createAccount({
             password, metadata, creator, username: 'foo' + randomString(12),
             delegation: 0
         }, acc1Key)
 
-        // fixed fee and auto delegation
+        // fee (no RC used) and no delegation
         await client.broadcast.createAccount({
             password, metadata, creator, username: 'foo' + randomString(12),
-            fee: '2.000 STEEM'
+            fee: creationFee
         }, acc1Key)
 
-        // fixed fee and delegation
+        // fee plus delegation
         await client.broadcast.createAccount({
             password, creator, username: 'foo' + randomString(12),
-            fee: '2.000 STEEM', delegation: Asset.from(1000, 'VESTS')
+            fee: creationFee, delegation: Asset.from(1000, 'VESTS')
         }, acc1Key)
+
+        // invalid (inexact) fee must fail
+        try {
+            await client.broadcast.createAccount({password, metadata, creator, username: 'foo', fee: '1.111 STEEM'}, acc1Key)
+            assert(false, 'should not be reached')
+        } catch (error) {
+            assert.equal(error.message, 'Fee must be exactly ' + creationFee.toString())
+        }
 
         try {
             await client.broadcast.createAccount({metadata, creator, username: 'foo'}, acc1Key)
@@ -201,7 +218,6 @@ describe('operations', function() {
         } catch (error) {
             assert.equal(error.message, 'Must specify either password or auths')
         }
-
     })
 
     it('should change recovery account', async function() {
