@@ -44,8 +44,10 @@ import {
     AccountCreateOperation,
     AccountCreateWithDelegationOperation,
     AccountUpdateOperation,
+    ClaimAccountOperation,
     CommentOperation,
     CommentOptionsOperation,
+    CreateClaimedAccountOperation,
     CustomJsonOperation,
     DelegateVestingSharesOperation,
     Operation,
@@ -158,6 +160,85 @@ export class BroadcastAPI {
     public async json(data: CustomJsonOperation[1], key: PrivateKey) {
         const op: Operation = ['custom_json', data]
         return this.sendOperations([op], key)
+    }
+
+    /**
+     * Create a new account.
+     * @param options New account options.
+     * @param key Private active key of account creator.
+     */
+    public async createAccount(options: CreateAccountOptions, key: PrivateKey) {
+        const {username, metadata, creator} = options
+
+        const prefix = this.client.addressPrefix
+        let owner: Authority, active: Authority, posting: Authority, memo_key: PublicKey
+        if (options.password) {
+            const ownerKey = PrivateKey.fromLogin(username, options.password, 'owner').createPublic(prefix)
+            owner = Authority.from(ownerKey)
+            const activeKey = PrivateKey.fromLogin(username, options.password, 'active').createPublic(prefix)
+            active = Authority.from(activeKey)
+            const postingKey = PrivateKey.fromLogin(username, options.password, 'posting').createPublic(prefix)
+            posting = Authority.from(postingKey)
+            memo_key = PrivateKey.fromLogin(username, options.password, 'memo').createPublic(prefix)
+        } else if (options.auths) {
+            owner = Authority.from(options.auths.owner)
+            active = Authority.from(options.auths.active)
+            posting = Authority.from(options.auths.posting)
+            memo_key = PublicKey.from(options.auths.memoKey)
+        } else {
+            throw new Error('Must specify either password or auths')
+        }
+
+        let {fee, delegation} = options
+
+        delegation = Asset.from(delegation || 0, 'VESTS')
+        fee = Asset.from(fee || 0, 'STEEM')
+
+        if (fee.amount > 0) {
+            const chainProps = await this.client.database.getChainProperties()
+            const creationFee = Asset.from(chainProps.account_creation_fee)
+            if (fee.amount !== creationFee.amount) {
+                throw new Error('Fee must be exactly ' + creationFee.toString())
+            }
+        }
+
+        const claim_op: ClaimAccountOperation = [
+            'claim_account',
+            {
+                creator,
+                extensions: [],
+                fee,
+            }
+        ]
+
+        const create_op: CreateClaimedAccountOperation = [
+            'create_claimed_account',
+            {
+                active,
+                creator,
+                extensions: [],
+                json_metadata: metadata ? JSON.stringify(metadata) : '',
+                memo_key,
+                new_account_name: username,
+                owner, posting,
+            }
+        ]
+
+        const ops: any[] = [claim_op, create_op]
+
+        if (delegation.amount > 0) {
+            const delegate_op: DelegateVestingSharesOperation = [
+                'delegate_vesting_shares',
+                {
+                    delegatee: username,
+                    delegator: creator,
+                    vesting_shares: delegation,
+                }
+            ]
+            ops.push(delegate_op)
+        }
+
+        return this.sendOperations(ops, key)
     }
 
     /**
