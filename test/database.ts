@@ -18,16 +18,16 @@ describe('database api', function() {
     })
 
     it('getDynamicGlobalProperties', async function() {
-        const result = await client.database.getDynamicGlobalProperties()
+        const result = await liveClient.database.getDynamicGlobalProperties()
         assert.deepEqual(Object.keys(result), [
-            'id', 'head_block_number', 'head_block_id', 'time', 'current_witness',
+            'head_block_number', 'head_block_id', 'time', 'current_witness',
             'total_pow', 'num_pow_witnesses', 'virtual_supply', 'current_supply',
             'confidential_supply', 'current_sbd_supply', 'confidential_sbd_supply',
             'total_vesting_fund_steem', 'total_vesting_shares', 'total_reward_fund_steem',
             'total_reward_shares2', 'pending_rewarded_vesting_shares', 'pending_rewarded_vesting_steem',
             'sbd_interest_rate', 'sbd_print_rate', 'maximum_block_size', 'current_aslot',
             'recent_slots_filled', 'participation_count', 'last_irreversible_block_num',
-            'vote_power_reserve_rate', 'current_reserve_ratio', 'average_block_size',
+            'vote_power_reserve_rate', 'average_block_size', 'current_reserve_ratio',
             'max_virtual_bandwidth'
         ])
     })
@@ -61,7 +61,7 @@ describe('database api', function() {
     })
 
     it('getOperations', async function() {
-        const result = await client.database.getOperations(1)
+        const result = await liveClient.database.getOperations(1)
         assert.equal(result.length, 1)
         assert.equal(result[0].op[0], 'producer_reward')
     })

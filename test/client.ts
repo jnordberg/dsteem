@@ -12,29 +12,30 @@ describe('client', function() {
     const aclient = client as any
 
     it('should make rpc call', async function() {
-        const result = await client.call('database_api', 'get_accounts', [['initminer']]) as any[]
+        const result = await client.call('condenser_api', 'get_accounts', [['initminer']]) as any[]
         assert.equal(result.length, 1)
         assert.equal(result[0].name, 'initminer')
     })
 
     it('should handle rpc errors', async function() {
         try {
-            await client.call('database_api', 'i_like_turtles')
+            await client.call('condenser_api', 'i_like_turtles')
             assert(false, 'should not be reached')
         } catch (error) {
             assert.equal(error.name, 'RPCError')
-            assert.equal(error.message, `itr != _by_name.end(): no method with name 'i_like_turtles'`)
+            assert(error.message == `itr != _by_name.end(): no method with name 'i_like_turtles'` // pre-appbase
+                || error.message == `method_itr != api_itr->second.end(): Could not find method i_like_turtles`) // appbase
+
             const info = VError.info(error)
             assert.equal(info.code, 10)
             assert.equal(info.name, 'assert_exception')
-            assert.equal(info.stack[0].data.name, 'i_like_turtles')
         }
     })
 
     it('should format rpc errors', async function() {
         const tx = {operations: [['witness_update', {}]]}
         try {
-            await client.call('network_broadcast_api', 'broadcast_transaction', [tx])
+            await client.call('condenser_api', 'broadcast_transaction', [tx])
             assert(false, 'should not be reached')
         } catch (error) {
             assert.equal(error.name, 'RPCError')
