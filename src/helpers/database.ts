@@ -87,7 +87,7 @@ export class DatabaseAPI {
      * Convenience for calling `database_api`.
      */
     public call(method: string, params?: any[]) {
-        return this.client.call('database_api', method, params)
+        return this.client.call('condenser_api', method, params)
     }
 
     /**
