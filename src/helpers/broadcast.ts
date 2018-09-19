@@ -44,8 +44,10 @@ import {
     AccountCreateOperation,
     AccountCreateWithDelegationOperation,
     AccountUpdateOperation,
+    ClaimAccountOperation,
     CommentOperation,
     CommentOptionsOperation,
+    CreateClaimedAccountOperation,
     CustomJsonOperation,
     DelegateVestingSharesOperation,
     Operation,
@@ -167,6 +169,7 @@ export class BroadcastAPI {
      */
     public async createAccount(options: CreateAccountOptions, key: PrivateKey) {
         const {username, metadata, creator} = options
+
         const prefix = this.client.addressPrefix
         let owner: Authority, active: Authority, posting: Authority, memo_key: PublicKey
         if (options.password) {
@@ -187,46 +190,55 @@ export class BroadcastAPI {
         }
 
         let {fee, delegation} = options
-        if (fee === undefined || delegation === undefined) {
-            const [dynamicProps, chainProps] = await Promise.all([
-                this.client.database.getDynamicGlobalProperties(),
-                this.client.database.getChainProperties(),
-            ])
 
-            const sharePrice = getVestingSharePrice(dynamicProps)
+        delegation = Asset.from(delegation || 0, 'VESTS')
+        fee = Asset.from(fee || 0, 'TESTS')
+
+        if (fee.amount > 0) {
+            const chainProps = await this.client.database.getChainProperties()
             const creationFee = Asset.from(chainProps.account_creation_fee)
-            const modifier = 30 // STEEMIT_CREATE_ACCOUNT_WITH_STEEM_MODIFIER
-            const ratio = 5 // STEEMIT_CREATE_ACCOUNT_DELEGATION_RATIO
-
-            const targetDelegation = sharePrice
-                .convert(creationFee.multiply(modifier * ratio))
-                .add('0.000002 VESTS') // add a tiny buffer since we are trying to hit a moving target
-
-            if (delegation !== undefined && fee === undefined) {
-                delegation = Asset.from(delegation, 'VESTS')
-                fee = Asset.max(
-                    sharePrice.convert(targetDelegation.subtract(delegation)).divide(ratio),
-                    creationFee,
-                )
-            } else {
-                fee = Asset.from(fee || creationFee, 'STEEM')
-                delegation = Asset.max(
-                    targetDelegation.subtract(sharePrice.convert(fee.multiply(ratio))),
-                    Asset.from(0, 'VESTS'),
-                )
+            if (fee.amount !== creationFee.amount) {
+                throw new Error('Fee must be exactly ' + creationFee.toString())
             }
         }
-        const op: AccountCreateWithDelegationOperation = ['account_create_with_delegation', {
-            active, creator,
-            delegation: Asset.from(delegation, 'VESTS'),
-            extensions: [],
-            fee: Asset.from(fee, 'STEEM'),
-            json_metadata: metadata ? JSON.stringify(metadata) : '',
-            memo_key,
-            new_account_name: username,
-            owner, posting,
-        }]
-        return this.sendOperations([op], key)
+
+        const claim_op: ClaimAccountOperation = [
+            'claim_account',
+            {
+                creator,
+                extensions: [],
+                fee,
+            }
+        ]
+
+        const create_op: CreateClaimedAccountOperation = [
+            'create_claimed_account',
+            {
+                active,
+                creator,
+                extensions: [],
+                json_metadata: metadata ? JSON.stringify(metadata) : '',
+                memo_key,
+                new_account_name: username,
+                owner, posting,
+            }
+        ]
+
+        const ops: any[] = [claim_op, create_op]
+
+        if (delegation.amount > 0) {
+            const delegate_op: DelegateVestingSharesOperation = [
+                'delegate_vesting_shares',
+                {
+                    delegatee: username,
+                    delegator: creator,
+                    vesting_shares: delegation,
+                }
+            ]
+            ops.push(delegate_op)
+        }
+
+        return this.sendOperations(ops, key)
     }
 
     /**
@@ -300,10 +312,10 @@ export class BroadcastAPI {
     }
 
     /**
-     * Convenience for calling `network_broadcast_api`.
+     * Convenience for calling `condenser_api`.
      */
     public call(method: string, params?: any[]) {
-        return this.client.call('network_broadcast_api', method, params)
+        return this.client.call('condenser_api', method, params)
     }
 
 }

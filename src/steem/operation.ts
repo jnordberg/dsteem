@@ -50,9 +50,10 @@ export type OperationName = // <id>
     | 'account_witness_proxy' // 13
     | 'account_witness_vote' // 12
     | 'cancel_transfer_from_savings' // 34
-    | 'challenge_authority' // 22
     | 'change_recovery_account' // 26
+    | 'claim_account' // 22
     | 'claim_reward_balance' // 39
+    | 'create_claimed_account' // 23
     | 'comment' // 1
     | 'comment_options' // 19
     | 'convert' // 8
@@ -72,7 +73,6 @@ export type OperationName = // <id>
     | 'limit_order_create2' // 21
     | 'pow' // 14
     | 'pow2' // 30
-    | 'prove_authority' // 23
     | 'recover_account' // 25
     | 'report_over_production' // 16
     | 'request_account_recovery' // 24
@@ -194,15 +194,6 @@ export interface CancelTransferFromSavingsOperation extends Operation {
     }
 }
 
-export interface ChallengeAuthorityOperation extends Operation {
-    0: 'challenge_authority' // 22
-    1: {
-        challenger: string // account_name_type
-        challenged: string // account_name_type
-        require_owner: boolean
-    }
-}
-
 /**
  * Each account lists another account as their recovery account.
  * The recovery account has the ability to create account_recovery_requests
@@ -249,6 +240,18 @@ export interface ClaimRewardBalanceOperation extends Operation {
     }
 }
 
+export interface ClaimAccountOperation extends Operation {
+    0: 'claim_account' // 22
+    1: {
+        creator: string // account_name_type
+        fee: string | Asset
+        /**
+         * Extensions. Not currently used.
+         */
+        extensions: any[] // extensions_type
+    }
+}
+
 export interface CommentOperation extends Operation {
     0: 'comment' // 1
     1: {
@@ -285,6 +288,23 @@ export interface ConvertOperation extends Operation {
         owner: string // account_name_type
         requestid: number // uint32_t
         amount: Asset | string
+    }
+}
+
+export interface CreateClaimedAccountOperation extends Operation {
+    0: 'create_claimed_account' // 23
+    1: {
+        creator: string // account_name_type
+        new_account_name: string // account_name_type
+        owner: AuthorityType
+        active: AuthorityType
+        posting: AuthorityType
+        memo_key: string | PublicKey // public_key_type
+        json_metadata: string
+        /**
+         * Extensions. Not currently used.
+         */
+        extensions: any[] // extensions_type
     }
 }
 
@@ -544,14 +564,6 @@ export interface Pow2Operation extends Operation {
         work: any
         new_owner_key?: string | PublicKey // public_key_type
         props: any
-    }
-}
-
-export interface ProveAuthorityOperation extends Operation {
-    0: 'prove_authority' // 23
-    1: {
-        challenged: string // account_name_type
-        require_owner: boolean
     }
 }
 

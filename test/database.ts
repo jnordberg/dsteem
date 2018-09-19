@@ -12,30 +12,29 @@ describe('database api', function() {
     let serverConfig: {[key: string]: boolean | string | number}
     const liveClient = new Client(TEST_NODE, {agent})
 
-    let acc: {username: string, password: string}
+    let acc: {username: string, posting: string, active: string}
     before(async function() {
         [acc] = await getTestnetAccounts()
     })
 
     it('getDynamicGlobalProperties', async function() {
-        const result = await client.database.getDynamicGlobalProperties()
+        const result = await liveClient.database.getDynamicGlobalProperties()
         assert.deepEqual(Object.keys(result), [
-            'id', 'head_block_number', 'head_block_id', 'time', 'current_witness',
+            'head_block_number', 'head_block_id', 'time', 'current_witness',
             'total_pow', 'num_pow_witnesses', 'virtual_supply', 'current_supply',
             'confidential_supply', 'current_sbd_supply', 'confidential_sbd_supply',
             'total_vesting_fund_steem', 'total_vesting_shares', 'total_reward_fund_steem',
             'total_reward_shares2', 'pending_rewarded_vesting_shares', 'pending_rewarded_vesting_steem',
             'sbd_interest_rate', 'sbd_print_rate', 'maximum_block_size', 'current_aslot',
             'recent_slots_filled', 'participation_count', 'last_irreversible_block_num',
-            'vote_power_reserve_rate', 'current_reserve_ratio', 'average_block_size',
+            'vote_power_reserve_rate', 'average_block_size', 'current_reserve_ratio',
             'max_virtual_bandwidth'
         ])
     })
 
     it('getConfig', async function() {
         const result = await client.database.getConfig()
-        const r = (key: string) => result['STEEM_'+key] || result['STEEMIT_'+key]
-        assert.equal(r('CHAIN_ID'), client.options.chainId)
+        const r = (key: string) => result['STEEM_'+key]
         serverConfig = result
         // also test some assumptions made throughout the code
         const conf = await liveClient.database.getConfig()
@@ -43,6 +42,9 @@ describe('database api', function() {
         assert.equal(r('CREATE_ACCOUNT_DELEGATION_RATIO'), 5)
         assert.equal(r('100_PERCENT'), 10000)
         assert.equal(r('1_PERCENT'), 100)
+
+        const version = await client.call('database_api', 'get_version', {})
+        assert.equal(version['chain_id'], client.options.chainId)
     })
 
     it('getBlockHeader', async function() {
@@ -54,14 +56,13 @@ describe('database api', function() {
         const result = await client.database.getBlock(1)
         assert.equal('0000000000000000000000000000000000000000', result.previous)
         assert.equal(
-            serverConfig['STEEMIT_INIT_PUBLIC_KEY_STR'] ||
             serverConfig['STEEM_INIT_PUBLIC_KEY_STR'],
             result.signing_key
         )
     })
 
     it('getOperations', async function() {
-        const result = await client.database.getOperations(1)
+        const result = await liveClient.database.getOperations(1)
         assert.equal(result.length, 1)
         assert.equal(result[0].op[0], 'producer_reward')
     })
@@ -121,7 +122,7 @@ describe('database api', function() {
             }]],
             'extensions': [],
         }
-        const key = PrivateKey.fromLogin(acc.username, acc.password, 'posting')
+        const key = PrivateKey.fromString(acc.posting)
         const stx = client.broadcast.sign(tx, key)
         const rv = await client.database.verifyAuthority(stx)
         assert(rv === true)
