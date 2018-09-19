@@ -13,7 +13,7 @@ describe('broadcast', function() {
 
     const client = Client.testnet({agent})
 
-    let acc1, acc2: {username: string, password: string}
+    let acc1, acc2: {username: string, posting: string, active: string}
     before(async function() {
         [acc1, acc2] = await getTestnetAccounts()
     })
@@ -21,7 +21,7 @@ describe('broadcast', function() {
     const postPermlink = `dsteem-test-${ randomString(7) }`
 
     it('should broadcast', async function() {
-        const key = PrivateKey.fromLogin(acc1.username, acc1.password, 'posting')
+        const key = PrivateKey.fromString(acc1.posting)
         const body = [
             `![picture](https://unsplash.it/1200/800?image=${ ~~(Math.random() * 1085) })`,
             '\n---\n',
@@ -42,7 +42,7 @@ describe('broadcast', function() {
     })
 
     it('should handle concurrent broadcasts', async function() {
-        const key = PrivateKey.fromLogin(acc2.username, acc2.password, 'posting')
+        const key = PrivateKey.from(acc2.posting)
         const commentPromise = client.broadcast.comment({
             parent_author: acc1.username,
             parent_permlink: postPermlink,

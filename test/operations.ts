@@ -14,11 +14,11 @@ describe('operations', function() {
 
     const client = Client.testnet({agent})
 
-    let acc1, acc2: {username: string, password: string}
+    let acc1, acc2: {username: string, posting: string, active: string}
     let acc1Key: ds.PrivateKey
     before(async function() {
         [acc1, acc2] = await getTestnetAccounts()
-        acc1Key = PrivateKey.fromLogin(acc1.username, acc1.password, 'active')
+        acc1Key = PrivateKey.from(acc1.active)
     })
 
     it('should delegate vesting shares', async function() {
@@ -51,24 +51,6 @@ describe('operations', function() {
         assert.equal(rop[1].data, HexBuffer.from(op[1].data).toString())
     })
 
-    it('should send custom binary', async function() {
-        const size = 1337
-        const auth = ds.Authority.from({weight_threshold: 1, key_auths: [], account_auths: [[acc1.username, 1]]})
-        const op: ds.CustomBinaryOperation = ['custom_binary', {
-            required_auths: [ds.Authority.from(auth)],
-            required_owner_auths: [],
-            required_active_auths: [acc1.username],
-            required_posting_auths: [],
-            id: 'baz-' + ~~(Math.random() * 65535),
-            data: new HexBuffer(randomBytes(size)),
-        }]
-        const rv = await client.broadcast.sendOperations([op], acc1Key)
-        const tx = await client.database.getTransaction(rv)
-        const rop = tx.operations[0]
-        assert.equal(rop[0], 'custom_binary')
-        assert.equal(rop[1].data, HexBuffer.from(op[1].data).toString())
-    })
-
     it('should send custom json', async function() {
         const data = {test: 123, string: 'unicode🐳'}
         const rv = await client.broadcast.json({
@@ -86,11 +68,13 @@ describe('operations', function() {
         await client.broadcast.transfer({
             from: acc1.username,
             to: acc2.username,
-            amount: '0.042 STEEM',
+            amount: '0.001 TESTS',
             memo: 'Hej på dig!',
         }, acc1Key)
         const [acc2af] = await client.database.getAccounts([acc2.username])
-        assert.equal(Asset.from(acc2af.balance).subtract(acc2bf.balance).toString(), '0.042 STEEM')
+        const old_bal = Asset.from(acc2bf.balance);
+        const new_bal = Asset.from(acc2af.balance);
+        assert.equal(new_bal.subtract(old_bal).toString(), '0.001 TESTS')
     })
 
     it('should create account and post with options', async function() {
@@ -102,6 +86,18 @@ describe('operations', function() {
         await client.broadcast.createAccount({
             username, password, creator: acc1.username, metadata: {date: new Date()}
         }, acc1Key)
+
+        const [newAcc] = await client.database.getAccounts([username])
+        assert.equal(newAcc.name, username)
+        // not sure why but on the testnet the recovery account is always 'steem'
+        // assert.equal(newAcc.recovery_account, acc1.username)
+        const postingWif = PrivateKey.fromLogin(username, password, 'posting')
+        const postingPub = postingWif.createPublic(client.addressPrefix).toString()
+        const memoWif = PrivateKey.fromLogin(username, password, 'memo')
+        const memoPub = memoWif.createPublic(client.addressPrefix).toString()
+        assert.equal(newAcc.memo_key, memoPub)
+        assert.equal(newAcc.posting.key_auths[0][0], postingPub)
+
         const permlink = 'hello-world'
         await client.broadcast.commentWithOptions({
             parent_author: '',
@@ -116,32 +112,27 @@ describe('operations', function() {
             allow_votes: false,
             allow_curation_rewards: false,
             percent_steem_dollars: 0,
-            max_accepted_payout: Asset.from(10, 'SBD'),
+            max_accepted_payout: Asset.from(10, 'TBD'),
             extensions: [
                 [0, {beneficiaries: [
                     {weight: 10000, account: acc1.username}
                 ]}]
             ],
-        }, PrivateKey.fromLogin(username, password, 'posting'))
+        }, postingWif)
 
-        const [newAcc] = await client.database.getAccounts([username])
-        assert.equal(newAcc.name, username)
-        // not sure why but on the testnet the recovery account is always 'steem'
-        // assert.equal(newAcc.recovery_account, acc1.username)
-        assert.equal(newAcc.memo_key, PrivateKey.fromLogin(username, password, 'memo').createPublic(client.addressPrefix).toString())
-        const [post] = await client.database.getDiscussions('blog', {tag: username, limit: 1})
+        const [post] = await client.call('condenser_api', 'get_content', [username, permlink])
         assert.deepEqual(post.beneficiaries, [{account: acc1.username, weight: 10000}])
-        assert.equal(post.max_accepted_payout, '10.000 SBD')
+        assert.equal(post.max_accepted_payout, '10.000 TBD')
         assert.equal(post.percent_steem_dollars, 0)
         assert.equal(post.allow_votes, false)
     })
 
     it('should update account', async function() {
-        const key = PrivateKey.fromLogin(acc1.username, acc1.password, 'owner')
+        const key = PrivateKey.from(acc1.active)
         const foo = Math.random()
         const rv = await client.broadcast.updateAccount({
             account: acc1.username,
-            memo_key: PrivateKey.fromLogin(acc1.username, acc1.password, 'memo').createPublic(client.addressPrefix),
+            memo_key: PrivateKey.from(acc1.posting).createPublic(client.addressPrefix),
             json_metadata: JSON.stringify({foo}),
         }, key)
         const [acc] = await client.database.getAccounts([acc1.username])
@@ -149,7 +140,7 @@ describe('operations', function() {
     })
 
     it('should create account custom auths', async function() {
-        const key = PrivateKey.fromLogin(acc1.username, acc1.password, 'owner')
+        const key = PrivateKey.from(acc1.active)
 
         const username = 'ds-' + randomString(12)
         const password = randomString(32)
@@ -172,7 +163,7 @@ describe('operations', function() {
         }, key)
         const [newAccount] = await client.database.getAccounts([username])
         assert.equal(newAccount.name, username)
-        assert(Asset.from(newAccount.received_vesting_shares).amount > 0)
+        assert.equal(newAccount.memo_key, memoKey)
     })
 
     it('should create account and calculate fees', async function() {
@@ -206,7 +197,7 @@ describe('operations', function() {
 
         // invalid (inexact) fee must fail
         try {
-            await client.broadcast.createAccount({password, metadata, creator, username: 'foo', fee: '1.111 STEEM'}, acc1Key)
+            await client.broadcast.createAccount({password, metadata, creator, username: 'foo', fee: '1.111 TESTS'}, acc1Key)
             assert(false, 'should not be reached')
         } catch (error) {
             assert.equal(error.message, 'Fee must be exactly ' + creationFee.toString())
@@ -226,7 +217,7 @@ describe('operations', function() {
             new_recovery_account: acc2.username,
             extensions: [],
         }]
-        const key = ds.PrivateKey.fromLogin(acc1.username, acc1.password, 'owner')
+        const key = ds.PrivateKey.from(acc1.active)
         await client.broadcast.sendOperations([op], key)
     })
 
