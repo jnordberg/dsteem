@@ -192,7 +192,7 @@ export class BroadcastAPI {
         let {fee, delegation} = options
 
         delegation = Asset.from(delegation || 0, 'VESTS')
-        fee = Asset.from(fee || 0, 'STEEM')
+        fee = Asset.from(fee || 0, 'TESTS')
 
         if (fee.amount > 0) {
             const chainProps = await this.client.database.getChainProperties()
@@ -312,7 +312,7 @@ export class BroadcastAPI {
     }
 
     /**
-     * Convenience for calling `network_broadcast_api`.
+     * Convenience for calling `condenser_api`.
      */
     public call(method: string, params?: any[]) {
         return this.client.call('condenser_api', method, params)
