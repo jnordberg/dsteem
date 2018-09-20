@@ -83,7 +83,7 @@ describe('operations', function() {
 
         const username = 'ds-' + randomString(12)
         const password = randomString(32)
-        await client.broadcast.createAccount({
+        await client.broadcast.createTestAccount({
             username, password, creator: acc1.username, metadata: {date: new Date()}
         }, acc1Key)
 
@@ -150,7 +150,7 @@ describe('operations', function() {
         const activeKey = PrivateKey.fromLogin(username, password, 'active').createPublic(client.addressPrefix)
         const postingKey = PrivateKey.fromLogin(username, password, 'posting').createPublic(client.addressPrefix)
         const memoKey = PrivateKey.fromLogin(username, password, 'memo').createPublic(client.addressPrefix)
-        await client.broadcast.createAccount({
+        await client.broadcast.createTestAccount({
             creator: acc1.username,
             username,
             auths: {
@@ -178,33 +178,33 @@ describe('operations', function() {
         const creationFee = Asset.from(chainProps.account_creation_fee)
 
         // no delegation and no fee (uses RC instead)
-        await client.broadcast.createAccount({
+        await client.broadcast.createTestAccount({
             password, metadata, creator, username: 'foo' + randomString(12),
             delegation: 0
         }, acc1Key)
 
         // fee (no RC used) and no delegation
-        await client.broadcast.createAccount({
+        await client.broadcast.createTestAccount({
             password, metadata, creator, username: 'foo' + randomString(12),
             fee: creationFee
         }, acc1Key)
 
         // fee plus delegation
-        await client.broadcast.createAccount({
+        await client.broadcast.createTestAccount({
             password, creator, username: 'foo' + randomString(12),
             fee: creationFee, delegation: Asset.from(1000, 'VESTS')
         }, acc1Key)
 
         // invalid (inexact) fee must fail
         try {
-            await client.broadcast.createAccount({password, metadata, creator, username: 'foo', fee: '1.111 TESTS'}, acc1Key)
+            await client.broadcast.createTestAccount({password, metadata, creator, username: 'foo', fee: '1.111 TESTS'}, acc1Key)
             assert(false, 'should not be reached')
         } catch (error) {
             assert.equal(error.message, 'Fee must be exactly ' + creationFee.toString())
         }
 
         try {
-            await client.broadcast.createAccount({metadata, creator, username: 'foo'}, acc1Key)
+            await client.broadcast.createTestAccount({metadata, creator, username: 'foo'}, acc1Key)
             assert(false, 'should not be reached')
         } catch (error) {
             assert.equal(error.message, 'Must specify either password or auths')

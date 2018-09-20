@@ -163,11 +163,13 @@ export class BroadcastAPI {
     }
 
     /**
-     * Create a new account.
+     * Create a new account on testnet.
      * @param options New account options.
      * @param key Private active key of account creator.
      */
-    public async createAccount(options: CreateAccountOptions, key: PrivateKey) {
+    public async createTestAccount(options: CreateAccountOptions, key: PrivateKey) {
+        assert(global.hasOwnProperty('it'), 'helper to be used only for mocha tests')
+
         const {username, metadata, creator} = options
 
         const prefix = this.client.addressPrefix
