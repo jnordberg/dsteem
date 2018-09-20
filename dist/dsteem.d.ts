@@ -41,7 +41,7 @@ declare module 'dsteem/steem/asset' {
 	/**
 	 * Asset symbol string.
 	 */
-	export type AssetSymbol = 'STEEM' | 'VESTS' | 'SBD';
+	export type AssetSymbol = 'STEEM' | 'VESTS' | 'SBD' | 'TESTS' | 'TBD';
 	/**
 	 * Class representing a steem asset, e.g. `1.000 STEEM` or `12.112233 VESTS`.
 	 */
@@ -921,7 +921,7 @@ declare module 'dsteem/steem/operation' {
 	/**
 	 * Operation name.
 	 */
-	export type OperationName = 'account_create' | 'account_create_with_delegation' | 'account_update' | 'account_witness_proxy' | 'account_witness_vote' | 'cancel_transfer_from_savings' | 'challenge_authority' | 'change_recovery_account' | 'claim_reward_balance' | 'comment' | 'comment_options' | 'convert' | 'custom' | 'custom_binary' | 'custom_json' | 'decline_voting_rights' | 'delegate_vesting_shares' | 'delete_comment' | 'escrow_approve' | 'escrow_dispute' | 'escrow_release' | 'escrow_transfer' | 'feed_publish' | 'limit_order_cancel' | 'limit_order_create' | 'limit_order_create2' | 'pow' | 'pow2' | 'prove_authority' | 'recover_account' | 'report_over_production' | 'request_account_recovery' | 'reset_account' | 'set_reset_account' | 'set_withdraw_vesting_route' | 'transfer' | 'transfer_from_savings' | 'transfer_to_savings' | 'transfer_to_vesting' | 'vote' | 'withdraw_vesting' | 'witness_update';
+	export type OperationName = 'account_create' | 'account_create_with_delegation' | 'account_update' | 'account_witness_proxy' | 'account_witness_vote' | 'cancel_transfer_from_savings' | 'change_recovery_account' | 'claim_account' | 'claim_reward_balance' | 'create_claimed_account' | 'comment' | 'comment_options' | 'convert' | 'custom' | 'custom_binary' | 'custom_json' | 'decline_voting_rights' | 'delegate_vesting_shares' | 'delete_comment' | 'escrow_approve' | 'escrow_dispute' | 'escrow_release' | 'escrow_transfer' | 'feed_publish' | 'limit_order_cancel' | 'limit_order_create' | 'limit_order_create2' | 'pow' | 'pow2' | 'recover_account' | 'report_over_production' | 'request_account_recovery' | 'reset_account' | 'set_reset_account' | 'set_withdraw_vesting_route' | 'transfer' | 'transfer_from_savings' | 'transfer_to_savings' | 'transfer_to_vesting' | 'vote' | 'withdraw_vesting' | 'witness_update';
 	/**
 	 * Virtual operation name.
 	 */
@@ -1008,14 +1008,6 @@ declare module 'dsteem/steem/operation' {
 	        request_id: number;
 	    };
 	}
-	export interface ChallengeAuthorityOperation extends Operation {
-	    0: 'challenge_authority';
-	    1: {
-	        challenger: string;
-	        challenged: string;
-	        require_owner: boolean;
-	    };
-	}
 	/**
 	 * Each account lists another account as their recovery account.
 	 * The recovery account has the ability to create account_recovery_requests
@@ -1060,6 +1052,17 @@ declare module 'dsteem/steem/operation' {
 	        reward_vests: string | Asset;
 	    };
 	}
+	export interface ClaimAccountOperation extends Operation {
+	    0: 'claim_account';
+	    1: {
+	        creator: string;
+	        fee: string | Asset;
+	        /**
+	         * Extensions. Not currently used.
+	         */
+	        extensions: any[];
+	    };
+	}
 	export interface CommentOperation extends Operation {
 	    0: 'comment';
 	    1: {
@@ -1096,6 +1099,22 @@ declare module 'dsteem/steem/operation' {
 	        owner: string;
 	        requestid: number;
 	        amount: Asset | string;
+	    };
+	}
+	export interface CreateClaimedAccountOperation extends Operation {
+	    0: 'create_claimed_account';
+	    1: {
+	        creator: string;
+	        new_account_name: string;
+	        owner: AuthorityType;
+	        active: AuthorityType;
+	        posting: AuthorityType;
+	        memo_key: string | PublicKey;
+	        json_metadata: string;
+	        /**
+	         * Extensions. Not currently used.
+	         */
+	        extensions: any[];
 	    };
 	}
 	export interface CustomOperation extends Operation {
@@ -1345,13 +1364,6 @@ declare module 'dsteem/steem/operation' {
 	        work: any;
 	        new_owner_key?: string | PublicKey;
 	        props: any;
-	    };
-	}
-	export interface ProveAuthorityOperation extends Operation {
-	    0: 'prove_authority';
-	    1: {
-	        challenged: string;
-	        require_owner: boolean;
 	    };
 	}
 	/**
@@ -1997,11 +2009,11 @@ declare module 'dsteem/helpers/broadcast' {
 	     */
 	    json(data: CustomJsonOperation[1], key: PrivateKey): Promise<TransactionConfirmation>;
 	    /**
-	     * Create a new account.
+	     * Create a new account on testnet.
 	     * @param options New account options.
 	     * @param key Private active key of account creator.
 	     */
-	    createAccount(options: CreateAccountOptions, key: PrivateKey): Promise<TransactionConfirmation>;
+	    createTestAccount(options: CreateAccountOptions, key: PrivateKey): Promise<TransactionConfirmation>;
 	    /**
 	     * Update account.
 	     * @param data The account_update payload.
@@ -2037,7 +2049,7 @@ declare module 'dsteem/helpers/broadcast' {
 	     */
 	    send(transaction: SignedTransaction): Promise<TransactionConfirmation>;
 	    /**
-	     * Convenience for calling `network_broadcast_api`.
+	     * Convenience for calling `condenser_api`.
 	     */
 	    call(method: string, params?: any[]): Promise<any>;
 	}
@@ -2337,7 +2349,7 @@ declare module 'dsteem/client' {
 	     * @param params  Array of parameters to pass to the method, optional.
 	     *
 	     */
-	    call(api: string, method: string, params?: any[]): Promise<any>;
+	    call(api: string, method: string, params?: any): Promise<any>;
 	}
 
 }

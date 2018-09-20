@@ -157,9 +157,10 @@ export class Client {
             opts = copy(options)
             opts.agent = options.agent
         }
-        opts.addressPrefix = 'STX'
-        opts.chainId = '79276aea5d4877d9a25892eaa01b0adf019d3e5cb12a97478df3298ccdd01673'
-        return new Client('https://testnet.steem.vc', opts)
+
+        opts.addressPrefix = 'TST'
+        opts.chainId = '46d82ab7d8db682eb1959aed0ada039a6d49afa1602491f93dde9cac3e8e6c32'
+        return new Client('https://testnet.steemitdev.com', opts)
     }
 
     /**
@@ -229,7 +230,7 @@ export class Client {
      * @param params  Array of parameters to pass to the method, optional.
      *
      */
-    public async call(api: string, method: string, params: any[] = []): Promise<any> {
+    public async call(api: string, method: string, params: any = []): Promise<any> {
         const request: RPCCall = {
             id: ++this.seqNo,
             jsonrpc: '2.0',
@@ -254,7 +255,7 @@ export class Client {
             opts.agent = this.options.agent
         }
         let fetchTimeout: any
-        if (api !== 'network_broadcast_api') {
+        if (api !== 'network_broadcast_api' && method.substring(0, 21) !== 'broadcast_transaction') {
             // bit of a hack to work around some nodes high error rates
             // only effective in node.js (until timeout spec lands in browsers)
             fetchTimeout = (tries) => (tries + 1) * 500
