@@ -242,12 +242,13 @@ export class Client {
      *
      */
     public async call(api: string, method: string, params: any[] = []): Promise<any> {
-        if (this.useAppbaseApi) api = 'condenser_api'
+        let callApi = api
+        if (this.useAppbaseApi) callApi = 'condenser_api'
         const request: RPCCall = {
             id: ++this.seqNo,
             jsonrpc: '2.0',
             method: 'call',
-            params: [api, method, params],
+            params: [callApi, method, params],
         }
         const body = JSON.stringify(request, (key, value) => {
             // encode Buffers as hex strings instead of an array of bytes
