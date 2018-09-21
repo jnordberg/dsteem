@@ -57,6 +57,11 @@ export const DEFAULT_CHAIN_ID = Buffer.from('00000000000000000000000000000000000
  */
 export const DEFAULT_ADDRESS_PREFIX = 'STM'
 
+/**
+ * Change API for appbase compatibility.
+ */
+export const DEFAULT_USE_APPBASE_API = false
+
 interface RPCRequest {
     /**
      * Request sequence number.
@@ -139,6 +144,11 @@ export interface ClientOptions {
      * @see https://nodejs.org/api/http.html#http_new_agent_options.
      */
     agent?: any // https.Agent
+    /**
+     * Compatibility with Appbase API:
+     * `false`
+     */
+    useAppbaseApi?: boolean
 }
 
 /**
@@ -200,6 +210,7 @@ export class Client {
     private seqNo: number = 0
     private timeout: number
     private backoff: typeof defaultBackoff
+    private useAppbaseApi: boolean
 
     /**
      * @param address The address to the Steem RPC server, e.g. `https://api.steemit.com`.
@@ -219,6 +230,7 @@ export class Client {
         this.database = new DatabaseAPI(this)
         this.broadcast = new BroadcastAPI(this)
         this.blockchain = new Blockchain(this)
+        this.useAppbaseApi = options.useAppbaseApi || DEFAULT_USE_APPBASE_API
     }
 
     /**
@@ -230,6 +242,7 @@ export class Client {
      *
      */
     public async call(api: string, method: string, params: any[] = []): Promise<any> {
+        if (this.useAppbaseApi) api = 'condenser_api'
         const request: RPCCall = {
             id: ++this.seqNo,
             jsonrpc: '2.0',
