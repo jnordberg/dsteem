@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ChallengeAuthorityOperation | dsteem</title>
+	<title>CreateClaimedAccountOperation | dsteem</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="challengeauthorityoperation.html">ChallengeAuthorityOperation</a>
+					<a href="createclaimedaccountoperation.html">CreateClaimedAccountOperation</a>
 				</li>
 			</ul>
-			<h1>Interface ChallengeAuthorityOperation</h1>
+			<h1>Interface CreateClaimedAccountOperation</h1>
 		</div>
 	</div>
 </header>
@@ -73,7 +73,7 @@
 						<a href="operation.html" class="tsd-signature-type">Operation</a>
 						<ul class="tsd-hierarchy">
 							<li>
-								<span class="target">ChallengeAuthorityOperation</span>
+								<span class="target">CreateClaimedAccountOperation</span>
 							</li>
 						</ul>
 					</li>
@@ -86,8 +86,8 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="challengeauthorityoperation.html#0" class="tsd-kind-icon">0</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="challengeauthorityoperation.html#1" class="tsd-kind-icon">1</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="createclaimedaccountoperation.html#0" class="tsd-kind-icon">0</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="createclaimedaccountoperation.html#1" class="tsd-kind-icon">1</a></li>
 							</ul>
 						</section>
 					</div>
@@ -98,11 +98,11 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
 					<a name="0" class="tsd-anchor"></a>
 					<h3>0</h3>
-					<div class="tsd-signature tsd-kind-icon">0<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"challenge_authority"</span></div>
+					<div class="tsd-signature tsd-kind-icon">0<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"create_claimed_account"</span></div>
 					<aside class="tsd-sources">
 						<p>Overrides <a href="operation.html">Operation</a>.<a href="operation.html#0">0</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/operation.ts#L198">steem/operation.ts:198</a></li>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/operation.ts#L295">steem/operation.ts:295</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -113,20 +113,40 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="operation.html">Operation</a>.<a href="operation.html#1">1</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/operation.ts#L199">steem/operation.ts:199</a></li>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/operation.ts#L296">steem/operation.ts:296</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter">
-								<h5>challenged<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+								<h5>active<span class="tsd-signature-symbol">: </span><a href="authoritytype.html" class="tsd-signature-type">AuthorityType</a></h5>
 							</li>
 							<li class="tsd-parameter">
-								<h5>challenger<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+								<h5>creator<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
 							</li>
 							<li class="tsd-parameter">
-								<h5>require_<wbr>owner<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></h5>
+								<h5>extensions<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>Extensions. Not currently used.</p>
+									</div>
+								</div>
+							</li>
+							<li class="tsd-parameter">
+								<h5>json_<wbr>metadata<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>memo_<wbr>key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="../classes/publickey.html" class="tsd-signature-type">PublicKey</a></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>new_<wbr>account_<wbr>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>owner<span class="tsd-signature-symbol">: </span><a href="authoritytype.html" class="tsd-signature-type">AuthorityType</a></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>posting<span class="tsd-signature-symbol">: </span><a href="authoritytype.html" class="tsd-signature-type">AuthorityType</a></h5>
 							</li>
 						</ul>
 					</div>
@@ -146,13 +166,13 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface">
-						<a href="challengeauthorityoperation.html" class="tsd-kind-icon">Challenge<wbr>Authority<wbr>Operation</a>
+						<a href="createclaimedaccountoperation.html" class="tsd-kind-icon">Create<wbr>Claimed<wbr>Account<wbr>Operation</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
-								<a href="challengeauthorityoperation.html#0" class="tsd-kind-icon">0</a>
+								<a href="createclaimedaccountoperation.html#0" class="tsd-kind-icon">0</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
-								<a href="challengeauthorityoperation.html#1" class="tsd-kind-icon">1</a>
+								<a href="createclaimedaccountoperation.html#1" class="tsd-kind-icon">1</a>
 							</li>
 						</ul>
 					</li>

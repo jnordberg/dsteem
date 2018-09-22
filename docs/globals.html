@@ -105,8 +105,8 @@
 								<li class="tsd-kind-interface"><a href="interfaces/blockchainstreamoptions.html" class="tsd-kind-icon">Blockchain<wbr>Stream<wbr>Options</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/canceltransferfromsavingsoperation.html" class="tsd-kind-icon">Cancel<wbr>Transfer<wbr>From<wbr>Savings<wbr>Operation</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/chainproperties.html" class="tsd-kind-icon">Chain<wbr>Properties</a></li>
-								<li class="tsd-kind-interface"><a href="interfaces/challengeauthorityoperation.html" class="tsd-kind-icon">Challenge<wbr>Authority<wbr>Operation</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/changerecoveryaccountoperation.html" class="tsd-kind-icon">Change<wbr>Recovery<wbr>Account<wbr>Operation</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/claimaccountoperation.html" class="tsd-kind-icon">Claim<wbr>Account<wbr>Operation</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/claimrewardbalanceoperation.html" class="tsd-kind-icon">Claim<wbr>Reward<wbr>Balance<wbr>Operation</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/clientoptions.html" class="tsd-kind-icon">Client<wbr>Options</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/comment.html" class="tsd-kind-icon">Comment</a></li>
@@ -114,6 +114,7 @@
 								<li class="tsd-kind-interface"><a href="interfaces/commentoptionsoperation.html" class="tsd-kind-icon">Comment<wbr>Options<wbr>Operation</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/convertoperation.html" class="tsd-kind-icon">Convert<wbr>Operation</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/createaccountoptions.html" class="tsd-kind-icon">Create<wbr>Account<wbr>Options</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/createclaimedaccountoperation.html" class="tsd-kind-icon">Create<wbr>Claimed<wbr>Account<wbr>Operation</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/custombinaryoperation.html" class="tsd-kind-icon">Custom<wbr>Binary<wbr>Operation</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/customjsonoperation.html" class="tsd-kind-icon">Custom<wbr>Json<wbr>Operation</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/customoperation.html" class="tsd-kind-icon">Custom<wbr>Operation</a></li>
@@ -136,7 +137,6 @@
 								<li class="tsd-kind-interface tsd-is-not-exported"><a href="interfaces/pendingrequest.html" class="tsd-kind-icon">Pending<wbr>Request</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/pow2operation.html" class="tsd-kind-icon">Pow2<wbr>Operation</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/powoperation.html" class="tsd-kind-icon">Pow<wbr>Operation</a></li>
-								<li class="tsd-kind-interface"><a href="interfaces/proveauthorityoperation.html" class="tsd-kind-icon">Prove<wbr>Authority<wbr>Operation</a></li>
 								<li class="tsd-kind-interface tsd-is-not-exported"><a href="interfaces/rpccall.html" class="tsd-kind-icon">RPCCall</a></li>
 								<li class="tsd-kind-interface tsd-is-not-exported"><a href="interfaces/rpcerror.html" class="tsd-kind-icon">RPCError</a></li>
 								<li class="tsd-kind-interface tsd-is-not-exported"><a href="interfaces/rpcrequest.html" class="tsd-kind-icon">RPCRequest</a></li>
@@ -250,7 +250,7 @@
 				<section class="tsd-panel tsd-member tsd-kind-type-alias">
 					<a name="assetsymbol" class="tsd-anchor"></a>
 					<h3>Asset<wbr>Symbol</h3>
-					<div class="tsd-signature tsd-kind-icon">Asset<wbr>Symbol<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"STEEM"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"VESTS"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"SBD"</span></div>
+					<div class="tsd-signature tsd-kind-icon">Asset<wbr>Symbol<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"STEEM"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"VESTS"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"SBD"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"TESTS"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"TBD"</span></div>
 					<aside class="tsd-sources">
 						<ul>
 							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/asset.ts#L42">steem/asset.ts:42</a></li>
@@ -305,7 +305,7 @@
 				<section class="tsd-panel tsd-member tsd-kind-type-alias">
 					<a name="operationname" class="tsd-anchor"></a>
 					<h3>Operation<wbr>Name</h3>
-					<div class="tsd-signature tsd-kind-icon">Operation<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"account_create"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"account_create_with_delegation"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"account_update"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"account_witness_proxy"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"account_witness_vote"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"cancel_transfer_from_savings"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"challenge_authority"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"change_recovery_account"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"claim_reward_balance"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"comment"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"comment_options"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"convert"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"custom"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"custom_binary"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"custom_json"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"decline_voting_rights"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"delegate_vesting_shares"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"delete_comment"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"escrow_approve"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"escrow_dispute"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"escrow_release"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"escrow_transfer"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"feed_publish"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"limit_order_cancel"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"limit_order_create"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"limit_order_create2"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"pow"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"pow2"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"prove_authority"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"recover_account"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"report_over_production"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"request_account_recovery"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"reset_account"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"set_reset_account"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"set_withdraw_vesting_route"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"transfer"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"transfer_from_savings"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"transfer_to_savings"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"transfer_to_vesting"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"vote"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"withdraw_vesting"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"witness_update"</span></div>
+					<div class="tsd-signature tsd-kind-icon">Operation<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"account_create"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"account_create_with_delegation"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"account_update"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"account_witness_proxy"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"account_witness_vote"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"cancel_transfer_from_savings"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"change_recovery_account"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"claim_account"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"claim_reward_balance"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"create_claimed_account"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"comment"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"comment_options"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"convert"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"custom"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"custom_binary"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"custom_json"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"decline_voting_rights"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"delegate_vesting_shares"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"delete_comment"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"escrow_approve"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"escrow_dispute"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"escrow_release"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"escrow_transfer"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"feed_publish"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"limit_order_cancel"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"limit_order_create"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"limit_order_create2"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"pow"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"pow2"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"recover_account"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"report_over_production"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"request_account_recovery"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"reset_account"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"set_reset_account"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"set_withdraw_vesting_route"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"transfer"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"transfer_from_savings"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"transfer_to_savings"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"transfer_to_vesting"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"vote"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"withdraw_vesting"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"witness_update"</span></div>
 					<aside class="tsd-sources">
 						<ul>
 							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/operation.ts#L46">steem/operation.ts:46</a></li>
@@ -488,7 +488,7 @@
 					<div class="tsd-signature tsd-kind-icon">Transaction<wbr>Serializer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">(Anonymous function)</span><span class="tsd-signature-symbol"> =&nbsp;ObjectSerializer([[&#x27;ref_block_num&#x27;, UInt16Serializer],[&#x27;ref_block_prefix&#x27;, UInt32Serializer],[&#x27;expiration&#x27;, DateSerializer],[&#x27;operations&#x27;, ArraySerializer(OperationSerializer)],[&#x27;extensions&#x27;, ArraySerializer(StringSerializer)],])</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L528">steem/serializer.ts:528</a></li>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L534">steem/serializer.ts:534</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -838,7 +838,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L515">steem/serializer.ts:515</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L521">steem/serializer.ts:521</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1187,7 +1187,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/client.ts#L299">client.ts:299</a></li>
+									<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/client.ts#L300">client.ts:300</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1645,7 +1645,7 @@
 					<div class="tsd-signature tsd-kind-icon">Types<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L536">steem/serializer.ts:536</a></li>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L542">steem/serializer.ts:542</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
@@ -1654,7 +1654,7 @@
 						<div class="tsd-signature tsd-kind-icon">Array<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">ArraySerializer</a><span class="tsd-signature-symbol"> =&nbsp;ArraySerializer</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L537">steem/serializer.ts:537</a></li>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L543">steem/serializer.ts:543</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1664,7 +1664,7 @@
 						<div class="tsd-signature tsd-kind-icon">Asset<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">AssetSerializer</a><span class="tsd-signature-symbol"> =&nbsp;AssetSerializer</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L538">steem/serializer.ts:538</a></li>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L544">steem/serializer.ts:544</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1674,7 +1674,7 @@
 						<div class="tsd-signature tsd-kind-icon">Authority<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">(Anonymous function)</span><span class="tsd-signature-symbol"> =&nbsp;AuthoritySerializer</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L539">steem/serializer.ts:539</a></li>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L545">steem/serializer.ts:545</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1684,7 +1684,7 @@
 						<div class="tsd-signature tsd-kind-icon">Binary<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">BinarySerializer</a><span class="tsd-signature-symbol"> =&nbsp;BinarySerializer</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L540">steem/serializer.ts:540</a></li>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L546">steem/serializer.ts:546</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1694,7 +1694,7 @@
 						<div class="tsd-signature tsd-kind-icon">Boolean<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">BooleanSerializer</a><span class="tsd-signature-symbol"> =&nbsp;BooleanSerializer</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L541">steem/serializer.ts:541</a></li>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L547">steem/serializer.ts:547</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1704,7 +1704,7 @@
 						<div class="tsd-signature tsd-kind-icon">Date<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">DateSerializer</a><span class="tsd-signature-symbol"> =&nbsp;DateSerializer</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L542">steem/serializer.ts:542</a></li>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L548">steem/serializer.ts:548</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1714,7 +1714,7 @@
 						<div class="tsd-signature tsd-kind-icon">Flat<wbr>Map<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">FlatMapSerializer</a><span class="tsd-signature-symbol"> =&nbsp;FlatMapSerializer</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L543">steem/serializer.ts:543</a></li>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L549">steem/serializer.ts:549</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1724,7 +1724,7 @@
 						<div class="tsd-signature tsd-kind-icon">Int16<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">Int16Serializer</a><span class="tsd-signature-symbol"> =&nbsp;Int16Serializer</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L544">steem/serializer.ts:544</a></li>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L550">steem/serializer.ts:550</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1734,7 +1734,7 @@
 						<div class="tsd-signature tsd-kind-icon">Int32<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">Int32Serializer</a><span class="tsd-signature-symbol"> =&nbsp;Int32Serializer</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L545">steem/serializer.ts:545</a></li>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L551">steem/serializer.ts:551</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1744,7 +1744,7 @@
 						<div class="tsd-signature tsd-kind-icon">Int64<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">Int64Serializer</a><span class="tsd-signature-symbol"> =&nbsp;Int64Serializer</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L546">steem/serializer.ts:546</a></li>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L552">steem/serializer.ts:552</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1754,7 +1754,7 @@
 						<div class="tsd-signature tsd-kind-icon">Int8<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">Int8Serializer</a><span class="tsd-signature-symbol"> =&nbsp;Int8Serializer</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L547">steem/serializer.ts:547</a></li>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L553">steem/serializer.ts:553</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1764,7 +1764,7 @@
 						<div class="tsd-signature tsd-kind-icon">Object<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">ObjectSerializer</a><span class="tsd-signature-symbol"> =&nbsp;ObjectSerializer</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L548">steem/serializer.ts:548</a></li>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L554">steem/serializer.ts:554</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1774,7 +1774,7 @@
 						<div class="tsd-signature tsd-kind-icon">Operation<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">OperationSerializer</a><span class="tsd-signature-symbol"> =&nbsp;OperationSerializer</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L549">steem/serializer.ts:549</a></li>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L555">steem/serializer.ts:555</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1784,7 +1784,7 @@
 						<div class="tsd-signature tsd-kind-icon">Optional<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">OptionalSerializer</a><span class="tsd-signature-symbol"> =&nbsp;OptionalSerializer</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L550">steem/serializer.ts:550</a></li>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L556">steem/serializer.ts:556</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1794,7 +1794,7 @@
 						<div class="tsd-signature tsd-kind-icon">Price<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">(Anonymous function)</span><span class="tsd-signature-symbol"> =&nbsp;PriceSerializer</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L551">steem/serializer.ts:551</a></li>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L557">steem/serializer.ts:557</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1804,7 +1804,7 @@
 						<div class="tsd-signature tsd-kind-icon">Public<wbr>Key<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">PublicKeySerializer</a><span class="tsd-signature-symbol"> =&nbsp;PublicKeySerializer</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L552">steem/serializer.ts:552</a></li>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L558">steem/serializer.ts:558</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1814,7 +1814,7 @@
 						<div class="tsd-signature tsd-kind-icon">Static<wbr>Variant<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">StaticVariantSerializer</a><span class="tsd-signature-symbol"> =&nbsp;StaticVariantSerializer</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L553">steem/serializer.ts:553</a></li>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L559">steem/serializer.ts:559</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1824,7 +1824,7 @@
 						<div class="tsd-signature tsd-kind-icon">String<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">StringSerializer</a><span class="tsd-signature-symbol"> =&nbsp;StringSerializer</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L554">steem/serializer.ts:554</a></li>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L560">steem/serializer.ts:560</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1834,7 +1834,7 @@
 						<div class="tsd-signature tsd-kind-icon">Transaction<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">(Anonymous function)</span><span class="tsd-signature-symbol"> =&nbsp;TransactionSerializer</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L555">steem/serializer.ts:555</a></li>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L561">steem/serializer.ts:561</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1844,7 +1844,7 @@
 						<div class="tsd-signature tsd-kind-icon">UInt16<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">UInt16Serializer</a><span class="tsd-signature-symbol"> =&nbsp;UInt16Serializer</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L556">steem/serializer.ts:556</a></li>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L562">steem/serializer.ts:562</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1854,7 +1854,7 @@
 						<div class="tsd-signature tsd-kind-icon">UInt32<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">UInt32Serializer</a><span class="tsd-signature-symbol"> =&nbsp;UInt32Serializer</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L557">steem/serializer.ts:557</a></li>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L563">steem/serializer.ts:563</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1864,7 +1864,7 @@
 						<div class="tsd-signature tsd-kind-icon">UInt64<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">UInt64Serializer</a><span class="tsd-signature-symbol"> =&nbsp;UInt64Serializer</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L558">steem/serializer.ts:558</a></li>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L564">steem/serializer.ts:564</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1874,7 +1874,7 @@
 						<div class="tsd-signature tsd-kind-icon">UInt8<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">UInt8Serializer</a><span class="tsd-signature-symbol"> =&nbsp;UInt8Serializer</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L559">steem/serializer.ts:559</a></li>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L565">steem/serializer.ts:565</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1884,7 +1884,7 @@
 						<div class="tsd-signature tsd-kind-icon">Void<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">VoidSerializer</a><span class="tsd-signature-symbol"> =&nbsp;VoidSerializer</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L560">steem/serializer.ts:560</a></li>
+								<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/serializer.ts#L566">steem/serializer.ts:566</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -2082,10 +2082,10 @@
 						<a href="interfaces/chainproperties.html" class="tsd-kind-icon">Chain<wbr>Properties</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="interfaces/challengeauthorityoperation.html" class="tsd-kind-icon">Challenge<wbr>Authority<wbr>Operation</a>
+						<a href="interfaces/changerecoveryaccountoperation.html" class="tsd-kind-icon">Change<wbr>Recovery<wbr>Account<wbr>Operation</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="interfaces/changerecoveryaccountoperation.html" class="tsd-kind-icon">Change<wbr>Recovery<wbr>Account<wbr>Operation</a>
+						<a href="interfaces/claimaccountoperation.html" class="tsd-kind-icon">Claim<wbr>Account<wbr>Operation</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/claimrewardbalanceoperation.html" class="tsd-kind-icon">Claim<wbr>Reward<wbr>Balance<wbr>Operation</a>
@@ -2107,6 +2107,9 @@
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/createaccountoptions.html" class="tsd-kind-icon">Create<wbr>Account<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/createclaimedaccountoperation.html" class="tsd-kind-icon">Create<wbr>Claimed<wbr>Account<wbr>Operation</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/custombinaryoperation.html" class="tsd-kind-icon">Custom<wbr>Binary<wbr>Operation</a>
@@ -2173,9 +2176,6 @@
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/powoperation.html" class="tsd-kind-icon">Pow<wbr>Operation</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/proveauthorityoperation.html" class="tsd-kind-icon">Prove<wbr>Authority<wbr>Operation</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-not-exported">
 						<a href="interfaces/rpccall.html" class="tsd-kind-icon">RPCCall</a>

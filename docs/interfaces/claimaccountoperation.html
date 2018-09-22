@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ProveAuthorityOperation | dsteem</title>
+	<title>ClaimAccountOperation | dsteem</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="proveauthorityoperation.html">ProveAuthorityOperation</a>
+					<a href="claimaccountoperation.html">ClaimAccountOperation</a>
 				</li>
 			</ul>
-			<h1>Interface ProveAuthorityOperation</h1>
+			<h1>Interface ClaimAccountOperation</h1>
 		</div>
 	</div>
 </header>
@@ -73,7 +73,7 @@
 						<a href="operation.html" class="tsd-signature-type">Operation</a>
 						<ul class="tsd-hierarchy">
 							<li>
-								<span class="target">ProveAuthorityOperation</span>
+								<span class="target">ClaimAccountOperation</span>
 							</li>
 						</ul>
 					</li>
@@ -86,8 +86,8 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="proveauthorityoperation.html#0" class="tsd-kind-icon">0</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="proveauthorityoperation.html#1" class="tsd-kind-icon">1</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="claimaccountoperation.html#0" class="tsd-kind-icon">0</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="claimaccountoperation.html#1" class="tsd-kind-icon">1</a></li>
 							</ul>
 						</section>
 					</div>
@@ -98,11 +98,11 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
 					<a name="0" class="tsd-anchor"></a>
 					<h3>0</h3>
-					<div class="tsd-signature tsd-kind-icon">0<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"prove_authority"</span></div>
+					<div class="tsd-signature tsd-kind-icon">0<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"claim_account"</span></div>
 					<aside class="tsd-sources">
 						<p>Overrides <a href="operation.html">Operation</a>.<a href="operation.html#0">0</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/operation.ts#L551">steem/operation.ts:551</a></li>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/operation.ts#L244">steem/operation.ts:244</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -113,17 +113,25 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="operation.html">Operation</a>.<a href="operation.html#1">1</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/operation.ts#L552">steem/operation.ts:552</a></li>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/operation.ts#L245">steem/operation.ts:245</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter">
-								<h5>challenged<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+								<h5>creator<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
 							</li>
 							<li class="tsd-parameter">
-								<h5>require_<wbr>owner<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></h5>
+								<h5>extensions<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>Extensions. Not currently used.</p>
+									</div>
+								</div>
+							</li>
+							<li class="tsd-parameter">
+								<h5>fee<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="../classes/asset.html" class="tsd-signature-type">Asset</a></h5>
 							</li>
 						</ul>
 					</div>
@@ -143,13 +151,13 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface">
-						<a href="proveauthorityoperation.html" class="tsd-kind-icon">Prove<wbr>Authority<wbr>Operation</a>
+						<a href="claimaccountoperation.html" class="tsd-kind-icon">Claim<wbr>Account<wbr>Operation</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
-								<a href="proveauthorityoperation.html#0" class="tsd-kind-icon">0</a>
+								<a href="claimaccountoperation.html#0" class="tsd-kind-icon">0</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
-								<a href="proveauthorityoperation.html#1" class="tsd-kind-icon">1</a>
+								<a href="claimaccountoperation.html#1" class="tsd-kind-icon">1</a>
 							</li>
 						</ul>
 					</li>
