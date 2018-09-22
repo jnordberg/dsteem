@@ -158,9 +158,9 @@ export class Client {
             opts.agent = options.agent
         }
 
-        opts.addressPrefix = 'TST'
-        opts.chainId = '46d82ab7d8db682eb1959aed0ada039a6d49afa1602491f93dde9cac3e8e6c32'
-        return new Client('https://testnet.steemitdev.com', opts)
+        opts.addressPrefix = 'STX'
+        opts.chainId = '79276aea5d4877d9a25892eaa01b0adf019d3e5cb12a97478df3298ccdd01673'
+        return new Client('https://testnet.steem.vc', opts)
     }
 
     /**
