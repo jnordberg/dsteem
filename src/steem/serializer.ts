@@ -112,7 +112,10 @@ const DateSerializer = (buffer: ByteBuffer, data: string) => {
     buffer.writeUint32(Math.floor(new Date(data + 'Z').getTime() / 1000))
 }
 
-const PublicKeySerializer = (buffer: ByteBuffer, data: PublicKey | string) => {
+const PublicKeySerializer = (buffer: ByteBuffer, data: PublicKey | string | null) => {
+    if (data === null || (typeof data === 'string' && data === 'STX1111111111111111111111111111111114T1Anm')) {
+        return
+    }
     buffer.append(PublicKey.from(data).key)
 }
 

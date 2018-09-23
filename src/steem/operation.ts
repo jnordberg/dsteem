@@ -866,7 +866,7 @@ export interface WitnessUpdateOperation extends Operation {
          * URL for witness, usually a link to a post in the witness-category tag.
          */
         url: string
-        block_signing_key: string | PublicKey // public_key_type
+        block_signing_key: string | PublicKey | null // public_key_type
         props: ChainProperties
         /**
          * The fee paid to register a new witness, should be 10x current block production pay.
