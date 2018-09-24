@@ -169,6 +169,8 @@ export class Asset {
 
 }
 
+export type PriceType = Price | {base: Asset | string, quote: Asset | string}
+
 /**
  * Represents quotation of the relative value of asset against another asset.
  * Similar to 'currency pair' used to determine value of currencies.
@@ -185,7 +187,7 @@ export class Price {
     /**
      * Convenience to create new Price.
      */
-     public static from(value: Price | {base: Asset | string, quote: Asset | string}) {
+     public static from(value: PriceType) {
          if (value instanceof Price) {
              return value
          } else {
