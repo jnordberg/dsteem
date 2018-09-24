@@ -113,7 +113,7 @@ const DateSerializer = (buffer: ByteBuffer, data: string) => {
 }
 
 const PublicKeySerializer = (buffer: ByteBuffer, data: PublicKey | string | null) => {
-    if (data === null || (typeof data === 'string' && data === 'STX1111111111111111111111111111111114T1Anm')) {
+    if (data === null || (typeof data === 'string' && data.slice(-39) === '1111111111111111111111111111111114T1Anm')) {
         buffer.append(Buffer.alloc(33, 0))
     } else {
         buffer.append(PublicKey.from(data).key)
