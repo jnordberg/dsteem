@@ -135,6 +135,8 @@ const BinarySerializer = (size?: number) => {
     }
 }
 
+const VariableBinarySerializer = BinarySerializer()
+
 const FlatMapSerializer = (keySerializer: Serializer, valueSerializer: Serializer) => {
     return (buffer: ByteBuffer, data: Array<[any, any]>) => {
         buffer.writeVarint32(data.length)
@@ -331,7 +333,7 @@ OperationSerializers.create_claimed_account = OperationDataSerializer(23, [
 OperationSerializers.custom = OperationDataSerializer(15, [
     ['required_auths', ArraySerializer(StringSerializer)],
     ['id', UInt16Serializer],
-    ['data', BinarySerializer()],
+    ['data', VariableBinarySerializer],
 ])
 
 OperationSerializers.custom_binary = OperationDataSerializer(35, [
@@ -340,7 +342,7 @@ OperationSerializers.custom_binary = OperationDataSerializer(35, [
     ['required_posting_auths', ArraySerializer(StringSerializer)],
     ['required_auths', ArraySerializer(AuthoritySerializer)],
     ['id', StringSerializer],
-    ['data', BinarySerializer()],
+    ['data', VariableBinarySerializer],
 ])
 
 OperationSerializers.custom_json = OperationDataSerializer(18, [
@@ -520,6 +522,12 @@ OperationSerializers.witness_update = OperationDataSerializer(11, [
     ['block_signing_key', PublicKeySerializer],
     ['props', ChainPropertiesSerializer],
     ['fee', AssetSerializer],
+])
+
+OperationSerializers.witness_set_properties = OperationDataSerializer(42, [
+    ['owner', StringSerializer],
+    ['props', FlatMapSerializer(StringSerializer, VariableBinarySerializer)],
+    ['extensions', ArraySerializer(VoidSerializer)],
 ])
 
 const OperationSerializer = (buffer: ByteBuffer, operation: Operation) => {
