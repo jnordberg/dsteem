@@ -37,7 +37,7 @@ import * as ByteBuffer from 'bytebuffer'
 import {PublicKey} from './../crypto'
 import {Asset, Price} from './asset'
 import {HexBuffer} from './misc'
-import {Operation} from './operation'
+import {Operation, WitnessPropertyType} from './operation'
 
 export type Serializer = (buffer: ByteBuffer, data: any) => void
 
@@ -135,6 +135,8 @@ const BinarySerializer = (size?: number) => {
     }
 }
 
+const VariableBinarySerializer = BinarySerializer()
+
 const FlatMapSerializer = (keySerializer: Serializer, valueSerializer: Serializer) => {
     return (buffer: ByteBuffer, data: Array<[any, any]>) => {
         buffer.writeVarint32(data.length)
@@ -208,6 +210,33 @@ const ChainPropertiesSerializer = ObjectSerializer([
     ['maximum_block_size', UInt32Serializer],
     ['sbd_interest_rate', UInt16Serializer],
 ])
+
+const WitnessPropertiesSerializer = (buffer: ByteBuffer, data: WitnessPropertyType[]) => {
+    buffer.writeVarint32(data.length)
+    for (const [key, value] of data) {
+        buffer.writeVString(key)
+        let serializer: Serializer
+        switch (key) {
+            case 'key':
+            case 'new_signing_key':
+                serializer = PublicKeySerializer
+            case 'account_subsidy_budget':
+            case 'account_subsidy_decay':
+            case 'maximum_block_size':
+                serializer = UInt32Serializer
+            case 'sbd_interest_rate':
+                serializer = UInt16Serializer
+            case 'url':
+                serializer = StringSerializer
+            case 'sbd_exchange_rate':
+                serializer = PriceSerializer
+            case 'account_creation_fee':
+                serializer = AssetSerializer
+            default:
+                serializer = VariableBinarySerializer
+        }
+    }
+}
 
 const OperationDataSerializer = (operationId: number, definitions: Array<[string, Serializer]>) => {
    const objectSerializer = ObjectSerializer(definitions)
@@ -331,7 +360,7 @@ OperationSerializers.create_claimed_account = OperationDataSerializer(23, [
 OperationSerializers.custom = OperationDataSerializer(15, [
     ['required_auths', ArraySerializer(StringSerializer)],
     ['id', UInt16Serializer],
-    ['data', BinarySerializer()],
+    ['data', VariableBinarySerializer],
 ])
 
 OperationSerializers.custom_binary = OperationDataSerializer(35, [
@@ -340,7 +369,7 @@ OperationSerializers.custom_binary = OperationDataSerializer(35, [
     ['required_posting_auths', ArraySerializer(StringSerializer)],
     ['required_auths', ArraySerializer(AuthoritySerializer)],
     ['id', StringSerializer],
-    ['data', BinarySerializer()],
+    ['data', VariableBinarySerializer],
 ])
 
 OperationSerializers.custom_json = OperationDataSerializer(18, [
@@ -520,6 +549,12 @@ OperationSerializers.witness_update = OperationDataSerializer(11, [
     ['block_signing_key', PublicKeySerializer],
     ['props', ChainPropertiesSerializer],
     ['fee', AssetSerializer],
+])
+
+OperationSerializers.witness_set_properties = OperationDataSerializer(42, [
+    ['owner', StringSerializer],
+    ['props', ChainPropertiesSerializer],
+    ['extensions', ArraySerializer(VoidSerializer)],
 ])
 
 const OperationSerializer = (buffer: ByteBuffer, operation: Operation) => {
