@@ -241,6 +241,7 @@ const WitnessPropertiesSerializer = (buffer: ByteBuffer, data: WitnessPropertyTy
             default:
                 serializer = VariableBinarySerializer
         }
+        serializer(buffer, value)
     }
 }
 
@@ -559,7 +560,7 @@ OperationSerializers.witness_update = OperationDataSerializer(11, [
 
 OperationSerializers.witness_set_properties = OperationDataSerializer(42, [
     ['owner', StringSerializer],
-    ['props', ChainPropertiesSerializer],
+    ['props', WitnessPropertiesSerializer],
     ['extensions', ArraySerializer(VoidSerializer)],
 ])
 
