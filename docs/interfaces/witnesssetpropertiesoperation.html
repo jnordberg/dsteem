@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>DeclineVotingRightsOperation | dsteem</title>
+	<title>WitnessSetPropertiesOperation | dsteem</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="declinevotingrightsoperation.html">DeclineVotingRightsOperation</a>
+					<a href="witnesssetpropertiesoperation.html">WitnessSetPropertiesOperation</a>
 				</li>
 			</ul>
-			<h1>Interface DeclineVotingRightsOperation</h1>
+			<h1>Interface WitnessSetPropertiesOperation</h1>
 		</div>
 	</div>
 </header>
@@ -73,7 +73,7 @@
 						<a href="operation.html" class="tsd-signature-type">Operation</a>
 						<ul class="tsd-hierarchy">
 							<li>
-								<span class="target">DeclineVotingRightsOperation</span>
+								<span class="target">WitnessSetPropertiesOperation</span>
 							</li>
 						</ul>
 					</li>
@@ -86,8 +86,8 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="declinevotingrightsoperation.html#0" class="tsd-kind-icon">0</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="declinevotingrightsoperation.html#1" class="tsd-kind-icon">1</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="witnesssetpropertiesoperation.html#0" class="tsd-kind-icon">0</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="witnesssetpropertiesoperation.html#1" class="tsd-kind-icon">1</a></li>
 							</ul>
 						</section>
 					</div>
@@ -98,11 +98,11 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
 					<a name="0" class="tsd-anchor"></a>
 					<h3>0</h3>
-					<div class="tsd-signature tsd-kind-icon">0<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"decline_voting_rights"</span></div>
+					<div class="tsd-signature tsd-kind-icon">0<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"witness_set_properties"</span></div>
 					<aside class="tsd-sources">
 						<p>Overrides <a href="operation.html">Operation</a>.<a href="operation.html#0">0</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/operation.ts#L353">steem/operation.ts:353</a></li>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/operation.ts#L880">steem/operation.ts:880</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -113,17 +113,20 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="operation.html">Operation</a>.<a href="operation.html#1">1</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/operation.ts#L354">steem/operation.ts:354</a></li>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/operation.ts#L881">steem/operation.ts:881</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter">
-								<h5>account<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+								<h5>extensions<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
 							</li>
 							<li class="tsd-parameter">
-								<h5>decline<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></h5>
+								<h5>owner<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>props<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></h5>
 							</li>
 						</ul>
 					</div>
@@ -143,13 +146,13 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface">
-						<a href="declinevotingrightsoperation.html" class="tsd-kind-icon">Decline<wbr>Voting<wbr>Rights<wbr>Operation</a>
+						<a href="witnesssetpropertiesoperation.html" class="tsd-kind-icon">Witness<wbr>Set<wbr>Properties<wbr>Operation</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
-								<a href="declinevotingrightsoperation.html#0" class="tsd-kind-icon">0</a>
+								<a href="witnesssetpropertiesoperation.html#0" class="tsd-kind-icon">0</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
-								<a href="declinevotingrightsoperation.html#1" class="tsd-kind-icon">1</a>
+								<a href="witnesssetpropertiesoperation.html#1" class="tsd-kind-icon">1</a>
 							</li>
 						</ul>
 					</li>

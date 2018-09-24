@@ -96,6 +96,10 @@ declare module 'dsteem/steem/asset' {
 	     */
 	    toJSON(): string;
 	}
+	export type PriceType = Price | {
+	    base: Asset | string;
+	    quote: Asset | string;
+	};
 	/**
 	 * Represents quotation of the relative value of asset against another asset.
 	 * Similar to 'currency pair' used to determine value of currencies.
@@ -113,10 +117,7 @@ declare module 'dsteem/steem/asset' {
 	    /**
 	     * Convenience to create new Price.
 	     */
-	    static from(value: Price | {
-	        base: Asset | string;
-	        quote: Asset | string;
-	    }): Price;
+	    static from(value: PriceType): Price;
 	    /**
 	     * @param base  - represents a value of the price object to be expressed relatively to quote
 	     *                asset. Cannot have amount == 0 if you want to build valid price.
@@ -416,7 +417,7 @@ declare module 'dsteem/steem/serializer' {
 	    Price: (buffer: ByteBuffer, data: {
 	        [key: string]: any;
 	    }) => void;
-	    PublicKey: (buffer: ByteBuffer, data: string | PublicKey) => void;
+	    PublicKey: (buffer: ByteBuffer, data: string | PublicKey | null) => void;
 	    StaticVariant: (itemSerializers: Serializer[]) => (buffer: ByteBuffer, data: [number, any]) => void;
 	    String: (buffer: ByteBuffer, data: string) => void;
 	    Transaction: (buffer: ByteBuffer, data: {
@@ -487,6 +488,21 @@ declare module 'dsteem/utils' {
 	 * Fetch API wrapper that retries until timeout is reached.
 	 */
 	export function retryingFetch(url: string, opts: any, timeout: number, backoff: (tries: number) => number, fetchTimeout?: (tries: number) => number): Promise<any>;
+	import { PublicKey } from 'dsteem/crypto';
+	import { Asset, PriceType } from 'dsteem/steem/asset';
+	import { WitnessSetPropertiesOperation } from 'dsteem/steem/operation';
+	export interface WitnessProps {
+	    account_creation_fee?: string | Asset;
+	    account_subsidy_budget?: number;
+	    account_subsidy_decay?: number;
+	    key: PublicKey | string;
+	    maximum_block_size?: number;
+	    new_signing_key?: PublicKey | string | null;
+	    sbd_exchange_rate?: PriceType;
+	    sbd_interest_rate?: number;
+	    url?: string;
+	}
+	export function buildWitnessUpdateOp(owner: string, props: WitnessProps): WitnessSetPropertiesOperation;
 
 }
 declare module 'dsteem/crypto' {
@@ -914,14 +930,14 @@ declare module 'dsteem/steem/operation' {
 	/// <reference types="node" />
 	import { PublicKey } from 'dsteem/crypto';
 	import { AuthorityType } from 'dsteem/steem/account';
-	import { Asset, Price } from 'dsteem/steem/asset';
+	import { Asset, PriceType } from 'dsteem/steem/asset';
 	import { SignedBlockHeader } from 'dsteem/steem/block';
 	import { BeneficiaryRoute } from 'dsteem/steem/comment';
 	import { ChainProperties, HexBuffer } from 'dsteem/steem/misc';
 	/**
 	 * Operation name.
 	 */
-	export type OperationName = 'account_create' | 'account_create_with_delegation' | 'account_update' | 'account_witness_proxy' | 'account_witness_vote' | 'cancel_transfer_from_savings' | 'change_recovery_account' | 'claim_account' | 'claim_reward_balance' | 'create_claimed_account' | 'comment' | 'comment_options' | 'convert' | 'custom' | 'custom_binary' | 'custom_json' | 'decline_voting_rights' | 'delegate_vesting_shares' | 'delete_comment' | 'escrow_approve' | 'escrow_dispute' | 'escrow_release' | 'escrow_transfer' | 'feed_publish' | 'limit_order_cancel' | 'limit_order_create' | 'limit_order_create2' | 'pow' | 'pow2' | 'recover_account' | 'report_over_production' | 'request_account_recovery' | 'reset_account' | 'set_reset_account' | 'set_withdraw_vesting_route' | 'transfer' | 'transfer_from_savings' | 'transfer_to_savings' | 'transfer_to_vesting' | 'vote' | 'withdraw_vesting' | 'witness_update';
+	export type OperationName = 'account_create' | 'account_create_with_delegation' | 'account_update' | 'account_witness_proxy' | 'account_witness_vote' | 'cancel_transfer_from_savings' | 'change_recovery_account' | 'claim_account' | 'claim_reward_balance' | 'comment' | 'comment_options' | 'convert' | 'create_claimed_account' | 'custom' | 'custom_binary' | 'custom_json' | 'decline_voting_rights' | 'delegate_vesting_shares' | 'delete_comment' | 'escrow_approve' | 'escrow_dispute' | 'escrow_release' | 'escrow_transfer' | 'feed_publish' | 'limit_order_cancel' | 'limit_order_create' | 'limit_order_create2' | 'pow' | 'pow2' | 'recover_account' | 'report_over_production' | 'request_account_recovery' | 'reset_account' | 'set_reset_account' | 'set_withdraw_vesting_route' | 'transfer' | 'transfer_from_savings' | 'transfer_to_savings' | 'transfer_to_vesting' | 'vote' | 'withdraw_vesting' | 'witness_set_properties' | 'witness_update';
 	/**
 	 * Virtual operation name.
 	 */
@@ -1294,10 +1310,7 @@ declare module 'dsteem/steem/operation' {
 	    0: 'feed_publish';
 	    1: {
 	        publisher: string;
-	        exchange_rate: Price | {
-	            base: Asset | string;
-	            quote: Asset | string;
-	        };
+	        exchange_rate: PriceType;
 	    };
 	}
 	/**
@@ -1335,10 +1348,7 @@ declare module 'dsteem/steem/operation' {
 	        orderid: number;
 	        amount_to_sell: Asset | string;
 	        fill_or_kill: boolean;
-	        exchange_rate: Price | {
-	            base: Asset | string;
-	            quote: Asset | string;
-	        };
+	        exchange_rate: PriceType;
 	        expiration: string;
 	    };
 	}
@@ -1653,12 +1663,20 @@ declare module 'dsteem/steem/operation' {
 	         * URL for witness, usually a link to a post in the witness-category tag.
 	         */
 	        url: string;
-	        block_signing_key: string | PublicKey;
+	        block_signing_key: string | PublicKey | null;
 	        props: ChainProperties;
 	        /**
 	         * The fee paid to register a new witness, should be 10x current block production pay.
 	         */
 	        fee: string | Asset;
+	    };
+	}
+	export interface WitnessSetPropertiesOperation extends Operation {
+	    0: 'witness_set_properties';
+	    1: {
+	        owner: string;
+	        props: Array<[string, Buffer]>;
+	        extensions: any[];
 	    };
 	}
 
