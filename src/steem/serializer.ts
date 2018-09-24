@@ -220,18 +220,24 @@ const WitnessPropertiesSerializer = (buffer: ByteBuffer, data: WitnessPropertyTy
             case 'key':
             case 'new_signing_key':
                 serializer = PublicKeySerializer
+                break
             case 'account_subsidy_budget':
             case 'account_subsidy_decay':
             case 'maximum_block_size':
                 serializer = UInt32Serializer
+                break
             case 'sbd_interest_rate':
                 serializer = UInt16Serializer
+                break
             case 'url':
                 serializer = StringSerializer
+                break
             case 'sbd_exchange_rate':
                 serializer = PriceSerializer
+                break
             case 'account_creation_fee':
                 serializer = AssetSerializer
+                break
             default:
                 serializer = VariableBinarySerializer
         }
