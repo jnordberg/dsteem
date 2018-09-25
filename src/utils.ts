@@ -169,5 +169,6 @@ export function buildWitnessUpdateOp(owner: string, props: WitnessProps): Witnes
         }
         data.props.push([key, serialize(type, props[key])])
     }
+    data.props.sort((a, b) => a[0].localeCompare(b[0]))
     return ['witness_set_properties', data]
 }
