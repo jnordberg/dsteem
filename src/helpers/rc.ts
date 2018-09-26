@@ -42,7 +42,7 @@ export class RCAPI {
      * Makes a API call and returns the RC mana-data for a specified username
      */
     public async getRCMana(username: string) {
-        let rc_account: RCAccount = await this.findRCAccounts([username])[0]
+        let rc_account: RCAccount = (await this.findRCAccounts([username]))[0]
         return this.calculateRCMana(rc_account)
     }
 
@@ -61,7 +61,7 @@ export class RCAPI {
      * Makes a API call and returns the VP mana-data for a specified username
      */
     public async getVPMana(username: string) {
-        let account: Account = await this.client.call(`condenser_api`, 'get_accounts', [[username]])
+        let account: Account = (await this.client.call(`condenser_api`, 'get_accounts', [[username]]))[0]
         return this.calculateVPMana(account)
     }
 
