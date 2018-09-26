@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ClaimAccountOperation | dsteem</title>
+	<title>DynamicParam | dsteem</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="claimaccountoperation.html">ClaimAccountOperation</a>
+					<a href="dynamicparam.html">DynamicParam</a>
 				</li>
 			</ul>
-			<h1>Interface ClaimAccountOperation</h1>
+			<h1>Interface DynamicParam</h1>
 		</div>
 	</div>
 </header>
@@ -70,12 +70,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="operation.html" class="tsd-signature-type">Operation</a>
-						<ul class="tsd-hierarchy">
-							<li>
-								<span class="target">ClaimAccountOperation</span>
-							</li>
-						</ul>
+						<span class="target">DynamicParam</span>
 					</li>
 				</ul>
 			</section>
@@ -86,8 +81,12 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="claimaccountoperation.html#0" class="tsd-kind-icon">0</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="claimaccountoperation.html#1" class="tsd-kind-icon">1</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dynamicparam.html#budget_per_time_unit" class="tsd-kind-icon">budget_<wbr>per_<wbr>time_<wbr>unit</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dynamicparam.html#decay_params" class="tsd-kind-icon">decay_<wbr>params</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dynamicparam.html#max_pool_size" class="tsd-kind-icon">max_<wbr>pool_<wbr>size</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dynamicparam.html#min_decay" class="tsd-kind-icon">min_<wbr>decay</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dynamicparam.html#pool_eq" class="tsd-kind-icon">pool_<wbr>eq</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dynamicparam.html#resource_unit" class="tsd-kind-icon">resource_<wbr>unit</a></li>
 							</ul>
 						</section>
 					</div>
@@ -95,46 +94,76 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
-					<a name="0" class="tsd-anchor"></a>
-					<h3>0</h3>
-					<div class="tsd-signature tsd-kind-icon">0<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"claim_account"</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="budget_per_time_unit" class="tsd-anchor"></a>
+					<h3>budget_<wbr>per_<wbr>time_<wbr>unit</h3>
+					<div class="tsd-signature tsd-kind-icon">budget_<wbr>per_<wbr>time_<wbr>unit<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
-						<p>Overrides <a href="operation.html">Operation</a>.<a href="operation.html#0">0</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/therealwolf42/dsteem/blob/master/src/steem/operation.ts#L245">steem/operation.ts:245</a></li>
+							<li>Defined in <a href="https://github.com/therealwolf42/dsteem/blob/master/src/steem/rc.ts#L20">steem/rc.ts:20</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
-					<a name="1" class="tsd-anchor"></a>
-					<h3>1</h3>
-					<div class="tsd-signature tsd-kind-icon">1<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="decay_params" class="tsd-anchor"></a>
+					<h3>decay_<wbr>params</h3>
+					<div class="tsd-signature tsd-kind-icon">decay_<wbr>params<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
-						<p>Overrides <a href="operation.html">Operation</a>.<a href="operation.html#1">1</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/therealwolf42/dsteem/blob/master/src/steem/operation.ts#L246">steem/operation.ts:246</a></li>
+							<li>Defined in <a href="https://github.com/therealwolf42/dsteem/blob/master/src/steem/rc.ts#L23">steem/rc.ts:23</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter">
-								<h5>creator<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+								<h5>decay_<wbr>per_<wbr>time_<wbr>unit<span class="tsd-signature-symbol">: </span><a href="../globals.html#bignum" class="tsd-signature-type">Bignum</a></h5>
 							</li>
 							<li class="tsd-parameter">
-								<h5>extensions<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
-								<div class="tsd-comment tsd-typography">
-									<div class="lead">
-										<p>Extensions. Not currently used.</p>
-									</div>
-								</div>
-							</li>
-							<li class="tsd-parameter">
-								<h5>fee<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="../classes/asset.html" class="tsd-signature-type">Asset</a></h5>
+								<h5>decay_<wbr>per_<wbr>time_<wbr>unit_<wbr>denom_<wbr>shift<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
 							</li>
 						</ul>
 					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="max_pool_size" class="tsd-anchor"></a>
+					<h3>max_<wbr>pool_<wbr>size</h3>
+					<div class="tsd-signature tsd-kind-icon">max_<wbr>pool_<wbr>size<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/therealwolf42/dsteem/blob/master/src/steem/rc.ts#L22">steem/rc.ts:22</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="min_decay" class="tsd-anchor"></a>
+					<h3>min_<wbr>decay</h3>
+					<div class="tsd-signature tsd-kind-icon">min_<wbr>decay<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/therealwolf42/dsteem/blob/master/src/steem/rc.ts#L27">steem/rc.ts:27</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="pool_eq" class="tsd-anchor"></a>
+					<h3>pool_<wbr>eq</h3>
+					<div class="tsd-signature tsd-kind-icon">pool_<wbr>eq<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/therealwolf42/dsteem/blob/master/src/steem/rc.ts#L21">steem/rc.ts:21</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="resource_unit" class="tsd-anchor"></a>
+					<h3>resource_<wbr>unit</h3>
+					<div class="tsd-signature tsd-kind-icon">resource_<wbr>unit<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/therealwolf42/dsteem/blob/master/src/steem/rc.ts#L19">steem/rc.ts:19</a></li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 		</div>
@@ -151,13 +180,25 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface">
-						<a href="claimaccountoperation.html" class="tsd-kind-icon">Claim<wbr>Account<wbr>Operation</a>
+						<a href="dynamicparam.html" class="tsd-kind-icon">Dynamic<wbr>Param</a>
 						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
-								<a href="claimaccountoperation.html#0" class="tsd-kind-icon">0</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="dynamicparam.html#budget_per_time_unit" class="tsd-kind-icon">budget_<wbr>per_<wbr>time_<wbr>unit</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
-								<a href="claimaccountoperation.html#1" class="tsd-kind-icon">1</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="dynamicparam.html#decay_params" class="tsd-kind-icon">decay_<wbr>params</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="dynamicparam.html#max_pool_size" class="tsd-kind-icon">max_<wbr>pool_<wbr>size</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="dynamicparam.html#min_decay" class="tsd-kind-icon">min_<wbr>decay</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="dynamicparam.html#pool_eq" class="tsd-kind-icon">pool_<wbr>eq</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="dynamicparam.html#resource_unit" class="tsd-kind-icon">resource_<wbr>unit</a>
 							</li>
 						</ul>
 					</li>
