@@ -2327,11 +2327,11 @@ declare module 'dsteem/helpers/rc' {
 	    /**
 	     * Calculates the RC mana-data based on an RCAccount - findRCAccounts()
 	     */
-	    calculateRCMana(rc_account: RCAccount): Promise<{
+	    calculateRCMana(rc_account: RCAccount): {
 	        current_mana: number;
 	        max_mana: number;
 	        percentage: number;
-	    }>;
+	    };
 	    /**
 	     * Makes a API call and returns the VP mana-data for a specified username
 	     */
@@ -2343,11 +2343,11 @@ declare module 'dsteem/helpers/rc' {
 	    /**
 	     * Calculates the RC mana-data based on an Account - getAccounts()
 	     */
-	    calculateVPMana(account: Account): Promise<{
+	    calculateVPMana(account: Account): {
 	        current_mana: number;
 	        max_mana: number;
 	        percentage: number;
-	    }>;
+	    };
 	}
 
 }
