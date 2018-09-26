@@ -251,5 +251,5 @@ export function getVests(account: Account, subtract_delegated: boolean = true, a
     let vests_received: Asset = Asset.from(account.received_vesting_shares)
     if(subtract_delegated) vests = vests.subtract(vests_delegated)
     if(add_received) vests = vests.add(vests_received)
-    return vests
+    return vests.amount
 }
