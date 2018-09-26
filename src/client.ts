@@ -40,6 +40,7 @@ import packageVersion from './version'
 import {Blockchain} from './helpers/blockchain'
 import {BroadcastAPI} from './helpers/broadcast'
 import {DatabaseAPI} from './helpers/database'
+import {RCAPI} from './helpers/rc'
 import {copy, retryingFetch, waitForEvent} from './utils'
 
 /**
@@ -179,6 +180,11 @@ export class Client {
     public readonly database: DatabaseAPI
 
     /**
+     * RC API helper.
+     */
+    public readonly rc: RCAPI
+
+    /**
      * Broadcast API helper.
      */
     public readonly broadcast: BroadcastAPI
@@ -220,6 +226,7 @@ export class Client {
         this.database = new DatabaseAPI(this)
         this.broadcast = new BroadcastAPI(this)
         this.blockchain = new Blockchain(this)
+        this.rc = new RCAPI(this)
     }
 
     /**
