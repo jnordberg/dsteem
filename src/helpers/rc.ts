@@ -53,7 +53,7 @@ export class RCAPI {
         let max_mana: number = Number(rc_account.max_rc)
         let delta: number = Date.now() - rc_account.rc_manabar.last_update_time
         let current_mana: number = Number(rc_account.rc_manabar.current_mana) + (delta / 1000) * max_mana / (5 * 24 * 60 * 60)
-        let percentage = (current_mana / max_mana).toFixed(2)
+        let percentage: number = Number((current_mana / max_mana).toFixed(2))
         return { current_mana, max_mana, percentage }
     }
 
@@ -69,10 +69,10 @@ export class RCAPI {
      * Calculates the RC mana-data based on an Account - getAccounts()
      */
     public async calculateVPMana(account: Account) {
-        let max_mana: number = getVests(account).amount
+        let max_mana: number = getVests(account).amount * 10^6
         let delta: number = Date.now() - account.voting_manabar.last_update_time
         let current_mana: number = Number(account.voting_manabar.current_mana) + (delta / 1000) * max_mana / (5 * 24 * 60 * 60)
-        let percentage = (current_mana / max_mana).toFixed(2)
+        let percentage: number = Number((current_mana / max_mana).toFixed(2))
         return { current_mana, max_mana, percentage }
     }
 }
