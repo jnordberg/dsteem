@@ -51,8 +51,8 @@ export class RCAPI {
      */
     public async calculateRCMana(rc_account: RCAccount) {
         let max_mana: number = Number(rc_account.max_rc)
-        let delta: number = Date.now() - rc_account.rc_manabar.last_update_time
-        let current_mana: number = Number(rc_account.rc_manabar.current_mana) + (delta / 1000) * max_mana / (5 * 24 * 60 * 60)
+        let delta: number = Date.now() / 1000 - rc_account.rc_manabar.last_update_time
+        let current_mana: number = Number(rc_account.rc_manabar.current_mana) + (delta * max_mana / 432000)
         let percentage: number = Number((current_mana / max_mana).toFixed(2))
         return { current_mana, max_mana, percentage }
     }
