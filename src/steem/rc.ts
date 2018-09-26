@@ -28,8 +28,8 @@ export interface DynamicParam {
 }
 
 export interface PriceCurveParam {
-    coeff_a: string,
-    coeff_b: number, //could be Bignum
+    coeff_a: string|number,
+    coeff_b: string|number, //could be Bignum
     shift: number
 }
 
@@ -42,13 +42,13 @@ export interface RCPool {
 }
 
 export interface Pool {
-    pool: string
+    pool: string|number
 }
 
 export interface RCAccount {
     account: string,
     rc_manabar: {
-        current_mana: Bignum,
+        current_mana: string|number,
         last_update_time: number
     },
     max_rc_creation_adjustment: Nai|PriceType|string,
