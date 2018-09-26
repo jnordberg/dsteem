@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ClaimAccountOperation | dsteem</title>
+	<title>RCPool | dsteem</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="claimaccountoperation.html">ClaimAccountOperation</a>
+					<a href="rcpool.html">RCPool</a>
 				</li>
 			</ul>
-			<h1>Interface ClaimAccountOperation</h1>
+			<h1>Interface RCPool</h1>
 		</div>
 	</div>
 </header>
@@ -70,12 +70,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="operation.html" class="tsd-signature-type">Operation</a>
-						<ul class="tsd-hierarchy">
-							<li>
-								<span class="target">ClaimAccountOperation</span>
-							</li>
-						</ul>
+						<span class="target">RCPool</span>
 					</li>
 				</ul>
 			</section>
@@ -86,8 +81,11 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="claimaccountoperation.html#0" class="tsd-kind-icon">0</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="claimaccountoperation.html#1" class="tsd-kind-icon">1</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="rcpool.html#resource_execution_time" class="tsd-kind-icon">resource_<wbr>execution_<wbr>time</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="rcpool.html#resource_history_bytes" class="tsd-kind-icon">resource_<wbr>history_<wbr>bytes</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="rcpool.html#resource_market_bytes" class="tsd-kind-icon">resource_<wbr>market_<wbr>bytes</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="rcpool.html#resource_new_accounts" class="tsd-kind-icon">resource_<wbr>new_<wbr>accounts</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="rcpool.html#resource_state_bytes" class="tsd-kind-icon">resource_<wbr>state_<wbr>bytes</a></li>
 							</ul>
 						</section>
 					</div>
@@ -95,46 +93,55 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
-					<a name="0" class="tsd-anchor"></a>
-					<h3>0</h3>
-					<div class="tsd-signature tsd-kind-icon">0<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"claim_account"</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="resource_execution_time" class="tsd-anchor"></a>
+					<h3>resource_<wbr>execution_<wbr>time</h3>
+					<div class="tsd-signature tsd-kind-icon">resource_<wbr>execution_<wbr>time<span class="tsd-signature-symbol">:</span> <a href="pool.html" class="tsd-signature-type">Pool</a></div>
 					<aside class="tsd-sources">
-						<p>Overrides <a href="operation.html">Operation</a>.<a href="operation.html#0">0</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/therealwolf42/dsteem/blob/master/src/steem/operation.ts#L245">steem/operation.ts:245</a></li>
+							<li>Defined in <a href="https://github.com/therealwolf42/dsteem/blob/master/src/steem/rc.ts#L41">steem/rc.ts:41</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
-					<a name="1" class="tsd-anchor"></a>
-					<h3>1</h3>
-					<div class="tsd-signature tsd-kind-icon">1<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="resource_history_bytes" class="tsd-anchor"></a>
+					<h3>resource_<wbr>history_<wbr>bytes</h3>
+					<div class="tsd-signature tsd-kind-icon">resource_<wbr>history_<wbr>bytes<span class="tsd-signature-symbol">:</span> <a href="pool.html" class="tsd-signature-type">Pool</a></div>
 					<aside class="tsd-sources">
-						<p>Overrides <a href="operation.html">Operation</a>.<a href="operation.html#1">1</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/therealwolf42/dsteem/blob/master/src/steem/operation.ts#L246">steem/operation.ts:246</a></li>
+							<li>Defined in <a href="https://github.com/therealwolf42/dsteem/blob/master/src/steem/rc.ts#L37">steem/rc.ts:37</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter">
-								<h5>creator<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-							</li>
-							<li class="tsd-parameter">
-								<h5>extensions<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
-								<div class="tsd-comment tsd-typography">
-									<div class="lead">
-										<p>Extensions. Not currently used.</p>
-									</div>
-								</div>
-							</li>
-							<li class="tsd-parameter">
-								<h5>fee<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="../classes/asset.html" class="tsd-signature-type">Asset</a></h5>
-							</li>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="resource_market_bytes" class="tsd-anchor"></a>
+					<h3>resource_<wbr>market_<wbr>bytes</h3>
+					<div class="tsd-signature tsd-kind-icon">resource_<wbr>market_<wbr>bytes<span class="tsd-signature-symbol">:</span> <a href="pool.html" class="tsd-signature-type">Pool</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/therealwolf42/dsteem/blob/master/src/steem/rc.ts#L39">steem/rc.ts:39</a></li>
 						</ul>
-					</div>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="resource_new_accounts" class="tsd-anchor"></a>
+					<h3>resource_<wbr>new_<wbr>accounts</h3>
+					<div class="tsd-signature tsd-kind-icon">resource_<wbr>new_<wbr>accounts<span class="tsd-signature-symbol">:</span> <a href="pool.html" class="tsd-signature-type">Pool</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/therealwolf42/dsteem/blob/master/src/steem/rc.ts#L38">steem/rc.ts:38</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="resource_state_bytes" class="tsd-anchor"></a>
+					<h3>resource_<wbr>state_<wbr>bytes</h3>
+					<div class="tsd-signature tsd-kind-icon">resource_<wbr>state_<wbr>bytes<span class="tsd-signature-symbol">:</span> <a href="pool.html" class="tsd-signature-type">Pool</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/therealwolf42/dsteem/blob/master/src/steem/rc.ts#L40">steem/rc.ts:40</a></li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 		</div>
@@ -151,13 +158,22 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface">
-						<a href="claimaccountoperation.html" class="tsd-kind-icon">Claim<wbr>Account<wbr>Operation</a>
+						<a href="rcpool.html" class="tsd-kind-icon">RCPool</a>
 						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
-								<a href="claimaccountoperation.html#0" class="tsd-kind-icon">0</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="rcpool.html#resource_execution_time" class="tsd-kind-icon">resource_<wbr>execution_<wbr>time</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
-								<a href="claimaccountoperation.html#1" class="tsd-kind-icon">1</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="rcpool.html#resource_history_bytes" class="tsd-kind-icon">resource_<wbr>history_<wbr>bytes</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="rcpool.html#resource_market_bytes" class="tsd-kind-icon">resource_<wbr>market_<wbr>bytes</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="rcpool.html#resource_new_accounts" class="tsd-kind-icon">resource_<wbr>new_<wbr>accounts</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="rcpool.html#resource_state_bytes" class="tsd-kind-icon">resource_<wbr>state_<wbr>bytes</a>
 							</li>
 						</ul>
 					</li>
