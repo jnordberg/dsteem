@@ -36,6 +36,12 @@
 import * as assert from 'assert'
 import * as ByteBuffer from 'bytebuffer'
 
+export interface Nai {
+    amount: string|number,
+    precision: number,
+    nai: string
+}
+
 /**
  * Asset symbol string.
  */

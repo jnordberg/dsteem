@@ -34,6 +34,7 @@
  */
 
 import {Asset, Price} from './asset'
+import { Account } from './account';
 
 /**
  * Large number that may be unsafe to represent natively in JavaScript.
@@ -239,4 +240,16 @@ export function getVestingSharePrice(props: DynamicGlobalProperties): Price {
         return new Price(new Asset(1, 'VESTS'), new Asset(1, 'STEEM'))
     }
     return new Price(totalVestingShares, totalVestingFund)
+}
+
+/**
+ * Returns the vests of specified account. Default: Subtract delegated & add received
+ */
+export function getVests(account: Account, subtract_delegated: boolean = true, add_received: boolean = true) {
+    let vests: Asset = Asset.from(account.vesting_shares)
+    let vests_delegated: Asset = Asset.from(account.delegated_vesting_shares)
+    let vests_received: Asset = Asset.from(account.received_vesting_shares)
+    if(subtract_delegated) vests = vests.subtract(vests_delegated)
+    if(add_received) vests = vests.add(vests_received)
+    return vests
 }
