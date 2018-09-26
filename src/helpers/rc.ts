@@ -53,7 +53,7 @@ export class RCAPI {
         let max_mana: number = Number(rc_account.max_rc)
         let delta: number = Date.now() / 1000 - rc_account.rc_manabar.last_update_time
         let current_mana: number = Number(rc_account.rc_manabar.current_mana) + (delta * max_mana / 432000)
-        let percentage: number = Number((current_mana / max_mana).toFixed(2))
+        let percentage: number = Number((current_mana / max_mana * 100).toFixed(2))
         return { current_mana, max_mana, percentage }
     }
 
@@ -72,7 +72,7 @@ export class RCAPI {
         let max_mana: number = getVests(account) * Math.pow(10, 6)
         let delta: number = Date.now() / 1000 - account.voting_manabar.last_update_time
         let current_mana: number = Number(account.voting_manabar.current_mana) + (delta * max_mana / 432000)
-        let percentage: number = Number(((current_mana / max_mana) * 100).toFixed(2))
+        let percentage: number = Number((current_mana / max_mana * 100).toFixed(2))
         return { current_mana, max_mana, percentage }
     }
 }
