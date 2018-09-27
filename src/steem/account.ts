@@ -99,6 +99,10 @@ export interface Account {
     post_count: number // uint32_t
     can_vote: boolean
     voting_power: number // uint16_t
+    voting_manabar: {
+        current_mana: string,
+        last_update_time: number
+    }
     last_vote_time: string // time_point_sec
     balance: string | Asset
     savings_balance: string | Asset
