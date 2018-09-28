@@ -13,18 +13,29 @@ describe('rc_api', function () {
     const liveClient = new Client(TEST_NODE, { agent })
 
     let acc: { username: string, posting: string, active: string }
-    before(async function () {
+    /*before(async function () {
         [acc] = await getTestnetAccounts()
-    })
+    })*/
 
     // _calculateManabar max_mana: number, { current_mana, last_update_time }
 
     it('calculateVPMana', function() {
-        let max_mana = 209662282841403
-        let current_mana = 97630298249416
-        let last_update_time = 1538095485
+        let account: any = { 
+            name: 'therealwolf',
+            voting_manabar: {
+                current_mana: 130168665536029,
+                last_update_time: Date.now() / 1000
+            },
+            vesting_shares: '80241942 VESTS',
+            delegated_vesting_shares: '60666472 VESTS',
+            received_vesting_shares: '191002659 VESTS'
+        }
 
-        //client.rc.calculateVPMana()
+        let bar = client.rc.calculateVPMana(account)
+        assert.equal(bar.percentage, 6181)
+        account.voting_manabar.last_update_time = 1537064449
+        bar = client.rc.calculateVPMana(account)
+        assert.equal(bar.percentage, 10000)
     })
 
     it('calculateRCMana', function() {
@@ -44,36 +55,8 @@ describe('rc_api', function () {
 
         let bar = client.rc.calculateRCMana(rc_account)
         assert.equal(bar.percentage, 10000)
-        assert.equal(bar.current_mana, 1000000)
         rc_account.rc_manabar.last_update_time = Date.now() / 1000
         bar = client.rc.calculateRCMana(rc_account)
-        assert(bar.percentage > 1000 && bar.percentage < 1100)
-    })
-
-    it('verifyAuthority', async function() {
-        this.slow(5 * 1000)
-        const tx: Transaction = {
-            ref_block_num: 0,
-            ref_block_prefix: 0,
-            expiration: '2000-01-01T00:00:00',
-            operations: [['custom_json', {
-                required_auths: [],
-                required_posting_auths: [acc.username],
-                id: 'rpc-params',
-                json: '{"foo": "bar"}'
-            }]],
-            'extensions': [],
-        }
-        const key = PrivateKey.fromString(acc.posting)
-        const stx = client.broadcast.sign(tx, key)
-        const rv = await client.database.verifyAuthority(stx)
-        assert(rv === true)
-        const bogusKey = PrivateKey.fromSeed('ogus')
-        try {
-            await client.database.verifyAuthority(client.broadcast.sign(tx, bogusKey))
-            assert(false, 'should not be reached')
-        } catch (error) {
-            assert.equal(error.message, `Missing Posting Authority ${ acc.username }`)
-        }
+        assert(bar.percentage >= 1000 && bar.percentage < 1100)
     })
 })

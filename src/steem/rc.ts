@@ -1,5 +1,5 @@
-import { Bignum } from "./misc";
-import { SMTAsset } from "./asset"
+import { SMTAsset } from './asset'
+import { Bignum } from './misc'
 
 export interface RCParams {
     resource_history_bytes: Resource,
@@ -25,7 +25,7 @@ export interface DynamicParam {
 }
 export interface PriceCurveParam {
     coeff_a: Bignum,
-    coeff_b: Bignum, //could be Bignum
+    coeff_b: Bignum,
     shift: number
 }
 export interface RCPool {

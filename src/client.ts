@@ -183,7 +183,7 @@ export class Client {
      * RC API helper.
      */
     public readonly rc: RCAPI
-    
+
     /**
      * Broadcast API helper.
      */

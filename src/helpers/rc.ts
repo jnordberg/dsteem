@@ -1,67 +1,67 @@
 import { Client } from './../client'
 import { Account } from './../steem/account'
-import { RCAccount, RCParams, RCPool, Manabar } from './../steem/rc'
-import { getVests } from '../steem/misc'
+import { getVests } from './../steem/misc'
+import { Manabar, RCAccount, RCParams, RCPool } from './../steem/rc'
 
 export class RCAPI {
     constructor(readonly client: Client) { }
 
     /**
-   * Convenience for calling `rc_api`.
-   */
+     * Convenience for calling `rc_api`.
+     */
     public call(method: string, params?: any) {
         return this.client.call('rc_api', method, params)
     }
 
     /**
-    * Returns RC data for array of usernames
-    */
-    public async findRCAccounts(usernames: string[]): Promise<Array<RCAccount>> {
+     * Returns RC data for array of usernames
+     */
+    public async findRCAccounts(usernames: string[]): Promise<RCAccount[]> {
         return await this.call('find_rc_accounts', { accounts: usernames })
     }
 
     /**
-    * Returns the global resource params
-    */
+     * Returns the global resource params
+     */
     public async getResourceParams(): Promise<RCParams> {
         return await this.call('get_resource_params', {})
     }
 
     /**
-    * Returns the global resource pool
-    */
+     * Returns the global resource pool
+     */
     public async getResourcePool(): Promise<RCPool> {
         return await this.call('get_resource_pool', {})
     }
 
     /**
-    * Makes a API call and returns the RC mana-data for a specified username
-    */
+     * Makes a API call and returns the RC mana-data for a specified username
+     */
     public async getRCMana(username: string): Promise<Manabar> {
-        let rc_account: RCAccount = (await this.findRCAccounts([username]))[0]
+        const rc_account: RCAccount = (await this.findRCAccounts([username]))[0]
         return this.calculateRCMana(rc_account)
     }
 
     /**
-    * Makes a API call and returns the VP mana-data for a specified username
-    */
+     * Makes a API call and returns the VP mana-data for a specified username
+     */
     public async getVPMana(username: string): Promise<Manabar> {
-        let account: Account = (await this.client.call(`condenser_api`, 'get_accounts', [[username]]))[0]
+        const account: Account = (await this.client.call(`condenser_api`, 'get_accounts', [[username]]))[0]
         return this.calculateVPMana(account)
     }
 
     /**
-    * Calculates the RC mana-data based on an RCAccount - findRCAccounts()
-    */
+     * Calculates the RC mana-data based on an RCAccount - findRCAccounts()
+     */
     public calculateRCMana(rc_account: RCAccount): Manabar {
         return this._calculateManabar(Number(rc_account.max_rc), rc_account.rc_manabar)
     }
 
     /**
-    * Calculates the RC mana-data based on an Account - getAccounts()
-    */
+     * Calculates the RC mana-data based on an Account - getAccounts()
+     */
     public calculateVPMana(account: Account): Manabar {
-        let max_mana: number = getVests(account) * Math.pow(10, 6)
+        const max_mana: number = getVests(account) * Math.pow(10, 6)
         return this._calculateManabar(max_mana, account.voting_manabar)
     }
 
@@ -69,7 +69,7 @@ export class RCAPI {
      * Internal convenience method to reduce redundant code
      */
     private _calculateManabar(max_mana: number, { current_mana, last_update_time }): Manabar {
-        let delta: number = Date.now() / 1000 - last_update_time
+        const delta: number = Date.now() / 1000 - last_update_time
         current_mana = Number(current_mana) + (delta * max_mana / 432000)
         let percentage: number = Math.round(current_mana / max_mana * 10000)
 
@@ -81,4 +81,4 @@ export class RCAPI {
 
         return { current_mana, max_mana, percentage }
     }
-} 
+}

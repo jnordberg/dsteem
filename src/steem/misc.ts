@@ -32,9 +32,9 @@
  * You acknowledge that this software is not designed, licensed or intended for use
  * in the design, construction, operation or maintenance of any military facility.
  */
-
-import {Asset, Price} from './asset'
 import { Account } from './account'
+import {Asset, Price} from './asset'
+
 /**
  * Large number that may be unsafe to represent natively in JavaScript.
  */
@@ -241,14 +241,18 @@ export function getVestingSharePrice(props: DynamicGlobalProperties): Price {
     return new Price(totalVestingShares, totalVestingFund)
 }
 
-	/**
+/**
  * Returns the vests of specified account. Default: Subtract delegated & add received
  */
 export function getVests(account: Account, subtract_delegated: boolean = true, add_received: boolean = true) {
     let vests: Asset = Asset.from(account.vesting_shares)
-    let vests_delegated: Asset = Asset.from(account.delegated_vesting_shares)
-    let vests_received: Asset = Asset.from(account.received_vesting_shares)
-    if(subtract_delegated) vests = vests.subtract(vests_delegated)
-    if(add_received) vests = vests.add(vests_received)
+    const vests_delegated: Asset = Asset.from(account.delegated_vesting_shares)
+    const vests_received: Asset = Asset.from(account.received_vesting_shares)
+    if (subtract_delegated) {
+        vests = vests.subtract(vests_delegated)
+    }
+    if (add_received) {
+        vests = vests.add(vests_received)
+    }
     return vests.amount
 }
