@@ -101,7 +101,7 @@ export interface Account {
     voting_power: number // uint16_t
     last_vote_time: string // time_point_sec
     voting_manabar: {
-        current_mana: string,
+        current_mana: string | number,
         last_update_time: number
     },
     balance: string | Asset

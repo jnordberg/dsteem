@@ -1,5 +1,5 @@
 import { Bignum } from "./misc";
-import { Nai, PriceType } from "./asset"
+import { SMTAsset } from "./asset"
 
 export interface RCParams {
     resource_history_bytes: Resource,
@@ -15,8 +15,8 @@ export interface Resource {
 export interface DynamicParam {
     resource_unit: number,
     budget_per_time_unit: number,
-    pool_eq: string | number,
-    max_pool_size: string | number,
+    pool_eq: Bignum,
+    max_pool_size: Bignum,
     decay_params: {
         decay_per_time_unit: Bignum,
         decay_per_time_unit_denom_shift: number
@@ -24,8 +24,8 @@ export interface DynamicParam {
     min_decay: number
 }
 export interface PriceCurveParam {
-    coeff_a: string | number,
-    coeff_b: string | number, //could be Bignum
+    coeff_a: Bignum,
+    coeff_b: Bignum, //could be Bignum
     shift: number
 }
 export interface RCPool {
@@ -36,14 +36,20 @@ export interface RCPool {
     resource_execution_time: Pool
 }
 export interface Pool {
-    pool: string | number
+    pool: Bignum
 }
 export interface RCAccount {
     account: string,
     rc_manabar: {
-        current_mana: string | number,
+        current_mana: Bignum,
         last_update_time: number
     },
-    max_rc_creation_adjustment: Nai | PriceType | string,
-    max_rc: string | number
+    max_rc_creation_adjustment: SMTAsset | string,
+    max_rc: Bignum
+}
+
+export interface Manabar {
+    current_mana: number,
+    max_mana: number,
+    percentage: number
 }

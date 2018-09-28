@@ -36,7 +36,7 @@
 import * as assert from 'assert'
 import * as ByteBuffer from 'bytebuffer'
 
-export interface Nai {
+export interface SMTAsset {
     amount: string|number,
     precision: number,
     nai: string
