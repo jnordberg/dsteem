@@ -62,14 +62,11 @@ describe('database api', function() {
         )
     })
 
-    /*
-    // TODO: disabled for steem#2936
     it('getOperations', async function() {
         const result = await liveClient.database.getOperations(1)
         assert.equal(result.length, 1)
         assert.equal(result[0].op[0], 'producer_reward')
     })
-    */
 
     it('getDiscussions', async function() {
         const r1 = await liveClient.database.getDiscussions('comments', {

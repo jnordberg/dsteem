@@ -111,3 +111,64 @@ export async function retryingFetch(url: string, opts: any, timeout: number,
         }
     } while (true)
 }
+
+// Hack to be able to generate a valid witness_set_properties op
+// Can hopefully be removed when steemd's JSON representation is fixed
+import * as ByteBuffer from 'bytebuffer'
+import {PublicKey} from './crypto'
+import {Asset, PriceType} from './steem/asset'
+import {WitnessSetPropertiesOperation} from './steem/operation'
+import {Serializer, Types} from './steem/serializer'
+export interface WitnessProps {
+    account_creation_fee?: string | Asset
+    account_subsidy_budget?: number // uint32_t
+    account_subsidy_decay?: number // uint32_t
+    key: PublicKey | string
+    maximum_block_size?: number // uint32_t
+    new_signing_key?: PublicKey | string | null
+    sbd_exchange_rate?: PriceType
+    sbd_interest_rate?: number // uint16_t
+    url?: string
+}
+function serialize(serializer: Serializer, data: any) {
+    const buffer = new ByteBuffer(ByteBuffer.DEFAULT_CAPACITY, ByteBuffer.LITTLE_ENDIAN)
+    serializer(buffer, data)
+    buffer.flip()
+    return Buffer.from(buffer.toBuffer())
+}
+export function buildWitnessUpdateOp(owner: string, props: WitnessProps): WitnessSetPropertiesOperation {
+    const data: WitnessSetPropertiesOperation[1] = {
+        extensions: [], owner, props: []
+    }
+    for (const key of Object.keys(props)) {
+        let type: Serializer
+        switch (key) {
+            case 'key':
+            case 'new_signing_key':
+                type = Types.PublicKey
+                break
+            case 'account_subsidy_budget':
+            case 'account_subsidy_decay':
+            case 'maximum_block_size':
+                type = Types.UInt32
+                break
+            case 'sbd_interest_rate':
+                type = Types.UInt16
+                break
+            case 'url':
+                type = Types.String
+                break
+            case 'sbd_exchange_rate':
+                type = Types.Price
+                break
+            case 'account_creation_fee':
+                type = Types.Asset
+                break
+            default:
+                throw new Error(`Unknown witness prop: ${ key }`)
+        }
+        data.props.push([key, serialize(type, props[key])])
+    }
+    data.props.sort((a, b) => a[0].localeCompare(b[0]))
+    return ['witness_set_properties', data]
+}

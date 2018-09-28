@@ -38,11 +38,23 @@ export async function getTestnetAccounts(): Promise<{username: string, posting: 
     if (IS_BROWSER) {
         throw new Error('tests not supported in browser');
     }
-
-    const name1: string = process.env.TEST_ACCOUNT_1!
-    const name2: string = process.env.TEST_ACCOUNT_2!
-    const posting: string = process.env.TNMAN_POSTING!
-    const active: string = process.env.TNMAN_ACTIVE!
-    return [{username: name1, posting, active},
+    if(process.env.TEST_ACCOUNT_1) {
+        const name1: string = process.env.TEST_ACCOUNT_1!
+        const name2: string = process.env.TEST_ACCOUNT_2!
+        const posting: string = process.env.TNMAN_POSTING!
+        const active: string = process.env.TNMAN_ACTIVE!
+        return [{username: name1, posting, active},
             {username: name2, posting, active}]
+    }
+
+    try {
+        const data = await readFile('.testnetrc')
+        return JSON.parse(data.toString())
+    } catch (error) {
+        if (error.code !== 'ENOENT') {
+            throw error
+          } else {
+            throw new Error('you must define test accounts in .testnetrc, or set test accounts and keys on process.env')
+        }
+    }
 }
