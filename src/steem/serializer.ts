@@ -99,7 +99,7 @@ const StaticVariantSerializer = (itemSerializers: Serializer[]) => {
  *       Should not be a problem in real-word usage.
  */
 const AssetSerializer = (buffer: ByteBuffer, data: Asset | string | number) => {
-    const asset = Asset.from(String(data))
+    const asset = Asset.from(data)
     const precision = asset.getPrecision()
     buffer.writeInt64(Math.round(asset.amount * Math.pow(10, precision)))
     buffer.writeUint8(precision)
