@@ -248,17 +248,17 @@ export function getVests(account: Account, subtract_delegated: boolean = true, a
     let vests: Asset = Asset.from(account.vesting_shares)
     const vests_delegated: Asset = Asset.from(account.delegated_vesting_shares)
     const vests_received: Asset = Asset.from(account.received_vesting_shares)
-    let withdraw_rate = Asset.from(account.vesting_withdraw_rate)
-
-    const withdraw_vests = Math.min(withdraw_rate.amount, (Number(account.to_withdraw) - Number(account.withdrawn)) / 1000000)
+    const withdraw_rate: Asset = Asset.from(account.vesting_withdraw_rate)
+    const already_withdrawn = (Number(account.to_withdraw) - Number(account.withdrawn)) / 1000000
+    const withdraw_vests = Math.min(withdraw_rate.amount, already_withdrawn)
     vests = vests.subtract(withdraw_vests)
-    
+
     if (subtract_delegated) {
         vests = vests.subtract(vests_delegated)
     }
     if (add_received) {
         vests = vests.add(vests_received)
     }
-    
+
     return vests.amount
 }
