@@ -17,21 +17,21 @@ export class RCAPI {
      * Returns RC data for array of usernames
      */
     public async findRCAccounts(usernames: string[]): Promise<RCAccount[]> {
-        return await this.call('find_rc_accounts', { accounts: usernames })
+        return (await this.call('find_rc_accounts', { accounts: usernames }))['rc_accounts']
     }
 
     /**
      * Returns the global resource params
      */
     public async getResourceParams(): Promise<RCParams> {
-        return await this.call('get_resource_params', {})
+        return (await this.call('get_resource_params', {}))['resource_params']
     }
 
     /**
      * Returns the global resource pool
      */
     public async getResourcePool(): Promise<RCPool> {
-        return await this.call('get_resource_pool', {})
+        return (await this.call('get_resource_pool', {}))['resource_pool']
     }
 
     /**
