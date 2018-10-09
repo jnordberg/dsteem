@@ -27,8 +27,9 @@ describe('database api', function() {
             'total_reward_shares2', 'pending_rewarded_vesting_shares', 'pending_rewarded_vesting_steem',
             'sbd_interest_rate', 'sbd_print_rate', 'maximum_block_size', 'current_aslot',
             'recent_slots_filled', 'participation_count', 'last_irreversible_block_num',
-            'vote_power_reserve_rate', 'average_block_size', 'current_reserve_ratio',
-            'max_virtual_bandwidth'
+            'vote_power_reserve_rate', 'delegation_return_period', 'reverse_auction_seconds',
+            'sbd_stop_percent', 'sbd_start_percent', 'average_block_size',
+            'current_reserve_ratio', 'max_virtual_bandwidth'
         ])
     })
 
