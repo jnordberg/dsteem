@@ -53,7 +53,6 @@ export type OperationName = // <id>
     | 'change_recovery_account' // 26
     | 'claim_account' // 22
     | 'claim_reward_balance' // 39
-    | 'create_claimed_account' // 23
     | 'comment' // 1
     | 'comment_options' // 19
     | 'convert' // 8
