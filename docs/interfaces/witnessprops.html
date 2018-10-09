@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>AppliedOperation | @steemit/dsteem</title>
+	<title>WitnessProps | @steemit/dsteem</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="appliedoperation.html">AppliedOperation</a>
+					<a href="witnessprops.html">WitnessProps</a>
 				</li>
 			</ul>
-			<h1>Interface AppliedOperation</h1>
+			<h1>Interface WitnessProps</h1>
 		</div>
 	</div>
 </header>
@@ -70,7 +70,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">AppliedOperation</span>
+						<span class="target">WitnessProps</span>
 					</li>
 				</ul>
 			</section>
@@ -81,13 +81,15 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="appliedoperation.html#block" class="tsd-kind-icon">block</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="appliedoperation.html#op" class="tsd-kind-icon">op</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="appliedoperation.html#op_in_trx" class="tsd-kind-icon">op_<wbr>in_<wbr>trx</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="appliedoperation.html#timestamp" class="tsd-kind-icon">timestamp</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="appliedoperation.html#trx_id" class="tsd-kind-icon">trx_<wbr>id</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="appliedoperation.html#trx_in_block" class="tsd-kind-icon">trx_<wbr>in_<wbr>block</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="appliedoperation.html#virtual_op" class="tsd-kind-icon">virtual_<wbr>op</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="witnessprops.html#account_creation_fee" class="tsd-kind-icon">account_<wbr>creation_<wbr>fee</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="witnessprops.html#account_subsidy_budget" class="tsd-kind-icon">account_<wbr>subsidy_<wbr>budget</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="witnessprops.html#account_subsidy_decay" class="tsd-kind-icon">account_<wbr>subsidy_<wbr>decay</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="witnessprops.html#key" class="tsd-kind-icon">key</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="witnessprops.html#maximum_block_size" class="tsd-kind-icon">maximum_<wbr>block_<wbr>size</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="witnessprops.html#new_signing_key" class="tsd-kind-icon">new_<wbr>signing_<wbr>key</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="witnessprops.html#sbd_exchange_rate" class="tsd-kind-icon">sbd_<wbr>exchange_<wbr>rate</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="witnessprops.html#sbd_interest_rate" class="tsd-kind-icon">sbd_<wbr>interest_<wbr>rate</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="witnessprops.html#url" class="tsd-kind-icon">url</a></li>
 							</ul>
 						</section>
 					</div>
@@ -96,72 +98,92 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="block" class="tsd-anchor"></a>
-					<h3>block</h3>
-					<div class="tsd-signature tsd-kind-icon">block<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="account_creation_fee" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> account_<wbr>creation_<wbr>fee</h3>
+					<div class="tsd-signature tsd-kind-icon">account_<wbr>creation_<wbr>fee<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="../classes/asset.html" class="tsd-signature-type">Asset</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/steemit/dsteem/blob/master/src/steem/operation.ts#L121">steem/operation.ts:121</a></li>
+							<li>Defined in <a href="https://github.com/steemit/dsteem/blob/master/src/utils.ts#L123">utils.ts:123</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="op" class="tsd-anchor"></a>
-					<h3>op</h3>
-					<div class="tsd-signature tsd-kind-icon">op<span class="tsd-signature-symbol">:</span> <a href="operation.html" class="tsd-signature-type">Operation</a></div>
+					<a name="account_subsidy_budget" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> account_<wbr>subsidy_<wbr>budget</h3>
+					<div class="tsd-signature tsd-kind-icon">account_<wbr>subsidy_<wbr>budget<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/steemit/dsteem/blob/master/src/steem/operation.ts#L126">steem/operation.ts:126</a></li>
+							<li>Defined in <a href="https://github.com/steemit/dsteem/blob/master/src/utils.ts#L124">utils.ts:124</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="op_in_trx" class="tsd-anchor"></a>
-					<h3>op_<wbr>in_<wbr>trx</h3>
-					<div class="tsd-signature tsd-kind-icon">op_<wbr>in_<wbr>trx<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="account_subsidy_decay" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> account_<wbr>subsidy_<wbr>decay</h3>
+					<div class="tsd-signature tsd-kind-icon">account_<wbr>subsidy_<wbr>decay<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/steemit/dsteem/blob/master/src/steem/operation.ts#L123">steem/operation.ts:123</a></li>
+							<li>Defined in <a href="https://github.com/steemit/dsteem/blob/master/src/utils.ts#L125">utils.ts:125</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="timestamp" class="tsd-anchor"></a>
-					<h3>timestamp</h3>
-					<div class="tsd-signature tsd-kind-icon">timestamp<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="key" class="tsd-anchor"></a>
+					<h3>key</h3>
+					<div class="tsd-signature tsd-kind-icon">key<span class="tsd-signature-symbol">:</span> <a href="../classes/publickey.html" class="tsd-signature-type">PublicKey</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/steemit/dsteem/blob/master/src/steem/operation.ts#L125">steem/operation.ts:125</a></li>
+							<li>Defined in <a href="https://github.com/steemit/dsteem/blob/master/src/utils.ts#L126">utils.ts:126</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="trx_id" class="tsd-anchor"></a>
-					<h3>trx_<wbr>id</h3>
-					<div class="tsd-signature tsd-kind-icon">trx_<wbr>id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="maximum_block_size" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> maximum_<wbr>block_<wbr>size</h3>
+					<div class="tsd-signature tsd-kind-icon">maximum_<wbr>block_<wbr>size<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/steemit/dsteem/blob/master/src/steem/operation.ts#L120">steem/operation.ts:120</a></li>
+							<li>Defined in <a href="https://github.com/steemit/dsteem/blob/master/src/utils.ts#L127">utils.ts:127</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="trx_in_block" class="tsd-anchor"></a>
-					<h3>trx_<wbr>in_<wbr>block</h3>
-					<div class="tsd-signature tsd-kind-icon">trx_<wbr>in_<wbr>block<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="new_signing_key" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> new_<wbr>signing_<wbr>key</h3>
+					<div class="tsd-signature tsd-kind-icon">new_<wbr>signing_<wbr>key<span class="tsd-signature-symbol">:</span> <a href="../classes/publickey.html" class="tsd-signature-type">PublicKey</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/steemit/dsteem/blob/master/src/steem/operation.ts#L122">steem/operation.ts:122</a></li>
+							<li>Defined in <a href="https://github.com/steemit/dsteem/blob/master/src/utils.ts#L128">utils.ts:128</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="virtual_op" class="tsd-anchor"></a>
-					<h3>virtual_<wbr>op</h3>
-					<div class="tsd-signature tsd-kind-icon">virtual_<wbr>op<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="sbd_exchange_rate" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> sbd_<wbr>exchange_<wbr>rate</h3>
+					<div class="tsd-signature tsd-kind-icon">sbd_<wbr>exchange_<wbr>rate<span class="tsd-signature-symbol">:</span> <a href="../globals.html#pricetype" class="tsd-signature-type">PriceType</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/steemit/dsteem/blob/master/src/steem/operation.ts#L124">steem/operation.ts:124</a></li>
+							<li>Defined in <a href="https://github.com/steemit/dsteem/blob/master/src/utils.ts#L129">utils.ts:129</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="sbd_interest_rate" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> sbd_<wbr>interest_<wbr>rate</h3>
+					<div class="tsd-signature tsd-kind-icon">sbd_<wbr>interest_<wbr>rate<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/steemit/dsteem/blob/master/src/utils.ts#L130">utils.ts:130</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="url" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> url</h3>
+					<div class="tsd-signature tsd-kind-icon">url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/steemit/dsteem/blob/master/src/utils.ts#L131">utils.ts:131</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -180,28 +202,34 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface">
-						<a href="appliedoperation.html" class="tsd-kind-icon">Applied<wbr>Operation</a>
+						<a href="witnessprops.html" class="tsd-kind-icon">Witness<wbr>Props</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="appliedoperation.html#block" class="tsd-kind-icon">block</a>
+								<a href="witnessprops.html#account_creation_fee" class="tsd-kind-icon">account_<wbr>creation_<wbr>fee</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="appliedoperation.html#op" class="tsd-kind-icon">op</a>
+								<a href="witnessprops.html#account_subsidy_budget" class="tsd-kind-icon">account_<wbr>subsidy_<wbr>budget</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="appliedoperation.html#op_in_trx" class="tsd-kind-icon">op_<wbr>in_<wbr>trx</a>
+								<a href="witnessprops.html#account_subsidy_decay" class="tsd-kind-icon">account_<wbr>subsidy_<wbr>decay</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="appliedoperation.html#timestamp" class="tsd-kind-icon">timestamp</a>
+								<a href="witnessprops.html#key" class="tsd-kind-icon">key</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="appliedoperation.html#trx_id" class="tsd-kind-icon">trx_<wbr>id</a>
+								<a href="witnessprops.html#maximum_block_size" class="tsd-kind-icon">maximum_<wbr>block_<wbr>size</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="appliedoperation.html#trx_in_block" class="tsd-kind-icon">trx_<wbr>in_<wbr>block</a>
+								<a href="witnessprops.html#new_signing_key" class="tsd-kind-icon">new_<wbr>signing_<wbr>key</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="appliedoperation.html#virtual_op" class="tsd-kind-icon">virtual_<wbr>op</a>
+								<a href="witnessprops.html#sbd_exchange_rate" class="tsd-kind-icon">sbd_<wbr>exchange_<wbr>rate</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="witnessprops.html#sbd_interest_rate" class="tsd-kind-icon">sbd_<wbr>interest_<wbr>rate</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="witnessprops.html#url" class="tsd-kind-icon">url</a>
 							</li>
 						</ul>
 					</li>

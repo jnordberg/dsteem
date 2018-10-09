@@ -112,8 +112,12 @@ const DateSerializer = (buffer: ByteBuffer, data: string) => {
     buffer.writeUint32(Math.floor(new Date(data + 'Z').getTime() / 1000))
 }
 
-const PublicKeySerializer = (buffer: ByteBuffer, data: PublicKey | string) => {
-    buffer.append(PublicKey.from(data).key)
+const PublicKeySerializer = (buffer: ByteBuffer, data: PublicKey | string | null) => {
+    if (data === null || (typeof data === 'string' && data.slice(-39) === '1111111111111111111111111111111114T1Anm')) {
+        buffer.append(Buffer.alloc(33, 0))
+    } else {
+        buffer.append(PublicKey.from(data).key)
+    }
 }
 
 const BinarySerializer = (size?: number) => {
@@ -130,6 +134,8 @@ const BinarySerializer = (size?: number) => {
         buffer.append(data.buffer)
     }
 }
+
+const VariableBinarySerializer = BinarySerializer()
 
 const FlatMapSerializer = (keySerializer: Serializer, valueSerializer: Serializer) => {
     return (buffer: ByteBuffer, data: Array<[any, any]>) => {
@@ -327,7 +333,7 @@ OperationSerializers.create_claimed_account = OperationDataSerializer(23, [
 OperationSerializers.custom = OperationDataSerializer(15, [
     ['required_auths', ArraySerializer(StringSerializer)],
     ['id', UInt16Serializer],
-    ['data', BinarySerializer()],
+    ['data', VariableBinarySerializer],
 ])
 
 OperationSerializers.custom_binary = OperationDataSerializer(35, [
@@ -336,7 +342,7 @@ OperationSerializers.custom_binary = OperationDataSerializer(35, [
     ['required_posting_auths', ArraySerializer(StringSerializer)],
     ['required_auths', ArraySerializer(AuthoritySerializer)],
     ['id', StringSerializer],
-    ['data', BinarySerializer()],
+    ['data', VariableBinarySerializer],
 ])
 
 OperationSerializers.custom_json = OperationDataSerializer(18, [
@@ -516,6 +522,12 @@ OperationSerializers.witness_update = OperationDataSerializer(11, [
     ['block_signing_key', PublicKeySerializer],
     ['props', ChainPropertiesSerializer],
     ['fee', AssetSerializer],
+])
+
+OperationSerializers.witness_set_properties = OperationDataSerializer(42, [
+    ['owner', StringSerializer],
+    ['props', FlatMapSerializer(StringSerializer, VariableBinarySerializer)],
+    ['extensions', ArraySerializer(VoidSerializer)],
 ])
 
 const OperationSerializer = (buffer: ByteBuffer, operation: Operation) => {

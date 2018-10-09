@@ -35,7 +35,7 @@
 
 import {PublicKey} from './../crypto'
 import {AuthorityType} from './account'
-import {Asset, Price} from './asset'
+import {Asset, Price, PriceType} from './asset'
 import {SignedBlockHeader} from './block'
 import {BeneficiaryRoute} from './comment'
 import {ChainProperties, HexBuffer} from './misc'
@@ -53,10 +53,10 @@ export type OperationName = // <id>
     | 'change_recovery_account' // 26
     | 'claim_account' // 22
     | 'claim_reward_balance' // 39
-    | 'create_claimed_account' // 23
     | 'comment' // 1
     | 'comment_options' // 19
     | 'convert' // 8
+    | 'create_claimed_account' // 23
     | 'custom' // 15
     | 'custom_binary' // 35
     | 'custom_json' // 18
@@ -85,6 +85,7 @@ export type OperationName = // <id>
     | 'transfer_to_vesting' // 3
     | 'vote' // 0
     | 'withdraw_vesting' // 4
+    | 'witness_set_properties' // 42
     | 'witness_update' // 11
 
 /**
@@ -495,7 +496,7 @@ export interface FeedPublishOperation extends Operation {
     0: 'feed_publish' // 7
     1: {
       publisher: string // account_name_type
-      exchange_rate: Price | {base: Asset | string, quote: Asset | string}
+      exchange_rate: PriceType
     }
 }
 
@@ -536,7 +537,7 @@ export interface LimitOrderCreate2Operation extends Operation {
       orderid: number // uint32_t
       amount_to_sell: Asset | string
       fill_or_kill: boolean
-      exchange_rate: Price | {base: Asset | string, quote: Asset | string}
+      exchange_rate: PriceType
       expiration: string // time_point_sec
     }
 }
@@ -866,11 +867,20 @@ export interface WitnessUpdateOperation extends Operation {
          * URL for witness, usually a link to a post in the witness-category tag.
          */
         url: string
-        block_signing_key: string | PublicKey // public_key_type
+        block_signing_key: string | PublicKey | null // public_key_type
         props: ChainProperties
         /**
          * The fee paid to register a new witness, should be 10x current block production pay.
          */
         fee: string | Asset
+    }
+}
+
+export interface WitnessSetPropertiesOperation extends Operation {
+    0: 'witness_set_properties' // 42
+    1: {
+        owner: string
+        props: Array<[string, Buffer]>
+        extensions: any[]
     }
 }

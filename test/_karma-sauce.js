@@ -218,6 +218,51 @@ addLauncher((caps) => {
     return caps
 })
 
+addLauncher((caps) => {
+    caps['browserName'] = 'Safari';
+    caps['appiumVersion'] = '1.8.1';
+    caps['deviceName'] = 'iPhone X Simulator';
+    caps['deviceOrientation'] = 'portrait';
+    caps['platformVersion'] = '11.3';
+    caps['platformName'] = 'iOS';
+})
+
+addLauncher((caps) => {
+    caps['browserName'] = 'internet explorer';
+    caps['platform'] = 'Windows 7';
+    caps['version'] = '10.0';
+})
+
+addLauncher((caps) => {
+    caps['browserName'] = 'MicrosoftEdge';
+    caps['platform'] = 'Windows 10';
+    caps['version'] = '16.16299';
+})
+
+addLauncher((caps) => {
+    caps['browserName'] = 'chrome';
+    caps['platform'] = 'Windows 10';
+    caps['version'] = '67.0';
+})
+
+addLauncher((caps) => {
+    caps['browserName'] = 'safari';
+    caps['platform'] = 'macOS 10.13';
+    caps['version'] = '11.1';
+})
+
+addLauncher((caps) => {
+    caps['browserName'] = 'safari';
+    caps['platform'] = 'macOS 10.12';
+    caps['version'] = '10.1';
+})
+
+addLauncher((caps) => {
+    caps['browserName'] = 'firefox';
+    caps['platform'] = 'macOS 10.13';
+    caps['version'] = '60.0';
+})
+
 config.set({
     frameworks: ['browserify', 'mocha'],
     files: ['_browser.js'],
