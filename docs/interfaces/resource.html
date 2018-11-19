@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>RPCError | dsteem</title>
+	<title>Resource | dsteem</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="rpcerror.html">RPCError</a>
+					<a href="resource.html">Resource</a>
 				</li>
 			</ul>
-			<h1>Interface RPCError</h1>
+			<h1>Interface Resource</h1>
 		</div>
 	</div>
 </header>
@@ -70,7 +70,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">RPCError</span>
+						<span class="target">Resource</span>
 					</li>
 				</ul>
 			</section>
@@ -78,46 +78,35 @@
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section tsd-is-not-exported">
+						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="rpcerror.html#code" class="tsd-kind-icon">code</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="rpcerror.html#data" class="tsd-kind-icon">data</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="rpcerror.html#message" class="tsd-kind-icon">message</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="resource.html#price_curve_params" class="tsd-kind-icon">price_<wbr>curve_<wbr>params</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="resource.html#resource_dynamics_params" class="tsd-kind-icon">resource_<wbr>dynamics_<wbr>params</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
+			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-					<a name="code" class="tsd-anchor"></a>
-					<h3>code</h3>
-					<div class="tsd-signature tsd-kind-icon">code<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="price_curve_params" class="tsd-anchor"></a>
+					<h3>price_<wbr>curve_<wbr>params</h3>
+					<div class="tsd-signature tsd-kind-icon">price_<wbr>curve_<wbr>params<span class="tsd-signature-symbol">:</span> <a href="pricecurveparam.html" class="tsd-signature-type">PriceCurveParam</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/client.ts#L89">client.ts:89</a></li>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/rc.ts#L13">steem/rc.ts:13</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-					<a name="data" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> data</h3>
-					<div class="tsd-signature tsd-kind-icon">data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="resource_dynamics_params" class="tsd-anchor"></a>
+					<h3>resource_<wbr>dynamics_<wbr>params</h3>
+					<div class="tsd-signature tsd-kind-icon">resource_<wbr>dynamics_<wbr>params<span class="tsd-signature-symbol">:</span> <a href="dynamicparam.html" class="tsd-signature-type">DynamicParam</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/client.ts#L91">client.ts:91</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-					<a name="message" class="tsd-anchor"></a>
-					<h3>message</h3>
-					<div class="tsd-signature tsd-kind-icon">message<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/client.ts#L90">client.ts:90</a></li>
+							<li>Defined in <a href="https://github.com/jnordberg/dsteem/blob/master/src/steem/rc.ts#L12">steem/rc.ts:12</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -135,17 +124,14 @@
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-interface tsd-is-not-exported">
-						<a href="rpcerror.html" class="tsd-kind-icon">RPCError</a>
+					<li class="current tsd-kind-interface">
+						<a href="resource.html" class="tsd-kind-icon">Resource</a>
 						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-								<a href="rpcerror.html#code" class="tsd-kind-icon">code</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="resource.html#price_curve_params" class="tsd-kind-icon">price_<wbr>curve_<wbr>params</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-								<a href="rpcerror.html#data" class="tsd-kind-icon">data</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-								<a href="rpcerror.html#message" class="tsd-kind-icon">message</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="resource.html#resource_dynamics_params" class="tsd-kind-icon">resource_<wbr>dynamics_<wbr>params</a>
 							</li>
 						</ul>
 					</li>

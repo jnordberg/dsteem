@@ -80,18 +80,15 @@
 				<h2 id="installation">Installation</h2>
 				<h3 id="via-npm">Via npm</h3>
 				<p>For node.js or the browser with <a href="https://github.com/substack/node-browserify">browserify</a> or <a href="https://github.com/webpack/webpack">webpack</a>.</p>
-				<pre><code>npm <span class="hljs-keyword">install</span> dsteem
-</code></pre><h3 id="from-cdn-or-self-hosted-script">From cdn or self-hosted script</h3>
+				<pre><code>npm <span class="hljs-keyword">install</span> dsteem</code></pre><h3 id="from-cdn-or-self-hosted-script">From cdn or self-hosted script</h3>
 				<p>Grab <code>dist/dsteem.js</code> from a <a href="https://github.com/jnordberg/dsteem/releases">release</a> and include in your html:</p>
-				<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"dsteem.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
-</code></pre>
+				<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"dsteem.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
 				<p>Or from the <a href="https://unpkg.com">unpkg</a> cdn:</p>
-				<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/dsteem@^0.8.0/dist/dsteem.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
-</code></pre>
+				<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/dsteem@^0.8.0/dist/dsteem.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
 				<p>Make sure to set the version you want when including from the cdn, you can also use <code>dsteem@latest</code> but that is not always desirable. See <a href="https://unpkg.com">unpkg.com</a> for more information.</p>
 				<h2 id="usage">Usage</h2>
 				<h3 id="in-the-browser">In the browser</h3>
-				<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/dsteem@latest/dist/dsteem.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+				<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/dsteem@latest/dist/dsteem.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
     <span class="hljs-keyword">var</span> client = <span class="hljs-keyword">new</span> dsteem.Client(<span class="hljs-string">'https://api.steemit.com'</span>)
     client.database.getDiscussions(<span class="hljs-string">'trending'</span>, {<span class="hljs-attr">tag</span>: <span class="hljs-string">'writing'</span>, <span class="hljs-attr">limit</span>: <span class="hljs-number">1</span>}).then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">discussions</span>)</span>{
@@ -99,21 +96,19 @@
         <span class="hljs-built_in">document</span>.body.innerHTML += <span class="hljs-string">'&lt;h2&gt;by '</span> + discussions[<span class="hljs-number">0</span>].author + <span class="hljs-string">'&lt;/h2&gt;'</span>
         <span class="hljs-built_in">document</span>.body.innerHTML += <span class="hljs-string">'&lt;pre style="white-space: pre-wrap"&gt;'</span> + discussions[<span class="hljs-number">0</span>].body + <span class="hljs-string">'&lt;/pre&gt;'</span>
     })
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
-</code></pre>
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
 				<p>See the <a href="https://github.com/jnordberg/dsteem/tree/master/examples/comment-feed">demo source</a> for an example on how to setup a livereloading TypeScript pipeline with <a href="https://github.com/jnordberg/wintersmith">wintersmith</a> and <a href="https://github.com/substack/node-browserify">browserify</a>.</p>
 				<h3 id="in-node-js">In node.js</h3>
 				<p>With TypeScript:</p>
-				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> {Client} <span class="hljs-keyword">from</span> <span class="hljs-string">'dsteem'</span>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> {Client} <span class="hljs-keyword">from</span> <span class="hljs-string">'dsteem'</span>
 
 <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Client(<span class="hljs-string">'https://api.steemit.com'</span>)
 
 <span class="hljs-keyword">for</span> <span class="hljs-keyword">await</span> (<span class="hljs-keyword">const</span> block of client.blockchain.getBlocks()) {
     <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`New block, id: <span class="hljs-subst">${ block.block_id }</span>`</span>)
-}
-</code></pre>
+}</code></pre>
 				<p>With JavaScript:</p>
-				<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> dsteem = <span class="hljs-built_in">require</span>(<span class="hljs-string">'dsteem'</span>)
+				<pre><code class="language-javascript"><span class="hljs-keyword">var</span> dsteem = <span class="hljs-built_in">require</span>(<span class="hljs-string">'dsteem'</span>)
 
 <span class="hljs-keyword">var</span> client = <span class="hljs-keyword">new</span> dsteem.Client(<span class="hljs-string">'https://api.steemit.com'</span>)
 <span class="hljs-keyword">var</span> key = dsteem.PrivateKey.fromLogin(<span class="hljs-string">'username'</span>, <span class="hljs-string">'password'</span>, <span class="hljs-string">'posting'</span>)
@@ -127,10 +122,9 @@ client.broadcast.vote({
    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Included in block: '</span> + result.block_num)
 }, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">error</span>) </span>{
    <span class="hljs-built_in">console</span>.error(error)
-})
-</code></pre>
+})</code></pre>
 				<p>With ES2016 (node.js 7+):</p>
-				<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> {Client} = <span class="hljs-built_in">require</span>(<span class="hljs-string">'dsteem'</span>)
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> {Client} = <span class="hljs-built_in">require</span>(<span class="hljs-string">'dsteem'</span>)
 
 <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Client(<span class="hljs-string">'https://api.steemit.com'</span>)
 
@@ -140,10 +134,9 @@ client.broadcast.vote({
     client.disconnect()
 }
 
-main().catch(<span class="hljs-built_in">console</span>.error)
-</code></pre>
+main().catch(<span class="hljs-built_in">console</span>.error)</code></pre>
 				<p>With node.js streams:</p>
-				<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> dsteem = <span class="hljs-built_in">require</span>(<span class="hljs-string">'dsteem'</span>)
+				<pre><code class="language-javascript"><span class="hljs-keyword">var</span> dsteem = <span class="hljs-built_in">require</span>(<span class="hljs-string">'dsteem'</span>)
 <span class="hljs-keyword">var</span> es = <span class="hljs-built_in">require</span>(<span class="hljs-string">'event-stream'</span>) <span class="hljs-comment">// npm install event-stream</span>
 <span class="hljs-keyword">var</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'util'</span>)
 
@@ -153,8 +146,7 @@ main().catch(<span class="hljs-built_in">console</span>.error)
 
 stream.pipe(es.map(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">block, callback</span>) </span>{
     callback(<span class="hljs-literal">null</span>, util.inspect(block, {<span class="hljs-attr">colors</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">depth</span>: <span class="hljs-literal">null</span>}) + <span class="hljs-string">'\n'</span>)
-})).pipe(process.stdout)
-</code></pre>
+})).pipe(process.stdout)</code></pre>
 				<h2 id="bundling">Bundling</h2>
 				<p>The easiest way to bundle dsteem (with browserify, webpack etc.) is to just <code>npm install dsteem</code> and <code>require(&#39;dsteem&#39;)</code> which will give you well-tested (see browser compatibility matrix above) pre-bundled code guaranteed to JustWork™. However, that is not always desirable since it will not allow your bundler to de-duplicate any shared dependencies dsteem and your app might have.</p>
 				<p>To allow for deduplication you can <code>require(&#39;dsteem/lib/index-browser&#39;)</code>, or if you plan to provide your own polyfills: <code>require(&#39;dsteem/lib/index&#39;)</code>. See <code>src/index-browser.ts</code> for a list of polyfills expected.</p>
@@ -204,6 +196,9 @@ stream.pipe(es.map(<span class="hljs-function"><span class="hljs-keyword">functi
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/publickey.html" class="tsd-kind-icon">Public<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/rcapi.html" class="tsd-kind-icon">RCAPI</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/signature.html" class="tsd-kind-icon">Signature</a>
@@ -305,6 +300,9 @@ stream.pipe(es.map(<span class="hljs-function"><span class="hljs-keyword">functi
 						<a href="interfaces/dynamicglobalproperties.html" class="tsd-kind-icon">Dynamic<wbr>Global<wbr>Properties</a>
 					</li>
 					<li class=" tsd-kind-interface">
+						<a href="interfaces/dynamicparam.html" class="tsd-kind-icon">Dynamic<wbr>Param</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="interfaces/escrowapproveoperation.html" class="tsd-kind-icon">Escrow<wbr>Approve<wbr>Operation</a>
 					</li>
 					<li class=" tsd-kind-interface">
@@ -332,16 +330,34 @@ stream.pipe(es.map(<span class="hljs-function"><span class="hljs-keyword">functi
 						<a href="interfaces/limitordercreateoperation.html" class="tsd-kind-icon">Limit<wbr>Order<wbr>Create<wbr>Operation</a>
 					</li>
 					<li class=" tsd-kind-interface">
+						<a href="interfaces/manabar.html" class="tsd-kind-icon">Manabar</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="interfaces/operation.html" class="tsd-kind-icon">Operation</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-not-exported">
 						<a href="interfaces/pendingrequest.html" class="tsd-kind-icon">Pending<wbr>Request</a>
 					</li>
 					<li class=" tsd-kind-interface">
+						<a href="interfaces/pool.html" class="tsd-kind-icon">Pool</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="interfaces/pow2operation.html" class="tsd-kind-icon">Pow2<wbr>Operation</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/powoperation.html" class="tsd-kind-icon">Pow<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/pricecurveparam.html" class="tsd-kind-icon">Price<wbr>Curve<wbr>Param</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/rcaccount.html" class="tsd-kind-icon">RCAccount</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/rcparams.html" class="tsd-kind-icon">RCParams</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/rcpool.html" class="tsd-kind-icon">RCPool</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-not-exported">
 						<a href="interfaces/rpccall.html" class="tsd-kind-icon">RPCCall</a>
@@ -366,6 +382,12 @@ stream.pipe(es.map(<span class="hljs-function"><span class="hljs-keyword">functi
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/resetaccountoperation.html" class="tsd-kind-icon">Reset<wbr>Account<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/resource.html" class="tsd-kind-icon">Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/smtasset.html" class="tsd-kind-icon">SMTAsset</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/setresetaccountoperation.html" class="tsd-kind-icon">Set<wbr>Reset<wbr>Account<wbr>Operation</a>
@@ -573,6 +595,9 @@ stream.pipe(es.map(<span class="hljs-function"><span class="hljs-keyword">functi
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#getvestingshareprice" class="tsd-kind-icon">get<wbr>Vesting<wbr>Share<wbr>Price</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getvests" class="tsd-kind-icon">get<wbr>Vests</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-not-exported">
 						<a href="globals.html#iscanonicalsignature" class="tsd-kind-icon">is<wbr>Canonical<wbr>Signature</a>
