@@ -12,7 +12,7 @@ describe('database api', function() {
     let serverConfig: {[key: string]: boolean | string | number}
     const liveClient = new Client(TEST_NODE, {agent})
 
-    let acc: {username: string, posting: string, active: string}
+    let acc: {username: string, password: string}
     before(async function() {
         [acc] = await getTestnetAccounts()
     })
@@ -122,7 +122,7 @@ describe('database api', function() {
             }]],
             'extensions': [],
         }
-        const key = PrivateKey.fromString(acc.posting)
+        const key = PrivateKey.fromLogin(acc.username, acc.password, 'posting')
         const stx = client.broadcast.sign(tx, key)
         const rv = await client.database.verifyAuthority(stx)
         assert(rv === true)

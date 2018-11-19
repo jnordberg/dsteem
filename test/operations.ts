@@ -14,11 +14,11 @@ describe('operations', function() {
 
     const client = Client.testnet({agent})
 
-    let acc1, acc2: {username: string, posting: string, active: string}
+    let acc1: {username: string, password: string}, acc2: {username: string, password: string}
     let acc1Key: ds.PrivateKey
     before(async function() {
         [acc1, acc2] = await getTestnetAccounts()
-        acc1Key = PrivateKey.from(acc1.active)
+        acc1Key = PrivateKey.fromLogin(acc1.username, acc1.password, 'active')
     })
 
     it('should delegate vesting shares', async function() {
@@ -128,11 +128,11 @@ describe('operations', function() {
     })
 
     it('should update account', async function() {
-        const key = PrivateKey.from(acc1.active)
+        const key = PrivateKey.fromLogin(acc1.username, acc1.password, 'active')
         const foo = Math.random()
         const rv = await client.broadcast.updateAccount({
             account: acc1.username,
-            memo_key: PrivateKey.from(acc1.posting).createPublic(client.addressPrefix),
+            memo_key: PrivateKey.fromLogin(acc1.username, acc1.password, 'memo').createPublic(client.addressPrefix),
             json_metadata: JSON.stringify({foo}),
         }, key)
         const [acc] = await client.database.getAccounts([acc1.username])
@@ -140,7 +140,7 @@ describe('operations', function() {
     })
 
     it('should create account custom auths', async function() {
-        const key = PrivateKey.from(acc1.active)
+        const key = PrivateKey.fromLogin(acc1.username, acc1.password, 'active')
 
         const username = 'ds-' + randomString(12)
         const password = randomString(32)
@@ -217,7 +217,7 @@ describe('operations', function() {
             new_recovery_account: acc2.username,
             extensions: [],
         }]
-        const key = ds.PrivateKey.from(acc1.active)
+        const key = PrivateKey.fromLogin(acc1.username, acc1.password, 'active')
         await client.broadcast.sendOperations([op], key)
     })
 
