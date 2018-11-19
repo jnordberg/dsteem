@@ -1,3 +1,5 @@
+/* tslint:disable:no-string-literal */
+
 import { Client } from './../client'
 import { Account } from './../steem/account'
 import { getVests } from './../steem/misc'
