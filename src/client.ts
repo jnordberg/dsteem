@@ -270,7 +270,16 @@ export class Client {
         const response: RPCResponse = await retryingFetch(
             this.address, opts, this.timeout, this.backoff, fetchTimeout
         )
+        // resolve FC error messages into something more readable
         if (response.error) {
+            const formatValue = (value: any) => {
+                switch (typeof value) {
+                    case 'object':
+                        return JSON.stringify(value)
+                    default:
+                        return String(value)
+                }
+            }
             const {data} = response.error
             let {message} = response.error
             if (data && data.stack && data.stack.length > 0) {
@@ -279,14 +288,13 @@ export class Client {
                 message = top.format.replace(/\$\{([a-z_]+)\}/gi, (match: string, key: string) => {
                     let rv = match
                     if (topData[key]) {
-                        rv = topData[key]
+                        rv = formatValue(topData[key])
                         delete topData[key]
                     }
                     return rv
                 })
                 const unformattedData = Object.keys(topData)
-                    .map((key) => ({key, value: topData[key]}))
-                    .filter((item) => typeof item.value === 'string')
+                    .map((key) => ({key, value: formatValue(topData[key])}))
                     .map((item) => `${ item.key }=${ item.value}`)
                 if (unformattedData.length > 0) {
                     message += ' ' + unformattedData.join(' ')
