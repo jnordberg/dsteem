@@ -38,6 +38,7 @@ export {utils}
 
 export * from './helpers/blockchain'
 export * from './helpers/database'
+export * from './helpers/rc'
 
 export * from './steem/account'
 export * from './steem/asset'
