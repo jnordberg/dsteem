@@ -2472,7 +2472,6 @@ declare module 'dsteem/client' {
 	     * Address prefix for current network.
 	     */
 	    readonly addressPrefix: string;
-	    private seqNo;
 	    private timeout;
 	    private backoff;
 	    /**
