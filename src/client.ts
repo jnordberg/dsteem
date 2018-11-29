@@ -204,7 +204,6 @@ export class Client {
      */
     public readonly addressPrefix: string
 
-    private seqNo: number = 0
     private timeout: number
     private backoff: typeof defaultBackoff
 
@@ -239,7 +238,7 @@ export class Client {
      */
     public async call(api: string, method: string, params: any = []): Promise<any> {
         const request: RPCCall = {
-            id: ++this.seqNo,
+            id: 0,
             jsonrpc: '2.0',
             method: 'call',
             params: [api, method, params],
