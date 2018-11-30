@@ -14,7 +14,7 @@ import {
     cryptoUtils,
     Transaction,
     Types,
-} from './../src/index-node'
+} from './../src'
 
 describe('crypto', function() {
 

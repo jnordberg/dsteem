@@ -1,7 +1,7 @@
 import 'mocha'
 import * as assert from 'assert'
 
-import {Client, SignedBlock, AppliedOperation, BlockchainMode} from './../src/index-node'
+import {Client, SignedBlock, AppliedOperation, BlockchainMode} from './../src'
 
 import {agent, TEST_NODE} from './common'
 

@@ -1,7 +1,7 @@
 import 'mocha'
 import * as assert from 'assert'
 
-import { Client, Asset, Transaction, PrivateKey } from './../src/index-node'
+import { Client, Asset, Transaction, PrivateKey } from './../src'
 import { getTestnetAccounts, randomString, agent, TEST_NODE } from './common'
 
 describe('rc_api', function () {
@@ -20,7 +20,7 @@ describe('rc_api', function () {
     // _calculateManabar max_mana: number, { current_mana, last_update_time }
 
     it('calculateVPMana', function() {
-        let account: any = { 
+        let account: any = {
             name: 'therealwolf',
             voting_manabar: {
                 current_mana: 130168665536029,
@@ -39,7 +39,7 @@ describe('rc_api', function () {
     })
 
     it('calculateRCMana', function() {
-        let rc_account = { 
+        let rc_account = {
             account: 'therealwolf',
             rc_manabar: {
                 current_mana: '100000',

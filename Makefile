@@ -45,7 +45,7 @@ coverage: node_modules
 
 .PHONY: test
 test: node_modules
-	mocha --exit --require ts-node/register test/*.ts --grep '$(grep)'
+	mocha --exit --require ts-node/register -r test/_node.js test/*.ts --grep '$(grep)'
 
 .PHONY: ci-test
 ci-test: node_modules

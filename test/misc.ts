@@ -3,7 +3,7 @@ import * as assert from 'assert'
 import * as stream from 'stream'
 import {VError} from 'verror'
 
-import {utils} from './../src/index-node'
+import {utils} from './../src'
 
 describe('misc', function() {
 

@@ -2,7 +2,7 @@ import 'mocha'
 import * as assert from 'assert'
 import * as ByteBuffer from 'bytebuffer'
 
-import {Types, Serializer, HexBuffer} from './../src/index-node'
+import {Types, Serializer, HexBuffer} from './../src'
 
 /*
  Serializer tests in the format:

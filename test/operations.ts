@@ -2,7 +2,7 @@ import 'mocha'
 import * as assert from 'assert'
 import {randomBytes} from 'crypto'
 
-import * as ds from './../src/index-node'
+import * as ds from './../src'
 
 const {Asset, PrivateKey, Client, HexBuffer} = ds
 
