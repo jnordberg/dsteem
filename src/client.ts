@@ -62,7 +62,7 @@ interface RPCRequest {
     /**
      * Request sequence number.
      */
-    id: number
+    id: number | string
     /**
      * RPC method.
      */
@@ -238,7 +238,7 @@ export class Client {
      */
     public async call(api: string, method: string, params: any = []): Promise<any> {
         const request: RPCCall = {
-            id: 0,
+            id: '0',
             jsonrpc: '2.0',
             method: 'call',
             params: [api, method, params],
