@@ -79,12 +79,32 @@ export interface DisqussionQuery {
     parent_permlink?: string
 }
 
+/**
+ * Database API
+ * ------------
+ * API to get data from the blockchain
+ *
+ * Example:
+ * ```js
+ * const {Client} = require('dsteem')
+ *
+ * const client = new Client('https://api.steemit.com')
+ *
+ * async function main() {
+ *   const dgp = await client.database.getDynamicGlobalProperties()
+ *   console.log(`The current supply is: ${ dgp.current_supply }`)
+ * }
+ *
+ * main().catch(console.error)
+ * ```
+ */
 export class DatabaseAPI {
 
     constructor(readonly client: Client) {}
 
     /**
      * Convenience for calling `database_api`.
+     * @param method An updated list of methods can be found at https://github.com/steemit/steem/blob/master/libraries/plugins/apis/condenser_api/condenser_api.cpp
      */
     public call(method: string, params?: any[]) {
         return this.client.call('condenser_api', method, params)
@@ -134,7 +154,7 @@ export class DatabaseAPI {
 
     /**
      * Return server config. See:
-     * https://github.com/steemit/steem/blob/master/libraries/protocol/include/steemit/protocol/config.hpp
+     * https://github.com/steemit/steem/blob/master/libraries/protocol/include/steem/protocol/config.hpp
      */
     public getConfig(): Promise<{[name: string]: string|number|boolean}> {
         return this.call('get_config')

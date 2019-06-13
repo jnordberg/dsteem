@@ -96,6 +96,37 @@ export interface CreateAccountOptions {
     metadata?: {[key: string]: any}
 }
 
+/**
+ * Broadcast API
+ * -------------
+ * API to broadcast transactions to the blockchain. An updated list of operations can be found at https://developers.steem.io/apidefinitions/#apidefinitions-broadcast-ops
+ *
+ * Example:
+ * ```js
+ * const {Client, PrivateKey} = require('dsteem')
+ *
+ * const client = new Client('https://api.steemit.com')
+ *
+ * async function main() {
+ *
+ *   const operation = [
+ *     'transfer_to_vesting',
+ *     {
+ *       from: 'alice',
+ *       to: '',
+ *       amount: '1000.000 STEEM'}
+ *     }
+ *   ]
+ *
+ *   const key = PrivateKey.fromString('5K5zUqyz8JjKq8hLYE3SM7SmBP6uK2PYewX4JvhsRDFT3VDtvBR')
+ *
+ *   const response = await client.broadcast.sendOperations([operation], key)
+ *   console.log(`Power up of 1000 STEEM. Block ${ response.block_num }`)
+ * }
+ *
+ * main().catch(console.error)
+ * ```
+ */
 export class BroadcastAPI {
 
     /**
@@ -273,7 +304,7 @@ export class BroadcastAPI {
 
     /**
      * Sign and broadcast transaction with operations to the network. Throws if the transaction expires.
-     * @param operations List of operations to send.
+     * @param operations List of operations to send. An updated list of operations can be found at https://developers.steem.io/apidefinitions/#apidefinitions-broadcast-ops
      * @param key Private key(s) used to sign transaction.
      */
     public async sendOperations(operations: Operation[],
@@ -315,6 +346,7 @@ export class BroadcastAPI {
 
     /**
      * Convenience for calling `condenser_api`.
+     * @param method An updated list of methods can be found at https://github.com/steemit/steem/blob/master/libraries/plugins/apis/condenser_api/condenser_api.cpp
      */
     public call(method: string, params?: any[]) {
         return this.client.call('condenser_api', method, params)
