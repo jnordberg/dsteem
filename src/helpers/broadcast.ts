@@ -114,7 +114,7 @@ export interface CreateAccountOptions {
  *     {
  *       from: 'alice',
  *       to: '',
- *       amount: '1000.000 STEEM'}
+ *       amount: '1000.000 STEEM'
  *     }
  *   ]
  *
