@@ -108,7 +108,22 @@ export type VirtualOperationName = // <id>
     | 'shutdown_witness' // 50
 
 /**
- * Generic operation.
+ * Generic operation
+ * -----------------
+ * By definition an operation is an array of two elements. The first one is a string with the operation name, and the second one an object with the data.
+ *
+ * Example:
+ * ```js
+ * var operation = [
+ *   'transfer',
+ *   {
+ *     from: 'alice',
+ *     to: 'bob',
+ *     amount: '5.000 STEEM',
+ *     memo: 'thank you'
+ *   }
+ * ]
+ * ```
  */
 export interface Operation {
     0: OperationName | VirtualOperationName
@@ -125,6 +140,47 @@ export interface AppliedOperation {
    op: Operation
 }
 
+/**
+ * Account create operation
+ * ------------------------
+ *
+ * Example:
+ * ```js
+ * const username = 'alice'
+ * const password = 'snack already cactus'
+ *
+ * const ownerKey = PrivateKey.fromLogin(username, password, 'owner')
+ * const activeKey = PrivateKey.fromLogin(username, password, 'active')
+ * const postingKey = PrivateKey.fromLogin(username, password, 'posting')
+ * const memoKey = PrivateKey.fromLogin(username, password, 'memo')
+ *
+ * var operation = [
+ *   'account_create',
+ *   {
+ *     fee: '3.000 STEEM',
+ *     creator: 'alice',
+ *     new_account_name: 'bob',
+ *     owner: {
+ *       weight_threshold: 1,
+ *       account_auths: [],
+ *       key_auths: [[ownerKey.createPublic().toString(), 1]]
+ *     },
+ *     activer: {
+ *       weight_threshold: 1,
+ *       account_auths: [],
+ *       key_auths: [[activeKey.createPublic().toString(), 1]]
+ *     },
+ *     posting: {
+ *       weight_threshold: 1,
+ *       account_auths: [],
+ *       key_auths: [[postingKey.createPublic().toString(), 1]]
+ *     },
+ *     memo_key: memoKey.createPublic().toString(),
+ *     json_metadata: '{}'
+ *   }
+ * ]
+ * ``` 
+ */
 export interface AccountCreateOperation extends Operation {
     0: 'account_create'
     1: {
@@ -139,6 +195,50 @@ export interface AccountCreateOperation extends Operation {
     }
 }
 
+/**
+ * Account create with delegation operation
+ * ----------------------------------------
+ * This operation is deprecated as of Hardfork 20
+ *
+ * Example:
+ * ```js
+ * const username = 'alice'
+ * const password = 'snack already cactus'
+ *
+ * const ownerKey = PrivateKey.fromLogin(username, password, 'owner')
+ * const activeKey = PrivateKey.fromLogin(username, password, 'active')
+ * const postingKey = PrivateKey.fromLogin(username, password, 'posting')
+ * const memoKey = PrivateKey.fromLogin(username, password, 'memo')
+ *
+ * var operation = [
+ *   'account_create_with_delegation',
+ *   {
+ *     fee: '3.000 STEEM',
+ *     delegation: '50.000 STEEM',
+ *     creator: 'alice',
+ *     new_account_name: 'bob',
+ *     owner: {
+ *       weight_threshold: 1,
+ *       account_auths: [],
+ *       key_auths: [[ownerKey.createPublic().toString(), 1]]
+ *     },
+ *     activer: {
+ *       weight_threshold: 1,
+ *       account_auths: [],
+ *       key_auths: [[activeKey.createPublic().toString(), 1]]
+ *     },
+ *     posting: {
+ *       weight_threshold: 1,
+ *       account_auths: [],
+ *       key_auths: [[postingKey.createPublic().toString(), 1]]
+ *     },
+ *     memo_key: memoKey.createPublic().toString(),
+ *     json_metadata: '{}',
+ *     extensions: []
+ *   }
+ * ]
+ * ``` 
+ */
 export interface AccountCreateWithDelegationOperation extends Operation {
     0: 'account_create_with_delegation'
     1: {
@@ -158,6 +258,47 @@ export interface AccountCreateWithDelegationOperation extends Operation {
     }
 }
 
+/**
+ * Account update operation
+ * ------------------------
+ * Operation to update the authorities, memo key and json_metadata.
+ * * The authorities owner, active, and posting are optional.
+ *
+ * Example:
+ * ```js
+ * const username = 'alice'
+ * const password = 'snack already cactus'
+ *
+ * const ownerKey = PrivateKey.fromLogin(username, password, 'owner')
+ * const activeKey = PrivateKey.fromLogin(username, password, 'active')
+ * const postingKey = PrivateKey.fromLogin(username, password, 'posting')
+ * const memoKey = PrivateKey.fromLogin(username, password, 'memo')
+ *
+ * var operation = [
+ *   'account_update_operation',
+ *   {
+ *     account: 'alice',
+ *     owner: {
+ *       weight_threshold: 1,
+ *       account_auths: [],
+ *       key_auths: [[ownerKey.createPublic().toString(), 1]]
+ *     },
+ *     activer: {
+ *       weight_threshold: 1,
+ *       account_auths: [],
+ *       key_auths: [[activeKey.createPublic().toString(), 1]]
+ *     },
+ *     posting: {
+ *       weight_threshold: 1,
+ *       account_auths: [],
+ *       key_auths: [[postingKey.createPublic().toString(), 1]]
+ *     },
+ *     memo_key: memoKey.createPublic().toString(),
+ *     json_metadata: '{}'
+ *   }
+ * ]
+ * ``` 
+ */
 export interface AccountUpdateOperation extends Operation {
     0: 'account_update' // 10
     1: {
@@ -170,6 +311,22 @@ export interface AccountUpdateOperation extends Operation {
     }
 }
 
+/**
+ * Account witness proxy operation
+ * -------------------------------
+ * Operation to set a proxy for voting witnesses.
+ *
+ * Example:
+ * ```js
+ * var operation = [
+ *   'account_witness_proxy',
+ *   {
+ *     account: 'alice',
+ *     proxy: 'bob'
+ *   }
+ * ]
+ * ```
+ */
 export interface AccountWitnessProxyOperation extends Operation {
     0: 'account_witness_proxy' // 13
     1: {
@@ -178,6 +335,23 @@ export interface AccountWitnessProxyOperation extends Operation {
     }
 }
 
+/**
+ * Account witness vote operation
+ * ------------------------------
+ * Operation to vote for a witness.
+ * 
+ * Example:
+ * ```js
+ * var operation = [
+ *   'account_witness_vote',
+ *   {
+ *     account: 'alice',
+ *     witness: 'bob',
+ *     approve: true
+ *   }
+ * ]
+ * ```
+ */
 export interface AccountWitnessVoteOperation extends Operation {
     0: 'account_witness_vote' // 12
     1: {
@@ -187,6 +361,22 @@ export interface AccountWitnessVoteOperation extends Operation {
     }
 }
 
+/**
+ * Cancel transfer from savings operation
+ * --------------------------------------
+ * Operation to cancel a transfer from savings to balance.
+ * 
+ * Example:
+ * ```js
+ * var operation = [
+ *   'cancel_transfer_from_savings',
+ *   {
+ *     from: 'alice',
+ *     request_id: 32
+ *   }
+ * ]
+ * ```
+ */
 export interface CancelTransferFromSavingsOperation extends Operation {
     0: 'cancel_transfer_from_savings' // 34
     1: {
@@ -196,6 +386,8 @@ export interface CancelTransferFromSavingsOperation extends Operation {
 }
 
 /**
+ * Change recovery account operation
+ * ---------------------------------
  * Each account lists another account as their recovery account.
  * The recovery account has the ability to create account_recovery_requests
  * for the account to recover. An account can change their recovery account
@@ -212,6 +404,18 @@ export interface CancelTransferFromSavingsOperation extends Operation {
  * of an account with no listed recovery account can change at any time as
  * witness vote weights. The top voted witness is explicitly the most trusted
  * witness according to stake.
+ * 
+ * Example
+ * ```js
+ * var operation = [
+ *   'change_recovery_account',
+ *   {
+ *     account_to_recover: 'alice',
+ *     new_recovery_account: 'steem',
+ *     extensions: []
+ *   }
+ * ]
+ * ```
  */
 export interface ChangeRecoveryAccountOperation extends Operation {
     0: 'change_recovery_account' // 26
@@ -231,6 +435,24 @@ export interface ChangeRecoveryAccountOperation extends Operation {
     }
 }
 
+/**
+ * Claim reward balance operation
+ * ------------------------------
+ * Operation to claim rewards of posts and comments
+ * 
+ * Example:
+ * ```js
+ * var operation = [
+ *   'claim_reward_balance'
+ *   {
+ *     account: 'alice',
+ *     reward_steem: '4.000 STEEM',
+ *     reward_sbd: '1.200 SBD',
+ *     reward_vests: '1000.000000 VESTS'
+ *   }
+ * ]
+ * ```
+ */
 export interface ClaimRewardBalanceOperation extends Operation {
     0: 'claim_reward_balance' // 39
     1: {
