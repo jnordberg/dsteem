@@ -99,7 +99,7 @@ export interface CreateAccountOptions {
 /**
  * Broadcast API
  * -------------
- * API to broadcast transactions to the blockchain. An updated list of operations can be found at https://developers.steem.io/apidefinitions/#apidefinitions-broadcast-ops
+ * API to broadcast transactions to the blockchain.
  *
  * Example:
  * ```js
@@ -126,6 +126,52 @@ export interface CreateAccountOptions {
  *
  * main().catch(console.error)
  * ```
+ *
+ * List of operations:
+ *
+ * - [[AccountCreateOperation]]
+ * - [[AccountCreateWithDelegationOperation]]
+ * - [[AccountUpdateOperation]]
+ * - [[AccountWitnessProxyOperation]]
+ * - [[AccountWitnessVoteOperation]]
+ * - [[CancelTransferFromSavingsOperation]]
+ * - [[ChangeRecoveryAccountOperation]]
+ * - [[ClaimRewardBalanceOperation]]
+ * - [[ClaimAccountOperation]]
+ * - [[CommentOperation]]
+ * - [[CommentOptionsOperation]]
+ * - [[ConvertOperation]]
+ * - [[CreateClaimedAccountOperation]]
+ * - [[CustomOperation]]
+ * - [[CustomBinaryOperation]]
+ * - [[CustomJsonOperation]]
+ * - [[DeclineVotingRightsOperation]]
+ * - [[DelegateVestingSharesOperation]]
+ * - [[DeleteCommentOperation]]
+ * - [[EscrowApproveOperation]]
+ * - [[EscrowDisputeOperation]]
+ * - [[EscrowReleaseOperation]]
+ * - [[EscrowTransferOperation]]
+ * - [[FeedPublishOperation]]
+ * - [[LimitOrderCancelOperation]]
+ * - [[LimitOrderCreateOperation]]
+ * - [[LimitOrderCreate2Operation]]
+ * - [[PowOperation]]
+ * - [[Pow2Operation]]
+ * - [[RecoverAccountOperation]]
+ * - [[ReportOverProductionOperation]]
+ * - [[RequestAccountRecoveryOperation]]
+ * - [[ResetAccountOperation]]
+ * - [[SetResetAccountOperation]]
+ * - [[SetWithdrawVestingRouteOperation]]
+ * - [[TransferOperation]]
+ * - [[TransferFromSavingsOperation]]
+ * - [[TransferToSavingsOperation]]
+ * - [[TransferToVestingOperation]]
+ * - [[VoteOperation]]
+ * - [[WithdrawVestingOperation]]
+ * - [[WitnessUpdateOperation]]
+ * - [[WitnessSetPropertiesOperation]]
  */
 export class BroadcastAPI {
 
