@@ -129,49 +129,64 @@ export interface CreateAccountOptions {
  *
  * List of operations:
  *
- * - [[AccountCreateOperation]]
- * - [[AccountCreateWithDelegationOperation]]
- * - [[AccountUpdateOperation]]
- * - [[AccountWitnessProxyOperation]]
- * - [[AccountWitnessVoteOperation]]
- * - [[CancelTransferFromSavingsOperation]]
- * - [[ChangeRecoveryAccountOperation]]
- * - [[ClaimRewardBalanceOperation]]
- * - [[ClaimAccountOperation]]
- * - [[CommentOperation]]
- * - [[CommentOptionsOperation]]
- * - [[ConvertOperation]]
- * - [[CreateClaimedAccountOperation]]
- * - [[CustomOperation]]
- * - [[CustomBinaryOperation]]
- * - [[CustomJsonOperation]]
- * - [[DeclineVotingRightsOperation]]
- * - [[DelegateVestingSharesOperation]]
- * - [[DeleteCommentOperation]]
- * - [[EscrowApproveOperation]]
- * - [[EscrowDisputeOperation]]
- * - [[EscrowReleaseOperation]]
- * - [[EscrowTransferOperation]]
- * - [[FeedPublishOperation]]
- * - [[LimitOrderCancelOperation]]
- * - [[LimitOrderCreateOperation]]
- * - [[LimitOrderCreate2Operation]]
- * - [[PowOperation]]
- * - [[Pow2Operation]]
- * - [[RecoverAccountOperation]]
- * - [[ReportOverProductionOperation]]
- * - [[RequestAccountRecoveryOperation]]
- * - [[ResetAccountOperation]]
- * - [[SetResetAccountOperation]]
- * - [[SetWithdrawVestingRouteOperation]]
- * - [[TransferOperation]]
- * - [[TransferFromSavingsOperation]]
- * - [[TransferToSavingsOperation]]
- * - [[TransferToVestingOperation]]
- * - [[VoteOperation]]
- * - [[WithdrawVestingOperation]]
- * - [[WitnessUpdateOperation]]
- * - [[WitnessSetPropertiesOperation]]
+ * - Accounts
+ *  * [[AccountCreateOperation]]
+ *  * [[AccountUpdateOperation]]
+ *  * [[ChangeRecoveryAccountOperation]]
+ *  * [[ClaimAccountOperation]]
+ *  * [[CreateClaimedAccountOperation]]
+ *  * [[DeclineVotingRightsOperation]]
+ *  * [[RecoverAccountOperation]]
+ *  * [[RequestAccountRecoveryOperation]]
+ *
+ * - Posts
+ *  * [[CommentOperation]]
+ *  * [[CommentOptionsOperation]]
+ *  * [[DeleteCommentOperation]]
+ *  * [[VoteOperation]] 
+ *  * [[ClaimRewardBalanceOperation]]
+ *  * [[DelegateVestingSharesOperation]]
+ *
+ * - Wallet
+ *  * [[TransferOperation]]
+ *  * [[ConvertOperation]]
+ *  * [[TransferToVestingOperation]]
+ *  * [[WithdrawVestingOperation]]
+ *  * [[SetWithdrawVestingRouteOperation]]
+ *  * [[TransferFromSavingsOperation]]
+ *  * [[TransferToSavingsOperation]]
+ *  * [[CancelTransferFromSavingsOperation]]
+ *
+ * - Escrow
+ *  * [[EscrowTransferOperation]]
+ *  * [[EscrowApproveOperation]]
+ *  * [[EscrowReleaseOperation]]
+ *  * [[EscrowDisputeOperation]]
+ * 
+ * - Market
+ *  * [[LimitOrderCancelOperation]]
+ *  * [[LimitOrderCreateOperation]]
+ *  * [[LimitOrderCreate2Operation]]
+ * 
+ * - Custom
+ *  * [[CustomOperation]]
+ *  * [[CustomBinaryOperation]]
+ *  * [[CustomJsonOperation]]
+ *
+ * - Witness
+ *  * [[WitnessUpdateOperation]]
+ *  * [[WitnessSetPropertiesOperation]]
+ *  * [[FeedPublishOperation]]
+ *  * [[AccountWitnessVoteOperation]]
+ *  * [[AccountWitnessProxyOperation]]
+ * 
+ * - Deprecated
+ *  * [[AccountCreateWithDelegationOperation]]
+ *  * [[PowOperation]]
+ *  * [[Pow2Operation]]
+ *  * [[ReportOverProductionOperation]]
+ *  * [[ResetAccountOperation]]
+ *  * [[SetResetAccountOperation]]
  */
 export class BroadcastAPI {
 
@@ -350,7 +365,8 @@ export class BroadcastAPI {
 
     /**
      * Sign and broadcast transaction with operations to the network. Throws if the transaction expires.
-     * @param operations List of operations to send. An updated list of operations can be found at https://developers.steem.io/apidefinitions/#apidefinitions-broadcast-ops
+     * @param operations List of operations to send. An updated list of operations can be found 
+       at https://developers.steem.io/apidefinitions/#apidefinitions-broadcast-ops
      * @param key Private key(s) used to sign transaction.
      */
     public async sendOperations(operations: Operation[],
