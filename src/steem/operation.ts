@@ -239,7 +239,7 @@ export interface AccountCreateOperation extends Operation {
  *     extensions: []
  *   }
  * ]
- * ``` 
+ * ```
  */
 export interface AccountCreateWithDelegationOperation extends Operation {
     0: 'account_create_with_delegation'
@@ -299,7 +299,7 @@ export interface AccountCreateWithDelegationOperation extends Operation {
  *     json_metadata: '{}'
  *   }
  * ]
- * ``` 
+ * ```
  */
 export interface AccountUpdateOperation extends Operation {
     0: 'account_update' // 10
@@ -341,7 +341,7 @@ export interface AccountWitnessProxyOperation extends Operation {
  * Account witness vote operation
  * ------------------------------
  * Operation to vote for a witness.
- * 
+ *
  * Example:
  * ```js
  * var operation = [
@@ -367,7 +367,7 @@ export interface AccountWitnessVoteOperation extends Operation {
  * Cancel transfer from savings operation
  * --------------------------------------
  * Operation to cancel a transfer from savings to balance.
- * 
+ *
  * Example:
  * ```js
  * var operation = [
@@ -407,7 +407,7 @@ export interface CancelTransferFromSavingsOperation extends Operation {
  * of an account with no listed recovery account can change at any time as
  * witness vote weights. The top voted witness is explicitly the most trusted
  * witness according to stake.
- * 
+ *
  * Example
  * ```js
  * var operation = [
@@ -442,7 +442,7 @@ export interface ChangeRecoveryAccountOperation extends Operation {
  * Claim reward balance operation
  * ------------------------------
  * Operation to claim rewards of posts and comments
- * 
+ *
  * Example:
  * ```js
  * var operation = [
@@ -469,11 +469,11 @@ export interface ClaimRewardBalanceOperation extends Operation {
 /**
  * Claim account operation
  * -----------------------
- * Operation to claim an account. Set fee to 0 to claim it from subsidized accounts. 
+ * Operation to claim an account. Set fee to 0 to claim it from subsidized accounts.
  * Otherwise set the fee defined by witnesses (call `get_witness_schedule` -> `median_props.account_creation_fee`).
  *
  * To create an account use {@link CreateClaimedAccountOperation}
- * 
+ *
  * Example:
  * ```js
  * var operation = [
@@ -504,7 +504,7 @@ export interface ClaimAccountOperation extends Operation {
  * Operation to create posts and comments.
  * For posts parent_author is empty and parent_permlink is the principal tag.
  * For comments use the actual parent_author and parent_permlink.
- * 
+ *
  * Example:
  * ```js
  * var metadata = {
@@ -547,7 +547,7 @@ export interface CommentOperation extends Operation {
  * Comment operation
  * -----------------------
  * Operation add options to posts/comments.
- * 
+ *
  * Example:
  * ```js
  * var extensionBeneficiaries = [
@@ -582,9 +582,9 @@ export interface CommentOptionsOperation extends Operation {
       permlink: string
       /** SBD value of the maximum payout this post will receive. */
       max_accepted_payout: Asset | string
-      /** The percent of Steem Dollars to key, unkept amounts will be received as Steem Power. 
-        * Set 10000 for the maximum SBD possible, which is 50% of the total payout
-        */
+      /** The percent of Steem Dollars to key, unkept amounts will be received as Steem Power.
+       * Set 10000 for the maximum SBD possible, which is 50% of the total payout
+       */
       percent_steem_dollars: number // uint16_t
       /** Whether to allow post to receive votes. */
       allow_votes: boolean
@@ -598,7 +598,7 @@ export interface CommentOptionsOperation extends Operation {
  * Convert operation
  * -----------------------
  * Operation to convert from SBD to STEEM using the median feed price. The funds are deposited after 3.5 days
- * 
+ *
  * Example:
  * ```js
  * var operation = [
@@ -625,7 +625,7 @@ export interface ConvertOperation extends Operation {
  * --------------------------------
  * Operation to create a new account. The user needs to have at least 1 pending_claimed_account
  * (to claim accounts use {@link ClaimAccountOperation})
- * 
+ *
  * Example:
  * ```js
  * const newuser = 'alice2'
@@ -685,7 +685,7 @@ export interface CreateClaimedAccountOperation extends Operation {
  * --------------------------------
  * Provides a generic way to add higher level protocols on top of witness consensus.
  * There is no validation for this operation other than that required auths are valid.
- * 
+ *
  * Maximum data: 8192 bytes
  *
  * Example:
@@ -715,14 +715,14 @@ export interface CustomOperation extends Operation {
 /**
  * Custom binary operation
  * --------------------------------
- * The semmantics for this operation are the same as the [[CustomJsonOperation]], 
- * but with a binary payload. The json deserialization has a non-trivial cost 
- * associated with it. This operation will allow for binary deserialization of 
- * plugin operations and should improve overall performance of plugins that chose 
+ * The semmantics for this operation are the same as the [[CustomJsonOperation]],
+ * but with a binary payload. The json deserialization has a non-trivial cost
+ * associated with it. This operation will allow for binary deserialization of
+ * plugin operations and should improve overall performance of plugins that chose
  * to use it.
- * 
+ *
  * Maximum data: 8192 bytes
- * 
+ *
  * Example:
  * ```js
  * var operation = [
@@ -759,10 +759,10 @@ export interface CustomBinaryOperation extends Operation {
 /**
  * Custom JSON operation
  * --------------------------------
- * Serves the same purpose as [[Custom]] but also supports required posting authorities. 
+ * Serves the same purpose as [[Custom]] but also supports required posting authorities.
  * Unlike custom, this operation is designed to be human readable/developer friendly.
  * This operation is also used for follow/unfollow/ignore/resteem events
- * 
+ *
  * Example:
  * ```js
  * var event = [
@@ -804,12 +804,12 @@ export interface CustomJsonOperation extends Operation {
 /**
  * Decline voting rights operation
  * -------------------------------
- * An account can chose to decline their voting rights after a 30 day delay. 
- * This includes voting on content and witnesses. The voting rights cannot be 
- * acquired again once they have been declined. This is only to formalize a smart 
- * contract between certain accounts and the community that currently only exists 
+ * An account can chose to decline their voting rights after a 30 day delay.
+ * This includes voting on content and witnesses. The voting rights cannot be
+ * acquired again once they have been declined. This is only to formalize a smart
+ * contract between certain accounts and the community that currently only exists
  * as a social contract(for instance, 'steem').
- * 
+ *
  * Example:
  * ```js
  * var operation = [
@@ -838,9 +838,9 @@ export interface DeclineVotingRightsOperation extends Operation {
  * This sets the delegation to vesting_shares, increasing it or decreasing
  * it as needed (i.e. a delegation of 0 removes the delegation).
  *
- * When a delegation is removed the shares are placed in limbo for a 
+ * When a delegation is removed the shares are placed in limbo for a
  * week to prevent a satoshi of VESTS from voting on the same content twice.
- * 
+ *
  * Example:
  * ```js
  * var operation = [
@@ -875,7 +875,7 @@ export interface DelegateVestingSharesOperation extends Operation {
  * Delete comment operation
  * ------------------------
  * Operation to delete a comment or post.
- * 
+ *
  * Example:
  * ```js
  * var operation = [
@@ -901,7 +901,7 @@ export interface DeleteCommentOperation extends Operation {
  * The agent and to accounts must approve an escrow transaction for it to be valid on
  * the blockchain. Once a part approves the escrow, the cannot revoke their approval.
  * Subsequent escrow approve operations, regardless of the approval, will be rejected.
- * 
+ *
  * Example:
  * ```js
  * var operation = [
@@ -940,7 +940,7 @@ export interface EscrowApproveOperation extends Operation {
  * If either the sender or receiver of an escrow payment has an issue, they can
  * raise it for dispute. Once a payment is in dispute, the agent has authority over
  * who gets what.
- * 
+ *
  * Example:
  * ```js
  * var operation = [
@@ -979,7 +979,7 @@ export interface EscrowDisputeOperation extends Operation {
  * If escrow expires and there is no dispute, either party can release funds to either party.
  * If there is a dispute regardless of expiration, the agent can release funds to either party
  * following whichever agreement was in place between the parties.
- * 
+ *
  * Example:
  * ```js
  * var operation = [
@@ -1047,7 +1047,7 @@ export interface EscrowReleaseOperation extends Operation {
  *
  * Escrow transactions are uniquely identified by 'from' and 'escrow_id', the 'escrow_id' is defined
  * by the sender.
- * 
+ *
  * Example:
  * ```js
  * var ratification = new Date(Date.now() + 60*60*1000).toISOString().slice(0, -5)
@@ -1068,7 +1068,7 @@ export interface EscrowReleaseOperation extends Operation {
  *   }
  * ]
  * ```
- * 
+ *
  * See also [[EscrowApproveOperation]], [[EscrowReleaseOperation]], [[EscrowDisputeOperation]].
  */
 export interface EscrowTransferOperation extends Operation {
@@ -1091,7 +1091,7 @@ export interface EscrowTransferOperation extends Operation {
  * Publish feed operation
  * ----------------------
  * Operation used for witnesses to publish the feed price.
- * 
+ *
  * Example:
  * ```js
  * var operation = [
@@ -1118,7 +1118,7 @@ export interface FeedPublishOperation extends Operation {
  * Limit order cancel operation
  * ----------------------------
  * * Cancels an order and returns the balance to owner.
- * 
+ *
  * Example:
  * ```js
  * var operation = [
@@ -1142,7 +1142,7 @@ export interface LimitOrderCancelOperation extends Operation {
  * Limit order create operation
  * ----------------------------
  * This operation creates a limit order and matches it against existing open orders.
- * 
+ *
  * Example:
  * ```js
  * var operation = [
@@ -1175,7 +1175,7 @@ export interface LimitOrderCreateOperation extends Operation {
  * -----------------------------
  * This operation is identical to [[LimitOrderCreateOperation]] except it serializes the price rather
  * than calculating it from other fields.
- * 
+ *
  * Example:
  * ```js
  * var operation = [
@@ -1274,7 +1274,7 @@ export interface Pow2Operation extends Operation {
  * recover the account. The actual process of verifying authority may become
  * complicated, but that is an application level concern, not the blockchain's
  * concern.
- * 
+ *
  * Example:
  * ```js
  * var operation = [
@@ -1416,7 +1416,7 @@ export interface RequestAccountRecoveryOperation extends Operation {
  * Reset account operation
  * -----------------------
  * Not implemented
- * 
+ *
  * This operation allows recovery_account to change account_to_reset's owner authority to
  * new_owner_authority after 60 days of inactivity.
  */
@@ -1433,7 +1433,7 @@ export interface ResetAccountOperation extends Operation {
  * Set reset account operation
  * ---------------------------
  * Not implemented
- * 
+ *
  * This operation allows 'account' owner to control which account has the power
  * to execute the 'reset_account_operation' after 60 days.
  */

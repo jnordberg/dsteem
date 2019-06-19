@@ -104,7 +104,8 @@ export class DatabaseAPI {
 
     /**
      * Convenience for calling `database_api`.
-     * @param method An updated list of methods can be found at https://github.com/steemit/steem/blob/master/libraries/plugins/apis/condenser_api/condenser_api.cpp
+     * @param method An updated list of methods can be found at
+     * https://github.com/steemit/steem/blob/master/libraries/plugins/apis/condenser_api/condenser_api.cpp
      */
     public call(method: string, params?: any[]) {
         return this.client.call('condenser_api', method, params)

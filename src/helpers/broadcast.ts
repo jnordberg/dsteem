@@ -143,7 +143,7 @@ export interface CreateAccountOptions {
  *  * [[CommentOperation]]
  *  * [[CommentOptionsOperation]]
  *  * [[DeleteCommentOperation]]
- *  * [[VoteOperation]] 
+ *  * [[VoteOperation]]
  *  * [[ClaimRewardBalanceOperation]]
  *  * [[DelegateVestingSharesOperation]]
  *
@@ -162,12 +162,12 @@ export interface CreateAccountOptions {
  *  * [[EscrowApproveOperation]]
  *  * [[EscrowReleaseOperation]]
  *  * [[EscrowDisputeOperation]]
- * 
+ *
  * - Market
  *  * [[LimitOrderCancelOperation]]
  *  * [[LimitOrderCreateOperation]]
  *  * [[LimitOrderCreate2Operation]]
- * 
+ *
  * - Custom
  *  * [[CustomOperation]]
  *  * [[CustomBinaryOperation]]
@@ -179,7 +179,7 @@ export interface CreateAccountOptions {
  *  * [[FeedPublishOperation]]
  *  * [[AccountWitnessVoteOperation]]
  *  * [[AccountWitnessProxyOperation]]
- * 
+ *
  * - Deprecated
  *  * [[AccountCreateWithDelegationOperation]]
  *  * [[PowOperation]]
@@ -365,8 +365,8 @@ export class BroadcastAPI {
 
     /**
      * Sign and broadcast transaction with operations to the network. Throws if the transaction expires.
-     * @param operations List of operations to send. An updated list of operations can be found 
-       at https://developers.steem.io/apidefinitions/#apidefinitions-broadcast-ops
+     * @param operations List of operations to send. An updated list of operations can be found
+     * at https://developers.steem.io/apidefinitions/#apidefinitions-broadcast-ops
      * @param key Private key(s) used to sign transaction.
      */
     public async sendOperations(operations: Operation[],
@@ -408,7 +408,8 @@ export class BroadcastAPI {
 
     /**
      * Convenience for calling `condenser_api`.
-     * @param method An updated list of methods can be found at https://github.com/steemit/steem/blob/master/libraries/plugins/apis/condenser_api/condenser_api.cpp
+     * @param method An updated list of methods can be found at
+     * https://github.com/steemit/steem/blob/master/libraries/plugins/apis/condenser_api/condenser_api.cpp
      */
     public call(method: string, params?: any[]) {
         return this.client.call('condenser_api', method, params)
