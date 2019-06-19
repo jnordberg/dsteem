@@ -165,7 +165,7 @@ export interface AppliedOperation {
  *       account_auths: [],
  *       key_auths: [[ownerKey.createPublic().toString(), 1]]
  *     },
- *     activer: {
+ *     active: {
  *       weight_threshold: 1,
  *       account_auths: [],
  *       key_auths: [[activeKey.createPublic().toString(), 1]]
@@ -222,7 +222,7 @@ export interface AccountCreateOperation extends Operation {
  *       account_auths: [],
  *       key_auths: [[ownerKey.createPublic().toString(), 1]]
  *     },
- *     activer: {
+ *     active: {
  *       weight_threshold: 1,
  *       account_auths: [],
  *       key_auths: [[activeKey.createPublic().toString(), 1]]
@@ -283,7 +283,7 @@ export interface AccountCreateWithDelegationOperation extends Operation {
  *       account_auths: [],
  *       key_auths: [[ownerKey.createPublic().toString(), 1]]
  *     },
- *     activer: {
+ *     active: {
  *       weight_threshold: 1,
  *       account_auths: [],
  *       key_auths: [[activeKey.createPublic().toString(), 1]]
@@ -443,7 +443,7 @@ export interface ChangeRecoveryAccountOperation extends Operation {
  * Example:
  * ```js
  * var operation = [
- *   'claim_reward_balance'
+ *   'claim_reward_balance',
  *   {
  *     account: 'alice',
  *     reward_steem: '4.000 STEEM',
@@ -463,6 +463,26 @@ export interface ClaimRewardBalanceOperation extends Operation {
     }
 }
 
+/**
+ * Claim account operation
+ * -----------------------
+ * Operation to claim an account. Set fee to 0 to claim it from subsidized accounts. 
+ * Otherwise set the fee defined by witnesses (call `get_witness_schedule` -> `median_props.account_creation_fee`).
+ *
+ * To create an account use {@link CreateClaimedAccountOperation}
+ * 
+ * Example:
+ * ```js
+ * var operation = [
+ *   'claim_account',
+ *   {
+ *     creator: 'alice',
+ *     fee: '3.000 STEEM',
+ *     extensions: []
+ *   }
+ * ]
+ * ```
+ */
 export interface ClaimAccountOperation extends Operation {
     0: 'claim_account' // 22
     1: {
@@ -475,10 +495,42 @@ export interface ClaimAccountOperation extends Operation {
     }
 }
 
+/**
+ * Comment operation
+ * -----------------------
+ * Operation to create posts and comments.
+ * For posts parent_author is empty and parent_permlink is the principal tag.
+ * For comments use the actual parent_author and parent_permlink.
+ * 
+ * Example:
+ * ```js
+ * var metadata = {
+ *   tags: ['steem','example','tags'],
+ * }
+ * var operation = [
+ *   'comment',
+ *   {
+ *     parent_author: '',
+ *     parent_permlink: 'steem',
+ *     author: 'alice',
+ *     permlink: 'my-first-post',
+ *     title: 'My first post',
+ *     body: 'my post'
+ *     json_metadata: JSON.stringify(metadata)
+ *   }
+ * ]
+ * ```
+ */
 export interface CommentOperation extends Operation {
     0: 'comment' // 1
     1: {
+        /**
+         * For posts put and empty string. For comments put the parent author
+         */
         parent_author: string // account_name_type
+        /**
+         * For posts put the principal tag here. For comments put the parent permlink
+         */
         parent_permlink: string
         author: string // account_name_type
         permlink: string
@@ -488,6 +540,38 @@ export interface CommentOperation extends Operation {
     }
 }
 
+/**
+ * Comment operation
+ * -----------------------
+ * Operation add options to posts/comments.
+ * 
+ * Example:
+ * ```js
+ * var extensionBeneficiaries = [
+ *   0,
+ *   {
+ *     beneficiaries: [
+ *       {account: 'utopian-io', weight: 1000}, // 10%
+ *       {account: 'alice', weight: 1000}
+ *     ]
+ *   }
+ * ]
+ * var operation = [
+ *   'comment_options',
+ *   {
+ *     author: 'alice',
+ *     permlink: 'my-first-post',
+ *     max_accepted_payout: '1000000.000 SBD',
+ *     percent_steem_dollars: 10000,
+ *     allow_votes: true,
+ *     allow_curation_rewards: true,
+ *     extensions: [ extensionBeneficiaries ]
+ *   }
+ * ]
+ * ```
+ *
+ * This operation can be broadcasted in conjuction with the [[CommentOperation]] in the same transaction.
+ */
 export interface CommentOptionsOperation extends Operation {
     0: 'comment_options' // 19
     1: {
@@ -495,7 +579,9 @@ export interface CommentOptionsOperation extends Operation {
       permlink: string
       /** SBD value of the maximum payout this post will receive. */
       max_accepted_payout: Asset | string
-      /** The percent of Steem Dollars to key, unkept amounts will be received as Steem Power. */
+      /** The percent of Steem Dollars to key, unkept amounts will be received as Steem Power. 
+        * Set 10000 for the maximum SBD possible, which is 50% of the total payout
+        */
       percent_steem_dollars: number // uint16_t
       /** Whether to allow post to receive votes. */
       allow_votes: boolean
@@ -505,6 +591,23 @@ export interface CommentOptionsOperation extends Operation {
     }
 }
 
+/**
+ * Convert operation
+ * -----------------------
+ * Operation to convert from SBD to STEEM using the median feed price. The funds are deposited after 3.5 days
+ * 
+ * Example:
+ * ```js
+ * var operation = [
+ *   'convert',
+ *   {
+ *     owner: 'alice',
+ *     requestid: 1
+ *     amount: '40.000 SBD'
+ *   }
+ * ]
+ * ```
+ */
 export interface ConvertOperation extends Operation {
     0: 'convert' // 8
     1: {
@@ -514,6 +617,49 @@ export interface ConvertOperation extends Operation {
     }
 }
 
+/**
+ * Create claimed account operation
+ * --------------------------------
+ * Operation to create a new account. The user needs to have at least 1 pending_claimed_account
+ * (to claim accounts use {@link ClaimAccountOperation})
+ * 
+ * Example:
+ * ```js
+ * const newuser = 'alice2'
+ * const password = 'snack already cactus'
+ *
+ * const ownerKey = PrivateKey.fromLogin(newuser, password, 'owner')
+ * const activeKey = PrivateKey.fromLogin(newuser, password, 'active')
+ * const postingKey = PrivateKey.fromLogin(newuser, password, 'posting')
+ * const memoKey = PrivateKey.fromLogin(newuser, password, 'memo')
+ *
+ * var operation = [
+ *   'create_claimed_account',
+ *   {
+ *     creator: 'alice',
+ *     new_account_name: newuser,
+ *     owner: {
+ *       weight_threshold: 1,
+ *       account_auths: [],
+ *       key_auths: [[ownerKey.createPublic().toString(), 1]]
+ *     },
+ *     active: {
+ *       weight_threshold: 1,
+ *       account_auths: [],
+ *       key_auths: [[activeKey.createPublic().toString(), 1]]
+ *     },
+ *     posting: {
+ *       weight_threshold: 1,
+ *       account_auths: [],
+ *       key_auths: [[postingKey.createPublic().toString(), 1]]
+ *     },
+ *     memo_key: memoKey.createPublic().toString()
+ *     json_metadata: '{}'
+ *     extensions: []
+ *   }
+ * ]
+ * ```
+ */
 export interface CreateClaimedAccountOperation extends Operation {
     0: 'create_claimed_account' // 23
     1: {
@@ -531,15 +677,64 @@ export interface CreateClaimedAccountOperation extends Operation {
     }
 }
 
+/**
+ * Custom operation
+ * --------------------------------
+ * Provides a generic way to add higher level protocols on top of witness consensus.
+ * There is no validation for this operation other than that required auths are valid.
+ * 
+ * Maximum data: 8192 bytes
+ *
+ * Example:
+ * ```js
+ * var operation = [
+ *   'custom',
+ *   {
+ *     required_auths: ['alice'],
+ *     id: 123,
+ *     data: Buffer.from('0a627974656d617374657207737465656d697402a3d13897d821144')
+ *   }
+ * ]
+ * ```
+ */
 export interface CustomOperation extends Operation {
     0: 'custom' // 15
     1: {
         required_auths: string[]
         id: number // uint16
+        /**
+         * Maximum data: 8192 bytes
+         */
         data: Buffer | HexBuffer | number[]
     }
 }
 
+/**
+ * Custom binary operation
+ * --------------------------------
+ * The semmantics for this operation are the same as the [[CustomJsonOperation]], 
+ * but with a binary payload. The json deserialization has a non-trivial cost 
+ * associated with it. This operation will allow for binary deserialization of 
+ * plugin operations and should improve overall performance of plugins that chose 
+ * to use it.
+ * 
+ * Maximum data: 8192 bytes
+ * 
+ * Example:
+ * ```js
+ * var operation = [
+ *   'custom_binary',
+ *   {
+ *     required_owner_auths: [],
+ *     required_active_auths: ['bob'],
+ *     required_posting_auths: ['alice','carl'],
+ *     required_auths:[],
+ *     id: '123',
+ *     data: Buffer.from('0a627974656d617374657207737465656d697402a3d13897d821144')
+ *   }
+ * ]
+ * ```
+ */
 export interface CustomBinaryOperation extends Operation {
     0: 'custom_binary' // 35
     1: {
@@ -551,10 +746,42 @@ export interface CustomBinaryOperation extends Operation {
          * ID string, must be less than 32 characters long.
          */
         id: string
+        /**
+         * Maximum data: 8192 bytes
+         */
         data: Buffer | HexBuffer | number[]
     }
 }
 
+/**
+ * Custom JSON operation
+ * --------------------------------
+ * Serves the same purpose as [[Custom]] but also supports required posting authorities. 
+ * Unlike custom, this operation is designed to be human readable/developer friendly.
+ * This operation is also used for follow/unfollow/ignore/resteem events
+ * 
+ * Example:
+ * ```js
+ * var event = [
+ *   'follow',
+ *   {
+ *     follower:'alice',
+ *     following:'bob',
+ *     what:['blog']
+ *   }
+ * ]
+ *
+ * var operation = [
+ *   'custom_json',
+ *   {
+ *     required_auths: [],
+ *     required_posting_auths: ['alice'],
+ *     id: 'follow',
+ *     json: JSON.stringify(event)
+ *   }
+ * ]
+ * ```
+ */
 export interface CustomJsonOperation extends Operation {
     0: 'custom_json' // 18
     1: {
@@ -565,7 +792,7 @@ export interface CustomJsonOperation extends Operation {
          */
         id: string
         /**
-         * JSON encoded string, must be valid JSON.
+         * JSON encoded string, must be valid JSON and less than 8192 characters long
          */
         json: string
     }
