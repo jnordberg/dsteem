@@ -798,6 +798,26 @@ export interface CustomJsonOperation extends Operation {
     }
 }
 
+/**
+ * Decline voting rights
+ * --------------------------------
+ * An account can chose to decline their voting rights after a 30 day delay. 
+ * This includes voting on content and witnesses. The voting rights cannot be 
+ * acquired again once they have been declined. This is only to formalize a smart 
+ * contract between certain accounts and the community that currently only exists 
+ * as a social contract(for instance, 'steem').
+ * 
+ * Example:
+ * ```js
+ * var operation = [
+ *   'decline_voting_rights',
+ *   {
+ *     account: 'steem',
+ *     decline: true
+ *   }
+ * ]
+ * ```
+ */
 export interface DeclineVotingRightsOperation extends Operation {
     0: 'decline_voting_rights' // 36
     1: {
@@ -806,6 +826,30 @@ export interface DeclineVotingRightsOperation extends Operation {
     }
 }
 
+/**
+ * Delegate vesting shares
+ * -----------------------
+ * Delegate vesting shares from one account to the other. The vesting
+ * shares are still owned by the original account, but content voting
+ * rights and resource credit are transferred to the receiving account.
+ * This sets the delegation to vesting_shares, increasing it or decreasing
+ * it as needed (i.e. a delegation of 0 removes the delegation).
+ *
+ * When a delegation is removed the shares are placed in limbo for a 
+ * week to prevent a satoshi of VESTS from voting on the same content twice.
+ * 
+ * Example:
+ * ```js
+ * var operation = [
+ *   'delegate_vesting_shares',
+ *   {
+ *     delegator: 'alice',
+ *     delegatee: 'bob',
+ *     vesting_shares: '10000.000 STEEM'
+ *   }
+ * ]
+ * ```
+ */
 export interface DelegateVestingSharesOperation extends Operation {
     0: 'delegate_vesting_shares' // 40
     1: {
