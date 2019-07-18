@@ -530,6 +530,41 @@ OperationSerializers.witness_set_properties = OperationDataSerializer(42, [
     ['extensions', ArraySerializer(VoidSerializer)],
 ])
 
+OperationSerializers.account_update2 = OperationDataSerializer(43, [
+    ['account', StringSerializer],
+    ['owner', OptionalSerializer(AuthoritySerializer)],
+    ['active', OptionalSerializer(AuthoritySerializer)],
+    ['posting', OptionalSerializer(AuthoritySerializer)],
+    ['memo_key', OptionalSerializer(PublicKeySerializer)],
+    ['json_metadata', StringSerializer],
+    ['posting_json_metadata', StringSerializer],
+    ['extensions', ArraySerializer(VoidSerializer)],
+])
+
+OperationSerializers.create_proposal = OperationDataSerializer(44, [
+    ['creator', StringSerializer],
+    ['receiver', StringSerializer],
+    ['start_date', DateSerializer],
+    ['end_date', DateSerializer],
+    ['daily_pay', AssetSerializer],
+    ['subject', StringSerializer],
+    ['permlink', StringSerializer],
+    ['extensions', ArraySerializer(VoidSerializer)],
+])
+
+OperationSerializers.update_proposal_votes = OperationDataSerializer(45, [
+    ['voter', StringSerializer],
+    ['proposal_ids', ArraySerializer(Int64Serializer)],
+    ['approve', BooleanSerializer],
+    ['extensions', ArraySerializer(VoidSerializer)],
+])
+
+OperationSerializers.remove_proposal = OperationDataSerializer(46, [
+    ['proposal_owner', StringSerializer],
+    ['proposal_ids', ArraySerializer(Int64Serializer)],
+    ['extensions', ArraySerializer(VoidSerializer)],
+])
+
 const OperationSerializer = (buffer: ByteBuffer, operation: Operation) => {
     const serializer = OperationSerializers[operation[0]]
     if (!serializer) {
