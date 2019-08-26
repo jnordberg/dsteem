@@ -951,7 +951,7 @@ declare module 'dsteem/steem/operation' {
 	/**
 	 * Operation name.
 	 */
-	export type OperationName = 'account_create' | 'account_create_with_delegation' | 'account_update' | 'account_witness_proxy' | 'account_witness_vote' | 'cancel_transfer_from_savings' | 'change_recovery_account' | 'claim_account' | 'claim_reward_balance' | 'comment' | 'comment_options' | 'convert' | 'create_claimed_account' | 'custom' | 'custom_binary' | 'custom_json' | 'decline_voting_rights' | 'delegate_vesting_shares' | 'delete_comment' | 'escrow_approve' | 'escrow_dispute' | 'escrow_release' | 'escrow_transfer' | 'feed_publish' | 'limit_order_cancel' | 'limit_order_create' | 'limit_order_create2' | 'pow' | 'pow2' | 'recover_account' | 'report_over_production' | 'request_account_recovery' | 'reset_account' | 'set_reset_account' | 'set_withdraw_vesting_route' | 'transfer' | 'transfer_from_savings' | 'transfer_to_savings' | 'transfer_to_vesting' | 'vote' | 'withdraw_vesting' | 'witness_set_properties' | 'witness_update';
+	export type OperationName = 'account_create' | 'account_create_with_delegation' | 'account_update' | 'account_update2' | 'account_witness_proxy' | 'account_witness_vote' | 'cancel_transfer_from_savings' | 'change_recovery_account' | 'claim_account' | 'claim_reward_balance' | 'create_proposal' | 'comment' | 'comment_options' | 'convert' | 'create_claimed_account' | 'custom' | 'custom_binary' | 'custom_json' | 'decline_voting_rights' | 'delegate_vesting_shares' | 'delete_comment' | 'escrow_approve' | 'escrow_dispute' | 'escrow_release' | 'escrow_transfer' | 'feed_publish' | 'limit_order_cancel' | 'limit_order_create' | 'limit_order_create2' | 'pow' | 'pow2' | 'recover_account' | 'remove_proposal' | 'report_over_production' | 'request_account_recovery' | 'reset_account' | 'set_reset_account' | 'set_withdraw_vesting_route' | 'transfer' | 'transfer_from_savings' | 'transfer_to_savings' | 'transfer_to_vesting' | 'update_proposal_votes' | 'vote' | 'withdraw_vesting' | 'witness_set_properties' | 'witness_update';
 	/**
 	 * Virtual operation name.
 	 */
@@ -1690,6 +1690,49 @@ declare module 'dsteem/steem/operation' {
 	    1: {
 	        owner: string;
 	        props: Array<[string, Buffer]>;
+	        extensions: any[];
+	    };
+	}
+	export interface AccountUpdate2Operation extends Operation {
+	    0: 'account_update2';
+	    1: {
+	        account: string;
+	        owner?: AuthorityType;
+	        active?: AuthorityType;
+	        posting?: AuthorityType;
+	        memo_key?: string | PublicKey;
+	        json_metadata: string;
+	        posting_json_metadata: string;
+	        extensions: any[];
+	    };
+	}
+	export interface CreateProposalOperation extends Operation {
+	    0: 'create_proposal';
+	    1: {
+	        creator: string;
+	        receiver: string;
+	        start_date: string;
+	        end_date: string;
+	        daily_pay: Asset | string;
+	        subject: string;
+	        permlink: string;
+	        extensions: any[];
+	    };
+	}
+	export interface UpdateProposalVotesOperation extends Operation {
+	    0: 'update_proposal_votes';
+	    1: {
+	        voter: string;
+	        proposal_ids: number[];
+	        approve: boolean;
+	        extensions: any[];
+	    };
+	}
+	export interface RemoveProposalOperation extends Operation {
+	    0: 'remove_proposal';
+	    1: {
+	        proposal_owner: string;
+	        proposal_ids: number[];
 	        extensions: any[];
 	    };
 	}
