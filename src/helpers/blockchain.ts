@@ -65,6 +65,25 @@ export interface BlockchainStreamOptions {
     mode?: BlockchainMode
 }
 
+/**
+ * Blockchain
+ * ----------
+ * API to get block information from the blockchain
+ *
+ * Example:
+ * ```js
+ * const {Client, BlockchainMode} = require('dsteem')
+ *
+ * const client = new Client('https://api.steemit.com')
+ *
+ * async function main() {
+ *   var latestBlock = await client.blockchain.getCurrentBlockNum(BlockchainMode.Latest)
+ *   console.log(`The latest block number is: ${ latestBlock }`)
+ * }
+ *
+ * main().catch(console.error)
+ * ```
+ */
 export class Blockchain {
 
     constructor(readonly client: Client) {}

@@ -112,7 +112,24 @@ export type VirtualOperationName = // <id>
     | 'shutdown_witness' // 50
 
 /**
- * Generic operation.
+ * Generic operation
+ * -----------------
+ * By definition an operation is an array of two elements. The
+ * first one is a string with the operation name, and the second
+ * one an object with the data.
+ *
+ * Example:
+ * ```js
+ * var operation = [
+ *   'transfer',
+ *   {
+ *     from: 'alice',
+ *     to: 'bob',
+ *     amount: '5.000 STEEM',
+ *     memo: 'thank you'
+ *   }
+ * ]
+ * ```
  */
 export interface Operation {
     0: OperationName | VirtualOperationName
@@ -129,6 +146,47 @@ export interface AppliedOperation {
    op: Operation
 }
 
+/**
+ * Account create operation
+ * ------------------------
+ *
+ * Example:
+ * ```js
+ * const username = 'alice'
+ * const password = 'snack already cactus'
+ *
+ * const ownerKey = PrivateKey.fromLogin(username, password, 'owner')
+ * const activeKey = PrivateKey.fromLogin(username, password, 'active')
+ * const postingKey = PrivateKey.fromLogin(username, password, 'posting')
+ * const memoKey = PrivateKey.fromLogin(username, password, 'memo')
+ *
+ * var operation = [
+ *   'account_create',
+ *   {
+ *     fee: '3.000 STEEM',
+ *     creator: 'alice',
+ *     new_account_name: 'bob',
+ *     owner: {
+ *       weight_threshold: 1,
+ *       account_auths: [],
+ *       key_auths: [[ownerKey.createPublic().toString(), 1]]
+ *     },
+ *     active: {
+ *       weight_threshold: 1,
+ *       account_auths: [],
+ *       key_auths: [[activeKey.createPublic().toString(), 1]]
+ *     },
+ *     posting: {
+ *       weight_threshold: 1,
+ *       account_auths: [],
+ *       key_auths: [[postingKey.createPublic().toString(), 1]]
+ *     },
+ *     memo_key: memoKey.createPublic().toString(),
+ *     json_metadata: '{}'
+ *   }
+ * ]
+ * ```
+ */
 export interface AccountCreateOperation extends Operation {
     0: 'account_create'
     1: {
@@ -143,6 +201,50 @@ export interface AccountCreateOperation extends Operation {
     }
 }
 
+/**
+ * Account create with delegation operation
+ * ----------------------------------------
+ * This operation is deprecated as of Hardfork 20
+ *
+ * Example:
+ * ```js
+ * const username = 'alice'
+ * const password = 'snack already cactus'
+ *
+ * const ownerKey = PrivateKey.fromLogin(username, password, 'owner')
+ * const activeKey = PrivateKey.fromLogin(username, password, 'active')
+ * const postingKey = PrivateKey.fromLogin(username, password, 'posting')
+ * const memoKey = PrivateKey.fromLogin(username, password, 'memo')
+ *
+ * var operation = [
+ *   'account_create_with_delegation',
+ *   {
+ *     fee: '3.000 STEEM',
+ *     delegation: '50.000 STEEM',
+ *     creator: 'alice',
+ *     new_account_name: 'bob',
+ *     owner: {
+ *       weight_threshold: 1,
+ *       account_auths: [],
+ *       key_auths: [[ownerKey.createPublic().toString(), 1]]
+ *     },
+ *     active: {
+ *       weight_threshold: 1,
+ *       account_auths: [],
+ *       key_auths: [[activeKey.createPublic().toString(), 1]]
+ *     },
+ *     posting: {
+ *       weight_threshold: 1,
+ *       account_auths: [],
+ *       key_auths: [[postingKey.createPublic().toString(), 1]]
+ *     },
+ *     memo_key: memoKey.createPublic().toString(),
+ *     json_metadata: '{}',
+ *     extensions: []
+ *   }
+ * ]
+ * ```
+ */
 export interface AccountCreateWithDelegationOperation extends Operation {
     0: 'account_create_with_delegation'
     1: {
@@ -162,6 +264,47 @@ export interface AccountCreateWithDelegationOperation extends Operation {
     }
 }
 
+/**
+ * Account update operation
+ * ------------------------
+ * Operation to update the authorities, memo key and json_metadata.
+ * * The authorities owner, active, and posting are optional.
+ *
+ * Example:
+ * ```js
+ * const username = 'alice'
+ * const password = 'snack already cactus'
+ *
+ * const ownerKey = PrivateKey.fromLogin(username, password, 'owner')
+ * const activeKey = PrivateKey.fromLogin(username, password, 'active')
+ * const postingKey = PrivateKey.fromLogin(username, password, 'posting')
+ * const memoKey = PrivateKey.fromLogin(username, password, 'memo')
+ *
+ * var operation = [
+ *   'account_update_operation',
+ *   {
+ *     account: 'alice',
+ *     owner: {
+ *       weight_threshold: 1,
+ *       account_auths: [],
+ *       key_auths: [[ownerKey.createPublic().toString(), 1]]
+ *     },
+ *     active: {
+ *       weight_threshold: 1,
+ *       account_auths: [],
+ *       key_auths: [[activeKey.createPublic().toString(), 1]]
+ *     },
+ *     posting: {
+ *       weight_threshold: 1,
+ *       account_auths: [],
+ *       key_auths: [[postingKey.createPublic().toString(), 1]]
+ *     },
+ *     memo_key: memoKey.createPublic().toString(),
+ *     json_metadata: '{}'
+ *   }
+ * ]
+ * ```
+ */
 export interface AccountUpdateOperation extends Operation {
     0: 'account_update' // 10
     1: {
@@ -174,6 +317,22 @@ export interface AccountUpdateOperation extends Operation {
     }
 }
 
+/**
+ * Account witness proxy operation
+ * -------------------------------
+ * Operation to set a proxy for voting witnesses.
+ *
+ * Example:
+ * ```js
+ * var operation = [
+ *   'account_witness_proxy',
+ *   {
+ *     account: 'alice',
+ *     proxy: 'bob'
+ *   }
+ * ]
+ * ```
+ */
 export interface AccountWitnessProxyOperation extends Operation {
     0: 'account_witness_proxy' // 13
     1: {
@@ -182,6 +341,23 @@ export interface AccountWitnessProxyOperation extends Operation {
     }
 }
 
+/**
+ * Account witness vote operation
+ * ------------------------------
+ * Operation to vote for a witness.
+ *
+ * Example:
+ * ```js
+ * var operation = [
+ *   'account_witness_vote',
+ *   {
+ *     account: 'alice',
+ *     witness: 'bob',
+ *     approve: true
+ *   }
+ * ]
+ * ```
+ */
 export interface AccountWitnessVoteOperation extends Operation {
     0: 'account_witness_vote' // 12
     1: {
@@ -191,6 +367,23 @@ export interface AccountWitnessVoteOperation extends Operation {
     }
 }
 
+/**
+ * Cancel transfer from savings operation
+ * --------------------------------------
+ * Operation to cancel a transfer from savings to balance.
+ *
+ * Example:
+ * ```js
+ * var operation = [
+ *   'cancel_transfer_from_savings',
+ *   {
+ *     from: 'alice',
+ *     request_id: 32
+ *   }
+ * ]
+ * ```
+ * See also [[TransferFromSavingsOperation]]
+ */
 export interface CancelTransferFromSavingsOperation extends Operation {
     0: 'cancel_transfer_from_savings' // 34
     1: {
@@ -200,6 +393,8 @@ export interface CancelTransferFromSavingsOperation extends Operation {
 }
 
 /**
+ * Change recovery account operation
+ * ---------------------------------
  * Each account lists another account as their recovery account.
  * The recovery account has the ability to create account_recovery_requests
  * for the account to recover. An account can change their recovery account
@@ -216,6 +411,18 @@ export interface CancelTransferFromSavingsOperation extends Operation {
  * of an account with no listed recovery account can change at any time as
  * witness vote weights. The top voted witness is explicitly the most trusted
  * witness according to stake.
+ *
+ * Example
+ * ```js
+ * var operation = [
+ *   'change_recovery_account',
+ *   {
+ *     account_to_recover: 'alice',
+ *     new_recovery_account: 'steem',
+ *     extensions: []
+ *   }
+ * ]
+ * ```
  */
 export interface ChangeRecoveryAccountOperation extends Operation {
     0: 'change_recovery_account' // 26
@@ -235,6 +442,24 @@ export interface ChangeRecoveryAccountOperation extends Operation {
     }
 }
 
+/**
+ * Claim reward balance operation
+ * ------------------------------
+ * Operation to claim rewards of posts and comments
+ *
+ * Example:
+ * ```js
+ * var operation = [
+ *   'claim_reward_balance',
+ *   {
+ *     account: 'alice',
+ *     reward_steem: '4.000 STEEM',
+ *     reward_sbd: '1.200 SBD',
+ *     reward_vests: '1000.000000 VESTS'
+ *   }
+ * ]
+ * ```
+ */
 export interface ClaimRewardBalanceOperation extends Operation {
     0: 'claim_reward_balance' // 39
     1: {
@@ -245,6 +470,26 @@ export interface ClaimRewardBalanceOperation extends Operation {
     }
 }
 
+/**
+ * Claim account operation
+ * -----------------------
+ * Operation to claim an account. Set fee to 0 to claim it from subsidized accounts.
+ * Otherwise set the fee defined by witnesses (call `get_witness_schedule` -> `median_props.account_creation_fee`).
+ *
+ * To create an account use {@link CreateClaimedAccountOperation}
+ *
+ * Example:
+ * ```js
+ * var operation = [
+ *   'claim_account',
+ *   {
+ *     creator: 'alice',
+ *     fee: '3.000 STEEM',
+ *     extensions: []
+ *   }
+ * ]
+ * ```
+ */
 export interface ClaimAccountOperation extends Operation {
     0: 'claim_account' // 22
     1: {
@@ -257,10 +502,42 @@ export interface ClaimAccountOperation extends Operation {
     }
 }
 
+/**
+ * Comment operation
+ * -----------------------
+ * Operation to create posts and comments.
+ * For posts parent_author is empty and parent_permlink is the principal tag.
+ * For comments use the actual parent_author and parent_permlink.
+ *
+ * Example:
+ * ```js
+ * var metadata = {
+ *   tags: ['steem','example','tags'],
+ * }
+ * var operation = [
+ *   'comment',
+ *   {
+ *     parent_author: '',
+ *     parent_permlink: 'steem',
+ *     author: 'alice',
+ *     permlink: 'my-first-post',
+ *     title: 'My first post',
+ *     body: 'my post'
+ *     json_metadata: JSON.stringify(metadata)
+ *   }
+ * ]
+ * ```
+ */
 export interface CommentOperation extends Operation {
     0: 'comment' // 1
     1: {
+        /**
+         * For posts put and empty string. For comments put the parent author
+         */
         parent_author: string // account_name_type
+        /**
+         * For posts put the principal tag here. For comments put the parent permlink
+         */
         parent_permlink: string
         author: string // account_name_type
         permlink: string
@@ -270,6 +547,38 @@ export interface CommentOperation extends Operation {
     }
 }
 
+/**
+ * Comment operation
+ * -----------------------
+ * Operation add options to posts/comments.
+ *
+ * Example:
+ * ```js
+ * var extensionBeneficiaries = [
+ *   0,
+ *   {
+ *     beneficiaries: [
+ *       {account: 'utopian-io', weight: 1000}, // 10%
+ *       {account: 'alice', weight: 1000}
+ *     ]
+ *   }
+ * ]
+ * var operation = [
+ *   'comment_options',
+ *   {
+ *     author: 'alice',
+ *     permlink: 'my-first-post',
+ *     max_accepted_payout: '1000000.000 SBD',
+ *     percent_steem_dollars: 10000,
+ *     allow_votes: true,
+ *     allow_curation_rewards: true,
+ *     extensions: [ extensionBeneficiaries ]
+ *   }
+ * ]
+ * ```
+ *
+ * This operation can be broadcasted in conjuction with the [[CommentOperation]] in the same transaction.
+ */
 export interface CommentOptionsOperation extends Operation {
     0: 'comment_options' // 19
     1: {
@@ -277,7 +586,9 @@ export interface CommentOptionsOperation extends Operation {
       permlink: string
       /** SBD value of the maximum payout this post will receive. */
       max_accepted_payout: Asset | string
-      /** The percent of Steem Dollars to key, unkept amounts will be received as Steem Power. */
+      /** The percent of Steem Dollars to key, unkept amounts will be received as Steem Power.
+       * Set 10000 for the maximum SBD possible, which is 50% of the total payout
+       */
       percent_steem_dollars: number // uint16_t
       /** Whether to allow post to receive votes. */
       allow_votes: boolean
@@ -287,6 +598,23 @@ export interface CommentOptionsOperation extends Operation {
     }
 }
 
+/**
+ * Convert operation
+ * -----------------------
+ * Operation to convert from SBD to STEEM using the median feed price. The funds are deposited after 3.5 days
+ *
+ * Example:
+ * ```js
+ * var operation = [
+ *   'convert',
+ *   {
+ *     owner: 'alice',
+ *     requestid: 1
+ *     amount: '40.000 SBD'
+ *   }
+ * ]
+ * ```
+ */
 export interface ConvertOperation extends Operation {
     0: 'convert' // 8
     1: {
@@ -296,6 +624,49 @@ export interface ConvertOperation extends Operation {
     }
 }
 
+/**
+ * Create claimed account operation
+ * --------------------------------
+ * Operation to create a new account. The user needs to have at least 1 pending_claimed_account
+ * (to claim accounts use {@link ClaimAccountOperation})
+ *
+ * Example:
+ * ```js
+ * const newuser = 'alice2'
+ * const password = 'snack already cactus'
+ *
+ * const ownerKey = PrivateKey.fromLogin(newuser, password, 'owner')
+ * const activeKey = PrivateKey.fromLogin(newuser, password, 'active')
+ * const postingKey = PrivateKey.fromLogin(newuser, password, 'posting')
+ * const memoKey = PrivateKey.fromLogin(newuser, password, 'memo')
+ *
+ * var operation = [
+ *   'create_claimed_account',
+ *   {
+ *     creator: 'alice',
+ *     new_account_name: newuser,
+ *     owner: {
+ *       weight_threshold: 1,
+ *       account_auths: [],
+ *       key_auths: [[ownerKey.createPublic().toString(), 1]]
+ *     },
+ *     active: {
+ *       weight_threshold: 1,
+ *       account_auths: [],
+ *       key_auths: [[activeKey.createPublic().toString(), 1]]
+ *     },
+ *     posting: {
+ *       weight_threshold: 1,
+ *       account_auths: [],
+ *       key_auths: [[postingKey.createPublic().toString(), 1]]
+ *     },
+ *     memo_key: memoKey.createPublic().toString()
+ *     json_metadata: '{}'
+ *     extensions: []
+ *   }
+ * ]
+ * ```
+ */
 export interface CreateClaimedAccountOperation extends Operation {
     0: 'create_claimed_account' // 23
     1: {
@@ -313,15 +684,64 @@ export interface CreateClaimedAccountOperation extends Operation {
     }
 }
 
+/**
+ * Custom operation
+ * --------------------------------
+ * Provides a generic way to add higher level protocols on top of witness consensus.
+ * There is no validation for this operation other than that required auths are valid.
+ *
+ * Maximum data: 8192 bytes
+ *
+ * Example:
+ * ```js
+ * var operation = [
+ *   'custom',
+ *   {
+ *     required_auths: ['alice'],
+ *     id: 123,
+ *     data: Buffer.from('0a627974656d617374657207737465656d697402a3d13897d821144')
+ *   }
+ * ]
+ * ```
+ */
 export interface CustomOperation extends Operation {
     0: 'custom' // 15
     1: {
         required_auths: string[]
         id: number // uint16
+        /**
+         * Maximum data: 8192 bytes
+         */
         data: Buffer | HexBuffer | number[]
     }
 }
 
+/**
+ * Custom binary operation
+ * --------------------------------
+ * The semmantics for this operation are the same as the [[CustomJsonOperation]],
+ * but with a binary payload. The json deserialization has a non-trivial cost
+ * associated with it. This operation will allow for binary deserialization of
+ * plugin operations and should improve overall performance of plugins that chose
+ * to use it.
+ *
+ * Maximum data: 8192 bytes
+ *
+ * Example:
+ * ```js
+ * var operation = [
+ *   'custom_binary',
+ *   {
+ *     required_owner_auths: [],
+ *     required_active_auths: ['bob'],
+ *     required_posting_auths: ['alice','carl'],
+ *     required_auths:[],
+ *     id: '123',
+ *     data: Buffer.from('0a627974656d617374657207737465656d697402a3d13897d821144')
+ *   }
+ * ]
+ * ```
+ */
 export interface CustomBinaryOperation extends Operation {
     0: 'custom_binary' // 35
     1: {
@@ -333,10 +753,42 @@ export interface CustomBinaryOperation extends Operation {
          * ID string, must be less than 32 characters long.
          */
         id: string
+        /**
+         * Maximum data: 8192 bytes
+         */
         data: Buffer | HexBuffer | number[]
     }
 }
 
+/**
+ * Custom JSON operation
+ * --------------------------------
+ * Serves the same purpose as [[Custom]] but also supports required posting authorities.
+ * Unlike custom, this operation is designed to be human readable/developer friendly.
+ * This operation is also used for follow/unfollow/ignore/resteem events
+ *
+ * Example:
+ * ```js
+ * var event = [
+ *   'follow',
+ *   {
+ *     follower:'alice',
+ *     following:'bob',
+ *     what:['blog']
+ *   }
+ * ]
+ *
+ * var operation = [
+ *   'custom_json',
+ *   {
+ *     required_auths: [],
+ *     required_posting_auths: ['alice'],
+ *     id: 'follow',
+ *     json: JSON.stringify(event)
+ *   }
+ * ]
+ * ```
+ */
 export interface CustomJsonOperation extends Operation {
     0: 'custom_json' // 18
     1: {
@@ -347,12 +799,32 @@ export interface CustomJsonOperation extends Operation {
          */
         id: string
         /**
-         * JSON encoded string, must be valid JSON.
+         * JSON encoded string, must be valid JSON and less than 8192 characters long
          */
         json: string
     }
 }
 
+/**
+ * Decline voting rights operation
+ * -------------------------------
+ * An account can chose to decline their voting rights after a 30 day delay.
+ * This includes voting on content and witnesses. The voting rights cannot be
+ * acquired again once they have been declined. This is only to formalize a smart
+ * contract between certain accounts and the community that currently only exists
+ * as a social contract(for instance, 'steem').
+ *
+ * Example:
+ * ```js
+ * var operation = [
+ *   'decline_voting_rights',
+ *   {
+ *     account: 'steem',
+ *     decline: true
+ *   }
+ * ]
+ * ```
+ */
 export interface DeclineVotingRightsOperation extends Operation {
     0: 'decline_voting_rights' // 36
     1: {
@@ -361,6 +833,30 @@ export interface DeclineVotingRightsOperation extends Operation {
     }
 }
 
+/**
+ * Delegate vesting shares operation
+ * ---------------------------------
+ * Delegate vesting shares from one account to the other. The vesting
+ * shares are still owned by the original account, but content voting
+ * rights and resource credit are transferred to the receiving account.
+ * This sets the delegation to vesting_shares, increasing it or decreasing
+ * it as needed (i.e. a delegation of 0 removes the delegation).
+ *
+ * When a delegation is removed the shares are placed in limbo for a
+ * week to prevent a satoshi of VESTS from voting on the same content twice.
+ *
+ * Example:
+ * ```js
+ * var operation = [
+ *   'delegate_vesting_shares',
+ *   {
+ *     delegator: 'alice',
+ *     delegatee: 'bob',
+ *     vesting_shares: '10000.000 STEEM'
+ *   }
+ * ]
+ * ```
+ */
 export interface DelegateVestingSharesOperation extends Operation {
     0: 'delegate_vesting_shares' // 40
     1: {
@@ -379,6 +875,22 @@ export interface DelegateVestingSharesOperation extends Operation {
     }
 }
 
+/**
+ * Delete comment operation
+ * ------------------------
+ * Operation to delete a comment or post.
+ *
+ * Example:
+ * ```js
+ * var operation = [
+ *   'delete_comment',
+ *   {
+ *     author: 'alice',
+ *     permlink: 'my-first-post'
+ *   }
+ * ]
+ * ```
+ */
 export interface DeleteCommentOperation extends Operation {
     0: 'delete_comment' // 17
     1: {
@@ -388,9 +900,28 @@ export interface DeleteCommentOperation extends Operation {
 }
 
 /**
+ * Escrow approve operation
+ * ------------------------
  * The agent and to accounts must approve an escrow transaction for it to be valid on
  * the blockchain. Once a part approves the escrow, the cannot revoke their approval.
  * Subsequent escrow approve operations, regardless of the approval, will be rejected.
+ *
+ * Example:
+ * ```js
+ * var operation = [
+ *   'escrow_approve',
+ *   {
+ *     from: 'alice',
+ *     to: 'bob',
+ *     agent: 'swapsteem',
+ *     who: 'bob',
+ *     escrow_id: 123,
+ *     approve: true
+ *   }
+ * ]
+ * ```
+ *
+ * See also [[EscrowTransferOperation]], [[EscrowReleaseOperation]], [[EscrowDisputeOperation]].
  */
 export interface EscrowApproveOperation extends Operation {
     0: 'escrow_approve' // 31
@@ -408,9 +939,27 @@ export interface EscrowApproveOperation extends Operation {
 }
 
 /**
+ * Escrow dispute operation
+ * ------------------------
  * If either the sender or receiver of an escrow payment has an issue, they can
  * raise it for dispute. Once a payment is in dispute, the agent has authority over
  * who gets what.
+ *
+ * Example:
+ * ```js
+ * var operation = [
+ *   'escrow_dispute',
+ *   {
+ *     from: 'alice',
+ *     to: 'bob',
+ *     agent: 'swapsteem',
+ *     who: 'bob',
+ *     escrow_id: 123,
+ *   }
+ * ]
+ * ```
+ *
+ * See also [[EscrowTransferOperation]], [[EscrowApproveOperation]], [[EscrowReleaseOperation]].
  */
 export interface EscrowDisputeOperation extends Operation {
     0: 'escrow_dispute' // 28
@@ -424,6 +973,8 @@ export interface EscrowDisputeOperation extends Operation {
 }
 
 /**
+ * Escrow release operation
+ * ------------------------
  * This operation can be used by anyone associated with the escrow transfer to
  * release funds if they have permission.
  *
@@ -431,7 +982,26 @@ export interface EscrowDisputeOperation extends Operation {
  * If there is no dispute and escrow has not expired, either party can release funds to the other.
  * If escrow expires and there is no dispute, either party can release funds to either party.
  * If there is a dispute regardless of expiration, the agent can release funds to either party
- *    following whichever agreement was in place between the parties.
+ * following whichever agreement was in place between the parties.
+ *
+ * Example:
+ * ```js
+ * var operation = [
+ *   'escrow_release',
+ *   {
+ *     from: 'alice',
+ *     to: 'bob',
+ *     agent: 'swapsteem',
+ *     who: 'alice',
+ *     receiver: 'bob'
+ *     escrow_id: 123,
+ *     sbd_amount: '0.000 SBD',
+ *     steem_amount: '40.000 STEEM'
+ *   }
+ * ]
+ * ```
+ *
+ * See also [[EscrowTransferOperation]], [[EscrowApproveOperation]], [[EscrowDisputeOperation]].
  */
 export interface EscrowReleaseOperation extends Operation {
     0: 'escrow_release' // 29
@@ -463,6 +1033,8 @@ export interface EscrowReleaseOperation extends Operation {
 }
 
 /**
+ * Escrow transfer operation
+ * ------------------------
  * The purpose of this operation is to enable someone to send money contingently to
  * another individual. The funds leave the *from* account and go into a temporary balance
  * where they are held until *from* releases it to *to* or *to* refunds it to *from*.
@@ -479,6 +1051,29 @@ export interface EscrowReleaseOperation extends Operation {
  *
  * Escrow transactions are uniquely identified by 'from' and 'escrow_id', the 'escrow_id' is defined
  * by the sender.
+ *
+ * Example:
+ * ```js
+ * var ratification = new Date(Date.now() + 60*60*1000).toISOString().slice(0, -5)
+ * var expiration = new Date(Date.now() + 2*60*60*1000).toISOString().slice(0, -5)
+ * var operation = [
+ *   'escrow_transfer',
+ *   {
+ *     from: 'alice',
+ *     to: 'bob',
+ *     agent: 'swapsteem',
+ *     escrow_id: 123,
+ *     sbd_amount: '0.000 SBD',
+ *     steem_amount: '40.000 STEEM'
+ *     fee: '0.01 STEEM',
+ *     ratification_deadline: ratification,
+ *     escrow_expiration: expiration,
+ *     json_meta: '{}'
+ *   }
+ * ]
+ * ```
+ *
+ * See also [[EscrowApproveOperation]], [[EscrowReleaseOperation]], [[EscrowDisputeOperation]].
  */
 export interface EscrowTransferOperation extends Operation {
     0: 'escrow_transfer' // 27
@@ -496,6 +1091,25 @@ export interface EscrowTransferOperation extends Operation {
     }
 }
 
+/**
+ * Publish feed operation
+ * ----------------------
+ * Operation used for witnesses to publish the feed price.
+ *
+ * Example:
+ * ```js
+ * var operation = [
+ *   'feed_publish',
+ *   {
+ *     publisher: 'gtg',
+ *     exchange_rate: {
+ *       base: '0.5 SBD',
+ *       quote: '1.000 STEEM'
+ *     }
+ *   }
+ * ]
+ * ```
+ */
 export interface FeedPublishOperation extends Operation {
     0: 'feed_publish' // 7
     1: {
@@ -505,7 +1119,20 @@ export interface FeedPublishOperation extends Operation {
 }
 
 /**
- * Cancels an order and returns the balance to owner.
+ * Limit order cancel operation
+ * ----------------------------
+ * * Cancels an order and returns the balance to owner.
+ *
+ * Example:
+ * ```js
+ * var operation = [
+ *   'limit_order_cancel',
+ *   {
+ *     owner: 'alice',
+ *     orderid: 123
+ *   }
+ * ]
+ * ```
  */
 export interface LimitOrderCancelOperation extends Operation {
     0: 'limit_order_cancel' // 6
@@ -516,7 +1143,24 @@ export interface LimitOrderCancelOperation extends Operation {
 }
 
 /**
+ * Limit order create operation
+ * ----------------------------
  * This operation creates a limit order and matches it against existing open orders.
+ *
+ * Example:
+ * ```js
+ * var operation = [
+ *   'limit_order_create',
+ *   {
+ *     owner: 'alice',
+ *     orderid: 123,
+ *     amount_to_sell: '40.000 STEEM',
+ *     min_to_receive: '50.000 SBD',
+ *     fill_or_kill: true,
+ *     expiration: new Date(Date.now() + 60*60*1000).toISOString().slice(0, -5)
+ *   }
+ * ]
+ * ```
  */
 export interface LimitOrderCreateOperation extends Operation {
     0: 'limit_order_create' // 5
@@ -531,8 +1175,28 @@ export interface LimitOrderCreateOperation extends Operation {
 }
 
 /**
- * This operation is identical to limit_order_create except it serializes the price rather
+ * Limit order create2 operation
+ * -----------------------------
+ * This operation is identical to [[LimitOrderCreateOperation]] except it serializes the price rather
  * than calculating it from other fields.
+ *
+ * Example:
+ * ```js
+ * var operation = [
+ *   'limit_order_create2',
+ *   {
+ *     owner: 'alice',
+ *     orderid: 123,
+ *     amount_to_sell: '40.000 STEEM',
+ *     fill_or_kill: true,
+ *     exchange_rate: {
+ *       base: '0.5 SBD',
+ *       quote: '1.000 STEEM'
+ *     },
+ *     expiration: new Date(Date.now() + 60*60*1000).toISOString().slice(0, -5)
+ *   }
+ * ]
+ * ```
  */
 export interface LimitOrderCreate2Operation extends Operation {
     0: 'limit_order_create2' // 21
@@ -547,7 +1211,9 @@ export interface LimitOrderCreate2Operation extends Operation {
 }
 
 /**
- * Legacy proof of work operation.
+ * Pow operation
+ * -------------
+ * Legacy proof of work operation. Deprecated.
  */
 export interface PowOperation extends Operation {
     0: 'pow' // 14
@@ -561,7 +1227,9 @@ export interface PowOperation extends Operation {
 }
 
 /**
- * Legacy equihash proof of work operation.
+ * Pow 2 operation
+ * ---------------
+ * Legacy equihash proof of work operation. Deprecated.
  */
 export interface Pow2Operation extends Operation {
     0: 'pow2' // 30
@@ -573,6 +1241,8 @@ export interface Pow2Operation extends Operation {
 }
 
 /**
+ * Recover account operation
+ * -------------------------
  * Recover an account to a new authority using a previous authority and verification
  * of the recovery account as proof of identity. This operation can only succeed
  * if there was a recovery request sent by the account's recover account.
@@ -608,6 +1278,27 @@ export interface Pow2Operation extends Operation {
  * recover the account. The actual process of verifying authority may become
  * complicated, but that is an application level concern, not the blockchain's
  * concern.
+ *
+ * Example:
+ * ```js
+ * var operation = [
+ *   'recover_account',
+ *   {
+ *     account_to_recover: 'alice'
+ *     new_owner_authority: {
+ *       weight_threshold: 1,
+ *       account_auths: [],
+ *       key_auths: [['STM6Tdk5mdUAViXWxkm1Uchu1bksG9iJFBT2z3BwLzKw7yjdmaiAf', 1]]
+ *     },
+ *     recent_owner_authority: {
+ *       weight_threshold: 1,
+ *       account_auths: [],
+ *       key_auths: [['STM8a4MMRRXjzosAEi2U7kuKTwdTv4kpswNAD59cxXEyN2oX6s2ux', 1]]
+ *     },
+ *     extensions: []
+ *   }
+ * ]
+ * ```
  */
 export interface RecoverAccountOperation extends Operation {
     0: 'recover_account' // 25
@@ -633,6 +1324,8 @@ export interface RecoverAccountOperation extends Operation {
 }
 
 /**
+ * Report over production operation
+ * --------------------------------
  * This operation is used to report a miner who signs two blocks
  * at the same time. To be valid, the violation must be reported within
  * STEEMIT_MAX_WITNESSES blocks of the head block (1 round) and the
@@ -655,6 +1348,8 @@ export interface ReportOverProductionOperation extends Operation {
 }
 
 /**
+ * Request account recovery operation
+ * ----------------------------------
  * All account recovery requests come from a listed recovery account. This
  * is secure based on the assumption that only a trusted account should be
  * a recovery account. It is the responsibility of the recovery account to
@@ -680,6 +1375,23 @@ export interface ReportOverProductionOperation extends Operation {
  * This operation only needs to be signed by the the recovery account.
  * The account to recover confirms its identity to the blockchain in
  * the recover account operation.
+ *
+ * Example:
+ * ```js
+ * var operation = [
+ *   'request_account_recovery',
+ *   {
+ *     recovery_account: 'steem',
+ *     account_to_recover: 'alice',
+ *     new_owner_authority: {
+ *       weight_threshold: 1,
+ *       account_auths: [],
+ *       key_auths: [['STM6Tdk5mdUAViXWxkm1Uchu1bksG9iJFBT2z3BwLzKw7yjdmaiAf', 1]]
+ *     },
+ *     extensions: []
+ *   }
+ * ]
+ * ```
  */
 export interface RequestAccountRecoveryOperation extends Operation {
     0: 'request_account_recovery' // 24
@@ -705,6 +1417,10 @@ export interface RequestAccountRecoveryOperation extends Operation {
 }
 
 /**
+ * Reset account operation
+ * -----------------------
+ * Not implemented
+ *
  * This operation allows recovery_account to change account_to_reset's owner authority to
  * new_owner_authority after 60 days of inactivity.
  */
@@ -718,6 +1434,10 @@ export interface ResetAccountOperation extends Operation {
 }
 
 /**
+ * Set reset account operation
+ * ---------------------------
+ * Not implemented
+ *
  * This operation allows 'account' owner to control which account has the power
  * to execute the 'reset_account_operation' after 60 days.
  */
@@ -731,11 +1451,26 @@ export interface SetResetAccountOperation extends Operation {
 }
 
 /**
+ * Set withdraw vesting route operation
+ * ------------------------------------
  * Allows an account to setup a vesting withdraw but with the additional
  * request for the funds to be transferred directly to another account's
  * balance rather than the withdrawing account. In addition, those funds
  * can be immediately vested again, circumventing the conversion from
  * vests to steem and back, guaranteeing they maintain their value.
+ *
+ * Example:
+ * ```js
+ * var operation = [
+ *   'set_withdraw_vesting_route',
+ *   {
+ *     from_account: 'alice',
+ *     to_account: 'alice2',
+ *     percent: 10000,
+ *     auto_vest: false
+ *   }
+ * ]
+ * ```
  */
 export interface SetWithdrawVestingRouteOperation extends Operation {
     0: 'set_withdraw_vesting_route' // 20
@@ -748,7 +1483,22 @@ export interface SetWithdrawVestingRouteOperation extends Operation {
 }
 
 /**
- * Transfers STEEM from one account to another.
+ * Transfer operation
+ * ------------------
+ * Transfers STEEM or SBD from one account to another.
+ *
+ * Example:
+ * ```js
+ * var operation = [
+ *   'transfer',
+ *   {
+ *     from: 'alice',
+ *     to: 'bob',
+ *     amount: '5.000 STEEM',
+ *     memo: 'payment. thanks'
+ *   }
+ * ]
+ * ```
  */
 export interface TransferOperation extends Operation {
     0: 'transfer' // 2
@@ -772,6 +1522,27 @@ export interface TransferOperation extends Operation {
     }
 }
 
+/**
+ * Transfer from savings operation
+ * -------------------------------
+ * Transfers STEEM or SBD from savings to one account to another.
+ * The funds are deposited after 3 days
+ *
+ * Example:
+ * ```js
+ * var operation = [
+ *   'transfer_from_savings',
+ *   {
+ *     from: 'alice',
+ *     request_id: 123,
+ *     to: 'alice',
+ *     amount: '5.000 STEEM',
+ *     memo: 'liquid steem'
+ *   }
+ * ]
+ * ```
+ * See also [[TransferToSavingsOperation]]
+ */
 export interface TransferFromSavingsOperation extends Operation {
     0: 'transfer_from_savings' // 33
     1: {
@@ -783,6 +1554,26 @@ export interface TransferFromSavingsOperation extends Operation {
     }
 }
 
+/**
+ * Transfer to savings operation
+ * -------------------------------
+ * Transfers STEEM or SBD from the hot wallet to savings.
+ * This is useful to prevent instant transfers when an account is compromised.
+ *
+ * Example:
+ * ```js
+ * var operation = [
+ *   'transfer_to_savings',
+ *   {
+ *     from: 'alice',
+ *     to: 'alice',
+ *     amount: '5.000 STEEM',
+ *     memo: 'saving'
+ *   }
+ * ]
+ * ```
+ * See also [[TransferFromSavingsOperation]]
+ */
 export interface TransferToSavingsOperation extends Operation {
     0: 'transfer_to_savings' // 32
     1: {
@@ -795,11 +1586,25 @@ export interface TransferToSavingsOperation extends Operation {
 }
 
 /**
+ * Transfer to vesting operation
+ * -----------------------------
  * This operation converts STEEM into VFS (Vesting Fund Shares) at
  * the current exchange rate. With this operation it is possible to
  * give another account vesting shares so that faucets can
  * pre-fund new accounts with vesting shares.
  * (A.k.a. Powering Up)
+ *
+ * Example:
+ * ```js
+ * var operation = [
+ *   'transfer_to_vesting',
+ *   {
+ *     from: 'alice',
+ *     to: 'alice',
+ *     amount: '500.000 STEEM',
+ *   }
+ * ]
+ * ```
  */
 export interface TransferToVestingOperation extends Operation {
     0: 'transfer_to_vesting' // 3
@@ -813,6 +1618,24 @@ export interface TransferToVestingOperation extends Operation {
     }
 }
 
+/**
+ * Vote operation
+ * --------------
+ * Vote comments or posts
+ *
+ * Example:
+ * ```js
+ * var operation = [
+ *   'vote',
+ *   {
+ *     voter: 'bob',
+ *     author: 'alice',
+ *     permlink: 'my-first-post',
+ *     weight: 10000
+ *   }
+ * ]
+ * ```
+ */
 export interface VoteOperation extends Operation {
     0: 'vote' // 0
     1: {
@@ -827,16 +1650,28 @@ export interface VoteOperation extends Operation {
 }
 
 /**
+ * Withdraw vesting operation
+ * --------------------------
  * At any given point in time an account can be withdrawing from their
  * vesting shares. A user may change the number of shares they wish to
  * cash out at any time between 0 and their total vesting stake.
  *
  * After applying this operation, vesting_shares will be withdrawn
- * at a rate of vesting_shares/104 per week for two years starting
- * one week after this operation is included in the blockchain.
+ * in 13 weekly deposits.
  *
  * This operation is not valid if the user has no vesting shares.
  * (A.k.a. Powering Down)
+ *
+ * Example:
+ * ```js
+ * var operation = [
+ *   'withdraw_vesting',
+ *   {
+ *     account: 'alice',
+ *     vesting_shares: '15000000.000000 VESTS'
+ *   }
+ * ]
+ * ```
  */
 export interface WithdrawVestingOperation extends Operation {
     0: 'withdraw_vesting' // 4
@@ -850,18 +1685,30 @@ export interface WithdrawVestingOperation extends Operation {
 }
 
 /**
- * Users who wish to become a witness must pay a fee acceptable to
- * the current witnesses to apply for the position and allow voting
- * to begin.
- *
- * If the owner isn't a witness they will become a witness.  Witnesses
- * are charged a fee equal to 1 weeks worth of witness pay which in
- * turn is derived from the current share supply.  The fee is
- * only applied if the owner is not already a witness.
- *
+ * Witness update operation
+ * ------------------------
+ * Operation to become or update a witness
  * If the block_signing_key is null then the witness is removed from
  * contention.  The network will pick the top 21 witnesses for
  * producing blocks.
+ *
+ * Example:
+ * ```js
+ * var operation = [
+ *   'witness_update',
+ *   {
+ *     owner: 'alice',
+ *     url: '',
+ *     block_signing_key: 'STM7T2TBdQWqNAhuzH5SXfSnsTLmrZkAufmvMwEsbvGihtHsf7dWk',
+ *     props: {
+ *        account_creation_fee: '3.000 STEEM',
+ *        maximum_block_size: 65536,
+ *        sbd_interest_rate:0
+ *     },
+ *     fee: '0.000 STEEM'
+ *   }
+ * ]
+ * ```
  */
 export interface WitnessUpdateOperation extends Operation {
     0: 'witness_update' // 11
@@ -880,6 +1727,37 @@ export interface WitnessUpdateOperation extends Operation {
     }
 }
 
+/**
+ * Witness set properties operation
+ * --------------------------------
+ * Added in HF20 to replace the [[WitnessUpdateOperation]] which was not easily extendable.
+ * While it is recommended to use witness_set_properties, witness_update will continue to work.
+ * All the fields in `props` are optional
+ *
+ * Example:
+ * ```js
+ * var operation = [
+ *   'witness_set_properties',
+ *   {
+ *     owner: 'alice',
+ *     props: {
+ *       account_creation_fee: '3.000 STEEM',
+ *       account_subsidy_budget: 10000,
+ *       account_subsidy_decay: 330782,
+ *       maximum_block_size: 65536,
+ *       sbd_interest_rate: 0,
+ *       sbd_exchange_rate: {
+ *         base: '0.500 SBD',
+ *         quote: '1.000 STEEM'
+ *       },
+ *       url: '',
+ *       new_signing_key: 'STM7T2TBdQWqNAhuzH5SXfSnsTLmrZkAufmvMwEsbvGihtHsf7dWk'
+ *     },
+ *     extensions: []
+ *   }
+ * ]
+ * ```
+ */
 export interface WitnessSetPropertiesOperation extends Operation {
     0: 'witness_set_properties' // 42
     1: {
