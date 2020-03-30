@@ -47,12 +47,14 @@ export type OperationName = // <id>
     | 'account_create' // 9
     | 'account_create_with_delegation' // 41
     | 'account_update' // 10
+    | 'account_update2' // 43
     | 'account_witness_proxy' // 13
     | 'account_witness_vote' // 12
     | 'cancel_transfer_from_savings' // 34
     | 'change_recovery_account' // 26
     | 'claim_account' // 22
     | 'claim_reward_balance' // 39
+    | 'create_proposal' // 44
     | 'comment' // 1
     | 'comment_options' // 19
     | 'convert' // 8
@@ -74,6 +76,7 @@ export type OperationName = // <id>
     | 'pow' // 14
     | 'pow2' // 30
     | 'recover_account' // 25
+    | 'remove_proposal' // 46
     | 'report_over_production' // 16
     | 'request_account_recovery' // 24
     | 'reset_account' // 37
@@ -83,6 +86,7 @@ export type OperationName = // <id>
     | 'transfer_from_savings' // 33
     | 'transfer_to_savings' // 32
     | 'transfer_to_vesting' // 3
+    | 'update_proposal_votes' // 45
     | 'vote' // 0
     | 'withdraw_vesting' // 4
     | 'witness_set_properties' // 42
@@ -881,6 +885,53 @@ export interface WitnessSetPropertiesOperation extends Operation {
     1: {
         owner: string
         props: Array<[string, Buffer]>
+        extensions: any[]
+    }
+}
+
+export interface AccountUpdate2Operation extends Operation {
+    0: 'account_update2' // 43
+    1: {
+        account: string // account_name_type
+        owner?: AuthorityType // optional< authority >
+        active?: AuthorityType // optional< authority >
+        posting?: AuthorityType // optional< authority >
+        memo_key?: string | PublicKey // public_key_type
+        json_metadata: string
+        posting_json_metadata: string
+        extensions: any[]
+    }
+}
+
+export interface CreateProposalOperation extends Operation {
+    0: 'create_proposal' // 44
+    1: {
+        creator: string
+        receiver: string
+        start_date: string // time_point_sec
+        end_date: string // time_point_sec
+        daily_pay: Asset | string
+        subject: string
+        permlink: string
+        extensions: any[]
+    }
+}
+
+export interface UpdateProposalVotesOperation extends Operation {
+    0: 'update_proposal_votes' // 45
+    1: {
+        voter: string
+        proposal_ids: number[] // flat_set_ex<int64_t>
+        approve: boolean
+        extensions: any[]
+    }
+}
+
+export interface RemoveProposalOperation extends Operation {
+    0: 'remove_proposal' // 46
+    1: {
+        proposal_owner: string
+        proposal_ids: number[] // flat_set_ex<int64_t>
         extensions: any[]
     }
 }
