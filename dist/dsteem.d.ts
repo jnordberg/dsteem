@@ -46,7 +46,7 @@ declare module 'dsteem/steem/asset' {
 	/**
 	 * Asset symbol string.
 	 */
-	export type AssetSymbol = 'STEEM' | 'VESTS' | 'SBD' | 'TESTS' | 'TBD';
+	export type AssetSymbol = 'STEEM' | 'HIVE' | 'VESTS' | 'SBD' | 'HBD' | 'TESTS' | 'TBD';
 	/**
 	 * Class representing a steem asset, e.g. `1.000 STEEM` or `12.112233 VESTS`.
 	 */
