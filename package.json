@@ -52,7 +52,7 @@
     "derequire": "^2.0.6",
     "dts-generator": "^2.1.0",
     "encoding": "^0.1.12",
-    "karma": "^3.1.1",
+    "karma": "^6.3.16",
     "karma-browserify": "^5.1.1",
     "karma-mocha": "^1.3.0",
     "karma-mocha-reporter": "^2.2.5",
